@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.37301.10
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SE102_MarioGem", "SE102_MarioGem\05-SceneManager.vcxproj", "{30B52332-21EE-43B1-91BF-B2494C04C34F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{30B52332-21EE-43B1-91BF-B2494C04C34F}.Debug|x64.ActiveCfg = Debug|x64
+		{30B52332-21EE-43B1-91BF-B2494C04C34F}.Debug|x64.Build.0 = Debug|x64
+		{30B52332-21EE-43B1-91BF-B2494C04C34F}.Debug|x86.ActiveCfg = Debug|Win32
+		{30B52332-21EE-43B1-91BF-B2494C04C34F}.Debug|x86.Build.0 = Debug|Win32
+		{30B52332-21EE-43B1-91BF-B2494C04C34F}.Release|x64.ActiveCfg = Release|x64
+		{30B52332-21EE-43B1-91BF-B2494C04C34F}.Release|x64.Build.0 = Release|x64
+		{30B52332-21EE-43B1-91BF-B2494C04C34F}.Release|x86.ActiveCfg = Release|Win32
+		{30B52332-21EE-43B1-91BF-B2494C04C34F}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B2A16E4D-CE45-4AE0-A3F8-7A83817B0D7B}
+	EndGlobalSection
+EndGlobal
