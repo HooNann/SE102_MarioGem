@@ -1,0 +1,17 @@
+name: Check PR Source Branch
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened, edited]
+
+jobs:
+  check-source:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Chi cho phep PR tu dev vao main
+        run: |
+          if [ "${{ github.head_ref }}" != "dev" ]; then
+            echo "PR vao main chi duoc phep tu nhanh dev"
+            exit 1
+          fi
