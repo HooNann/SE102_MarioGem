@@ -10,7 +10,7 @@
 #include "Coin.h"
 #include "Platform.h"
 
-#include "SampleKeyEventHandler.h"
+#include "PlaySceneKeyHandler.h"
 
 using namespace std;
 
@@ -18,7 +18,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 	CScene(id, filePath)
 {
 	player = NULL;
-	key_handler = new CSampleKeyHandler(this);
+	key_handler = new CPlaySceneKeyHandler(this);
 }
 
 

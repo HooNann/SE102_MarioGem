@@ -1,4 +1,4 @@
-#include "SampleKeyEventHandler.h"
+#include "PlaySceneKeyHandler.h"
 
 #include "debug.h"
 #include "Game.h"
@@ -6,7 +6,7 @@
 #include "Mario.h"
 #include "PlayScene.h"
 
-void CSampleKeyHandler::OnKeyDown(int KeyCode)
+void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
 {
 	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
 	CMario* mario = (CMario *)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer(); 
@@ -34,7 +34,7 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 	}
 }
 
-void CSampleKeyHandler::OnKeyUp(int KeyCode)
+void CPlaySceneKeyHandler::OnKeyUp(int KeyCode)
 {
 	//DebugOut(L"[INFO] KeyUp: %d\n", KeyCode);
 
@@ -50,7 +50,7 @@ void CSampleKeyHandler::OnKeyUp(int KeyCode)
 	}
 }
 
-void CSampleKeyHandler::KeyState(BYTE *states)
+void CPlaySceneKeyHandler::KeyState(BYTE *states)
 {
 	LPGAME game = CGame::GetInstance();
 	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
