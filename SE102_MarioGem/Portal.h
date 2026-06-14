@@ -20,4 +20,5 @@ public:
 	
 	int GetSceneId() { return scene_id;  }
 	int IsBlocking() { return 0; }
+	static LPGAMEOBJECT CreateFromTokens(const vector<string>& tokens);
 };

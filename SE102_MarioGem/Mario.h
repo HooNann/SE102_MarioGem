@@ -5,19 +5,20 @@
 #include "Animations.h"
 
 #include "debug.h"
+#include <vector>
 
 constexpr float MARIO_WALKING_SPEED = 0.1f;
-#define MARIO_RUNNING_SPEED		0.2f
+constexpr float MARIO_RUNNING_SPEED = 0.2f;
 
-#define MARIO_ACCEL_WALK_X	0.0005f
-#define MARIO_ACCEL_RUN_X	0.0007f
+constexpr float MARIO_ACCEL_WALK_X = 0.0005f;
+constexpr float MARIO_ACCEL_RUN_X = 0.0007f;
 
-#define MARIO_JUMP_SPEED_Y		0.5f
-#define MARIO_JUMP_RUN_SPEED_Y	0.6f
+constexpr float MARIO_JUMP_SPEED_Y = 0.5f;
+constexpr float MARIO_JUMP_RUN_SPEED_Y = 0.6f;
 
 constexpr float MARIO_GRAVITY = 0.002f;
 
-#define MARIO_JUMP_DEFLECT_SPEED  0.4f
+constexpr float MARIO_JUMP_DEFLECT_SPEED = 0.4f;
 
 enum class MarioState : int
 {
@@ -80,7 +81,7 @@ constexpr int ID_ANI_MARIO_SMALL_JUMP_RUN_LEFT = 1601;
 
 #pragma endregion
 
-#define GROUND_Y 160.0f
+constexpr float GROUND_Y = 160.0f;
 
 
 
@@ -154,4 +155,6 @@ public:
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount64(); }
 
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
+
+	static LPGAMEOBJECT CreateFromTokens(const vector<string>& tokens);
 };

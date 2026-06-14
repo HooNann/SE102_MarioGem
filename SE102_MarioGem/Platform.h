@@ -32,6 +32,7 @@ public:
 	void RenderBoundingBox();
 
 	int IsDirectionColliable(float nx, float ny);
+	static LPGAMEOBJECT CreateFromTokens(const vector<string>& tokens);
 };
 
 typedef CPlatform* LPPLATFORM;

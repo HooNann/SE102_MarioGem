@@ -374,3 +374,11 @@ void CMario::SetLevel(int l)
 	level = l;
 }
 
+LPGAMEOBJECT CMario::CreateFromTokens(const vector<string>& tokens)
+{
+	float x = (float)atof(tokens[1].c_str());
+	float y = (float)atof(tokens[2].c_str());
+
+	return new CMario(x, y);
+}
+
