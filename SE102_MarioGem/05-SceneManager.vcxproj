@@ -157,12 +157,14 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Goomba.cpp" />
+    <ClCompile Include="HUD.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mario.cpp" />
     <ClCompile Include="Platform.cpp" />
     <ClCompile Include="PlayScene.cpp" />
     <ClCompile Include="Portal.cpp" />
     <ClCompile Include="PlaySceneKeyHandler.cpp" />
+    <ClCompile Include="ScoreSystem.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Sprites.cpp" />
     <ClCompile Include="Textures.cpp" />
@@ -203,15 +205,6 @@
     <Text Include="scene0005.txt" />
     <Text Include="scene01.txt" />
     <Text Include="scene02.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="textures\bbox.png" />
-    <Image Include="textures\enemies.png" />
-    <Image Include="textures\enemies_transparent.png" />
-    <Image Include="textures\mario.png" />
-    <Image Include="textures\mario_transparent.png" />
-    <Image Include="textures\misc.png" />
-    <Image Include="textures\misc_transparent.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

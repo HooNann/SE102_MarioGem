@@ -147,6 +147,12 @@
     <ClCompile Include="Camera.cpp">
       <Filter>Game\Systems</Filter>
     </ClCompile>
+    <ClCompile Include="ScoreSystem.cpp">
+      <Filter>Game\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="HUD.cpp">
+      <Filter>Game\Systems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
