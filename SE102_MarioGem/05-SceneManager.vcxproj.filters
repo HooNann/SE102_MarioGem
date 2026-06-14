@@ -138,6 +138,12 @@
     <ClCompile Include="HUD.cpp">
       <Filter>Game\Systems</Filter>
     </ClCompile>
+    <ClCompile Include="ObjectFactory.cpp">
+      <Filter>Game\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectFactory.h">
+      <Filter>Game\Systems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
