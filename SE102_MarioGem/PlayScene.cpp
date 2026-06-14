@@ -103,9 +103,9 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 	CGameObject *obj = NULL;
 
-	switch (object_type)
+	switch (static_cast<ObjectType>(object_type))
 	{
-	case OBJECT_TYPE_MARIO:
+	case ObjectType::Mario:
 		if (player!=NULL) 
 		{
 			DebugOut(L"[ERROR] MARIO object was created before!\n");
@@ -116,11 +116,11 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 		DebugOut(L"[INFO] Player object has been created!\n");
 		break;
-	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(x,y); break;
-	case OBJECT_TYPE_BRICK: obj = new CBrick(x,y); break;
-	case OBJECT_TYPE_COIN: obj = new CCoin(x, y); break;
+	case ObjectType::Goomba: obj = new CGoomba(x,y); break;
+	case ObjectType::Brick: obj = new CBrick(x,y); break;
+	case ObjectType::Coin: obj = new CCoin(x, y); break;
 
-	case OBJECT_TYPE_PLATFORM:
+	case ObjectType::Platform:
 	{
 
 		float cell_width = (float)atof(tokens[3].c_str());
@@ -139,7 +139,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break;
 	}
 
-	case OBJECT_TYPE_PORTAL:
+	case ObjectType::Portal:
 	{
 		float r = (float)atof(tokens[3].c_str());
 		float b = (float)atof(tokens[4].c_str());

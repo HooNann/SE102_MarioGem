@@ -195,17 +195,6 @@
     <ClInclude Include="Textures.h" />
     <ClInclude Include="Utils.h" />
   </ItemGroup>
-  <ItemGroup>
-    <Text Include="brick.txt" />
-    <Text Include="cloud.txt" />
-    <Text Include="coin.txt" />
-    <Text Include="goomba.txt" />
-    <Text Include="mario-config.txt" />
-    <Text Include="mario.txt" />
-    <Text Include="scene0005.txt" />
-    <Text Include="scene01.txt" />
-    <Text Include="scene02.txt" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="..\packages\Microsoft.DXSDK.D3DX.9.29.952.8\build\native\Microsoft.DXSDK.D3DX.targets" Condition="Exists('..\packages\Microsoft.DXSDK.D3DX.9.29.952.8\build\native\Microsoft.DXSDK.D3DX.targets')" />

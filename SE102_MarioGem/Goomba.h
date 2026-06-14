@@ -2,7 +2,7 @@
 #include "GameObject.h"
 
 #define GOOMBA_GRAVITY 0.002f
-#define GOOMBA_WALKING_SPEED 0.05f
+constexpr float GOOMBA_WALKING_SPEED = 0.05f;
 
 
 #define GOOMBA_BBOX_WIDTH 16
@@ -11,11 +11,14 @@
 
 #define GOOMBA_DIE_TIMEOUT 500
 
-#define GOOMBA_STATE_WALKING 100
-#define GOOMBA_STATE_DIE 200
+enum class GoombaState : int
+{
+	Walking = 100,
+	Die = 200
+};
 
-#define ID_ANI_GOOMBA_WALKING 5000
-#define ID_ANI_GOOMBA_DIE 5001
+constexpr int ID_ANI_GOOMBA_WALKING = 5000;
+constexpr int ID_ANI_GOOMBA_DIE = 5001;
 
 class CGoomba : public CGameObject
 {
@@ -37,5 +40,6 @@ protected:
 
 public: 	
 	CGoomba(float x, float y);
-	virtual void SetState(int state);
+	void SetState(GoombaState state);
+	virtual void SetState(int state) override { SetState(static_cast<GoombaState>(state)); }
 };

@@ -58,29 +58,14 @@
     <Filter Include="Game\Objects\Effects">
       <UniqueIdentifier>{f776bd8a-b36d-4043-bf42-a3eebb8a4c52}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Tools">
-      <UniqueIdentifier>{953c5953-2ec6-41b9-bade-6e5f963cd8dc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Assets">
-      <UniqueIdentifier>{c55d3b10-6491-4b82-9314-a6d1ec3b6e8d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Assets\Animations">
-      <UniqueIdentifier>{9ee4fb2b-904c-4d19-8a5a-ae29df572d7c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Assets\Config">
-      <UniqueIdentifier>{5c0262dc-12a2-4dd9-a5e7-14bacca0a7ee}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Assets\Scenes">
-      <UniqueIdentifier>{4675a36a-411e-442a-bb48-2d10e04d40f2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Assets\Textures">
-      <UniqueIdentifier>{ce7a4b92-65f8-4807-8569-8b93ceeac1d6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\Managers">
       <UniqueIdentifier>{a87c94df-c6bd-40b5-a2d2-be7fce448410}</UniqueIdentifier>
     </Filter>
     <Filter Include="Game\Systems">
       <UniqueIdentifier>{7aaf8c08-acfb-413e-80a9-49451944eead}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Utils">
+      <UniqueIdentifier>{23d1bf19-af8f-4885-8faf-3f4b083ac9c8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -224,57 +209,5 @@
     <ClInclude Include="PlaySceneKeyHandler.h">
       <Filter>Game\Scenes\PlayScene</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="mario-config.txt">
-      <Filter>Assets\Config</Filter>
-    </Text>
-    <Text Include="scene01.txt">
-      <Filter>Assets\Scenes</Filter>
-    </Text>
-    <Text Include="scene02.txt">
-      <Filter>Assets\Scenes</Filter>
-    </Text>
-    <Text Include="scene0005.txt">
-      <Filter>Assets\Scenes</Filter>
-    </Text>
-    <Text Include="mario.txt">
-      <Filter>Assets\Animations</Filter>
-    </Text>
-    <Text Include="goomba.txt">
-      <Filter>Assets\Animations</Filter>
-    </Text>
-    <Text Include="cloud.txt">
-      <Filter>Assets\Animations</Filter>
-    </Text>
-    <Text Include="coin.txt">
-      <Filter>Assets\Animations</Filter>
-    </Text>
-    <Text Include="brick.txt">
-      <Filter>Assets\Animations</Filter>
-    </Text>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="textures\bbox.png">
-      <Filter>Assets\Textures</Filter>
-    </Image>
-    <Image Include="textures\enemies.png">
-      <Filter>Assets\Textures</Filter>
-    </Image>
-    <Image Include="textures\enemies_transparent.png">
-      <Filter>Assets\Textures</Filter>
-    </Image>
-    <Image Include="textures\mario.png">
-      <Filter>Assets\Textures</Filter>
-    </Image>
-    <Image Include="textures\mario_transparent.png">
-      <Filter>Assets\Textures</Filter>
-    </Image>
-    <Image Include="textures\misc.png">
-      <Filter>Assets\Textures</Filter>
-    </Image>
-    <Image Include="textures\misc_transparent.png">
-      <Filter>Assets\Textures</Filter>
-    </Image>
   </ItemGroup>
 </Project>
