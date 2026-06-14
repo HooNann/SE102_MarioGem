@@ -12,6 +12,8 @@
 
 #include "PlaySceneKeyHandler.h"
 
+#include "ObjectFactory.h"
+
 using namespace std;
 
 CPlayScene::CPlayScene(int id, LPCWSTR filePath):
@@ -94,69 +96,35 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 {
 	vector<string> tokens = split(line);
 
-	// skip invalid lines - an object set must have at least id, x, y
-	if (tokens.size() < 3) return;
+	if (tokens.size() < 3)
+		return;
 
-	int object_type = atoi(tokens[0].c_str());
-	float x = (float)atof(tokens[1].c_str());
-	float y = (float)atof(tokens[2].c_str());
+	ObjectType type =
+		static_cast<ObjectType>(
+			atoi(tokens[0].c_str()));
 
-	CGameObject *obj = NULL;
+	LPGAMEOBJECT obj =
+		ObjectFactory::Create(type, tokens);
 
-	switch (static_cast<ObjectType>(object_type))
+	if (obj == nullptr)
+		return;
+
+	if (type == ObjectType::Mario)
 	{
-	case ObjectType::Mario:
-		if (player!=NULL) 
+		if (player != nullptr)
 		{
-			DebugOut(L"[ERROR] MARIO object was created before!\n");
+			DebugOut(
+				L"[ERROR] MARIO object was created before!\n");
+
+			delete obj;
 			return;
 		}
-		obj = new CMario(x,y); 
-		player = (CMario*)obj;  
 
-		DebugOut(L"[INFO] Player object has been created!\n");
-		break;
-	case ObjectType::Goomba: obj = new CGoomba(x,y); break;
-	case ObjectType::Brick: obj = new CBrick(x,y); break;
-	case ObjectType::Coin: obj = new CCoin(x, y); break;
+		player = dynamic_cast<CMario*>(obj);
 
-	case ObjectType::Platform:
-	{
-
-		float cell_width = (float)atof(tokens[3].c_str());
-		float cell_height = (float)atof(tokens[4].c_str());
-		int length = atoi(tokens[5].c_str());
-		int sprite_begin = atoi(tokens[6].c_str());
-		int sprite_middle = atoi(tokens[7].c_str());
-		int sprite_end = atoi(tokens[8].c_str());
-
-		obj = new CPlatform(
-			x, y,
-			cell_width, cell_height, length,
-			sprite_begin, sprite_middle, sprite_end
-		);
-
-		break;
+		DebugOut(
+			L"[INFO] Player object has been created!\n");
 	}
-
-	case ObjectType::Portal:
-	{
-		float r = (float)atof(tokens[3].c_str());
-		float b = (float)atof(tokens[4].c_str());
-		int scene_id = atoi(tokens[5].c_str());
-		obj = new CPortal(x, y, r, b, scene_id);
-	}
-	break;
-
-
-	default:
-		DebugOut(L"[ERROR] Invalid object type: %d\n", object_type);
-		return;
-	}
-
-	// General object setup
-	obj->SetPosition(x, y);
-
 
 	objects.push_back(obj);
 }

@@ -3,6 +3,7 @@
 #include "GameObject.h"
 #include "Animation.h"
 #include "Animations.h"
+#include <string>
 
 constexpr int ID_ANI_BRICK = 10000;
 #define BRICK_WIDTH 16
@@ -15,4 +16,5 @@ public:
 	void Render();
 	void Update(DWORD dt) {}
 	void GetBoundingBox(float& l, float& t, float& r, float& b);
+	static LPGAMEOBJECT CreateFromTokens(const vector<string>& tokens);
 };

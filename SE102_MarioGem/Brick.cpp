@@ -14,3 +14,11 @@ void CBrick::GetBoundingBox(float &l, float &t, float &r, float &b)
 	r = l + BRICK_BBOX_WIDTH;
 	b = t + BRICK_BBOX_HEIGHT;
 }
+
+LPGAMEOBJECT CBrick::CreateFromTokens(const vector<string>& tokens)
+{
+	float x = (float)atof(tokens[1].c_str());
+	float y = (float)atof(tokens[2].c_str());
+
+	return new CBrick(x, y);
+}
