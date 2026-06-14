@@ -95,7 +95,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	vector<string> tokens = split(line);
 
 	// skip invalid lines - an object set must have at least id, x, y
-	if (tokens.size() < 2) return;
+	if (tokens.size() < 3) return;
 
 	int object_type = atoi(tokens[0].c_str());
 	float x = (float)atof(tokens[1].c_str());
@@ -175,6 +175,7 @@ void CPlayScene::LoadAssets(LPCWSTR assetFile)
 	{
 		string line(str);
 
+		if (line.empty()) continue;
 		if (line[0] == '#') continue;	// skip comment lines	
 
 		if (line == "[SPRITES]") { section = ASSETS_SECTION_SPRITES; continue; };
@@ -211,6 +212,7 @@ void CPlayScene::Load()
 	{
 		string line(str);
 
+		if (line.empty()) continue;
 		if (line[0] == '#') continue;	// skip comment lines	
 		if (line == "[ASSETS]") { section = SCENE_SECTION_ASSETS; continue; };
 		if (line == "[OBJECTS]") { section = SCENE_SECTION_OBJECTS; continue; };
@@ -237,9 +239,10 @@ void CPlayScene::Update(DWORD dt)
 	// TO-DO: This is a "dirty" way, need a more organized way 
 
 	vector<LPGAMEOBJECT> coObjects;
-	for (size_t i = 1; i < objects.size(); i++)
+	for (size_t i = 0; i < objects.size(); i++)
 	{
-		coObjects.push_back(objects[i]);
+		if (objects[i] != player && !objects[i]->IsDeleted())
+			coObjects.push_back(objects[i]);
 	}
 
 	for (size_t i = 0; i < objects.size(); i++)

@@ -13,7 +13,7 @@ height	240
 
 # id	file 
 [TEXTURES]
--100	Assets\bbox.png
-0	Assets\mario.png
-10	Assets\enemies.png
-20	Assets\misc.png
+-100	Assets\Items\bbox.png
+0	Assets\Characters\Mario\mario_transparent.png
+10	Assets\Enemies\Mobs\enemies_transparent.png
+20	Assets\Items\misc_transparent.png
