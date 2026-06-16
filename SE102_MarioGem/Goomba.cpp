@@ -42,8 +42,13 @@ void CGoomba::OnNoCollision(DWORD dt)
 
 void CGoomba::OnCollisionWith(LPCOLLISIONEVENT e)
 {
+	if (dynamic_cast<CGoomba*>(e->obj))
+	{
+		if (e->nx != 0) vx = -vx;
+		return;
+	}
+
 	if (!e->obj->IsBlocking()) return; 
-	if (dynamic_cast<CGoomba*>(e->obj)) return; 
 
 	if (e->ny != 0 )
 	{
@@ -66,6 +71,12 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		return;
 	}
 
+	if (y > 1000) 
+	{
+		isDeleted = true;
+		return;
+	}
+
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
@@ -77,6 +88,10 @@ void CGoomba::Render()
 	if (state == ToInt(GoombaState::Die)) 
 	{
 		aniId = ID_ANI_GOOMBA_DIE;
+	}
+	else if (state == ToInt(GoombaState::Die_KnockOut))
+	{
+		aniId = ID_ANI_GOOMBA_DIE_KNOCKOUT;
 	}
 
 	CAnimations::GetInstance()->Get(aniId)->Render(x,y);
@@ -94,6 +109,10 @@ void CGoomba::SetState(GoombaState state)
 			vx = 0;
 			vy = 0;
 			ay = 0; 
+			break;
+		case GoombaState::Die_KnockOut:
+			vy = -0.5f;
+			ay = GOOMBA_GRAVITY;
 			break;
 		case GoombaState::Walking: 
 			vx = -GOOMBA_WALKING_SPEED;
