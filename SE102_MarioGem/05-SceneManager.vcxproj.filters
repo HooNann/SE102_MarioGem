@@ -67,6 +67,9 @@
     <Filter Include="Game\Utils">
       <UniqueIdentifier>{23d1bf19-af8f-4885-8faf-3f4b083ac9c8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Objects\CollisionBox">
+      <UniqueIdentifier>{36794652-6913-4a0e-b18e-61e345ec1a2e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -141,8 +144,11 @@
     <ClCompile Include="ObjectFactory.cpp">
       <Filter>Game\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="ObjectFactory.h">
-      <Filter>Game\Systems</Filter>
+    <ClCompile Include="TileMap.cpp">
+      <Filter>Framework\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionBox.cpp">
+      <Filter>Game\Objects\CollisionBox</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -214,6 +220,18 @@
     </ClInclude>
     <ClInclude Include="PlaySceneKeyHandler.h">
       <Filter>Game\Scenes\PlayScene</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectFactory.h">
+      <Filter>Game\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="json.hpp">
+      <Filter>Game\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="TileMap.h">
+      <Filter>Framework\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionBox.h">
+      <Filter>Game\Objects\CollisionBox</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

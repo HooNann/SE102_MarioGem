@@ -1,3 +1,6 @@
+[MAP]
+Assets\Data\Scenes\stage-1-1\stage-1-1.json
+
 # list of object assets to load in this scene
 [ASSETS]
 Assets\Data\Graphics\mario.txt

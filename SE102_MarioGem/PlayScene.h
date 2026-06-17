@@ -7,6 +7,7 @@
 #include "Mario.h"
 #include "Goomba.h"
 //#include "Koopas.h"
+#include "TileMap.h"
 
 
 class CPlayScene: public CScene
@@ -17,6 +18,8 @@ protected:
 
 	vector<LPGAMEOBJECT> objects;
 
+	CMap* map;	// Tiled Map (background tiles)
+
 	void _ParseSection_SPRITES(string line);
 	void _ParseSection_ANIMATIONS(string line);
 
@@ -24,6 +27,9 @@ protected:
 	void _ParseSection_OBJECTS(string line);
 
 	void LoadAssets(LPCWSTR assetFile);
+
+	// Load map và objects từ file JSON của Tiled Map Editor
+	void LoadMapJSON(LPCWSTR jsonPath);
 	
 public: 
 	CPlayScene(int id, LPCWSTR filePath);
@@ -42,4 +48,5 @@ public:
 };
 
 typedef CPlayScene* LPPLAYSCENE;
+
 

@@ -19,6 +19,7 @@ enum class ObjectType : int
 	Koopas = 3,
 	Coin = 4,
 	Platform = 5,
+	CollisionBox = 6,
 	Portal = 50
 };
 

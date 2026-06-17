@@ -153,6 +153,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Coin.cpp" />
     <ClCompile Include="Collision.cpp" />
+    <ClCompile Include="CollisionBox.cpp" />
     <ClCompile Include="debug.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -169,6 +170,7 @@
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Sprites.cpp" />
     <ClCompile Include="Textures.cpp" />
+    <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -179,10 +181,12 @@
     <ClInclude Include="Brick.h" />
     <ClInclude Include="Coin.h" />
     <ClInclude Include="Collision.h" />
+    <ClInclude Include="CollisionBox.h" />
     <ClInclude Include="debug.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Goomba.h" />
+    <ClInclude Include="json.hpp" />
     <ClInclude Include="KeyEventHandler.h" />
     <ClInclude Include="Mario.h" />
     <ClInclude Include="ObjectFactory.h" />
@@ -195,6 +199,7 @@
     <ClInclude Include="Sprites.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Textures.h" />
+    <ClInclude Include="TileMap.h" />
     <ClInclude Include="Utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
