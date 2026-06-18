@@ -150,6 +150,8 @@ public:
 
 	void OnNoCollision(DWORD dt);
 	void OnCollisionWith(LPCOLLISIONEVENT e);
+	void OnCollisionWithBurner(LPCOLLISIONEVENT e);
+	void OnCollisionWithBlaster(LPCOLLISIONEVENT e);
 
 	void SetLevel(int l);
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount64(); }

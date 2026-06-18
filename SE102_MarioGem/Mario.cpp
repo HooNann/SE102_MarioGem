@@ -7,6 +7,8 @@
 #include "Goomba.h"
 #include "Coin.h"
 #include "Portal.h"
+#include "Burner.h"
+#include "Blaster.h"
 
 #include "Collision.h"
 
@@ -66,6 +68,10 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithCoin(e);
 	else if (dynamic_cast<CPortal*>(e->obj))
 		OnCollisionWithPortal(e);
+	else if (dynamic_cast<CBurner*>(e->obj))
+		OnCollisionWithBurner(e);
+	else if (dynamic_cast<CBlaster*>(e->obj))
+		OnCollisionWithBlaster(e);
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -112,6 +118,42 @@ void CMario::OnCollisionWithPortal(LPCOLLISIONEVENT e)
 {
 	CPortal* p = (CPortal*)e->obj;
 	CGame::GetInstance()->InitiateSwitchScene(p->GetSceneId());
+}
+
+void CMario::OnCollisionWithBlaster(LPCOLLISIONEVENT e)
+{
+	if (untouchable != 0) return;
+
+	CBlaster* blaster = dynamic_cast<CBlaster*>(e->obj);
+	if (!blaster || blaster->GetState() != static_cast<int>(BlasterState::Firing)) return;
+
+	if (level > MARIO_LEVEL_SMALL)
+	{
+		SetLevel(level - 1);
+		StartUntouchable();
+	}
+	else
+		SetState(MarioState::Die);
+}
+
+void CMario::OnCollisionWithBurner(LPCOLLISIONEVENT e)
+{
+	if (untouchable != 0) return;
+
+	// Only deal damage when the Burner is actively Firing.
+	// IsCollidable() returns 0 during Idle but the collision framework checks
+	// IsCollidable() only on the source object (Mario), not on targets — so we
+	// must guard here against collisions that fire while the Burner is Idle.
+	CBurner* burner = dynamic_cast<CBurner*>(e->obj);
+	if (!burner || burner->GetState() != static_cast<int>(BurnerState::Firing)) return;
+
+	if (level > MARIO_LEVEL_SMALL)
+	{
+		SetLevel(level - 1);
+		StartUntouchable();
+	}
+	else
+		SetState(MarioState::Die);
 }
 
 //
