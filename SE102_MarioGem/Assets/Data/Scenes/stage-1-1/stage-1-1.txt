@@ -10,6 +10,8 @@ Assets\Data\Graphics\goomba.txt
 Assets\Data\Graphics\cloud.txt
 Assets\Data\Graphics\burner.txt
 Assets\Data\Graphics\blaster.txt
+Assets\Data\Graphics\canon.txt
+Assets\Data\Graphics\cannonball.txt
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type
@@ -72,3 +74,6 @@ Assets\Data\Graphics\blaster.txt
 
 #Blaster (test)
 8	235	115
+
+#Canon (fires right, ground level)
+9	50	148	1

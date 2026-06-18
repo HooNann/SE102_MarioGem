@@ -9,6 +9,7 @@
 #include "Portal.h"
 #include "Burner.h"
 #include "Blaster.h"
+#include "CannonBall.h"
 
 #include "Collision.h"
 
@@ -72,6 +73,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithBurner(e);
 	else if (dynamic_cast<CBlaster*>(e->obj))
 		OnCollisionWithBlaster(e);
+	else if (dynamic_cast<CCannonBall*>(e->obj))
+		OnCollisionWithCannonBall(e);
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -146,6 +149,19 @@ void CMario::OnCollisionWithBurner(LPCOLLISIONEVENT e)
 	// must guard here against collisions that fire while the Burner is Idle.
 	CBurner* burner = dynamic_cast<CBurner*>(e->obj);
 	if (!burner || burner->GetState() != static_cast<int>(BurnerState::Firing)) return;
+
+	if (level > MARIO_LEVEL_SMALL)
+	{
+		SetLevel(level - 1);
+		StartUntouchable();
+	}
+	else
+		SetState(MarioState::Die);
+}
+
+void CMario::OnCollisionWithCannonBall(LPCOLLISIONEVENT e)
+{
+	if (untouchable != 0) return;
 
 	if (level > MARIO_LEVEL_SMALL)
 	{

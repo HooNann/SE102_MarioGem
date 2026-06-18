@@ -22,7 +22,9 @@ enum class ObjectType : int
 	CollisionBox = 6,
 	Portal = 50,
 	Burner = 7,
-	Blaster = 8
+	Blaster = 8,
+	Canon      = 9,
+	CannonBall = 10,
 };
 
 
@@ -110,3 +112,9 @@ constexpr int ID_SPRITE_BLASTER_IDLE   = 70001;
 constexpr int ID_SPRITE_BLASTER_FIRING = 70002;
 constexpr int ID_ANI_BLASTER_IDLE   = 7000;
 constexpr int ID_ANI_BLASTER_FIRING = 7001;
+
+constexpr int ID_SPRITE_CANON     = 80001;
+constexpr int ID_ANI_CANON        = 8000;
+
+constexpr int ID_SPRITE_CANNONBALL = 90001;
+constexpr int ID_ANI_CANNONBALL    = 9000;

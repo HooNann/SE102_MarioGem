@@ -12,11 +12,12 @@
 
 class CPlayScene: public CScene
 {
-protected: 
-	// A play scene has to have player, right? 
-	LPGAMEOBJECT player;					
+protected:
+	// A play scene has to have player, right?
+	LPGAMEOBJECT player;
 
 	vector<LPGAMEOBJECT> objects;
+	vector<LPGAMEOBJECT> spawnQueue;
 
 	CMap* map;	// Tiled Map (background tiles)
 
@@ -40,6 +41,8 @@ public:
 	virtual void Unload();
 
 	LPGAMEOBJECT GetPlayer() { return player; }
+
+	void QueueSpawn(LPGAMEOBJECT obj) { spawnQueue.push_back(obj); }
 
 	void Clear();
 	void PurgeDeletedObjects();

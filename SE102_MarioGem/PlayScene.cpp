@@ -311,6 +311,10 @@ void CPlayScene::Update(DWORD dt)
 
 	CGame::GetInstance()->SetCamPos(cx, 0.0f /*cy*/);
 
+	for (auto obj : spawnQueue)
+		objects.push_back(obj);
+	spawnQueue.clear();
+
 	PurgeDeletedObjects();
 }
 
@@ -350,6 +354,11 @@ void CPlayScene::Unload()
 		delete objects[i];
 
 	objects.clear();
+
+	// Free any objects queued to spawn but not yet added (e.g. Canon fires on same frame as scene switch)
+	for (auto obj : spawnQueue) delete obj;
+	spawnQueue.clear();
+
 	player = NULL;
 
 	if (map != NULL)
