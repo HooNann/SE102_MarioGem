@@ -16,6 +16,9 @@ constexpr int BURNER_BBOX_H_FIRE = 48;
 constexpr ULONGLONG BURNER_IDLE_TIME = 2000;
 constexpr ULONGLONG BURNER_FIRE_TIME = 1600;
 
+constexpr int ID_ANI_BURNER_IDLE = 6000;
+constexpr int ID_ANI_BURNER_FIRING = 6001;
+
 class CBurner : public CGameObject
 {
 protected:
