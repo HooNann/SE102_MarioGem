@@ -157,6 +157,10 @@
     <ClCompile Include="debug.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="Blaster.cpp" />
+    <ClCompile Include="Burner.cpp" />
+    <ClCompile Include="Canon.cpp" />
+    <ClCompile Include="CannonBall.cpp" />
     <ClCompile Include="Goomba.cpp" />
     <ClCompile Include="HUD.cpp" />
     <ClCompile Include="main.cpp" />
@@ -185,6 +189,10 @@
     <ClInclude Include="debug.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="Blaster.h" />
+    <ClInclude Include="Burner.h" />
+    <ClInclude Include="Canon.h" />
+    <ClInclude Include="CannonBall.h" />
     <ClInclude Include="Goomba.h" />
     <ClInclude Include="json.hpp" />
     <ClInclude Include="KeyEventHandler.h" />

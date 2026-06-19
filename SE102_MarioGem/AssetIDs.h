@@ -20,7 +20,11 @@ enum class ObjectType : int
 	Coin = 4,
 	Platform = 5,
 	CollisionBox = 6,
-	Portal = 50
+	Portal = 50,
+	Burner = 7,
+	Blaster = 8,
+	Canon      = 9,
+	CannonBall = 10,
 };
 
 
@@ -96,3 +100,21 @@ constexpr int ID_SPRITE_CLOUD =								50000;
 constexpr int ID_SPRITE_CLOUD_BEGIN =						ID_SPRITE_CLOUD + 1000;
 constexpr int ID_SPRITE_CLOUD_MIDDLE =						ID_SPRITE_CLOUD + 2000;
 constexpr int ID_SPRITE_CLOUD_END =							ID_SPRITE_CLOUD + 3000;
+
+constexpr int ID_SPRITE_BURNER_IDLE   = 60001;
+constexpr int ID_SPRITE_BURNER_FIRE_1 = 60002;
+constexpr int ID_SPRITE_BURNER_FIRE_2 = 60003;
+
+constexpr int ID_ANI_BURNER_IDLE   = 6000;
+constexpr int ID_ANI_BURNER_FIRING = 6001;
+
+constexpr int ID_SPRITE_BLASTER_IDLE   = 70001;
+constexpr int ID_SPRITE_BLASTER_FIRING = 70002;
+constexpr int ID_ANI_BLASTER_IDLE   = 7000;
+constexpr int ID_ANI_BLASTER_FIRING = 7001;
+
+constexpr int ID_SPRITE_CANON     = 80001;
+constexpr int ID_ANI_CANON        = 8000;
+
+constexpr int ID_SPRITE_CANNONBALL = 90001;
+constexpr int ID_ANI_CANNONBALL    = 9000;

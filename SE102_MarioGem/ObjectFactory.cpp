@@ -5,6 +5,10 @@
 #include "Portal.h"
 #include "Platform.h"
 #include "CollisionBox.h"
+#include "Burner.h"
+#include "Blaster.h"
+#include "Canon.h"
+#include "CannonBall.h"
 
 using json = nlohmann::json;
 
@@ -26,6 +30,15 @@ LPGAMEOBJECT ObjectFactory::Create(ObjectType type, const vector<string>& tokens
 
     case ObjectType::Platform:
         return CPlatform::CreateFromTokens(tokens);
+
+    case ObjectType::Burner:
+        return CBurner::CreateFromTokens(tokens);
+
+    case ObjectType::Blaster:
+        return CBlaster::CreateFromTokens(tokens);
+
+    case ObjectType::Canon:
+        return CCanon::CreateFromTokens(tokens);
 
     default:
         DebugOut(L"[ERROR] Invalid object type: %d\n", static_cast<int>(type));
@@ -114,6 +127,12 @@ LPGAMEOBJECT ObjectFactory::CreateFromJSON(const json& obj)
             objectType = ObjectType::Portal;
         else if (typeStr == "CollisionBox")
             objectType = ObjectType::CollisionBox;
+        else if (typeStr == "Burner")
+            objectType = ObjectType::Burner;
+        else if (typeStr == "Blaster")
+            objectType = ObjectType::Blaster;
+        else if (typeStr == "Canon")
+            objectType = ObjectType::Canon;
         else
         {
             DebugOut(L"[WARNING] Unknown object type in JSON: %s\n",
@@ -159,6 +178,18 @@ LPGAMEOBJECT ObjectFactory::CreateFromJSON(const json& obj)
         int spriteEnd = GetIntProperty(obj, "SpriteEnd", 0);
         return new CPlatform(x, y, cellWidth, cellHeight, length,
             spriteBegin, spriteMiddle, spriteEnd);
+    }
+
+    case ObjectType::Burner:
+        return new CBurner(x, y);
+
+    case ObjectType::Blaster:
+        return new CBlaster(x, y);
+
+    case ObjectType::Canon:
+    {
+        int dir = GetIntProperty(obj, "direction", 1);
+        return new CCanon(x, y, dir);
     }
 
     default:
