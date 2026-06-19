@@ -7,7 +7,7 @@ height	240
 # type: 0: intro, 1: play scene 
 [SCENES]
 0	intro.txt
-1	Assets\Data\Scenes\stage-1-1\stage-1-1.txt
+1	Assets\Data\Scenes\stage-1-1.txt
 2	Assets\Data\Scenes\scene02.txt
 5	Assets\Data\Scenes\scene0005.txt
 

@@ -8,6 +8,8 @@ constexpr int       CANNONBALL_BBOX_W   = 16;
 constexpr int       CANNONBALL_BBOX_H   = 16;
 constexpr ULONGLONG CANNONBALL_LIFETIME = 4000;
 
+constexpr int ID_ANI_CANNONBALL = 9000;
+
 class CCannonBall : public CGameObject
 {
 protected:
