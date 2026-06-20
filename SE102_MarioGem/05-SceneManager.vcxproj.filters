@@ -141,8 +141,11 @@
     <ClCompile Include="ObjectFactory.cpp">
       <Filter>Game\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="ObjectFactory.h">
-      <Filter>Game\Systems</Filter>
+    <ClCompile Include="QuestionBlock.cpp">
+      <Filter>Game\Objects\Tiles</Filter>
+    </ClCompile>
+    <ClCompile Include="FireBall.cpp">
+      <Filter>Game\Objects\Projectiles</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -214,6 +217,13 @@
     </ClInclude>
     <ClInclude Include="PlaySceneKeyHandler.h">
       <Filter>Game\Scenes\PlayScene</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectFactory.h" />
+    <ClInclude Include="QuestionBlock.h">
+      <Filter>Game\Objects\Tiles</Filter>
+    </ClInclude>
+    <ClInclude Include="FireBall.h">
+      <Filter>Game\Objects\Projectiles</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

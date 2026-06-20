@@ -34,6 +34,7 @@ public:
 	virtual void Unload();
 
 	LPGAMEOBJECT GetPlayer() { return player; }
+	void AddObject(LPGAMEOBJECT obj) { objects.push_back(obj); }
 
 	void Clear();
 	void PurgeDeletedObjects();
