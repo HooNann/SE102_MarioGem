@@ -9,6 +9,8 @@
 
 constexpr float MARIO_WALKING_SPEED = 0.1f;
 constexpr float MARIO_RUNNING_SPEED = 0.2f;
+#define MARIO_PMETER_MAX			1000
+#define MARIO_FLYING_TIME_MAX		4000
 
 constexpr float MARIO_ACCEL_WALK_X = 0.0005f;
 constexpr float MARIO_ACCEL_RUN_X = 0.0007f;
@@ -31,7 +33,10 @@ enum class MarioState : int
 	RunningRight = 400,
 	RunningLeft = 500,
 	Sit = 600,
-	SitRelease = 601
+	SitRelease = 601,
+	Fly = 700,
+	Float = 800
+
 };
 
 
@@ -83,11 +88,54 @@ constexpr int ID_ANI_MARIO_SMALL_JUMP_RUN_LEFT = 1601;
 
 constexpr float GROUND_Y = 160.0f;
 
+//FIRE MARIO
+constexpr int ID_ANI_MARIO_FIRE_IDLE_RIGHT = 1700;
+constexpr int ID_ANI_MARIO_FIRE_IDLE_LEFT = 1701;
+constexpr int ID_ANI_MARIO_FIRE_WALKING_RIGHT = 1800;
+constexpr int ID_ANI_MARIO_FIRE_WALKING_LEFT = 1801;
+constexpr int ID_ANI_MARIO_FIRE_RUNNING_RIGHT = 1900;
+constexpr int ID_ANI_MARIO_FIRE_RUNNING_LEFT = 1901;
+constexpr int ID_ANI_MARIO_FIRE_JUMP_WALK_RIGHT = 2000;
+constexpr int ID_ANI_MARIO_FIRE_JUMP_WALK_LEFT = 2001;
+constexpr int ID_ANI_MARIO_FIRE_JUMP_RUN_RIGHT = 2100;
+constexpr int ID_ANI_MARIO_FIRE_JUMP_RUN_LEFT = 2101;
+constexpr int ID_ANI_MARIO_FIRE_BRACE_RIGHT = 2200;
+constexpr int ID_ANI_MARIO_FIRE_BRACE_LEFT = 2201;
+constexpr int ID_ANI_MARIO_FIRE_THROW_RIGHT = 2300;
+constexpr int ID_ANI_MARIO_FIRE_THROW_LEFT = 2301;
+constexpr int ID_ANI_MARIO_FIRE_SIT_RIGHT = 2400;
+constexpr int ID_ANI_MARIO_FIRE_SIT_LEFT = 2401;
 
 
+//RACCOON MARIO 
+constexpr int ID_ANI_MARIO_RACCOON_IDLE_RIGHT = 2500;
+constexpr int ID_ANI_MARIO_RACCOON_IDLE_LEFT = 2501;
+constexpr int ID_ANI_MARIO_RACCOON_WALKING_RIGHT = 2600;
+constexpr int ID_ANI_MARIO_RACCOON_WALKING_LEFT = 2601;
+constexpr int ID_ANI_MARIO_RACCOON_RUNNING_RIGHT = 2700;
+constexpr int ID_ANI_MARIO_RACCOON_RUNNING_LEFT = 2701;
+constexpr int ID_ANI_MARIO_RACCOON_JUMP_WALK_RIGHT = 2800;
+constexpr int ID_ANI_MARIO_RACCOON_JUMP_WALK_LEFT = 2801;
+constexpr int ID_ANI_MARIO_RACCOON_JUMP_RUN_RIGHT = 2900;
+constexpr int ID_ANI_MARIO_RACCOON_JUMP_RUN_LEFT = 2901;
+constexpr int ID_ANI_MARIO_RACCOON_BRACE_RIGHT = 3000;
+constexpr int ID_ANI_MARIO_RACCOON_BRACE_LEFT = 3001;
+constexpr int ID_ANI_MARIO_RACCOON_SIT_RIGHT = 3200;
+constexpr int ID_ANI_MARIO_RACCOON_SIT_LEFT = 3201;
+constexpr int ID_ANI_MARIO_RACCOON_FLY_RIGHT = 3100;
+constexpr int ID_ANI_MARIO_RACCOON_FLY_LEFT = 3101;
 
-#define	MARIO_LEVEL_SMALL	1
-#define	MARIO_LEVEL_BIG		2
+//RACCOON MARIO
+
+//#define	MARIO_LEVEL_SMALL	1
+//#define	MARIO_LEVEL_BIG		2
+enum class MarioLevel : int
+{
+	Small = 1,
+	Big = 2,
+	Fire = 3,
+	Raccoon = 4
+};
 
 #define MARIO_BIG_BBOX_WIDTH  14
 #define MARIO_BIG_BBOX_HEIGHT 24
@@ -101,6 +149,7 @@ constexpr float GROUND_Y = 160.0f;
 
 
 #define MARIO_UNTOUCHABLE_TIME 2500
+#define MARIO_THROWING_FIRE_TIME   180
 
 class CMario : public CGameObject
 {
@@ -109,18 +158,29 @@ class CMario : public CGameObject
 	float ax;				// acceleration on x 
 	float ay;				// acceleration on y 
 
-	int level; 
+	MarioLevel level;
 	int untouchable; 
 	ULONGLONG untouchable_start;
 	BOOLEAN isOnPlatform;
 	int coin; 
 
+	BOOLEAN isThrowingFire;
+	DWORD throwingFireStartTime;
+
+	int pMeter;					
+	DWORD flyStartTime;
+
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithCoin(LPCOLLISIONEVENT e);
 	void OnCollisionWithPortal(LPCOLLISIONEVENT e);
+	void OnCollisionWithEnemy(LPCOLLISIONEVENT e);
+	void OnCollisionWithTrap(LPCOLLISIONEVENT e);
 
 	int GetAniIdBig();
 	int GetAniIdSmall();
+	int GetAniIdFire();
+	int GetAniIdRaccoon();
+
 
 public:
 	CMario(float x, float y) : CGameObject(x, y)
@@ -130,16 +190,29 @@ public:
 		ax = 0.0f;
 		ay = MARIO_GRAVITY; 
 
-		level = MARIO_LEVEL_BIG;
+
+		level = MarioLevel::Big;
 		untouchable = 0;
 		untouchable_start = -1;
 		isOnPlatform = false;
 		coin = 0;
 	}
+
+	MarioLevel GetLevel() { return level; }
+	void SetLevel(MarioLevel l) { level = l; }
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
 	void SetState(MarioState state);
 	void SetState(int state) override { SetState(static_cast<MarioState>(state)); }
+
+	void ShootFireBall();
+	void UpdateThrowingFireTime(DWORD dt);
+	bool IsThrowingFire() { return isThrowingFire; };
+
+	void HandlePMeter(DWORD dt);
+	void FlyUp();
+	void FloatDown();
+	int GetPMeter() { return pMeter; }
 
 	int IsCollidable()
 	{ 
