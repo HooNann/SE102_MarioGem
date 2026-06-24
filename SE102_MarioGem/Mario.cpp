@@ -561,13 +561,10 @@ int CMario::GetAniIdFire()
 /// 
 /// Raccoon Mario
 /// 
-int CMario::GetAniIdRacoon()
+int CMario::GetAniIdRaccoon()
 {
 	int aniId = -1;
-
-	// -------------------------------------------------------------------------
-	// ƯU TIÊN 1: LOGIC TRÊN KHÔNG (NHẢY / BAY / RƠI CHẬM)
-	// -------------------------------------------------------------------------
+	MarioState marioState = static_cast<MarioState>(state);
 	if (!isOnPlatform)
 	{
 		// Kiểm tra nếu đang thực sự ở trạng thái Bay hoặc Vỗ đuôi rơi chậm
@@ -578,7 +575,6 @@ int CMario::GetAniIdRacoon()
 			else
 				aniId = ID_ANI_MARIO_RACCOON_FLY_LEFT;
 		}
-		// Nếu chỉ nhảy lên bình thường do lực bấm phím (chưa đủ pin bay)
 		else if (abs(ax) == MARIO_ACCEL_RUN_X)
 		{
 			if (nx >= 0)
@@ -594,9 +590,6 @@ int CMario::GetAniIdRacoon()
 				aniId = ID_ANI_MARIO_RACCOON_JUMP_WALK_LEFT;
 		}
 	}
-	// -------------------------------------------------------------------------
-	// ƯU TIÊN 2: LOGIC DI CHUYỂN DƯỚI MẶT ĐẤT
-	// -------------------------------------------------------------------------
 	else
 	{
 		if (isSitting)
@@ -633,7 +626,6 @@ int CMario::GetAniIdRacoon()
 		}
 	}
 
-	// Mặc định phòng hờ lỗi trạng thái
 	if (aniId == -1) aniId = ID_ANI_MARIO_RACCOON_IDLE_RIGHT;
 
 	return aniId;
