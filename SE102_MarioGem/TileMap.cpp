@@ -9,7 +9,7 @@
 
 using json = nlohmann::json;
 
-CMap::CMap()
+CTileMap::CTileMap()
 {
 	width = 0;
 	height = 0;
@@ -17,13 +17,13 @@ CMap::CMap()
 	tileHeight = 0;
 }
 
-CMap::~CMap()
+CTileMap::~CTileMap()
 {
 	mapLayers.clear();
 	tilesets.clear();
 }
 
-void CMap::LoadJSON(LPCWSTR jsonPath, LPCWSTR basePath)
+void CTileMap::LoadJSON(LPCWSTR jsonPath, LPCWSTR basePath)
 {
 	// Chuyển đường dẫn wide-string sang string thường để đọc file
 	// (nlohmann/json cần ifstream mở bằng wide-string hoặc string)
@@ -156,10 +156,10 @@ void CMap::LoadJSON(LPCWSTR jsonPath, LPCWSTR basePath)
 			DebugOut(L"[INFO] Loading tile layer: %s\n",
 				wstring(layerName.begin(), layerName.end()).c_str());
 
-			vector<int> layerData;
+			vector<unsigned int> layerData;
 			for (auto& id : layer["data"])
 			{
-				layerData.push_back(id);
+				layerData.push_back(id.get<unsigned int>());
 			}
 
 			mapLayers.push_back(layerData);
@@ -168,7 +168,7 @@ void CMap::LoadJSON(LPCWSTR jsonPath, LPCWSTR basePath)
 	}
 }
 
-TilesetInfo* CMap::GetTilesetByGid(int gid)
+TilesetInfo* CTileMap::GetTilesetByGid(int gid)
 {
 	// Quét ngược từ cuối danh sách tilesets
 	// Tileset có firstGid lớn nhất mà <= gid chính là tileset chứa tile đó
@@ -180,7 +180,7 @@ TilesetInfo* CMap::GetTilesetByGid(int gid)
 	return nullptr;
 }
 
-void CMap::Render()
+void CTileMap::Render()
 {
 	if (mapLayers.empty() || tilesets.empty()) return;
 
@@ -202,7 +202,7 @@ void CMap::Render()
 	int rowEnd = min(height - 1, (int)((cy + screenHeight) / tileHeight));
 
 	// Lặp qua từng Layer để vẽ chồng lên nhau
-	for (auto& mapData : mapLayers)
+	for (size_t i = 0; i < mapLayers.size(); i++)
 	{
 		for (int row = rowStart; row <= rowEnd; row++)
 		{
@@ -210,10 +210,17 @@ void CMap::Render()
 			{
 				// Lấy tile ID từ mảng 1 chiều (quy đổi từ hàng, cột)
 				int index = row * width + col;
-				int tileId = mapData[index];
+				unsigned int tileData = mapLayers[i][index];
 
 				// ID = 0 nghĩa là ô trống, bỏ qua
-				if (tileId == 0) continue;
+				if (tileData == 0) continue;
+
+				// Giải mã cờ lật (Flip flags)
+				bool flipX = (tileData & 0x80000000);
+				bool flipY = (tileData & 0x40000000);
+				
+				// Tắt các cờ lật để lấy ID gốc của Tile
+				int tileId = tileData & ~(0x80000000 | 0x40000000 | 0x20000000);
 
 				// Tìm tileset chứa tile này
 				TilesetInfo* ts = GetTilesetByGid(tileId);
@@ -239,8 +246,12 @@ void CMap::Render()
 				float drawX = (float)floor((col * tileWidth) + tileWidth / 2.0f - cx);
 				float drawY = (float)floor((row * tileHeight) + tileHeight / 2.0f - cy);
 
-				CGame::GetInstance()->Draw(drawX, drawY, ts->texture, &srcRect);
+				int nx = flipX ? -1 : 1;
+				int ny = flipY ? -1 : 1;
+
+				CGame::GetInstance()->Draw(drawX, drawY, ts->texture, &srcRect, 1.0f, 0, 0, nx, ny);
 			}
 		}
 	}
 }
+

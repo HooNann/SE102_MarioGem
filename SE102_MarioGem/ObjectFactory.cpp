@@ -9,6 +9,9 @@
 #include "Blaster.h"
 #include "Canon.h"
 #include "CannonBall.h"
+#include "MapMario.h"
+#include "MapNode.h"
+#include "MapObject.h"
 
 using json = nlohmann::json;
 
@@ -130,6 +133,12 @@ LPGAMEOBJECT ObjectFactory::CreateFromJSON(const json& obj)
             objectType = ObjectType::Blaster;
         else if (typeStr == "Canon")
             objectType = ObjectType::Canon;
+        else if (typeStr == "MapMario")
+            objectType = static_cast<ObjectType>(MapObjectType::MapMario);
+        else if (typeStr == "MapNode")
+            objectType = static_cast<ObjectType>(MapObjectType::MapNode);
+        else if (typeStr == "MapDecoration")
+            objectType = static_cast<ObjectType>(MapObjectType::MapDecoration);
         else
         {
             DebugOut(L"[WARNING] Unknown object type in JSON: %s\n",
@@ -139,32 +148,32 @@ LPGAMEOBJECT ObjectFactory::CreateFromJSON(const json& obj)
     }
 
     // Tạo object dựa trên type
-    switch (objectType)
+    switch (static_cast<int>(objectType))
     {
-    case ObjectType::Mario:
+    case static_cast<int>(ObjectType::Mario):
         return new CMario(x, y);
 
-    case ObjectType::Goomba:
+    case static_cast<int>(ObjectType::Goomba):
         return new CGoomba(x, y);
 
-    case ObjectType::Coin:
+    case static_cast<int>(ObjectType::Coin):
         return new CCoin(x, y);
 
-    case ObjectType::Portal:
+    case static_cast<int>(ObjectType::Portal):
     {
         // Portal cần thêm scene_id từ Custom Properties trong Tiled
         int sceneId = GetIntProperty(obj, "TargetSceneID", 1);
         return new CPortal(x, y, x + w, y + h, sceneId);
     }
 
-    case ObjectType::CollisionBox:
+    case static_cast<int>(ObjectType::CollisionBox):
     {
         float cx = x + w / 2.0f;
         float cy = y + h / 2.0f;
         return new CCollisionBox(cx, cy, w, h);
     }
 
-    case ObjectType::Platform:
+    case static_cast<int>(ObjectType::Platform):
     {
         // Platform đọc thêm các Custom Properties từ Tiled
         float cellWidth = GetFloatProperty(obj, "CellWidth", 16.0f);
@@ -177,16 +186,35 @@ LPGAMEOBJECT ObjectFactory::CreateFromJSON(const json& obj)
             spriteBegin, spriteMiddle, spriteEnd);
     }
 
-    case ObjectType::Burner:
+    case static_cast<int>(ObjectType::Burner):
         return new CBurner(x, y);
 
-    case ObjectType::Blaster:
+    case static_cast<int>(ObjectType::Blaster):
         return new CBlaster(x, y);
 
-    case ObjectType::Canon:
+    case static_cast<int>(ObjectType::Canon):
     {
         int dir = GetIntProperty(obj, "direction", 1);
         return new CCanon(x, y, dir);
+    }
+
+    case static_cast<int>(MapObjectType::MapMario):
+    {
+        int aniId = GetIntProperty(obj, "aniId", -1);
+        return new CMapMario(x, y, aniId);
+    }
+
+    case static_cast<int>(MapObjectType::MapNode):
+    {
+        int id = obj.value("id", -1);
+        int sceneId = GetIntProperty(obj, "scene_id", -1);
+        return new CMapNode(id, x, y, sceneId);
+    }
+
+    case static_cast<int>(MapObjectType::MapDecoration):
+    {
+        int aniId = GetIntProperty(obj, "aniId", -1);
+        return new CMapObject(x, y, aniId);
     }
 
     default:

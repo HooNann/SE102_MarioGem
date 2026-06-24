@@ -34,6 +34,8 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 #define ASSETS_SECTION_UNKNOWN -1
 #define ASSETS_SECTION_SPRITES 1
 #define ASSETS_SECTION_ANIMATIONS 2
+#define ASSETS_SECTION_SPRITES_JSON 3
+#define ASSETS_SECTION_ANIMATIONS_JSON 4
 
 #define MAX_SCENE_LINE 1024
 
@@ -60,6 +62,49 @@ void CPlayScene::_ParseSection_SPRITES(string line)
 	CSprites::GetInstance()->Add(ID, l, t, r, b, tex);
 }
 
+void CPlayScene::_ParseSection_SPRITES_JSON(string line)
+{
+	vector<string> tokens = split(line);
+	if (tokens.size() < 2) return; // texID, json_path
+
+	int texID = atoi(tokens[0].c_str());
+	wstring path = ToWSTR(tokens[1]);
+
+	LPTEXTURE tex = CTextures::GetInstance()->Get(texID);
+	if (tex == NULL)
+	{
+		DebugOut(L"[ERROR] Texture ID %d not found!\n", texID);
+		return; 
+	}
+
+	ifstream f(path.c_str());
+	if (!f.is_open())
+	{
+		DebugOut(L"[ERROR] Cannot open json file: %s\n", path.c_str());
+		return;
+	}
+
+	nlohmann::json j;
+	f >> j;
+	f.close();
+
+	for (auto& item : j["frames"].items()) 
+	{
+		int spriteId = stoi(item.key()); 
+		int x = item.value()["frame"]["x"];
+		int y = item.value()["frame"]["y"];
+		int w = item.value()["frame"]["w"];
+		int h = item.value()["frame"]["h"];
+
+		int l = x;
+		int t = y;
+		int r = x + w - 1;
+		int b = y + h - 1;
+
+		CSprites::GetInstance()->Add(spriteId, l, t, r, b, tex);
+	}
+}
+
 void CPlayScene::_ParseSection_ASSETS(string line)
 {
 	vector<string> tokens = split(line);
@@ -67,6 +112,7 @@ void CPlayScene::_ParseSection_ASSETS(string line)
 	if (tokens.size() < 1) return;
 
 	wstring path = ToWSTR(tokens[0]);
+	currentAssetFilePath = path;
 	
 	LoadAssets(path.c_str());
 }
@@ -90,6 +136,66 @@ void CPlayScene::_ParseSection_ANIMATIONS(string line)
 	}
 
 	CAnimations::GetInstance()->Add(ani_id, ani);
+}
+
+void CPlayScene::_ParseSection_ANIMATIONS_JSON(string line)
+{
+	vector<string> tokens = split(line);
+	if (tokens.size() < 1) return;
+
+	wstring path = ToWSTR(tokens[0]);
+	ifstream f(path.c_str());
+	if (!f.is_open())
+	{
+		DebugOut(L"[ERROR] Cannot open json file: %s\n", path.c_str());
+		return;
+	}
+
+	nlohmann::json j;
+	f >> j;
+	f.close();
+
+	for (auto& item : j["animations"].items())
+	{
+		int aniId = stoi(item.key());
+		LPANIMATION ani = new CAnimation();
+
+		if (item.value().is_array())
+		{
+			// Format 1: Mảng các object [{"sprite": 12001, "time": 100}, {"sprite": 12002, "time": 50}]
+			for (auto& frame : item.value())
+			{
+				int spriteId = frame["sprite"];
+				int frameTime = frame["time"];
+				ani->Add(spriteId, frameTime);
+			}
+		}
+		else if (item.value().is_object() && item.value().contains("frames"))
+		{
+			auto frames = item.value()["frames"];
+			if (frames.size() > 0 && frames[0].is_object())
+			{
+				// Format 2: Object chứa frames là mảng object {"frames": [{"sprite": 12001, "time": 100}]}
+				for (auto& frame : frames)
+				{
+					int spriteId = frame["sprite"];
+					int frameTime = frame["time"];
+					ani->Add(spriteId, frameTime);
+				}
+			}
+			else
+			{
+				// Format 3: Cấu hình chung cho toàn bộ frame {"frames": [12001, 12002], "time": 100}
+				int frameTime = item.value().value("time", 100);
+				for (int spriteId : frames)
+				{
+					ani->Add(spriteId, frameTime);
+				}
+			}
+		}
+
+		CAnimations::GetInstance()->Add(aniId, ani);
+	}
 }
 
 /*
@@ -151,6 +257,8 @@ void CPlayScene::LoadAssets(LPCWSTR assetFile)
 
 		if (line == "[SPRITES]") { section = ASSETS_SECTION_SPRITES; continue; };
 		if (line == "[ANIMATIONS]") { section = ASSETS_SECTION_ANIMATIONS; continue; };
+		if (line == "[SPRITES_JSON]") { section = ASSETS_SECTION_SPRITES_JSON; continue; };
+		if (line == "[ANIMATIONS_JSON]") { section = ASSETS_SECTION_ANIMATIONS_JSON; continue; };
 		if (line[0] == '[') { section = SCENE_SECTION_UNKNOWN; continue; }
 
 		//
@@ -160,6 +268,8 @@ void CPlayScene::LoadAssets(LPCWSTR assetFile)
 		{
 		case ASSETS_SECTION_SPRITES: _ParseSection_SPRITES(line); break;
 		case ASSETS_SECTION_ANIMATIONS: _ParseSection_ANIMATIONS(line); break;
+		case ASSETS_SECTION_SPRITES_JSON: _ParseSection_SPRITES_JSON(line); break;
+		case ASSETS_SECTION_ANIMATIONS_JSON: _ParseSection_ANIMATIONS_JSON(line); break;
 		}
 	}
 
@@ -225,9 +335,9 @@ void CPlayScene::LoadMapJSON(LPCWSTR jsonPath)
 	if (lastSlash != wstring::npos)
 		basePath = fullPath.substr(0, lastSlash);
 
-	// Tạo và load CMap (tile layer)
+	// Tạo và load CTileMap (tile layer)
 	if (map != NULL) delete map;
-	map = new CMap();
+	map = new CTileMap();
 	map->LoadJSON(jsonPath, basePath.c_str());
 
 	// Đọc lại file JSON để parse Object Layer
@@ -390,4 +500,19 @@ void CPlayScene::PurgeDeletedObjects()
 	objects.erase(
 		std::remove_if(objects.begin(), objects.end(), CPlayScene::IsGameObjectDeleted),
 		objects.end());
+}
+
+void CPlayScene::ReloadAssets()
+{
+	CAnimations::GetInstance()->Clear();
+	CSprites::GetInstance()->Clear();
+	if (!currentAssetFilePath.empty())
+	{
+		LoadAssets(currentAssetFilePath.c_str());
+		DebugOut(L"[INFO] Assets reloaded successfully!\n");
+	}
+	else
+	{
+		DebugOut(L"[ERROR] No asset file path saved to reload!\n");
+	}
 }

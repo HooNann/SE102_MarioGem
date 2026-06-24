@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Framework">
@@ -72,6 +72,9 @@
     </Filter>
     <Filter Include="Game\Objects\Traps">
       <UniqueIdentifier>{297e75ff-af29-4236-b095-8de321230c88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Scenes\WorldMap">
+      <UniqueIdentifier>{dc056a9e-9790-479f-8405-3ab51b1d61ac}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -164,6 +167,21 @@
     </ClCompile>
     <ClCompile Include="Canon.cpp">
       <Filter>Game\Objects\Traps</Filter>
+    </ClCompile>
+    <ClCompile Include="MapMario.cpp">
+      <Filter>Game\Scenes\WorldMap</Filter>
+    </ClCompile>
+    <ClCompile Include="MapNode.cpp">
+      <Filter>Game\Scenes\WorldMap</Filter>
+    </ClCompile>
+    <ClCompile Include="MapObject.cpp">
+      <Filter>Game\Scenes\WorldMap</Filter>
+    </ClCompile>
+    <ClCompile Include="WorldMapKeyHandler.cpp">
+      <Filter>Game\Scenes\WorldMap</Filter>
+    </ClCompile>
+    <ClCompile Include="WorldMapScene.cpp">
+      <Filter>Game\Scenes\WorldMap</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -259,6 +277,21 @@
     </ClInclude>
     <ClInclude Include="Canon.h">
       <Filter>Game\Objects\Traps</Filter>
+    </ClInclude>
+    <ClInclude Include="MapMario.h">
+      <Filter>Game\Scenes\WorldMap</Filter>
+    </ClInclude>
+    <ClInclude Include="MapNode.h">
+      <Filter>Game\Scenes\WorldMap</Filter>
+    </ClInclude>
+    <ClInclude Include="MapObject.h">
+      <Filter>Game\Scenes\WorldMap</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldMapKeyHandler.h">
+      <Filter>Game\Scenes\WorldMap</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldMapScene.h">
+      <Filter>Game\Scenes\WorldMap</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -3,13 +3,13 @@ start	1
 width	320
 height	240
 
-#id	type	file
-# type: 0: intro, 1: play scene 
+# id	type	file
+# type: 1 = CPlayScene, 2 = CWorldMapScene
 [SCENES]
-0	intro.txt
-1	Assets\Data\Scenes\stage-1-1.txt
-2	Assets\Data\Scenes\scene02.txt
-5	Assets\Data\Scenes\scene0005.txt
+0	1	intro.txt
+1	1	Assets\Data\Scenes\stage-1-1.txt
+2	2	Assets\Data\Scenes\world-map-scene.txt
+5	1	Assets\Data\Scenes\scene0005.txt
 
 # id	file 
 [TEXTURES]

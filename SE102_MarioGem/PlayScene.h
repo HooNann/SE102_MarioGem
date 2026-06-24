@@ -19,10 +19,15 @@ protected:
 	vector<LPGAMEOBJECT> objects;
 	vector<LPGAMEOBJECT> spawnQueue;
 
-	CMap* map;	// Tiled Map (background tiles)
+	CTileMap* map;	// Tiled Map (background tiles)
 
 	void _ParseSection_SPRITES(string line);
 	void _ParseSection_ANIMATIONS(string line);
+
+	void _ParseSection_SPRITES_JSON(string line);
+	void _ParseSection_ANIMATIONS_JSON(string line);
+
+	wstring currentAssetFilePath;
 
 	void _ParseSection_ASSETS(string line);
 	void _ParseSection_OBJECTS(string line);
@@ -46,6 +51,7 @@ public:
 
 	void Clear();
 	void PurgeDeletedObjects();
+	void ReloadAssets();
 
 	static bool IsGameObjectDeleted(const LPGAMEOBJECT& o);
 };
