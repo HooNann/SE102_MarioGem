@@ -41,6 +41,9 @@ public:
 	virtual void Unload();
 
 	LPGAMEOBJECT GetPlayer() { return player; }
+	void AddObject(LPGAMEOBJECT obj) { objects.push_back(obj); }
+
+	void QueueSpawn(LPGAMEOBJECT obj) { spawnQueue.push_back(obj); }
 
 	void QueueSpawn(LPGAMEOBJECT obj) { spawnQueue.push_back(obj); }
 

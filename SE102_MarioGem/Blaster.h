@@ -11,6 +11,9 @@ constexpr int BLASTER_BLAST_HEIGHT = 48;
 constexpr ULONGLONG BLASTER_IDLE_TIME = 2000;
 constexpr ULONGLONG BLASTER_FIRE_TIME = 1500;
 
+constexpr int ID_ANI_BLASTER_IDLE = 7000;
+constexpr int ID_ANI_BLASTER_FIRING = 7001;
+
 class CBlaster : public CGameObject
 {
 protected:

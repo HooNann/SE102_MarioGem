@@ -70,6 +70,9 @@
     <Filter Include="Game\Objects\CollisionBox">
       <UniqueIdentifier>{36794652-6913-4a0e-b18e-61e345ec1a2e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Objects\Traps">
+      <UniqueIdentifier>{297e75ff-af29-4236-b095-8de321230c88}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -144,11 +147,28 @@
     <ClCompile Include="ObjectFactory.cpp">
       <Filter>Game\Systems</Filter>
     </ClCompile>
+    <ClCompile Include="QuestionBlock.cpp">
+      <Filter>Game\Objects\Tiles</Filter>
     <ClCompile Include="TileMap.cpp">
       <Filter>Framework\Base</Filter>
     </ClCompile>
     <ClCompile Include="CollisionBox.cpp">
       <Filter>Game\Objects\CollisionBox</Filter>
+    </ClCompile>
+    <ClCompile Include="Blaster.cpp">
+      <Filter>Game\Objects\Traps</Filter>
+    </ClCompile>
+    <ClCompile Include="Burner.cpp">
+      <Filter>Game\Objects\Traps</Filter>
+    </ClCompile>
+    <ClCompile Include="CannonBall.cpp">
+      <Filter>Game\Objects\Traps</Filter>
+    </ClCompile>
+    <ClCompile Include="Canon.cpp">
+      <Filter>Game\Objects\Traps</Filter>
+    </ClCompile>
+    <ClCompile Include="FireBall.cpp">
+      <Filter>Game\Objects\Projectiles</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -221,6 +241,13 @@
     <ClInclude Include="PlaySceneKeyHandler.h">
       <Filter>Game\Scenes\PlayScene</Filter>
     </ClInclude>
+    <ClInclude Include="ObjectFactory.h" />
+    <ClInclude Include="QuestionBlock.h">
+      <Filter>Game\Objects\Tiles</Filter>
+    </ClInclude>
+    <ClInclude Include="FireBall.h">
+      <Filter>Game\Objects\Projectiles</Filter>
+    </ClInclude>
     <ClInclude Include="ObjectFactory.h">
       <Filter>Game\Systems</Filter>
     </ClInclude>
@@ -232,6 +259,18 @@
     </ClInclude>
     <ClInclude Include="CollisionBox.h">
       <Filter>Game\Objects\CollisionBox</Filter>
+    </ClInclude>
+    <ClInclude Include="Blaster.h">
+      <Filter>Game\Objects\Traps</Filter>
+    </ClInclude>
+    <ClInclude Include="Burner.h">
+      <Filter>Game\Objects\Traps</Filter>
+    </ClInclude>
+    <ClInclude Include="CannonBall.h">
+      <Filter>Game\Objects\Traps</Filter>
+    </ClInclude>
+    <ClInclude Include="Canon.h">
+      <Filter>Game\Objects\Traps</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

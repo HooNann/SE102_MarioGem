@@ -80,12 +80,9 @@ static string GetStringProperty(const json& obj, const string& name, const strin
     return defaultVal;
 }
 
-// ============================================================
-// Tạo Game Object từ dữ liệu JSON của Tiled Object Layer
-// ============================================================
 LPGAMEOBJECT ObjectFactory::CreateFromJSON(const json& obj)
 {
-    // Đọc thuộc tính "type" hoặc "class" (Tiled 1.9+ dùng "class")
+    // Đọc thuộc tính "type" hoặc "class"
     string typeStr = "";
     if (obj.contains("type") && obj["type"].is_string())
         typeStr = obj["type"].get<string>();
