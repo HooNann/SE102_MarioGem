@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include "AssetIDs.h"
+#include "json.hpp"
 
 #include "PlayScene.h"
 #include "Utils.h"
@@ -20,6 +21,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 	CScene(id, filePath)
 {
 	player = NULL;
+	map = NULL;
 	key_handler = new CPlaySceneKeyHandler(this);
 }
 
@@ -27,6 +29,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 #define SCENE_SECTION_UNKNOWN -1
 #define SCENE_SECTION_ASSETS	1
 #define SCENE_SECTION_OBJECTS	2
+#define SCENE_SECTION_MAP		3
 
 #define ASSETS_SECTION_UNKNOWN -1
 #define ASSETS_SECTION_SPRITES 1
@@ -184,6 +187,7 @@ void CPlayScene::Load()
 		if (line[0] == '#') continue;	// skip comment lines	
 		if (line == "[ASSETS]") { section = SCENE_SECTION_ASSETS; continue; };
 		if (line == "[OBJECTS]") { section = SCENE_SECTION_OBJECTS; continue; };
+		if (line == "[MAP]") { section = SCENE_SECTION_MAP; continue; };
 		if (line[0] == '[') { section = SCENE_SECTION_UNKNOWN; continue; }	
 
 		//
@@ -193,12 +197,86 @@ void CPlayScene::Load()
 		{ 
 			case SCENE_SECTION_ASSETS: _ParseSection_ASSETS(line); break;
 			case SCENE_SECTION_OBJECTS: _ParseSection_OBJECTS(line); break;
+			case SCENE_SECTION_MAP:
+			{
+				// Dòng trong section [MAP] chứa đường dẫn tới file JSON của Tiled
+				wstring mapPath = ToWSTR(line);
+				LoadMapJSON(mapPath.c_str());
+				break;
+			}
 		}
 	}
 
 	f.close();
 
 	DebugOut(L"[INFO] Done loading scene  %s\n", sceneFilePath);
+}
+
+
+// Load map và objects từ file JSON của Tiled Map Editor
+void CPlayScene::LoadMapJSON(LPCWSTR jsonPath)
+{
+	DebugOut(L"[INFO] Start loading Tiled map from: %s\n", jsonPath);
+
+	// Tìm thư mục chứa file JSON (basePath) để load hình ảnh tileset tương đối
+	wstring fullPath(jsonPath);
+	wstring basePath = L".";
+	size_t lastSlash = fullPath.find_last_of(L"\\/");
+	if (lastSlash != wstring::npos)
+		basePath = fullPath.substr(0, lastSlash);
+
+	// Tạo và load CMap (tile layer)
+	if (map != NULL) delete map;
+	map = new CMap();
+	map->LoadJSON(jsonPath, basePath.c_str());
+
+	// Đọc lại file JSON để parse Object Layer
+	ifstream f(jsonPath);
+	if (!f.is_open())
+	{
+		DebugOut(L"[ERROR] Cannot reopen map JSON for objects: %s\n", jsonPath);
+		return;
+	}
+
+	nlohmann::json j;
+	f >> j;
+	f.close();
+
+	// Duyệt qua các layer, tìm objectgroup
+	for (auto& layer : j["layers"])
+	{
+		string layerType = layer["type"];
+		if (layerType != "objectgroup") continue;
+
+		string layerName = layer["name"];
+		DebugOut(L"[INFO] Loading object layer: %s\n",
+			wstring(layerName.begin(), layerName.end()).c_str());
+
+		for (auto& obj : layer["objects"])
+		{
+			LPGAMEOBJECT gameObj = ObjectFactory::CreateFromJSON(obj);
+
+			if (gameObj == nullptr) continue;
+
+			// Kiểm tra nếu là Mario
+			CMario* mario = dynamic_cast<CMario*>(gameObj);
+			if (mario != nullptr)
+			{
+				if (player != nullptr)
+				{
+					DebugOut(L"[ERROR] MARIO object was created before!\n");
+					delete gameObj;
+					continue;
+				}
+				player = mario;
+				DebugOut(L"[INFO] Player object created from Tiled map!\n");
+			}
+
+			objects.push_back(gameObj);
+		}
+	}
+
+	DebugOut(L"[INFO] Done loading Tiled map: %s\n", jsonPath);
 }
 
 void CPlayScene::Update(DWORD dt)
@@ -233,11 +311,20 @@ void CPlayScene::Update(DWORD dt)
 
 	CGame::GetInstance()->SetCamPos(cx, 0.0f /*cy*/);
 
+	for (auto obj : spawnQueue)
+		objects.push_back(obj);
+	spawnQueue.clear();
+
 	PurgeDeletedObjects();
 }
 
 void CPlayScene::Render()
 {
+	// Vẽ tile map (nền) trước
+	if (map != NULL)
+		map->Render();
+
+	// Vẽ các game objects (Mario, quái, item...) đè lên
 	for (int i = 0; i < objects.size(); i++)
 		objects[i]->Render();
 }
@@ -267,7 +354,18 @@ void CPlayScene::Unload()
 		delete objects[i];
 
 	objects.clear();
+
+	// Free any objects queued to spawn but not yet added (e.g. Canon fires on same frame as scene switch)
+	for (auto obj : spawnQueue) delete obj;
+	spawnQueue.clear();
+
 	player = NULL;
+
+	if (map != NULL)
+	{
+		delete map;
+		map = NULL;
+	}
 
 	DebugOut(L"[INFO] Scene %d unloaded! \n", id);
 }

@@ -1,0 +1,13 @@
+# id	left	top	right	bottom	texture_id
+# Burner sprites from enemies_transparent.png (texture_id = 10)
+# Auto-detected via Python Pillow blob analysis
+
+[SPRITES]
+60004	260	320	276	383	10
+60001	283	320	298	383	10
+60002	305	320	320	383	10
+60003	327	320	342	383	10
+
+[ANIMATIONS]
+6000	60001	200
+6001	60004	200	60001	200	60002	200	60003	200

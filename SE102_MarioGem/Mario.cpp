@@ -7,6 +7,9 @@
 #include "Goomba.h"
 #include "Coin.h"
 #include "Portal.h"
+#include "Burner.h"
+#include "Blaster.h"
+#include "CannonBall.h"
 
 #include "Collision.h"
 #include "FireBall.h"
@@ -69,6 +72,12 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithCoin(e);
 	else if (dynamic_cast<CPortal*>(e->obj))
 		OnCollisionWithPortal(e);
+	else if (dynamic_cast<CBurner*>(e->obj))
+		OnCollisionWithBurner(e);
+	else if (dynamic_cast<CBlaster*>(e->obj))
+		OnCollisionWithBlaster(e);
+	else if (dynamic_cast<CCannonBall*>(e->obj))
+		OnCollisionWithCannonBall(e);
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -289,6 +298,70 @@ void CMario::FloatDown()
 
 
 
+void CMario::OnCollisionWithBlaster(LPCOLLISIONEVENT e)
+{
+	if (untouchable != 0) return;
+
+	CBlaster* blaster = dynamic_cast<CBlaster*>(e->obj);
+	if (!blaster || blaster->GetState() != static_cast<int>(BlasterState::Firing)) return;
+
+	if (level > MarioLevel::Big)
+	{
+		SetLevel(level  = MarioLevel::Big);
+		StartUntouchable();
+	}
+	else if (level > MarioLevel::Small)
+	{
+		SetLevel(level = MarioLevel::Small);
+		StartUntouchable();
+	}
+	else
+		SetState(MarioState::Die);
+}
+
+void CMario::OnCollisionWithBurner(LPCOLLISIONEVENT e)
+{
+	if (untouchable != 0) return;
+
+	// Only deal damage when the Burner is actively Firing.
+	// IsCollidable() returns 0 during Idle but the collision framework checks
+	// IsCollidable() only on the source object (Mario), not on targets — so we
+	// must guard here against collisions that fire while the Burner is Idle.
+	CBurner* burner = dynamic_cast<CBurner*>(e->obj);
+	if (!burner || burner->GetState() != static_cast<int>(BurnerState::Firing)) return;
+
+	if (level > MarioLevel::Big)
+	{
+		SetLevel(level = MarioLevel::Big);
+		StartUntouchable();
+	}
+	else if (level > MarioLevel::Small)
+	{
+		SetLevel(level = MarioLevel::Small);
+		StartUntouchable();
+	}
+	else
+		SetState(MarioState::Die);
+}
+
+void CMario::OnCollisionWithCannonBall(LPCOLLISIONEVENT e)
+{
+	if (untouchable != 0) return;
+
+	if (level > MarioLevel::Big)
+	{
+		SetLevel(level = MarioLevel::Big);
+		StartUntouchable();
+	}
+	else if (level > MarioLevel::Small)
+	{
+		SetLevel(level = MarioLevel::Small);
+		StartUntouchable();
+	}
+	else
+		SetState(MarioState::Die);
+}
+
 //
 // Get animation ID for small Mario
 //
@@ -412,6 +485,160 @@ int CMario::GetAniIdBig()
 	return aniId;
 }
 
+///
+/// get animation ID for fire Mario
+/// 
+int CMario::GetAniIdFire()
+{
+	int aniId = -1;
+
+
+	if (isThrowingFire)
+	{
+		if (nx >= 0)
+			aniId = ID_ANI_MARIO_FIRE_THROW_RIGHT;
+		else
+			aniId = ID_ANI_MARIO_FIRE_THROW_LEFT;
+	}
+	else if (!isOnPlatform)
+	{
+		if (abs(ax) == MARIO_ACCEL_RUN_X)
+		{
+			if (nx >= 0)
+				aniId = ID_ANI_MARIO_FIRE_JUMP_RUN_RIGHT;
+			else
+				aniId = ID_ANI_MARIO_FIRE_JUMP_RUN_LEFT;
+		}
+		else
+		{
+			if (nx >= 0)
+				aniId = ID_ANI_MARIO_FIRE_JUMP_WALK_RIGHT;
+			else
+				aniId = ID_ANI_MARIO_FIRE_JUMP_WALK_LEFT;
+		}
+	}
+	else
+	{
+		if (isSitting)
+		{
+			if (nx > 0)
+				aniId = ID_ANI_MARIO_FIRE_SIT_RIGHT;
+			else
+				aniId = ID_ANI_MARIO_FIRE_SIT_LEFT;
+		}
+		else if (vx == 0)
+		{
+			if (nx > 0)
+				aniId = ID_ANI_MARIO_FIRE_IDLE_RIGHT;
+			else
+				aniId = ID_ANI_MARIO_FIRE_IDLE_LEFT;
+		}
+		else if (vx > 0)
+		{
+			if (ax < 0)
+				aniId = ID_ANI_MARIO_FIRE_BRACE_RIGHT;
+			else if (ax == MARIO_ACCEL_RUN_X)
+				aniId = ID_ANI_MARIO_FIRE_RUNNING_RIGHT;
+			else if (ax == MARIO_ACCEL_WALK_X)
+				aniId = ID_ANI_MARIO_FIRE_WALKING_RIGHT;
+		}
+		else // vx < 0
+		{
+			if (ax > 0)
+				aniId = ID_ANI_MARIO_FIRE_BRACE_LEFT;
+			else if (ax == -MARIO_ACCEL_RUN_X)
+				aniId = ID_ANI_MARIO_FIRE_RUNNING_LEFT;
+			else if (ax == -MARIO_ACCEL_WALK_X)
+				aniId = ID_ANI_MARIO_FIRE_WALKING_LEFT;
+		}
+	}
+
+	if (aniId == -1) aniId = ID_ANI_MARIO_FIRE_IDLE_RIGHT;
+
+	return aniId;
+}
+
+/// 
+/// Raccoon Mario
+/// 
+int CMario::GetAniIdRacoon()
+{
+	int aniId = -1;
+
+	// -------------------------------------------------------------------------
+	// ƯU TIÊN 1: LOGIC TRÊN KHÔNG (NHẢY / BAY / RƠI CHẬM)
+	// -------------------------------------------------------------------------
+	if (!isOnPlatform)
+	{
+		// Kiểm tra nếu đang thực sự ở trạng thái Bay hoặc Vỗ đuôi rơi chậm
+		if (marioState == MarioState::Fly || marioState == MarioState::Float)
+		{
+			if (nx >= 0)
+				aniId = ID_ANI_MARIO_RACCOON_FLY_RIGHT;
+			else
+				aniId = ID_ANI_MARIO_RACCOON_FLY_LEFT;
+		}
+		// Nếu chỉ nhảy lên bình thường do lực bấm phím (chưa đủ pin bay)
+		else if (abs(ax) == MARIO_ACCEL_RUN_X)
+		{
+			if (nx >= 0)
+				aniId = ID_ANI_MARIO_RACCOON_JUMP_RUN_RIGHT;
+			else
+				aniId = ID_ANI_MARIO_RACCOON_JUMP_RUN_LEFT;
+		}
+		else
+		{
+			if (nx >= 0)
+				aniId = ID_ANI_MARIO_RACCOON_JUMP_WALK_RIGHT;
+			else
+				aniId = ID_ANI_MARIO_RACCOON_JUMP_WALK_LEFT;
+		}
+	}
+	// -------------------------------------------------------------------------
+	// ƯU TIÊN 2: LOGIC DI CHUYỂN DƯỚI MẶT ĐẤT
+	// -------------------------------------------------------------------------
+	else
+	{
+		if (isSitting)
+		{
+			if (nx > 0)
+				aniId = ID_ANI_MARIO_RACCOON_SIT_RIGHT;
+			else
+				aniId = ID_ANI_MARIO_RACCOON_SIT_LEFT;
+		}
+		else if (vx == 0)
+		{
+			if (nx > 0)
+				aniId = ID_ANI_MARIO_RACCOON_IDLE_RIGHT;
+			else
+				aniId = ID_ANI_MARIO_RACCOON_IDLE_LEFT;
+		}
+		else if (vx > 0)
+		{
+			if (ax < 0)
+				aniId = ID_ANI_MARIO_RACCOON_BRACE_RIGHT;
+			else if (ax == MARIO_ACCEL_RUN_X)
+				aniId = ID_ANI_MARIO_RACCOON_RUNNING_RIGHT;
+			else if (ax == MARIO_ACCEL_WALK_X)
+				aniId = ID_ANI_MARIO_RACCOON_WALKING_RIGHT;
+		}
+		else // vx < 0
+		{
+			if (ax > 0)
+				aniId = ID_ANI_MARIO_RACCOON_BRACE_LEFT;
+			else if (ax == -MARIO_ACCEL_RUN_X)
+				aniId = ID_ANI_MARIO_RACCOON_RUNNING_LEFT;
+			else if (ax == -MARIO_ACCEL_WALK_X)
+				aniId = ID_ANI_MARIO_RACCOON_WALKING_LEFT;
+		}
+	}
+
+	// Mặc định phòng hờ lỗi trạng thái
+	if (aniId == -1) aniId = ID_ANI_MARIO_RACCOON_IDLE_RIGHT;
+
+	return aniId;
+}
+
 void CMario::Render()
 {
 	CAnimations* animations = CAnimations::GetInstance();
@@ -423,7 +650,10 @@ void CMario::Render()
 		aniId = GetAniIdBig();
 	else if (level == MarioLevel::Small)
 		aniId = GetAniIdSmall();
-
+	else if (level == MarioLevel::Fire)
+		aniId = GetAniIdFire();
+	else if (level == MarioLevel::Raccoon)
+		aniId = GetAniIdRaccoon();
 	animations->Get(aniId)->Render(x, y);
 
 	//RenderBoundingBox();
