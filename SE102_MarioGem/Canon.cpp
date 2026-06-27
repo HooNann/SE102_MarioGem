@@ -33,7 +33,6 @@ void CCanon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		auto scene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
 		if (scene)
 		{
-			// Đạn xuất phát từ NÒNG: lệch theo hướng bắn + lên cao tới họng nòng (đỉnh sprite).
 			float muzzleX = x + direction * CANON_MUZZLE_OFFSET_X;
 			float muzzleY = y + CANON_MUZZLE_OFFSET_Y;
 			scene->QueueSpawn(new CCannonBall(muzzleX, muzzleY, direction * CANNONBALL_SPEED));

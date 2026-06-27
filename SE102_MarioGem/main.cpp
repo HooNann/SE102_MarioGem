@@ -90,7 +90,6 @@ void Render()
 
 	spriteHandler->Begin(D3DX10_SPRITE_SORT_TEXTURE);
 
-	// Ép point sampling (nearest-neighbor) để pixel-art nét khi phóng to lên viewport vật lý
 	g->SetPointSamplerState();
 
 	FLOAT NewBlendFactor[4] = { 0,0,0,0 };
@@ -122,8 +121,6 @@ HWND CreateGameWindow(HINSTANCE hInstance, int nCmdShow, int ScreenWidth, int Sc
 
 	RegisterClassEx(&wc);
 
-	// Tính kích thước cửa sổ ngoài sao cho CLIENT AREA đúng bằng ScreenWidth x ScreenHeight
-	// (đã trừ viền/title bar) — để backbuffer khớp 1:1 với client, không bị kéo dãn mờ.
 	RECT wr = { 0, 0, ScreenWidth, ScreenHeight };
 	AdjustWindowRect(&wr, WS_OVERLAPPEDWINDOW, FALSE);
 
@@ -200,8 +197,6 @@ int WINAPI WinMain(
 	_In_ LPSTR lpCmdLine,
 	_In_ int nCmdShow
 ) {
-	// Cửa sổ render ở độ phân giải VẬT LÝ = LOGIC * RENDER_SCALE (vd 640x480), game vẫn vẽ
-	// theo toạ độ LOGIC 320x240 rồi phóng to bằng GPU + point sampling => nét, không mờ.
 	HWND hWnd = CreateGameWindow(hInstance, nCmdShow, SCREEN_WIDTH * RENDER_SCALE, SCREEN_HEIGHT * RENDER_SCALE);
 
 	SetDebugWindow(hWnd);

@@ -23,9 +23,9 @@ protected:
 
 	CMap* map;	// Tiled Map (background tiles)
 
-	CHud* hud;				// thanh HUD (score/coins/time/lives/world/P-meter)
-	float timeRemaining;	// đồng hồ đếm lùi (giây), chỉ hiển thị
-	std::string hudWorld;	// nhãn màn, vd "1-1"
+	CHud* hud;
+	float timeRemaining;
+	std::string hudWorld;
 
 	void _ParseSection_SPRITES(string line);
 	void _ParseSection_ANIMATIONS(string line);

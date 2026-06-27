@@ -18,8 +18,6 @@ using namespace std;
 #define KEYBOARD_BUFFER_SIZE 1024
 #define KEYBOARD_STATE_SIZE 256
 
-// Bội số phóng to: toạ độ game ở độ phân giải LOGIC (vd 320x240), nhưng backbuffer/cửa sổ
-// render ở độ phân giải VẬT LÝ = LOGIC * RENDER_SCALE để nét (point-sampling nearest-neighbor).
 #define RENDER_SCALE 2
 
 

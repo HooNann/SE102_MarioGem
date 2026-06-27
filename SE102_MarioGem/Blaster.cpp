@@ -20,9 +20,7 @@ void CBlaster::GetBoundingBox(float& left, float& top, float& right, float& bott
 	left  = x - BLASTER_BBOX_W / 2.0f;
 	right = x + BLASTER_BBOX_W / 2.0f;
 
-	// Blaster bắn LÊN: vùng sát thương chỉ là cột "blast" PHÍA TRÊN miệng nòng,
-	// KHÔNG tính thân pháo bên dưới — nếu không Mario chạy bên dưới sẽ bị đụng oan.
-	bottom = y - BLASTER_BBOX_H / 2.0f;             // miệng nòng (đỉnh thân pháo)
+	bottom = y - BLASTER_BBOX_H / 2.0f;
 	top    = bottom - BLASTER_BLAST_HEIGHT;
 }
 
