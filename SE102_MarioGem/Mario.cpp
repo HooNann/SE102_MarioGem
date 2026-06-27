@@ -118,6 +118,7 @@ void CMario::OnCollisionWithCoin(LPCOLLISIONEVENT e)
 {
 	e->obj->Delete();
 	coin++;
+	score += 100;
 }
 
 void CMario::OnCollisionWithPortal(LPCOLLISIONEVENT e)
@@ -125,27 +126,6 @@ void CMario::OnCollisionWithPortal(LPCOLLISIONEVENT e)
 	CPortal* p = (CPortal*)e->obj;
 	CGame::GetInstance()->InitiateSwitchScene(p->GetSceneId());
 }
-
-void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
-{
-		if (untouchable == 0) // Chỉ dính sát thương nếu KHÔNG trong trạng thái nhấp nháy bất tử
-		{
-			if (level > MarioLevel::Big) // Nếu đang ở dạng đặc biệt (Chồn, Ếch...)
-			{
-				level = MarioLevel::Big; // Rớt về Mario Lớn
-				StartUntouchable();      // Bật bất tử tạm thời
-			}
-			else if (level == MarioLevel::Big) // Nếu đang ở Mario Lớn
-			{
-				level = MarioLevel::Small; // Rớt về Mario Nhỏ
-				StartUntouchable();
-			}
-			else // Đang là Mario Nhỏ mà bị cắn
-			{
-				SetState(MarioState::Die); 
-			}
-		}
-};
 
 void CMario::OnCollisionWithEnemy(LPCOLLISIONEVENT e)
 {

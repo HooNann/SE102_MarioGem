@@ -10,6 +10,9 @@ constexpr int       CANON_BBOX_H          = 32;
 constexpr ULONGLONG CANON_FIRE_INTERVAL   = 3000;
 constexpr ULONGLONG CANON_FIRED_TIME      = 300;
 
+constexpr float     CANON_MUZZLE_OFFSET_X = 10.0f;
+constexpr float     CANON_MUZZLE_OFFSET_Y = -7.0f;
+
 constexpr int ID_ANI_CANON = 8000;
 
 class CCanon : public CGameObject

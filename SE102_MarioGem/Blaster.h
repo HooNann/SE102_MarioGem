@@ -5,7 +5,9 @@
 
 enum class BlasterState : int { Idle = 0, Firing = 1 };
 
-constexpr int BLASTER_BBOX_W       = 32;
+// Bbox chỉ bao cột NÒNG ở giữa (rộng ~12px), không bao phần trang trí "sao xoay" 2 bên
+// của sprite — nếu không Mario sẽ bị va chạm bởi phần không phải hazard thật.
+constexpr int BLASTER_BBOX_W       = 12;
 constexpr int BLASTER_BBOX_H       = 48;
 constexpr int BLASTER_BLAST_HEIGHT = 48;
 constexpr ULONGLONG BLASTER_IDLE_TIME = 2000;

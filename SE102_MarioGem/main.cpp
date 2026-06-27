@@ -90,6 +90,9 @@ void Render()
 
 	spriteHandler->Begin(D3DX10_SPRITE_SORT_TEXTURE);
 
+	// Ép point sampling (nearest-neighbor) để pixel-art nét khi phóng to lên viewport vật lý
+	g->SetPointSamplerState();
+
 	FLOAT NewBlendFactor[4] = { 0,0,0,0 };
 	pD3DDevice->OMSetBlendState(g->GetAlphaBlending(), NewBlendFactor, 0xffffffff);
 
@@ -119,6 +122,11 @@ HWND CreateGameWindow(HINSTANCE hInstance, int nCmdShow, int ScreenWidth, int Sc
 
 	RegisterClassEx(&wc);
 
+	// Tính kích thước cửa sổ ngoài sao cho CLIENT AREA đúng bằng ScreenWidth x ScreenHeight
+	// (đã trừ viền/title bar) — để backbuffer khớp 1:1 với client, không bị kéo dãn mờ.
+	RECT wr = { 0, 0, ScreenWidth, ScreenHeight };
+	AdjustWindowRect(&wr, WS_OVERLAPPEDWINDOW, FALSE);
+
 	HWND hWnd =
 		CreateWindow(
 			WINDOW_CLASS_NAME,
@@ -126,8 +134,8 @@ HWND CreateGameWindow(HINSTANCE hInstance, int nCmdShow, int ScreenWidth, int Sc
 			WS_OVERLAPPEDWINDOW, // WS_EX_TOPMOST | WS_VISIBLE | WS_POPUP,
 			CW_USEDEFAULT,
 			CW_USEDEFAULT,
-			ScreenWidth,
-			ScreenHeight,
+			wr.right - wr.left,
+			wr.bottom - wr.top,
 			NULL,
 			NULL,
 			hInstance,
@@ -192,7 +200,9 @@ int WINAPI WinMain(
 	_In_ LPSTR lpCmdLine,
 	_In_ int nCmdShow
 ) {
-	HWND hWnd = CreateGameWindow(hInstance, nCmdShow, SCREEN_WIDTH, SCREEN_HEIGHT);
+	// Cửa sổ render ở độ phân giải VẬT LÝ = LOGIC * RENDER_SCALE (vd 640x480), game vẫn vẽ
+	// theo toạ độ LOGIC 320x240 rồi phóng to bằng GPU + point sampling => nét, không mờ.
+	HWND hWnd = CreateGameWindow(hInstance, nCmdShow, SCREEN_WIDTH * RENDER_SCALE, SCREEN_HEIGHT * RENDER_SCALE);
 
 	SetDebugWindow(hWnd);
 
@@ -201,10 +211,8 @@ int WINAPI WinMain(
 	game->InitKeyboard();
 
 
-	//IMPORTANT: this is the only place where a hardcoded file name is allowed ! 
+	//IMPORTANT: this is the only place where a hardcoded file name is allowed !
 	game->Load(L"Assets\\Data\\Config\\main-config.txt");
-
-	SetWindowPos(hWnd, 0, 0, 0, SCREEN_WIDTH*2, SCREEN_HEIGHT*2, SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOZORDER);
 
 	Run();
 

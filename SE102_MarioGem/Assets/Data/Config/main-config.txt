@@ -17,3 +17,4 @@ height	240
 0	Assets\Textures\Characters\Mario\mario_transparent.png
 10	Assets\Textures\Enemies\Mobs\enemies_transparent.png
 20	Assets\Textures\Items\misc_transparent.png
+30	Assets\Textures\All\ui.png

@@ -175,6 +175,9 @@
     <ClInclude Include="Game.h">
       <Filter>Framework\Core</Filter>
     </ClInclude>
+    <ClInclude Include="Hud.h">
+      <Filter>Game\Systems</Filter>
+    </ClInclude>
     <ClInclude Include="debug.h">
       <Filter>Framework\Core</Filter>
     </ClInclude>

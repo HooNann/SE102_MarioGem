@@ -162,7 +162,9 @@ class CMario : public CGameObject
 	int untouchable; 
 	ULONGLONG untouchable_start;
 	BOOLEAN isOnPlatform;
-	int coin; 
+	int coin;
+	int score;
+	int lives;
 
 	BOOLEAN isThrowingFire;
 	DWORD throwingFireStartTime;
@@ -196,6 +198,8 @@ public:
 		untouchable_start = -1;
 		isOnPlatform = false;
 		coin = 0;
+		score = 0;
+		lives = 4;
 	}
 
 	MarioLevel GetLevel() { return level; }
@@ -213,6 +217,10 @@ public:
 	void FlyUp();
 	void FloatDown();
 	int GetPMeter() { return pMeter; }
+	int GetCoins() { return coin; }
+	int GetScore() { return score; }
+	int GetLives() { return lives; }
+	void AddScore(int amount) { score += amount; }
 
 	int IsCollidable()
 	{ 

@@ -1,0 +1,144 @@
+#include "Hud.h"
+#include "Game.h"
+#include "Textures.h"
+#include "Mario.h"
+
+#include <string>
+#include <cmath>
+
+// ===== Số đo glyph trong ui.png (đo trực tiếp từ pixel) =====
+// Font là lưới 12 cột x 3 hàng, mỗi ô 8x8 (một số ô như '1','I' hẹp hơn nhưng
+// dùng chung khung 8px vẫn an toàn vì khoảng cách giữa các ô đủ rộng).
+static const int COL_X[12] = { 32, 53, 71, 90, 108, 127, 145, 162, 179, 197, 215, 234 };
+static const int ROW_Y[3] = { 24, 39, 55 };   // hàng 0: 0-9 A B | hàng 1: C-N | hàng 2: O-Z
+constexpr int GLYPH_W = 8;
+constexpr int GLYPH_H = 8;
+constexpr int DIGIT_PITCH = 8;                 // bước nhảy ngang giữa các chữ số
+
+// Khung hộp WORLD trong ui.png (đo trực tiếp): top-left (12,128), 152x28.
+constexpr int FRAME_SRC_L = 12;
+constexpr int FRAME_SRC_T = 128;
+constexpr int FRAME_W = 152;
+constexpr int FRAME_H = 28;
+
+// '-' (dấu gạch) không có trong lưới font; tái dùng một lát viền trên (navy) của khung làm gạch ngang.
+constexpr int DASH_SRC_L = 115;
+constexpr int DASH_SRC_T = 128;
+constexpr int DASH_W = 6;
+constexpr int DASH_H = 2;
+
+// ===== Bố cục overlay bên trong khung (toạ độ tương đối góc trên-trái khung) =====
+// LƯU Ý: các hằng số dưới đây căn theo vị trí nhãn baked-in của ui.png; tinh chỉnh
+// lại khi chạy game cho khớp pixel nếu cần.
+constexpr int ROW_TOP = 2;    // hàng chữ trên trong khung
+constexpr int ROW_BOT = 15;   // hàng chữ dưới trong khung
+
+constexpr int WORLD_X = 40;      // sau nhãn "WORLD"
+constexpr int COINS_RIGHT = 133; // ngay trái icon "$"
+constexpr int SCORE_RIGHT = 112; // khoảng trống giữa hàng trên
+constexpr int LIVES_RIGHT = 42;  // sau thẻ "x" (góc trái-dưới)
+constexpr int TIME_RIGHT = 126;  // ngay trái icon đồng hồ
+constexpr int PMETER_X = 50;     // P-meter ở giữa hàng dưới
+
+constexpr int PMETER_SEGMENTS = 6;
+constexpr int PMETER_SEG_PITCH = 5;
+
+// Map ký tự -> ô font. Trả về false cho ký tự không vẽ (vd space).
+static bool GlyphCell(char c, int& left, int& top)
+{
+	int row, col;
+	if (c >= '0' && c <= '9') { row = 0; col = c - '0'; }
+	else if (c == 'A' || c == 'B') { row = 0; col = 10 + (c - 'A'); }
+	else if (c >= 'C' && c <= 'N') { row = 1; col = c - 'C'; }
+	else if (c >= 'O' && c <= 'Z') { row = 2; col = c - 'O'; }
+	else return false;
+	left = COL_X[col];
+	top = ROW_Y[row];
+	return true;
+}
+
+CHud::CHud()
+{
+	tex = CTextures::GetInstance()->Get(ID_TEX_UI);
+}
+
+void CHud::DrawRegion(float centerX, float centerY, int srcLeft, int srcTop, int srcW, int srcH)
+{
+	if (tex == NULL) return;
+	CGame::GetInstance()->Draw(centerX, centerY, tex,
+		srcLeft, srcTop, srcLeft + srcW - 1, srcTop + srcH - 1);
+}
+
+bool CHud::DrawGlyph(char c, float screenX, float screenY)
+{
+	if (c == '-')
+	{
+		DrawRegion(screenX + DASH_W / 2.0f, screenY + GLYPH_H / 2.0f,
+			DASH_SRC_L, DASH_SRC_T, DASH_W, DASH_H);
+		return true;
+	}
+
+	int l, t;
+	if (!GlyphCell(c, l, t)) return false; // space / không hỗ trợ
+	DrawRegion(screenX + GLYPH_W / 2.0f, screenY + GLYPH_H / 2.0f, l, t, GLYPH_W, GLYPH_H);
+	return true;
+}
+
+void CHud::DrawString(const char* s, float x, float y)
+{
+	for (const char* p = s; *p; p++)
+	{
+		DrawGlyph(*p, x, y);
+		x += DIGIT_PITCH;
+	}
+}
+
+void CHud::DrawNumber(int value, float rightX, float y, int minDigits)
+{
+	if (value < 0) value = 0;
+	std::string s = std::to_string(value);
+	while ((int)s.size() < minDigits) s = "0" + s;
+
+	// Canh phải: chữ số cuối có mép phải tại rightX.
+	float left = rightX - (float)s.size() * DIGIT_PITCH;
+	DrawString(s.c_str(), left, y);
+}
+
+void CHud::DrawPMeter(int pmeter, float x, float y)
+{
+	DrawGlyph('P', x, y);
+	float barX = x + GLYPH_W + 2;
+
+	int filled = (int)std::lround((double)pmeter / MARIO_PMETER_MAX * PMETER_SEGMENTS);
+	if (filled > PMETER_SEGMENTS) filled = PMETER_SEGMENTS;
+	for (int i = 0; i < filled; i++)
+		DrawRegion(barX + i * PMETER_SEG_PITCH + DASH_W / 2.0f, y + GLYPH_H / 2.0f,
+			DASH_SRC_L, DASH_SRC_T, DASH_W, DASH_H);
+}
+
+void CHud::Render(CMario* mario, int timeLeft, const char* world)
+{
+	if (tex == NULL || mario == NULL) return;
+
+	CGame* game = CGame::GetInstance();
+	int W = game->GetBackBufferWidth();
+	int H = game->GetBackBufferHeight();
+
+	// Đặt khung WORLD: căn giữa ngang, sát đáy màn hình.
+	float fx = (W - FRAME_W) / 2.0f;          // top-left X của khung trên màn hình
+	float fy = (float)(H - FRAME_H - 6);      // chừa 6px dưới đáy
+
+	// 1) Vẽ khung (tâm = top-left + nửa kích thước)
+	DrawRegion(fx + FRAME_W / 2.0f, fy + FRAME_H / 2.0f, FRAME_SRC_L, FRAME_SRC_T, FRAME_W, FRAME_H);
+
+	// 2) Overlay các giá trị
+	float topY = fy + ROW_TOP;
+	float botY = fy + ROW_BOT;
+
+	DrawString(world ? world : "1-1", fx + WORLD_X, topY);    // WORLD value
+	DrawNumber(mario->GetCoins(), fx + COINS_RIGHT, topY, 2); // coins (cạnh "$")
+	DrawNumber(mario->GetScore(), fx + SCORE_RIGHT, topY, 6); // score
+	DrawNumber(mario->GetLives(), fx + LIVES_RIGHT, botY, 1); // lives (sau "x")
+	DrawNumber(timeLeft, fx + TIME_RIGHT, botY, 3);           // time (cạnh đồng hồ)
+	DrawPMeter(mario->GetPMeter(), fx + PMETER_X, botY);      // P-meter
+}

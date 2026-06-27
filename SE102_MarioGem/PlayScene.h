@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 #include "Game.h"
 #include "Textures.h"
 #include "Scene.h"
@@ -8,6 +9,7 @@
 #include "Goomba.h"
 //#include "Koopas.h"
 #include "TileMap.h"
+#include "Hud.h"
 
 
 class CPlayScene: public CScene
@@ -20,6 +22,10 @@ protected:
 	vector<LPGAMEOBJECT> spawnQueue;
 
 	CMap* map;	// Tiled Map (background tiles)
+
+	CHud* hud;				// thanh HUD (score/coins/time/lives/world/P-meter)
+	float timeRemaining;	// đồng hồ đếm lùi (giây), chỉ hiển thị
+	std::string hudWorld;	// nhãn màn, vd "1-1"
 
 	void _ParseSection_SPRITES(string line);
 	void _ParseSection_ANIMATIONS(string line);
@@ -42,8 +48,6 @@ public:
 
 	LPGAMEOBJECT GetPlayer() { return player; }
 	void AddObject(LPGAMEOBJECT obj) { objects.push_back(obj); }
-
-	void QueueSpawn(LPGAMEOBJECT obj) { spawnQueue.push_back(obj); }
 
 	void QueueSpawn(LPGAMEOBJECT obj) { spawnQueue.push_back(obj); }
 
