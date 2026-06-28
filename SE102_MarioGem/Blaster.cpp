@@ -19,12 +19,9 @@ void CBlaster::GetBoundingBox(float& left, float& top, float& right, float& bott
 {
 	left  = x - BLASTER_BBOX_W / 2.0f;
 	right = x + BLASTER_BBOX_W / 2.0f;
-	bottom = y + BLASTER_BBOX_H / 2.0f;
 
-	if (state == ToInt(BlasterState::Firing))
-		top = y - BLASTER_BBOX_H / 2.0f - BLASTER_BLAST_HEIGHT;
-	else
-		top = y - BLASTER_BBOX_H / 2.0f;
+	bottom = y - BLASTER_BBOX_H / 2.0f;
+	top    = bottom - BLASTER_BLAST_HEIGHT;
 }
 
 void CBlaster::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)

@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 #include "Game.h"
 #include "Textures.h"
 #include "Scene.h"
@@ -8,6 +9,7 @@
 #include "Goomba.h"
 //#include "Koopas.h"
 #include "TileMap.h"
+#include "Hud.h"
 
 
 class CPlayScene: public CScene
@@ -20,6 +22,10 @@ protected:
 	vector<LPGAMEOBJECT> spawnQueue;
 
 	CMap* map;	// Tiled Map (background tiles)
+
+	CHud* hud;
+	float timeRemaining;
+	std::string hudWorld;
 
 	void _ParseSection_SPRITES(string line);
 	void _ParseSection_ANIMATIONS(string line);
@@ -41,6 +47,7 @@ public:
 	virtual void Unload();
 
 	LPGAMEOBJECT GetPlayer() { return player; }
+	void AddObject(LPGAMEOBJECT obj) { objects.push_back(obj); }
 
 	void QueueSpawn(LPGAMEOBJECT obj) { spawnQueue.push_back(obj); }
 
