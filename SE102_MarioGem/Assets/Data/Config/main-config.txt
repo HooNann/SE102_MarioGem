@@ -1,5 +1,5 @@
 [SETTINGS]
-start	5
+start	6
 width	320
 height	240
 
@@ -10,6 +10,7 @@ height	240
 1	Assets\Data\Scenes\scene01.txt
 2	Assets\Data\Scenes\scene02.txt
 5	Assets\Data\Scenes\scene0005.txt
+6	Assets\Data\Scenes\sceneBoss.txt
 
 # id	file 
 [TEXTURES]
@@ -17,3 +18,6 @@ height	240
 0	Assets\Textures\Characters\Mario\mario_transparent.png
 10	Assets\Textures\Enemies\Mobs\enemies_transparent.png
 20	Assets\Textures\Items\misc_transparent.png
+30	Assets\Textures\Enemies\Bosses\Bosses.png
+40	Assets\Textures\Environment\Tiles\tiles-3.png
+50	Assets\Textures\Enemies\Mobs\enemies_2.png

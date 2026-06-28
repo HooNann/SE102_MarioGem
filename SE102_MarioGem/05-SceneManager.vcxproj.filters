@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Framework">
@@ -111,11 +111,17 @@
     <ClCompile Include="Platform.cpp">
       <Filter>Game\Objects\Tiles</Filter>
     </ClCompile>
+    <ClCompile Include="BoomBoom.cpp">
+      <Filter>Game\Objects\Bosses</Filter>
+    </ClCompile>
     <ClCompile Include="Brick.cpp">
       <Filter>Game\Objects\Tiles</Filter>
     </ClCompile>
     <ClCompile Include="Mario.cpp">
       <Filter>Game\Objects\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectFactory.cpp">
+      <Filter>Game\Objects</Filter>
     </ClCompile>
     <ClCompile Include="Goomba.cpp">
       <Filter>Game\Objects\Enemies</Filter>
@@ -197,11 +203,17 @@
     <ClInclude Include="Platform.h">
       <Filter>Game\Objects\Tiles</Filter>
     </ClInclude>
+    <ClInclude Include="BoomBoom.h">
+      <Filter>Game\Objects\Bosses</Filter>
+    </ClInclude>
     <ClInclude Include="Brick.h">
       <Filter>Game\Objects\Tiles</Filter>
     </ClInclude>
     <ClInclude Include="Mario.h">
       <Filter>Game\Objects\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectFactory.h">
+      <Filter>Game\Objects</Filter>
     </ClInclude>
     <ClInclude Include="Goomba.h">
       <Filter>Game\Objects\Enemies</Filter>
@@ -211,6 +223,12 @@
     </ClInclude>
     <ClInclude Include="PlayScene.h">
       <Filter>Game\Scenes\PlayScene</Filter>
+    </ClInclude>
+    <ClInclude Include="PlaySceneKeyHandler.h">
+      <Filter>Game\Scenes\PlayScene</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>ter>Game\Scenes\PlayScene</Filter>
     </ClInclude>
     <ClInclude Include="PlaySceneKeyHandler.h">
       <Filter>Game\Scenes\PlayScene</Filter>
