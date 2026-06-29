@@ -155,6 +155,7 @@
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="CollisionBox.cpp" />
     <ClCompile Include="debug.cpp" />
+    <ClCompile Include="FireBall.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Blaster.cpp" />
@@ -170,6 +171,7 @@
     <ClCompile Include="PlayScene.cpp" />
     <ClCompile Include="Portal.cpp" />
     <ClCompile Include="PlaySceneKeyHandler.cpp" />
+    <ClCompile Include="QuestionBlock.cpp" />
     <ClCompile Include="ScoreSystem.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Sprites.cpp" />
@@ -192,8 +194,10 @@
     <ClInclude Include="Collision.h" />
     <ClInclude Include="CollisionBox.h" />
     <ClInclude Include="debug.h" />
+    <ClInclude Include="FireBall.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="Hud.h" />
     <ClInclude Include="Blaster.h" />
     <ClInclude Include="Burner.h" />
     <ClInclude Include="Canon.h" />
@@ -207,6 +211,7 @@
     <ClInclude Include="PlayScene.h" />
     <ClInclude Include="Portal.h" />
     <ClInclude Include="PlaySceneKeyHandler.h" />
+    <ClInclude Include="QuestionBlock.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="Sprites.h" />

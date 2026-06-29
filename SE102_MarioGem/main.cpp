@@ -90,6 +90,8 @@ void Render()
 
 	spriteHandler->Begin(D3DX10_SPRITE_SORT_TEXTURE);
 
+	g->SetPointSamplerState();
+
 	FLOAT NewBlendFactor[4] = { 0,0,0,0 };
 	pD3DDevice->OMSetBlendState(g->GetAlphaBlending(), NewBlendFactor, 0xffffffff);
 
@@ -119,6 +121,9 @@ HWND CreateGameWindow(HINSTANCE hInstance, int nCmdShow, int ScreenWidth, int Sc
 
 	RegisterClassEx(&wc);
 
+	RECT wr = { 0, 0, ScreenWidth, ScreenHeight };
+	AdjustWindowRect(&wr, WS_OVERLAPPEDWINDOW, FALSE);
+
 	HWND hWnd =
 		CreateWindow(
 			WINDOW_CLASS_NAME,
@@ -126,8 +131,8 @@ HWND CreateGameWindow(HINSTANCE hInstance, int nCmdShow, int ScreenWidth, int Sc
 			WS_OVERLAPPEDWINDOW, // WS_EX_TOPMOST | WS_VISIBLE | WS_POPUP,
 			CW_USEDEFAULT,
 			CW_USEDEFAULT,
-			ScreenWidth,
-			ScreenHeight,
+			wr.right - wr.left,
+			wr.bottom - wr.top,
 			NULL,
 			NULL,
 			hInstance,
@@ -192,7 +197,7 @@ int WINAPI WinMain(
 	_In_ LPSTR lpCmdLine,
 	_In_ int nCmdShow
 ) {
-	HWND hWnd = CreateGameWindow(hInstance, nCmdShow, SCREEN_WIDTH, SCREEN_HEIGHT);
+	HWND hWnd = CreateGameWindow(hInstance, nCmdShow, SCREEN_WIDTH * RENDER_SCALE, SCREEN_HEIGHT * RENDER_SCALE);
 
 	SetDebugWindow(hWnd);
 
@@ -201,10 +206,8 @@ int WINAPI WinMain(
 	game->InitKeyboard();
 
 
-	//IMPORTANT: this is the only place where a hardcoded file name is allowed ! 
+	//IMPORTANT: this is the only place where a hardcoded file name is allowed !
 	game->Load(L"Assets\\Data\\Config\\main-config.txt");
-
-	SetWindowPos(hWnd, 0, 0, 0, SCREEN_WIDTH*2, SCREEN_HEIGHT*2, SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOZORDER);
 
 	Run();
 

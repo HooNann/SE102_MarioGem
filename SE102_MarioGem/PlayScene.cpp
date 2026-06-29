@@ -23,6 +23,10 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 	player = NULL;
 	map = NULL;
 	key_handler = new CPlaySceneKeyHandler(this);
+
+	hud = NULL;
+	timeRemaining = 300.0f;	
+	hudWorld = "1-1";
 }
 
 
@@ -121,14 +125,14 @@ void CPlayScene::_ParseSection_ANIMATIONS(string line)
 {
 	vector<string> tokens = split(line);
 
-	if (tokens.size() < 3) return; // skip invalid lines - an animation must at least has 1 frame and 1 frame time
+	if (tokens.size() < 3) return; 
 
 	//DebugOut(L"--> %s\n",ToWSTR(line).c_str());
 
 	LPANIMATION ani = new CAnimation();
 
 	int ani_id = atoi(tokens[0].c_str());
-	for (int i = 1; i < tokens.size(); i += 2)	// why i+=2 ?  sprite_id | frame_time  
+	for (int i = 1; i + 1 < (int)tokens.size(); i += 2)
 	{
 		int sprite_id = atoi(tokens[i].c_str());
 		int frame_time = atoi(tokens[i+1].c_str());
@@ -319,16 +323,17 @@ void CPlayScene::Load()
 
 	f.close();
 
+	if (hud != NULL) delete hud;
+	hud = new CHud();
+
 	DebugOut(L"[INFO] Done loading scene  %s\n", sceneFilePath);
 }
 
 
-// Load map và objects từ file JSON của Tiled Map Editor
 void CPlayScene::LoadMapJSON(LPCWSTR jsonPath)
 {
 	DebugOut(L"[INFO] Start loading Tiled map from: %s\n", jsonPath);
 
-	// Tìm thư mục chứa file JSON (basePath) để load hình ảnh tileset tương đối
 	wstring fullPath(jsonPath);
 	wstring basePath = L".";
 	size_t lastSlash = fullPath.find_last_of(L"\\/");
@@ -340,7 +345,6 @@ void CPlayScene::LoadMapJSON(LPCWSTR jsonPath)
 	map = new CTileMap();
 	map->LoadJSON(jsonPath, basePath.c_str());
 
-	// Đọc lại file JSON để parse Object Layer
 	ifstream f(jsonPath);
 	if (!f.is_open())
 	{
@@ -352,7 +356,6 @@ void CPlayScene::LoadMapJSON(LPCWSTR jsonPath)
 	f >> j;
 	f.close();
 
-	// Duyệt qua các layer, tìm objectgroup
 	for (auto& layer : j["layers"])
 	{
 		string layerType = layer["type"];
@@ -368,7 +371,6 @@ void CPlayScene::LoadMapJSON(LPCWSTR jsonPath)
 
 			if (gameObj == nullptr) continue;
 
-			// Kiểm tra nếu là Mario
 			CMario* mario = dynamic_cast<CMario*>(gameObj);
 			if (mario != nullptr)
 			{
@@ -425,18 +427,22 @@ void CPlayScene::Update(DWORD dt)
 		objects.push_back(obj);
 	spawnQueue.clear();
 
+	timeRemaining -= dt / 1000.0f;
+	if (timeRemaining < 0) timeRemaining = 0;
+
 	PurgeDeletedObjects();
 }
 
 void CPlayScene::Render()
 {
-	// Vẽ tile map (nền) trước
 	if (map != NULL)
 		map->Render();
 
-	// Vẽ các game objects (Mario, quái, item...) đè lên
 	for (int i = 0; i < objects.size(); i++)
 		objects[i]->Render();
+
+	if (hud != NULL && player != NULL)
+		hud->Render((CMario*)player, (int)timeRemaining, hudWorld.c_str());
 }
 
 /*
@@ -475,6 +481,12 @@ void CPlayScene::Unload()
 	{
 		delete map;
 		map = NULL;
+	}
+
+	if (hud != NULL)
+	{
+		delete hud;
+		hud = NULL;
 	}
 
 	DebugOut(L"[INFO] Scene %d unloaded! \n", id);

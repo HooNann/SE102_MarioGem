@@ -5,7 +5,7 @@
 
 enum class BlasterState : int { Idle = 0, Firing = 1 };
 
-constexpr int BLASTER_BBOX_W       = 32;
+constexpr int BLASTER_BBOX_W       = 12;
 constexpr int BLASTER_BBOX_H       = 48;
 constexpr int BLASTER_BLAST_HEIGHT = 48;
 constexpr ULONGLONG BLASTER_IDLE_TIME = 2000;
