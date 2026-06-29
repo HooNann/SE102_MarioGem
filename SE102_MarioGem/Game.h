@@ -18,6 +18,8 @@ using namespace std;
 #define KEYBOARD_BUFFER_SIZE 1024
 #define KEYBOARD_STATE_SIZE 256
 
+#define RENDER_SCALE 2
+
 
 
 /*
@@ -68,16 +70,16 @@ public:
 	// Draw a portion or ALL the texture at position (x,y) on the screen. (x,y) is at the CENTER of the image
 	// rect : if NULL, the whole texture will be drawn
 	//        if NOT NULL, only draw that portion of the texture 
-	void Draw(float x, float y, LPTEXTURE tex, RECT* rect = NULL, float alpha = 1.0f, int sprite_width = 0, int sprite_height = 0);
+	void Draw(float x, float y, LPTEXTURE tex, RECT* rect = NULL, float alpha = 1.0f, int sprite_width = 0, int sprite_height = 0, int nx = 1, int ny = 1);
 
-	void Draw(float x, float y, LPTEXTURE tex, int l, int t, int r, int b, float alpha = 1.0f, int sprite_width = 0, int sprite_height = 0)
+	void Draw(float x, float y, LPTEXTURE tex, int l, int t, int r, int b, float alpha = 1.0f, int sprite_width = 0, int sprite_height = 0, int nx = 1, int ny = 1)
 	{
 		RECT rect;
 		rect.left = l;
 		rect.top = t;
 		rect.right = r;
 		rect.bottom = b;
-		this->Draw(x, y, tex, &rect, alpha, sprite_width, sprite_height);
+		this->Draw(x, y, tex, &rect, alpha, sprite_width, sprite_height, nx, ny);
 	}
 
 	LPTEXTURE LoadTexture(LPCWSTR texturePath);

@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include "AssetIDs.h"
+#include "json.hpp"
 
 #include "PlayScene.h"
 #include "Utils.h"
@@ -12,23 +13,33 @@
 
 #include "PlaySceneKeyHandler.h"
 
+#include "ObjectFactory.h"
+
 using namespace std;
 
 CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 	CScene(id, filePath)
 {
 	player = NULL;
+	map = NULL;
 	key_handler = new CPlaySceneKeyHandler(this);
+
+	hud = NULL;
+	timeRemaining = 300.0f;	
+	hudWorld = "1-1";
 }
 
 
 #define SCENE_SECTION_UNKNOWN -1
 #define SCENE_SECTION_ASSETS	1
 #define SCENE_SECTION_OBJECTS	2
+#define SCENE_SECTION_MAP		3
 
 #define ASSETS_SECTION_UNKNOWN -1
 #define ASSETS_SECTION_SPRITES 1
 #define ASSETS_SECTION_ANIMATIONS 2
+#define ASSETS_SECTION_SPRITES_JSON 3
+#define ASSETS_SECTION_ANIMATIONS_JSON 4
 
 #define MAX_SCENE_LINE 1024
 
@@ -55,6 +66,49 @@ void CPlayScene::_ParseSection_SPRITES(string line)
 	CSprites::GetInstance()->Add(ID, l, t, r, b, tex);
 }
 
+void CPlayScene::_ParseSection_SPRITES_JSON(string line)
+{
+	vector<string> tokens = split(line);
+	if (tokens.size() < 2) return; // texID, json_path
+
+	int texID = atoi(tokens[0].c_str());
+	wstring path = ToWSTR(tokens[1]);
+
+	LPTEXTURE tex = CTextures::GetInstance()->Get(texID);
+	if (tex == NULL)
+	{
+		DebugOut(L"[ERROR] Texture ID %d not found!\n", texID);
+		return; 
+	}
+
+	ifstream f(path.c_str());
+	if (!f.is_open())
+	{
+		DebugOut(L"[ERROR] Cannot open json file: %s\n", path.c_str());
+		return;
+	}
+
+	nlohmann::json j;
+	f >> j;
+	f.close();
+
+	for (auto& item : j["frames"].items()) 
+	{
+		int spriteId = stoi(item.key()); 
+		int x = item.value()["frame"]["x"];
+		int y = item.value()["frame"]["y"];
+		int w = item.value()["frame"]["w"];
+		int h = item.value()["frame"]["h"];
+
+		int l = x;
+		int t = y;
+		int r = x + w - 1;
+		int b = y + h - 1;
+
+		CSprites::GetInstance()->Add(spriteId, l, t, r, b, tex);
+	}
+}
+
 void CPlayScene::_ParseSection_ASSETS(string line)
 {
 	vector<string> tokens = split(line);
@@ -62,6 +116,7 @@ void CPlayScene::_ParseSection_ASSETS(string line)
 	if (tokens.size() < 1) return;
 
 	wstring path = ToWSTR(tokens[0]);
+	currentAssetFilePath = path;
 	
 	LoadAssets(path.c_str());
 }
@@ -70,14 +125,14 @@ void CPlayScene::_ParseSection_ANIMATIONS(string line)
 {
 	vector<string> tokens = split(line);
 
-	if (tokens.size() < 3) return; // skip invalid lines - an animation must at least has 1 frame and 1 frame time
+	if (tokens.size() < 3) return; 
 
 	//DebugOut(L"--> %s\n",ToWSTR(line).c_str());
 
 	LPANIMATION ani = new CAnimation();
 
 	int ani_id = atoi(tokens[0].c_str());
-	for (int i = 1; i < tokens.size(); i += 2)	// why i+=2 ?  sprite_id | frame_time  
+	for (int i = 1; i + 1 < (int)tokens.size(); i += 2)
 	{
 		int sprite_id = atoi(tokens[i].c_str());
 		int frame_time = atoi(tokens[i+1].c_str());
@@ -87,6 +142,66 @@ void CPlayScene::_ParseSection_ANIMATIONS(string line)
 	CAnimations::GetInstance()->Add(ani_id, ani);
 }
 
+void CPlayScene::_ParseSection_ANIMATIONS_JSON(string line)
+{
+	vector<string> tokens = split(line);
+	if (tokens.size() < 1) return;
+
+	wstring path = ToWSTR(tokens[0]);
+	ifstream f(path.c_str());
+	if (!f.is_open())
+	{
+		DebugOut(L"[ERROR] Cannot open json file: %s\n", path.c_str());
+		return;
+	}
+
+	nlohmann::json j;
+	f >> j;
+	f.close();
+
+	for (auto& item : j["animations"].items())
+	{
+		int aniId = stoi(item.key());
+		LPANIMATION ani = new CAnimation();
+
+		if (item.value().is_array())
+		{
+			// Format 1: Mảng các object [{"sprite": 12001, "time": 100}, {"sprite": 12002, "time": 50}]
+			for (auto& frame : item.value())
+			{
+				int spriteId = frame["sprite"];
+				int frameTime = frame["time"];
+				ani->Add(spriteId, frameTime);
+			}
+		}
+		else if (item.value().is_object() && item.value().contains("frames"))
+		{
+			auto frames = item.value()["frames"];
+			if (frames.size() > 0 && frames[0].is_object())
+			{
+				// Format 2: Object chứa frames là mảng object {"frames": [{"sprite": 12001, "time": 100}]}
+				for (auto& frame : frames)
+				{
+					int spriteId = frame["sprite"];
+					int frameTime = frame["time"];
+					ani->Add(spriteId, frameTime);
+				}
+			}
+			else
+			{
+				// Format 3: Cấu hình chung cho toàn bộ frame {"frames": [12001, 12002], "time": 100}
+				int frameTime = item.value().value("time", 100);
+				for (int spriteId : frames)
+				{
+					ani->Add(spriteId, frameTime);
+				}
+			}
+		}
+
+		CAnimations::GetInstance()->Add(aniId, ani);
+	}
+}
+
 /*
 	Parse a line in section [OBJECTS] 
 */
@@ -94,69 +209,35 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 {
 	vector<string> tokens = split(line);
 
-	// skip invalid lines - an object set must have at least id, x, y
-	if (tokens.size() < 2) return;
+	if (tokens.size() < 3)
+		return;
 
-	int object_type = atoi(tokens[0].c_str());
-	float x = (float)atof(tokens[1].c_str());
-	float y = (float)atof(tokens[2].c_str());
+	ObjectType type =
+		static_cast<ObjectType>(
+			atoi(tokens[0].c_str()));
 
-	CGameObject *obj = NULL;
+	LPGAMEOBJECT obj =
+		ObjectFactory::Create(type, tokens);
 
-	switch (object_type)
+	if (obj == nullptr)
+		return;
+
+	if (type == ObjectType::Mario)
 	{
-	case OBJECT_TYPE_MARIO:
-		if (player!=NULL) 
+		if (player != nullptr)
 		{
-			DebugOut(L"[ERROR] MARIO object was created before!\n");
+			DebugOut(
+				L"[ERROR] MARIO object was created before!\n");
+
+			delete obj;
 			return;
 		}
-		obj = new CMario(x,y); 
-		player = (CMario*)obj;  
 
-		DebugOut(L"[INFO] Player object has been created!\n");
-		break;
-	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(x,y); break;
-	case OBJECT_TYPE_BRICK: obj = new CBrick(x,y); break;
-	case OBJECT_TYPE_COIN: obj = new CCoin(x, y); break;
+		player = dynamic_cast<CMario*>(obj);
 
-	case OBJECT_TYPE_PLATFORM:
-	{
-
-		float cell_width = (float)atof(tokens[3].c_str());
-		float cell_height = (float)atof(tokens[4].c_str());
-		int length = atoi(tokens[5].c_str());
-		int sprite_begin = atoi(tokens[6].c_str());
-		int sprite_middle = atoi(tokens[7].c_str());
-		int sprite_end = atoi(tokens[8].c_str());
-
-		obj = new CPlatform(
-			x, y,
-			cell_width, cell_height, length,
-			sprite_begin, sprite_middle, sprite_end
-		);
-
-		break;
+		DebugOut(
+			L"[INFO] Player object has been created!\n");
 	}
-
-	case OBJECT_TYPE_PORTAL:
-	{
-		float r = (float)atof(tokens[3].c_str());
-		float b = (float)atof(tokens[4].c_str());
-		int scene_id = atoi(tokens[5].c_str());
-		obj = new CPortal(x, y, r, b, scene_id);
-	}
-	break;
-
-
-	default:
-		DebugOut(L"[ERROR] Invalid object type: %d\n", object_type);
-		return;
-	}
-
-	// General object setup
-	obj->SetPosition(x, y);
-
 
 	objects.push_back(obj);
 }
@@ -175,10 +256,13 @@ void CPlayScene::LoadAssets(LPCWSTR assetFile)
 	{
 		string line(str);
 
+		if (line.empty()) continue;
 		if (line[0] == '#') continue;	// skip comment lines	
 
 		if (line == "[SPRITES]") { section = ASSETS_SECTION_SPRITES; continue; };
 		if (line == "[ANIMATIONS]") { section = ASSETS_SECTION_ANIMATIONS; continue; };
+		if (line == "[SPRITES_JSON]") { section = ASSETS_SECTION_SPRITES_JSON; continue; };
+		if (line == "[ANIMATIONS_JSON]") { section = ASSETS_SECTION_ANIMATIONS_JSON; continue; };
 		if (line[0] == '[') { section = SCENE_SECTION_UNKNOWN; continue; }
 
 		//
@@ -188,6 +272,8 @@ void CPlayScene::LoadAssets(LPCWSTR assetFile)
 		{
 		case ASSETS_SECTION_SPRITES: _ParseSection_SPRITES(line); break;
 		case ASSETS_SECTION_ANIMATIONS: _ParseSection_ANIMATIONS(line); break;
+		case ASSETS_SECTION_SPRITES_JSON: _ParseSection_SPRITES_JSON(line); break;
+		case ASSETS_SECTION_ANIMATIONS_JSON: _ParseSection_ANIMATIONS_JSON(line); break;
 		}
 	}
 
@@ -211,9 +297,11 @@ void CPlayScene::Load()
 	{
 		string line(str);
 
+		if (line.empty()) continue;
 		if (line[0] == '#') continue;	// skip comment lines	
 		if (line == "[ASSETS]") { section = SCENE_SECTION_ASSETS; continue; };
 		if (line == "[OBJECTS]") { section = SCENE_SECTION_OBJECTS; continue; };
+		if (line == "[MAP]") { section = SCENE_SECTION_MAP; continue; };
 		if (line[0] == '[') { section = SCENE_SECTION_UNKNOWN; continue; }	
 
 		//
@@ -223,12 +311,84 @@ void CPlayScene::Load()
 		{ 
 			case SCENE_SECTION_ASSETS: _ParseSection_ASSETS(line); break;
 			case SCENE_SECTION_OBJECTS: _ParseSection_OBJECTS(line); break;
+			case SCENE_SECTION_MAP:
+			{
+				// Dòng trong section [MAP] chứa đường dẫn tới file JSON của Tiled
+				wstring mapPath = ToWSTR(line);
+				LoadMapJSON(mapPath.c_str());
+				break;
+			}
 		}
 	}
 
 	f.close();
 
+	if (hud != NULL) delete hud;
+	hud = new CHud();
+
 	DebugOut(L"[INFO] Done loading scene  %s\n", sceneFilePath);
+}
+
+
+void CPlayScene::LoadMapJSON(LPCWSTR jsonPath)
+{
+	DebugOut(L"[INFO] Start loading Tiled map from: %s\n", jsonPath);
+
+	wstring fullPath(jsonPath);
+	wstring basePath = L".";
+	size_t lastSlash = fullPath.find_last_of(L"\\/");
+	if (lastSlash != wstring::npos)
+		basePath = fullPath.substr(0, lastSlash);
+
+	// Tạo và load CTileMap (tile layer)
+	if (map != NULL) delete map;
+	map = new CTileMap();
+	map->LoadJSON(jsonPath, basePath.c_str());
+
+	ifstream f(jsonPath);
+	if (!f.is_open())
+	{
+		DebugOut(L"[ERROR] Cannot reopen map JSON for objects: %s\n", jsonPath);
+		return;
+	}
+
+	nlohmann::json j;
+	f >> j;
+	f.close();
+
+	for (auto& layer : j["layers"])
+	{
+		string layerType = layer["type"];
+		if (layerType != "objectgroup") continue;
+
+		string layerName = layer["name"];
+		DebugOut(L"[INFO] Loading object layer: %s\n",
+			wstring(layerName.begin(), layerName.end()).c_str());
+
+		for (auto& obj : layer["objects"])
+		{
+			LPGAMEOBJECT gameObj = ObjectFactory::CreateFromJSON(obj);
+
+			if (gameObj == nullptr) continue;
+
+			CMario* mario = dynamic_cast<CMario*>(gameObj);
+			if (mario != nullptr)
+			{
+				if (player != nullptr)
+				{
+					DebugOut(L"[ERROR] MARIO object was created before!\n");
+					delete gameObj;
+					continue;
+				}
+				player = mario;
+				DebugOut(L"[INFO] Player object created from Tiled map!\n");
+			}
+
+			objects.push_back(gameObj);
+		}
+	}
+
+	DebugOut(L"[INFO] Done loading Tiled map: %s\n", jsonPath);
 }
 
 void CPlayScene::Update(DWORD dt)
@@ -237,9 +397,10 @@ void CPlayScene::Update(DWORD dt)
 	// TO-DO: This is a "dirty" way, need a more organized way 
 
 	vector<LPGAMEOBJECT> coObjects;
-	for (size_t i = 1; i < objects.size(); i++)
+	for (size_t i = 0; i < objects.size(); i++)
 	{
-		coObjects.push_back(objects[i]);
+		if (objects[i] != player && !objects[i]->IsDeleted())
+			coObjects.push_back(objects[i]);
 	}
 
 	for (size_t i = 0; i < objects.size(); i++)
@@ -262,13 +423,26 @@ void CPlayScene::Update(DWORD dt)
 
 	CGame::GetInstance()->SetCamPos(cx, 0.0f /*cy*/);
 
+	for (auto obj : spawnQueue)
+		objects.push_back(obj);
+	spawnQueue.clear();
+
+	timeRemaining -= dt / 1000.0f;
+	if (timeRemaining < 0) timeRemaining = 0;
+
 	PurgeDeletedObjects();
 }
 
 void CPlayScene::Render()
 {
+	if (map != NULL)
+		map->Render();
+
 	for (int i = 0; i < objects.size(); i++)
 		objects[i]->Render();
+
+	if (hud != NULL && player != NULL)
+		hud->Render((CMario*)player, (int)timeRemaining, hudWorld.c_str());
 }
 
 /*
@@ -296,7 +470,24 @@ void CPlayScene::Unload()
 		delete objects[i];
 
 	objects.clear();
+
+	// Free any objects queued to spawn but not yet added (e.g. Canon fires on same frame as scene switch)
+	for (auto obj : spawnQueue) delete obj;
+	spawnQueue.clear();
+
 	player = NULL;
+
+	if (map != NULL)
+	{
+		delete map;
+		map = NULL;
+	}
+
+	if (hud != NULL)
+	{
+		delete hud;
+		hud = NULL;
+	}
 
 	DebugOut(L"[INFO] Scene %d unloaded! \n", id);
 }
@@ -321,4 +512,19 @@ void CPlayScene::PurgeDeletedObjects()
 	objects.erase(
 		std::remove_if(objects.begin(), objects.end(), CPlayScene::IsGameObjectDeleted),
 		objects.end());
+}
+
+void CPlayScene::ReloadAssets()
+{
+	CAnimations::GetInstance()->Clear();
+	CSprites::GetInstance()->Clear();
+	if (!currentAssetFilePath.empty())
+	{
+		LoadAssets(currentAssetFilePath.c_str());
+		DebugOut(L"[INFO] Assets reloaded successfully!\n");
+	}
+	else
+	{
+		DebugOut(L"[ERROR] No asset file path saved to reload!\n");
+	}
 }

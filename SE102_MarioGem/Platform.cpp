@@ -45,7 +45,7 @@ void CPlatform::Render()
 	if (length>1)
 		s->Get(this->spriteIdEnd)->Draw(xx, y);
 
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void CPlatform::GetBoundingBox(float& l, float& t, float& r, float& b)
@@ -61,4 +61,30 @@ int CPlatform::IsDirectionColliable(float nx, float ny)
 {
 	if (nx == 0 && ny == -1) return 1;
 	else return 0;
+}
+
+LPGAMEOBJECT CPlatform::CreateFromTokens(const vector<string>& tokens)
+{
+	float x = (float)atof(tokens[1].c_str());
+	float y = (float)atof(tokens[2].c_str());
+
+	float cell_width = (float)atof(tokens[3].c_str());
+	float cell_height = (float)atof(tokens[4].c_str());
+
+	int length = atoi(tokens[5].c_str());
+
+	int sprite_begin = atoi(tokens[6].c_str());
+	int sprite_middle = atoi(tokens[7].c_str());
+	int sprite_end = atoi(tokens[8].c_str());
+
+	return new CPlatform(
+		x,
+		y,
+		cell_width,
+		cell_height,
+		length,
+		sprite_begin,
+		sprite_middle,
+		sprite_end
+	);
 }

@@ -14,22 +14,22 @@ void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
 	switch (KeyCode)
 	{
 	case DIK_DOWN:
-		mario->SetState(MARIO_STATE_SIT);
+		mario->SetState(MarioState::Sit);
 		break;
 	case DIK_S:
-		mario->SetState(MARIO_STATE_JUMP);
+		mario->SetState(MarioState::Jump);
 		break;
 	case DIK_1:
-		mario->SetLevel(MARIO_LEVEL_SMALL);
+		mario->SetLevel(MarioLevel::Small);
 		break;
 	case DIK_2:
-		mario->SetLevel(MARIO_LEVEL_BIG);
+		mario->SetLevel(MarioLevel::Big);
 		break;
 	case DIK_0:
-		mario->SetState(MARIO_STATE_DIE);
+		mario->SetState(MarioState::Die);
 		break;
 	case DIK_R: // reset
-		//Reload();
+		((CPlayScene*)CGame::GetInstance()->GetCurrentScene())->ReloadAssets();
 		break;
 	}
 }
@@ -42,10 +42,10 @@ void CPlaySceneKeyHandler::OnKeyUp(int KeyCode)
 	switch (KeyCode)
 	{
 	case DIK_S:
-		mario->SetState(MARIO_STATE_RELEASE_JUMP);
+		mario->SetState(MarioState::ReleaseJump);
 		break;
 	case DIK_DOWN:
-		mario->SetState(MARIO_STATE_SIT_RELEASE);
+		mario->SetState(MarioState::SitRelease);
 		break;
 	}
 }
@@ -58,17 +58,17 @@ void CPlaySceneKeyHandler::KeyState(BYTE *states)
 	if (game->IsKeyDown(DIK_RIGHT))
 	{
 		if (game->IsKeyDown(DIK_A))
-			mario->SetState(MARIO_STATE_RUNNING_RIGHT);
+			mario->SetState(MarioState::RunningRight);
 		else
-			mario->SetState(MARIO_STATE_WALKING_RIGHT);
+			mario->SetState(MarioState::WalkingRight);
 	}
 	else if (game->IsKeyDown(DIK_LEFT))
 	{
 		if (game->IsKeyDown(DIK_A))
-			mario->SetState(MARIO_STATE_RUNNING_LEFT);
+			mario->SetState(MarioState::RunningLeft);
 		else
-			mario->SetState(MARIO_STATE_WALKING_LEFT);
+			mario->SetState(MarioState::WalkingLeft);
 	}
 	else
-		mario->SetState(MARIO_STATE_IDLE);
+		mario->SetState(MarioState::Idle);
 }

@@ -3,8 +3,9 @@
 #include "GameObject.h"
 #include "Animation.h"
 #include "Animations.h"
+#include <string>
 
-#define ID_ANI_COIN 11000
+constexpr int ID_ANI_COIN = 11000;
 
 #define	COIN_WIDTH 10
 #define COIN_BBOX_WIDTH 10
@@ -17,4 +18,5 @@ public:
 	void Update(DWORD dt) {}
 	void GetBoundingBox(float& l, float& t, float& r, float& b);
 	int IsBlocking() { return 0; }
+	static LPGAMEOBJECT CreateFromTokens(const vector<string>& tokens);
 };
