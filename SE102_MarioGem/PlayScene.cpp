@@ -483,6 +483,8 @@ void CPlayScene::Unload() {
 	DebugOut(L"[INFO] Scene %d unloaded! \n", id);
 }
 
+bool CPlayScene::IsGameObjectDeleted(const LPGAMEOBJECT &o) { return o == NULL; }
+
 void CPlayScene::PurgeDeletedObjects() {
   vector<LPGAMEOBJECT>::iterator it;
   for (it = objects.begin(); it != objects.end(); it++) {
