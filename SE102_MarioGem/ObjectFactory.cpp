@@ -7,16 +7,6 @@
 #include "Brick.h"
 #include "BoomBoom.h"
 #include "debug.h"
-
-
-LPGAMEOBJECT ObjectFactory::Create(ObjectType type,
-                                   const vector<string> &tokens) {
-  switch (type) {
-  case ObjectType::Mario:
-    return CMario::CreateFromTokens(tokens);
-
-  case ObjectType::Goomba:
-    return CGoomba::CreateFromTokens(tokens);
 #include "CollisionBox.h"
 #include "Burner.h"
 #include "Blaster.h"
@@ -27,6 +17,16 @@ LPGAMEOBJECT ObjectFactory::Create(ObjectType type,
 #include "MapObject.h"
 
 using json = nlohmann::json;
+
+
+LPGAMEOBJECT ObjectFactory::Create(ObjectType type,
+                                   const vector<string> &tokens) {
+  switch (type) {
+  case ObjectType::Mario:
+    return CMario::CreateFromTokens(tokens);
+
+  case ObjectType::Goomba:
+    return CGoomba::CreateFromTokens(tokens);
 
   case ObjectType::Coin:
     return CCoin::CreateFromTokens(tokens);

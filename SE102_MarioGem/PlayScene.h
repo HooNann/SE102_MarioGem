@@ -59,10 +59,6 @@ public:
 	void PurgeDeletedObjects();
 	void ReloadAssets();
 
-  LPGAMEOBJECT GetPlayer() { return player; }
-
-  void Clear();
-  void PurgeDeletedObjects();
 
   static bool IsGameObjectDeleted(const LPGAMEOBJECT &o);
 };
