@@ -26,13 +26,10 @@ void CGame::Init(HWND hWnd, HINSTANCE hInstance)
 	RECT r;
 	GetClientRect(hWnd, &r);
 
-	int physicalWidth = r.right + 1;
-	int physicalHeight = r.bottom + 1;
+	backBufferWidth = r.right + 1;
+	backBufferHeight = r.bottom + 1;
 
-	backBufferWidth = physicalWidth / RENDER_SCALE;
-	backBufferHeight = physicalHeight / RENDER_SCALE;
-
-	DebugOut(L"[INFO] Physical=%dx%d, Logical=%dx%d\n", physicalWidth, physicalHeight, backBufferWidth, backBufferHeight);
+	DebugOut(L"[INFO] Window's client area: width= %d, height= %d\n", r.right - 1, r.bottom - 1);
 
 	// Create & clear the DXGI_SWAP_CHAIN_DESC structure
 	DXGI_SWAP_CHAIN_DESC swapChainDesc;
@@ -40,8 +37,8 @@ void CGame::Init(HWND hWnd, HINSTANCE hInstance)
 
 	// Fill in the needed values
 	swapChainDesc.BufferCount = 1;
-	swapChainDesc.BufferDesc.Width = physicalWidth;
-	swapChainDesc.BufferDesc.Height = physicalHeight;
+	swapChainDesc.BufferDesc.Width = backBufferWidth;
+	swapChainDesc.BufferDesc.Height = backBufferHeight;
 	swapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 	swapChainDesc.BufferDesc.RefreshRate.Numerator = 60;
 	swapChainDesc.BufferDesc.RefreshRate.Denominator = 1;
@@ -90,8 +87,8 @@ void CGame::Init(HWND hWnd, HINSTANCE hInstance)
 	pD3DDevice->OMSetRenderTargets(1, &pRenderTargetView, NULL);
 
 	D3D10_VIEWPORT viewPort;
-	viewPort.Width = physicalWidth;
-	viewPort.Height = physicalHeight;
+	viewPort.Width = backBufferWidth;
+	viewPort.Height = backBufferHeight;
 	viewPort.MinDepth = 0.0f;
 	viewPort.MaxDepth = 1.0f;
 	viewPort.TopLeftX = 0;
