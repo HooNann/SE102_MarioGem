@@ -15,3 +15,16 @@ enum class ObjectType : int
 	CannonBall = 10,
 	CollisionBox = 100,
 };
+
+enum class MapObjectType : int
+{
+	MapMario = 200,
+	MapNode = 201,
+	MapDecoration = 202, // Cây, lâu đài...
+};
+
+enum class SceneType : int
+{
+	PlayScene = 1,
+	WorldMapScene = 2
+};

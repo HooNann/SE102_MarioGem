@@ -178,6 +178,11 @@
     <ClCompile Include="Textures.cpp" />
     <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="Utils.cpp" />
+    <ClCompile Include="MapMario.cpp" />
+    <ClCompile Include="MapNode.cpp" />
+    <ClCompile Include="MapObject.cpp" />
+    <ClCompile Include="WorldMapKeyHandler.cpp" />
+    <ClCompile Include="WorldMapScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
@@ -214,6 +219,11 @@
     <ClInclude Include="Textures.h" />
     <ClInclude Include="TileMap.h" />
     <ClInclude Include="Utils.h" />
+    <ClInclude Include="MapMario.h" />
+    <ClInclude Include="MapNode.h" />
+    <ClInclude Include="MapObject.h" />
+    <ClInclude Include="WorldMapKeyHandler.h" />
+    <ClInclude Include="WorldMapScene.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

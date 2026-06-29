@@ -29,7 +29,7 @@ void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
 		mario->SetState(MarioState::Die);
 		break;
 	case DIK_R: // reset
-		//Reload();
+		((CPlayScene*)CGame::GetInstance()->GetCurrentScene())->ReloadAssets();
 		break;
 	}
 }

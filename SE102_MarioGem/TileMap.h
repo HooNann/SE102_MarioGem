@@ -20,19 +20,19 @@ struct TilesetInfo
 	LPTEXTURE texture;	// Con trỏ texture đã load vào DirectX
 };
 
-class CMap
+class CTileMap
 {
 	int width;			// Số cột của map (tính bằng tile)
 	int height;			// Số hàng của map (tính bằng tile)
 	int tileWidth;		// Chiều rộng 1 tile (pixel)
 	int tileHeight;		// Chiều cao 1 tile (pixel)
 
-	vector<vector<int>> mapLayers;		// Mảng 2 chiều chứa ID các tile của tất cả các layer
+	vector<vector<unsigned int>> mapLayers;		// Mảng 2 chiều chứa ID các tile của tất cả các layer
 	vector<TilesetInfo> tilesets;		// Danh sách các tileset
 
 public:
-	CMap();
-	~CMap();
+	CTileMap();
+	~CTileMap();
 
 	// Đọc file .json xuất ra từ Tiled Map Editor
 	// jsonPath: đường dẫn tới file .json 
