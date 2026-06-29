@@ -33,8 +33,6 @@ void CPlatform::RenderBoundingBox()
 void CPlatform::Render()
 {
 	if (this->length <= 0) return; 
-	if (this->spriteIdBegin <= 0) return; // Invisible platform
-
 	float xx = x; 
 	CSprites * s = CSprites::GetInstance();
 

@@ -167,10 +167,10 @@ class CMario : public CGameObject
 	int lives;
 
 	BOOLEAN isThrowingFire;
-	ULONGLONG throwingFireStartTime;
+	DWORD throwingFireStartTime;
 
 	int pMeter;					
-	ULONGLONG flyStartTime;
+	DWORD flyStartTime;
 
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithCoin(LPCOLLISIONEVENT e);

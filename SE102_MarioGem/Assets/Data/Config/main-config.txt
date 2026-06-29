@@ -10,7 +10,6 @@ height	240
 1	1	Assets\Data\Scenes\stage-1-1.txt
 2	2	Assets\Data\Scenes\world-map-scene.txt
 5	1	Assets\Data\Scenes\scene0005.txt
-6	Assets\Data\Scenes\sceneBoss.txt
 
 # id	file 
 [TEXTURES]
@@ -18,6 +17,4 @@ height	240
 0	Assets\Textures\Characters\Mario\mario_transparent.png
 10	Assets\Textures\Enemies\Mobs\enemies_transparent.png
 20	Assets\Textures\Items\misc_transparent.png
-40	Assets\Textures\Environment\Tiles\tiles-3.png
-50	Assets\Textures\Enemies\Mobs\enemies_2.png
 30	Assets\Textures\All\ui.png
