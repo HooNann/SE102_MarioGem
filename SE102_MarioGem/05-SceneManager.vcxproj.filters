@@ -149,6 +149,7 @@
     </ClCompile>
     <ClCompile Include="QuestionBlock.cpp">
       <Filter>Game\Objects\Tiles</Filter>
+    </ClCompile>
     <ClCompile Include="TileMap.cpp">
       <Filter>Framework\Base</Filter>
     </ClCompile>
