@@ -14,6 +14,7 @@
 #include "PlaySceneKeyHandler.h"
 
 #include "ObjectFactory.h"
+#include <fstream>
 
 using namespace std;
 

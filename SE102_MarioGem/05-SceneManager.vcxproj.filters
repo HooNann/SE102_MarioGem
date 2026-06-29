@@ -322,10 +322,4 @@
       <Filter>Game\Scenes\WorldMap</Filter>
     </ClInclude>
   </ItemGroup>
-</Project>ter>Game\Scenes\PlayScene</Filter>
-    </ClInclude>
-    <ClInclude Include="PlaySceneKeyHandler.h">
-      <Filter>Game\Scenes\PlayScene</Filter>
-    </ClInclude>
-  </ItemGroup>
 </Project>

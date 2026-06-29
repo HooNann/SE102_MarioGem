@@ -211,7 +211,6 @@
     <ClInclude Include="ObjectFactory.h" />
     <ClInclude Include="Platform.h" />
     <ClInclude Include="PlayScene.h" />
-    <ClInclude Include="ObjectFactory.h" />
     <ClInclude Include="Portal.h" />
     <ClInclude Include="PlaySceneKeyHandler.h" />
     <ClInclude Include="QuestionBlock.h" />

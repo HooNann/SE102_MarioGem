@@ -43,11 +43,6 @@ protected:
 	// Load map và objects từ file JSON của Tiled Map Editor
 	void LoadMapJSON(LPCWSTR jsonPath);
 	
-public: 
-	CPlayScene(int id, LPCWSTR filePath);
-
-  void LoadAssets(LPCWSTR assetFile);
-
 public:
   CPlayScene(int id, LPCWSTR filePath);
 
