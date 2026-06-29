@@ -1,16 +1,17 @@
 #pragma once
+#include "Brick.h"
 #include <string>
 #include "Game.h"
-#include "Textures.h"
-#include "Scene.h"
 #include "GameObject.h"
-#include "Brick.h"
-#include "Mario.h"
 #include "Goomba.h"
+#include "Mario.h"
+#include "Scene.h"
+#include "Textures.h"
 //#include "Koopas.h"
 #include "TileMap.h"
 #include "Hud.h"
 
+// #include "Koopas.h"
 
 class CPlayScene: public CScene
 {
@@ -29,7 +30,6 @@ protected:
 
 	void _ParseSection_SPRITES(string line);
 	void _ParseSection_ANIMATIONS(string line);
-
 	void _ParseSection_SPRITES_JSON(string line);
 	void _ParseSection_ANIMATIONS_JSON(string line);
 
@@ -42,15 +42,16 @@ protected:
 
 	// Load map và objects từ file JSON của Tiled Map Editor
 	void LoadMapJSON(LPCWSTR jsonPath);
+
+	bool IsGameObjectInRegion(LPGAMEOBJECT obj, float r_left, float r_top, float r_right, float r_bottom);
 	
-public: 
-	CPlayScene(int id, LPCWSTR filePath);
+public:
+  CPlayScene(int id, LPCWSTR filePath);
 
-	virtual void Load();
-	virtual void Update(DWORD dt);
-	virtual void Render();
-	virtual void Unload();
-
+  virtual void Load();
+  virtual void Update(DWORD dt);
+  virtual void Render();
+  virtual void Unload();
 	LPGAMEOBJECT GetPlayer() { return player; }
 	void AddObject(LPGAMEOBJECT obj) { objects.push_back(obj); }
 
@@ -60,11 +61,9 @@ public:
 	void PurgeDeletedObjects();
 	void ReloadAssets();
 
-	static bool IsGameObjectDeleted(const LPGAMEOBJECT& o);
-	
-	bool IsGameObjectInRegion(LPGAMEOBJECT obj, float r_left, float r_top, float r_right, float r_bottom);
+
+  static bool IsGameObjectDeleted(const LPGAMEOBJECT &o);
 };
 
-typedef CPlayScene* LPPLAYSCENE;
-
+typedef CPlayScene *LPPLAYSCENE;
 

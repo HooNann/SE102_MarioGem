@@ -1,19 +1,20 @@
-#include <iostream>
-#include <fstream>
 #include "AssetIDs.h"
 #include "json.hpp"
 
-#include "PlayScene.h"
-#include "Utils.h"
-#include "Textures.h"
-#include "Sprites.h"
-#include "Portal.h"
 #include "Coin.h"
 #include "Platform.h"
+#include "PlayScene.h"
+#include "Portal.h"
+#include "Sprites.h"
+#include "Textures.h"
+#include "Utils.h"
+#include "BoomBoom.h"
+
 
 #include "PlaySceneKeyHandler.h"
 
 #include "ObjectFactory.h"
+#include <fstream>
 #include "Camera.h"
 
 using namespace std;
@@ -30,7 +31,6 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 	hudWorld = "1-1";
 }
 
-
 #define SCENE_SECTION_UNKNOWN -1
 #define SCENE_SECTION_ASSETS	1
 #define SCENE_SECTION_OBJECTS	2
@@ -44,27 +44,26 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 
 #define MAX_SCENE_LINE 1024
 
-void CPlayScene::_ParseSection_SPRITES(string line)
-{
-	vector<string> tokens = split(line);
+void CPlayScene::_ParseSection_SPRITES(string line) {
+  vector<string> tokens = split(line);
 
-	if (tokens.size() < 6) return; // skip invalid lines
+  if (tokens.size() < 6)
+    return; // skip invalid lines
 
-	int ID = atoi(tokens[0].c_str());
-	int l = atoi(tokens[1].c_str());
-	int t = atoi(tokens[2].c_str());
-	int r = atoi(tokens[3].c_str());
-	int b = atoi(tokens[4].c_str());
-	int texID = atoi(tokens[5].c_str());
+  int ID = atoi(tokens[0].c_str());
+  int l = atoi(tokens[1].c_str());
+  int t = atoi(tokens[2].c_str());
+  int r = atoi(tokens[3].c_str());
+  int b = atoi(tokens[4].c_str());
+  int texID = atoi(tokens[5].c_str());
 
-	LPTEXTURE tex = CTextures::GetInstance()->Get(texID);
-	if (tex == NULL)
-	{
-		DebugOut(L"[ERROR] Texture ID %d not found!\n", texID);
-		return; 
-	}
+  LPTEXTURE tex = CTextures::GetInstance()->Get(texID);
+  if (tex == NULL) {
+    DebugOut(L"[ERROR] Texture ID %d not found!\n", texID);
+    return;
+  }
 
-	CSprites::GetInstance()->Add(ID, l, t, r, b, tex);
+  CSprites::GetInstance()->Add(ID, l, t, r, b, tex);
 }
 
 void CPlayScene::_ParseSection_SPRITES_JSON(string line)
@@ -114,7 +113,8 @@ void CPlayScene::_ParseSection_ASSETS(string line)
 {
 	vector<string> tokens = split(line);
 
-	if (tokens.size() < 1) return;
+  if (tokens.size() < 1)
+    return;
 
 	wstring path = ToWSTR(tokens[0]);
 	currentAssetFilePath = path;
@@ -122,15 +122,14 @@ void CPlayScene::_ParseSection_ASSETS(string line)
 	LoadAssets(path.c_str());
 }
 
-void CPlayScene::_ParseSection_ANIMATIONS(string line)
-{
-	vector<string> tokens = split(line);
+void CPlayScene::_ParseSection_ANIMATIONS(string line) {
+  vector<string> tokens = split(line);
 
 	if (tokens.size() < 3) return; 
 
-	//DebugOut(L"--> %s\n",ToWSTR(line).c_str());
+  // DebugOut(L"--> %s\n",ToWSTR(line).c_str());
 
-	LPANIMATION ani = new CAnimation();
+  LPANIMATION ani = new CAnimation();
 
 	int ani_id = atoi(tokens[0].c_str());
 	for (int i = 1; i + 1 < (int)tokens.size(); i += 2)
@@ -140,7 +139,7 @@ void CPlayScene::_ParseSection_ANIMATIONS(string line)
 		ani->Add(sprite_id, frame_time);
 	}
 
-	CAnimations::GetInstance()->Add(ani_id, ani);
+  CAnimations::GetInstance()->Add(ani_id, ani);
 }
 
 void CPlayScene::_ParseSection_ANIMATIONS_JSON(string line)
@@ -204,43 +203,37 @@ void CPlayScene::_ParseSection_ANIMATIONS_JSON(string line)
 }
 
 /*
-	Parse a line in section [OBJECTS] 
+        Parse a line in section [OBJECTS]
 */
-void CPlayScene::_ParseSection_OBJECTS(string line)
-{
-	vector<string> tokens = split(line);
+void CPlayScene::_ParseSection_OBJECTS(string line) {
+  vector<string> tokens = split(line);
 
-	if (tokens.size() < 3)
-		return;
+  // skip invalid lines - an object specification has at least 3 tokens
+  // (class/type, x, y)
+  if (tokens.size() < 3)
+    return;
 
-	ObjectType type =
-		static_cast<ObjectType>(
-			atoi(tokens[0].c_str()));
+  ObjectType type = static_cast<ObjectType>(atoi(tokens[0].c_str()));
 
-	LPGAMEOBJECT obj =
-		ObjectFactory::Create(type, tokens);
+  LPGAMEOBJECT obj = ObjectFactory::Create(type, tokens);
 
-	if (obj == nullptr)
-		return;
+  if (obj == nullptr)
+    return;
 
-	if (type == ObjectType::Mario)
-	{
-		if (player != nullptr)
-		{
-			DebugOut(
-				L"[ERROR] MARIO object was created before!\n");
+  if (type == ObjectType::Mario) {
+    if (player != nullptr) {
+      DebugOut(L"[ERROR] MARIO object was created before!\n");
 
-			delete obj;
-			return;
-		}
+      delete obj;
+      return;
+    }
 
-		player = dynamic_cast<CMario*>(obj);
+    player = dynamic_cast<CMario *>(obj);
 
-		DebugOut(
-			L"[INFO] Player object has been created!\n");
-	}
+    DebugOut(L"[INFO] Player object has been created!\n");
+  }
 
-	objects.push_back(obj);
+  objects.push_back(obj);
 }
 
 void CPlayScene::LoadAssets(LPCWSTR assetFile)
@@ -444,9 +437,25 @@ void CPlayScene::Update(DWORD dt)
 		activeObjects[i]->Update(dt, &coObjects);
 	}
 
-	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
-	if (player == NULL) return; 
+  // skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
+  if (player == NULL)
+    return;
 
+  // Update camera to follow mario
+  player->GetPosition(cx, cy);
+
+  CGame *game = CGame::GetInstance();
+  cx -= game->GetBackBufferWidth() / 2;
+  cy -= game->GetBackBufferHeight() / 2;
+
+  if (cx < 0)
+    cx = 0;
+
+  // Giới hạn Camera không cho trôi qua bức tường cuối cùng
+  // Bạn có thể thay đổi số 250.0f này thành toạ độ X của bức tường bên phải của bạn!
+  float maxCamX = 250.0f; 
+  if (cx > maxCamX)
+    cx = maxCamX;
 	// Update camera to follow mario
 	CCamera* camera = CCamera::GetInstance();
 	camera->SetTarget(player);
@@ -491,30 +500,25 @@ void CPlayScene::Render()
 }
 
 /*
-*	Clear all objects from this scene
-*/
-void CPlayScene::Clear()
-{
-	vector<LPGAMEOBJECT>::iterator it;
-	for (it = objects.begin(); it != objects.end(); it++)
-	{
-		delete (*it);
-	}
-	objects.clear();
+ *	Clear all objects from this scene
+ */
+void CPlayScene::Clear() {
+  vector<LPGAMEOBJECT>::iterator it;
+  for (it = objects.begin(); it != objects.end(); it++) {
+    delete (*it);
+  }
+  objects.clear();
 }
 
 /*
-	Unload scene
+        Unload scene
 
-	TODO: Beside objects, we need to clean up sprites, animations and textures as well 
+        TODO: Beside objects, we need to clean up sprites, animations and
+   textures as well
 
 */
-void CPlayScene::Unload()
-{
-	for (int i = 0; i < objects.size(); i++)
-		delete objects[i];
-
-	objects.clear();
+void CPlayScene::Unload() {
+  Clear();
 
 	// Free any objects queued to spawn but not yet added (e.g. Canon fires on same frame as scene switch)
 	for (auto obj : spawnQueue) delete obj;
@@ -537,26 +541,24 @@ void CPlayScene::Unload()
 	DebugOut(L"[INFO] Scene %d unloaded! \n", id);
 }
 
-bool CPlayScene::IsGameObjectDeleted(const LPGAMEOBJECT& o) { return o == NULL; }
+bool CPlayScene::IsGameObjectDeleted(const LPGAMEOBJECT &o) { return o == NULL; }
 
-void CPlayScene::PurgeDeletedObjects()
-{
-	vector<LPGAMEOBJECT>::iterator it;
-	for (it = objects.begin(); it != objects.end(); it++)
-	{
-		LPGAMEOBJECT o = *it;
-		if (o->IsDeleted())
-		{
-			delete o;
-			*it = NULL;
-		}
-	}
+void CPlayScene::PurgeDeletedObjects() {
+  vector<LPGAMEOBJECT>::iterator it;
+  for (it = objects.begin(); it != objects.end(); it++) {
+    LPGAMEOBJECT o = *it;
+    if (o->IsDeleted()) {
+      delete o;
+      *it = NULL;
+    }
+  }
 
-	// NOTE: remove_if will swap all deleted items to the end of the vector
-	// then simply trim the vector, this is much more efficient than deleting individual items
-	objects.erase(
-		std::remove_if(objects.begin(), objects.end(), CPlayScene::IsGameObjectDeleted),
-		objects.end());
+  // NOTE: remove_if will swap all deleted items to the end of the vector
+  // then simply trim the vector, this is much more efficient than deleting
+  // individual items
+  objects.erase(std::remove_if(objects.begin(), objects.end(),
+                               CPlayScene::IsGameObjectDeleted),
+                objects.end());
 }
 
 void CPlayScene::ReloadAssets()

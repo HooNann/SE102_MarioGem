@@ -120,11 +120,17 @@
     <ClCompile Include="Platform.cpp">
       <Filter>Game\Objects\Tiles</Filter>
     </ClCompile>
+    <ClCompile Include="BoomBoom.cpp">
+      <Filter>Game\Objects\Bosses</Filter>
+    </ClCompile>
     <ClCompile Include="Brick.cpp">
       <Filter>Game\Objects\Tiles</Filter>
     </ClCompile>
     <ClCompile Include="Mario.cpp">
       <Filter>Game\Objects\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectFactory.cpp">
+      <Filter>Game\Objects</Filter>
     </ClCompile>
     <ClCompile Include="Goomba.cpp">
       <Filter>Game\Objects\Enemies</Filter>
@@ -248,11 +254,17 @@
     <ClInclude Include="Platform.h">
       <Filter>Game\Objects\Tiles</Filter>
     </ClInclude>
+    <ClInclude Include="BoomBoom.h">
+      <Filter>Game\Objects\Bosses</Filter>
+    </ClInclude>
     <ClInclude Include="Brick.h">
       <Filter>Game\Objects\Tiles</Filter>
     </ClInclude>
     <ClInclude Include="Mario.h">
       <Filter>Game\Objects\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectFactory.h">
+      <Filter>Game\Objects</Filter>
     </ClInclude>
     <ClInclude Include="Goomba.h">
       <Filter>Game\Objects\Enemies</Filter>

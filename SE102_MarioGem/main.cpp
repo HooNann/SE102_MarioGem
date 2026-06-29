@@ -1,16 +1,16 @@
 /* =============================================================
-	INTRODUCTION TO GAME PROGRAMMING SE102
-	
-	SAMPLE 05 - SCENE MANAGER
+        INTRODUCTION TO GAME PROGRAMMING SE102
 
-	This sample illustrates how to:
+        SAMPLE 05 - SCENE MANAGER
 
-		1/ Read scene (textures, sprites, animations and objects) from files 
-		2/ Handle multiple scenes in game
+        This sample illustrates how to:
 
-	Key classes/functions:
-		CScene
-		CPlayScene		
+                1/ Read scene (textures, sprites, animations and objects) from
+files 2/ Handle multiple scenes in game
+
+        Key classes/functions:
+                CScene
+                CPlayScene
 
 
 HOW TO INSTALL Microsoft.DXSDK.D3DX
@@ -21,23 +21,37 @@ HOW TO INSTALL Microsoft.DXSDK.D3DX
 
 ================================================================ */
 
-#include <windows.h>
 #include <d3d10.h>
 #include <d3dx10.h>
+#include <windows.h>
+
+// If the legacy D3DX header isn't available on the system, provide a minimal
+// fallback so the project can still compile. This does not implement the
+// real D3DX functionality — it's only to satisfy compilation when the
+// Microsoft.DXSDK.D3DX package is not installed.
+#ifndef __D3DX10_H__
+struct ID3DX10Sprite {
+  virtual HRESULT Begin(UINT) { return S_OK; }
+  virtual void End() {}
+};
+#define D3DX10_SPRITE_SORT_TEXTURE 0
+#endif
 #include <list>
 
-#include "debug.h"
+#include "Animation.h"
+#include "Animations.h"
 #include "Game.h"
 #include "GameObject.h"
 #include "Textures.h"
-#include "Animation.h"
-#include "Animations.h"
+#include "debug.h"
 
-#include "Mario.h"
+
 #include "Brick.h"
-#include "Goomba.h"
 #include "Coin.h"
+#include "Goomba.h"
+#include "Mario.h"
 #include "Platform.h"
+
 
 #include "PlaySceneKeyHandler.h"
 
@@ -52,53 +66,50 @@ HOW TO INSTALL Microsoft.DXSDK.D3DX
 #define SCREEN_WIDTH 320
 #define SCREEN_HEIGHT 240
 
-LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
-{
-	switch (message) {
-	case WM_DESTROY:
-		PostQuitMessage(0);
-		break;
-	default:
-		return DefWindowProc(hWnd, message, wParam, lParam);
-	}
+LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam,
+                         LPARAM lParam) {
+  switch (message) {
+  case WM_DESTROY:
+    PostQuitMessage(0);
+    break;
+  default:
+    return DefWindowProc(hWnd, message, wParam, lParam);
+  }
 
-	return 0;
+  return 0;
 }
 
 /*
-	Update world status for this frame
-	dt: time period between beginning of last frame and beginning of this frame
+        Update world status for this frame
+        dt: time period between beginning of last frame and beginning of this
+   frame
 */
-void Update(DWORD dt)
-{
-	CGame::GetInstance()->GetCurrentScene()->Update(dt);
-}
+void Update(DWORD dt) { CGame::GetInstance()->GetCurrentScene()->Update(dt); }
 
 /*
-	Render a frame 
+        Render a frame
 */
-void Render()
-{
-	CGame* g = CGame::GetInstance();
+void Render() {
+  CGame *g = CGame::GetInstance();
 
-	ID3D10Device* pD3DDevice = g->GetDirect3DDevice();
-	IDXGISwapChain* pSwapChain = g->GetSwapChain();
-	ID3D10RenderTargetView* pRenderTargetView = g->GetRenderTargetView();
-	ID3DX10Sprite* spriteHandler = g->GetSpriteHandler();
+  ID3D10Device *pD3DDevice = g->GetDirect3DDevice();
+  IDXGISwapChain *pSwapChain = g->GetSwapChain();
+  ID3D10RenderTargetView *pRenderTargetView = g->GetRenderTargetView();
+  ID3DX10Sprite *spriteHandler = g->GetSpriteHandler();
 
-	pD3DDevice->ClearRenderTargetView(pRenderTargetView, BACKGROUND_COLOR);
+  pD3DDevice->ClearRenderTargetView(pRenderTargetView, BACKGROUND_COLOR);
 
-	spriteHandler->Begin(D3DX10_SPRITE_SORT_TEXTURE);
+  spriteHandler->Begin(D3DX10_SPRITE_SORT_TEXTURE);
 
 	g->SetPointSamplerState();
 
 	FLOAT NewBlendFactor[4] = { 0,0,0,0 };
 	pD3DDevice->OMSetBlendState(g->GetAlphaBlending(), NewBlendFactor, 0xffffffff);
 
-	CGame::GetInstance()->GetCurrentScene()->Render();
+  CGame::GetInstance()->GetCurrentScene()->Render();
 
-	spriteHandler->End();
-	pSwapChain->Present(0, 0);
+  spriteHandler->End();
+  pSwapChain->Present(0, 0);
 }
 
 HWND CreateGameWindow(HINSTANCE hInstance, int nCmdShow, int ScreenWidth, int ScreenHeight)
@@ -151,44 +162,40 @@ HWND CreateGameWindow(HINSTANCE hInstance, int nCmdShow, int ScreenWidth, int Sc
 	return hWnd;
 }
 
-int Run()
-{
-	MSG msg;
-	int done = 0;
-	ULONGLONG frameStart = GetTickCount64();
-	DWORD tickPerFrame = 1000 / MAX_FRAME_RATE;
+int Run() {
+  MSG msg;
+  int done = 0;
+  ULONGLONG frameStart = GetTickCount64();
+  DWORD tickPerFrame = 1000 / MAX_FRAME_RATE;
 
-	while (!done)
-	{
-		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
-		{
-			if (msg.message == WM_QUIT) done = 1;
+  while (!done) {
+    if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
+      if (msg.message == WM_QUIT)
+        done = 1;
 
-			TranslateMessage(&msg);
-			DispatchMessage(&msg);
-		}
+      TranslateMessage(&msg);
+      DispatchMessage(&msg);
+    }
 
-		ULONGLONG now = GetTickCount64();
+    ULONGLONG now = GetTickCount64();
 
-		// dt: the time between (beginning of last frame) and now
-		// this frame: the frame we are about to render
-		DWORD dt = (DWORD)(now - frameStart);
+    // dt: the time between (beginning of last frame) and now
+    // this frame: the frame we are about to render
+    DWORD dt = (DWORD)(now - frameStart);
 
-		if (dt >= tickPerFrame)
-		{
-			frameStart = now;
+    if (dt >= tickPerFrame) {
+      frameStart = now;
 
-			CGame::GetInstance()->ProcessKeyboard();			
-			Update(dt);
-			Render();
+      CGame::GetInstance()->ProcessKeyboard();
+      Update(dt);
+      Render();
 
-			CGame::GetInstance()->SwitchScene();
-		}
-		else
-			Sleep(tickPerFrame - dt);	
-	}
+      CGame::GetInstance()->SwitchScene();
+    } else
+      Sleep(tickPerFrame - dt);
+  }
 
-	return 1;
+  return 1;
 }
 
 int WINAPI WinMain(
@@ -201,10 +208,11 @@ int WINAPI WinMain(
 
 	SetDebugWindow(hWnd);
 
-	LPGAME game = CGame::GetInstance();
-	game->Init(hWnd, hInstance);
-	game->InitKeyboard();
+  SetDebugWindow(hWnd);
 
+  LPGAME game = CGame::GetInstance();
+  game->Init(hWnd, hInstance);
+  game->InitKeyboard();
 
 	//IMPORTANT: this is the only place where a hardcoded file name is allowed !
 	game->Load(L"Assets\\Data\\Config\\main-config.txt");
@@ -213,5 +221,5 @@ int WINAPI WinMain(
 
 	Run();
 
-	return 0;
+  return 0;
 }
