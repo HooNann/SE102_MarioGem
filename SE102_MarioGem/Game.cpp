@@ -171,6 +171,9 @@ void CGame::Draw(float x, float y, LPTEXTURE tex, RECT* rect, float alpha, int s
 {
 	if (tex == NULL) return;
 
+	x = (float)floor(x);
+	y = (float)floor(y);
+
 	int spriteWidth = sprite_width;
 	int spriteHeight = sprite_height;
 
