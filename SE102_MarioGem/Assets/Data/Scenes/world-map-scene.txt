@@ -1,2 +1,5 @@
 [MAP]
 Assets\Data\Tiled\Scenes\world-map-scene.json
+
+[ASSETS]
+Assets\Data\Graphics\MapBush.txt

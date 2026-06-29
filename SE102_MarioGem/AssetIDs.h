@@ -14,10 +14,7 @@ enum class ObjectType : int
 	Canon = 9,
 	CannonBall = 10,
 	CollisionBox = 100,
-};
 
-enum class MapObjectType : int
-{
 	MapMario = 200,
 	MapNode = 201,
 	MapDecoration = 202, // Cây, lâu đài...

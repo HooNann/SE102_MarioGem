@@ -18,3 +18,4 @@ height	240
 10	Assets\Textures\Enemies\Mobs\enemies_transparent.png
 20	Assets\Textures\Items\misc_transparent.png
 30	Assets\Textures\All\ui.png
+40	Assets\Textures\All\overworld.png

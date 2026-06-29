@@ -134,11 +134,11 @@ LPGAMEOBJECT ObjectFactory::CreateFromJSON(const json& obj)
         else if (typeStr == "Canon")
             objectType = ObjectType::Canon;
         else if (typeStr == "MapMario")
-            objectType = static_cast<ObjectType>(MapObjectType::MapMario);
+            objectType = ObjectType::MapMario;
         else if (typeStr == "MapNode")
-            objectType = static_cast<ObjectType>(MapObjectType::MapNode);
+            objectType = ObjectType::MapNode;
         else if (typeStr == "MapDecoration")
-            objectType = static_cast<ObjectType>(MapObjectType::MapDecoration);
+            objectType = ObjectType::MapDecoration;
         else
         {
             DebugOut(L"[WARNING] Unknown object type in JSON: %s\n",
@@ -148,32 +148,32 @@ LPGAMEOBJECT ObjectFactory::CreateFromJSON(const json& obj)
     }
 
     // Tạo object dựa trên type
-    switch (static_cast<int>(objectType))
+    switch (objectType)
     {
-    case static_cast<int>(ObjectType::Mario):
+    case ObjectType::Mario:
         return new CMario(x, y);
 
-    case static_cast<int>(ObjectType::Goomba):
+    case ObjectType::Goomba:
         return new CGoomba(x, y);
 
-    case static_cast<int>(ObjectType::Coin):
+    case ObjectType::Coin:
         return new CCoin(x, y);
 
-    case static_cast<int>(ObjectType::Portal):
+    case ObjectType::Portal:
     {
         // Portal cần thêm scene_id từ Custom Properties trong Tiled
         int sceneId = GetIntProperty(obj, "TargetSceneID", 1);
         return new CPortal(x, y, x + w, y + h, sceneId);
     }
 
-    case static_cast<int>(ObjectType::CollisionBox):
+    case ObjectType::CollisionBox:
     {
         float cx = x + w / 2.0f;
         float cy = y + h / 2.0f;
         return new CCollisionBox(cx, cy, w, h);
     }
 
-    case static_cast<int>(ObjectType::Platform):
+    case ObjectType::Platform:
     {
         // Platform đọc thêm các Custom Properties từ Tiled
         float cellWidth = GetFloatProperty(obj, "CellWidth", 16.0f);
@@ -186,35 +186,41 @@ LPGAMEOBJECT ObjectFactory::CreateFromJSON(const json& obj)
             spriteBegin, spriteMiddle, spriteEnd);
     }
 
-    case static_cast<int>(ObjectType::Burner):
+    case ObjectType::Burner:
         return new CBurner(x, y);
 
-    case static_cast<int>(ObjectType::Blaster):
+    case ObjectType::Blaster:
         return new CBlaster(x, y);
 
-    case static_cast<int>(ObjectType::Canon):
+    case ObjectType::Canon:
     {
         int dir = GetIntProperty(obj, "direction", 1);
         return new CCanon(x, y, dir);
     }
 
-    case static_cast<int>(MapObjectType::MapMario):
+    case ObjectType::MapMario:
     {
         int aniId = GetIntProperty(obj, "aniId", -1);
-        return new CMapMario(x, y, aniId);
+        float ox = (w > 0) ? w / 2.0f : 8.0f;
+        float oy = (h > 0) ? h / 2.0f : 8.0f;
+        return new CMapMario(x + ox, y + oy, aniId);
     }
 
-    case static_cast<int>(MapObjectType::MapNode):
+    case ObjectType::MapNode:
     {
         int id = obj.value("id", -1);
         int sceneId = GetIntProperty(obj, "scene_id", -1);
-        return new CMapNode(id, x, y, sceneId);
+        float ox = (w > 0) ? w / 2.0f : 8.0f;
+        float oy = (h > 0) ? h / 2.0f : 8.0f;
+        return new CMapNode(id, x + ox, y + oy, sceneId);
     }
 
-    case static_cast<int>(MapObjectType::MapDecoration):
+    case ObjectType::MapDecoration:
     {
         int aniId = GetIntProperty(obj, "aniId", -1);
-        return new CMapObject(x, y, aniId);
+        float ox = (w > 0) ? w / 2.0f : 8.0f;
+        float oy = (h > 0) ? h / 2.0f : 8.0f;
+        return new CMapObject(x + ox, y + oy, aniId);
     }
 
     default:

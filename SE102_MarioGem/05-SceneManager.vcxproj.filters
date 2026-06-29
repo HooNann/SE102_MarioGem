@@ -266,7 +266,6 @@
     <ClInclude Include="PlaySceneKeyHandler.h">
       <Filter>Game\Scenes\PlayScene</Filter>
     </ClInclude>
-    <ClInclude Include="ObjectFactory.h" />
     <ClInclude Include="QuestionBlock.h">
       <Filter>Game\Objects\Tiles</Filter>
     </ClInclude>
@@ -311,6 +310,9 @@
     </ClInclude>
     <ClInclude Include="WorldMapScene.h">
       <Filter>Game\Scenes\WorldMap</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectFactory.h">
+      <Filter>Game\Systems</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
