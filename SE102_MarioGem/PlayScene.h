@@ -61,6 +61,8 @@ public:
 	void ReloadAssets();
 
 	static bool IsGameObjectDeleted(const LPGAMEOBJECT& o);
+	
+	bool IsGameObjectInRegion(LPGAMEOBJECT obj, float r_left, float r_top, float r_right, float r_bottom);
 };
 
 typedef CPlayScene* LPPLAYSCENE;

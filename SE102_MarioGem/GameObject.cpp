@@ -4,6 +4,7 @@
 
 #include "debug.h"
 #include "Textures.h"
+#include "Camera.h"
 #include "Game.h"
 #include "GameObject.h"
 #include "Sprites.h"
@@ -33,7 +34,7 @@ void CGameObject::RenderBoundingBox()
 	rect.bottom = (int)b - (int)t;
 
 	float cx, cy; 
-	CGame::GetInstance()->GetCamPos(cx, cy);
+	CCamera::GetInstance()->GetCamPos(cx, cy);
 
 	CGame::GetInstance()->Draw(x - cx, y - cy, bbox, &rect, BBOX_ALPHA);
 }
