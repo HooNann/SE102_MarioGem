@@ -20,8 +20,14 @@ protected:
 	
 	CTileMap* map; // Hình nền (TileMap)
 
+	wstring currentAssetFilePath;
+	void _ParseSection_SPRITES(string line);
+	void _ParseSection_ANIMATIONS(string line);
+	void _ParseSection_SPRITES_JSON(string line);
+	void _ParseSection_ANIMATIONS_JSON(string line);
 	void _ParseSection_ASSETS(string line);
 	
+	void LoadAssets(LPCWSTR assetFile);
 	void LoadMapJSON(LPCWSTR jsonPath);
 
 public:
