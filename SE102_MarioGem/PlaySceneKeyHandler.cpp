@@ -20,16 +20,16 @@ void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
 		mario->SetState(MarioState::Jump);
 		break;
 	case DIK_1:
-		mario->SetLevel(MARIO_LEVEL_SMALL);
+		mario->SetLevel(MarioLevel::Small);
 		break;
 	case DIK_2:
-		mario->SetLevel(MARIO_LEVEL_BIG);
+		mario->SetLevel(MarioLevel::Big);
 		break;
 	case DIK_0:
 		mario->SetState(MarioState::Die);
 		break;
 	case DIK_R: // reset
-		//Reload();
+		((CPlayScene*)CGame::GetInstance()->GetCurrentScene())->ReloadAssets();
 		break;
 	}
 }

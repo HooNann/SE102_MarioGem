@@ -7,6 +7,8 @@
 #include "Texture.h"
 #include "Animations.h"
 #include "PlayScene.h"
+#include "WorldMapScene.h"
+#include "AssetIDs.h"
 
 CGame * CGame::__instance = NULL;
 
@@ -20,14 +22,17 @@ void CGame::Init(HWND hWnd, HINSTANCE hInstance)
 	this->hWnd = hWnd;
 	this->hInstance = hInstance;
 
-	// retrieve client area width & height so that we can create backbuffer height & width accordingly 
+	// retrieve client area width & height so that we can create backbuffer height & width accordingly
 	RECT r;
 	GetClientRect(hWnd, &r);
 
-	backBufferWidth = r.right + 1;
-	backBufferHeight = r.bottom + 1;
+	int physicalWidth = r.right + 1;
+	int physicalHeight = r.bottom + 1;
 
-	DebugOut(L"[INFO] Window's client area: width= %d, height= %d\n", r.right - 1, r.bottom - 1);
+	backBufferWidth = physicalWidth / RENDER_SCALE;
+	backBufferHeight = physicalHeight / RENDER_SCALE;
+
+	DebugOut(L"[INFO] Physical=%dx%d, Logical=%dx%d\n", physicalWidth, physicalHeight, backBufferWidth, backBufferHeight);
 
 	// Create & clear the DXGI_SWAP_CHAIN_DESC structure
 	DXGI_SWAP_CHAIN_DESC swapChainDesc;
@@ -35,8 +40,8 @@ void CGame::Init(HWND hWnd, HINSTANCE hInstance)
 
 	// Fill in the needed values
 	swapChainDesc.BufferCount = 1;
-	swapChainDesc.BufferDesc.Width = backBufferWidth;
-	swapChainDesc.BufferDesc.Height = backBufferHeight;
+	swapChainDesc.BufferDesc.Width = physicalWidth;
+	swapChainDesc.BufferDesc.Height = physicalHeight;
 	swapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 	swapChainDesc.BufferDesc.RefreshRate.Numerator = 60;
 	swapChainDesc.BufferDesc.RefreshRate.Denominator = 1;
@@ -84,10 +89,9 @@ void CGame::Init(HWND hWnd, HINSTANCE hInstance)
 	// set the render target
 	pD3DDevice->OMSetRenderTargets(1, &pRenderTargetView, NULL);
 
-	// create and set the viewport
 	D3D10_VIEWPORT viewPort;
-	viewPort.Width = backBufferWidth;
-	viewPort.Height = backBufferHeight;
+	viewPort.Width = physicalWidth;
+	viewPort.Height = physicalHeight;
 	viewPort.MinDepth = 0.0f;
 	viewPort.MaxDepth = 1.0f;
 	viewPort.TopLeftX = 0;
@@ -126,12 +130,11 @@ void CGame::Init(HWND hWnd, HINSTANCE hInstance)
 
 	D3DXMATRIX matProjection;
 
-	// Create the projection matrix using the values in the viewport
 	D3DXMatrixOrthoOffCenterLH(&matProjection,
-		(float)viewPort.TopLeftX,
-		(float)viewPort.Width,
-		(float)viewPort.TopLeftY,
-		(float)viewPort.Height,
+		0.0f,
+		(float)backBufferWidth,
+		0.0f,
+		(float)backBufferHeight,
 		0.1f,
 		10);
 	hr = spriteObject->SetProjectionTransform(&matProjection);
@@ -167,7 +170,7 @@ void CGame::SetPointSamplerState()
 	NOTE: This function is very inefficient because it has to convert
 	from texture to sprite every time we need to draw it
 */
-void CGame::Draw(float x, float y, LPTEXTURE tex, RECT* rect, float alpha, int sprite_width, int sprite_height)
+void CGame::Draw(float x, float y, LPTEXTURE tex, RECT* rect, float alpha, int sprite_width, int sprite_height, int nx, int ny)
 {
 	if (tex == NULL) return;
 
@@ -176,7 +179,7 @@ void CGame::Draw(float x, float y, LPTEXTURE tex, RECT* rect, float alpha, int s
 
 	D3DX10_SPRITE sprite;
 
-	// Set the sprite’s shader resource view
+	// Set the spriteï¿½s shader resource view
 	sprite.pTexture = tex->getShaderResourceView();
 
 	if (rect == NULL)
@@ -219,14 +222,29 @@ void CGame::Draw(float x, float y, LPTEXTURE tex, RECT* rect, float alpha, int s
 	// The translation matrix to be created
 	D3DXMATRIX matTranslation;
 
+	// Scale the sprite to its correct width and height because by default, DirectX draws it with width = height = 1.0f 
+	D3DXMATRIX matScaling;
+	
+	float scaleX = (FLOAT)spriteWidth;
+	float scaleY = (FLOAT)spriteHeight;
+
+	if (nx < 0)
+	{
+		scaleX = -scaleX;
+		x += spriteWidth;
+	}
+	if (ny < 0)
+	{
+		scaleY = -scaleY;
+		y -= spriteHeight;
+	}
+
+	D3DXMatrixScaling(&matScaling, scaleX, scaleY, 1.0f);
+
 	// Create the translation matrix
 	D3DXMatrixTranslation(&matTranslation, x, (backBufferHeight - y), 0.1f);
 
-	// Scale the sprite to its correct width and height because by default, DirectX draws it with width = height = 1.0f 
-	D3DXMATRIX matScaling;
-	D3DXMatrixScaling(&matScaling, (FLOAT)spriteWidth, (FLOAT)spriteHeight, 1.0f);
-
-	// Setting the sprite’s position and size
+	// Setting the spriteâ€™s position and size
 	sprite.matWorld = (matScaling * matTranslation);
 
 	spriteObject->DrawSpritesImmediate(&sprite, 1, 0, 0);
@@ -453,11 +471,26 @@ void CGame::_ParseSection_SCENES(string line)
 {
 	vector<string> tokens = split(line);
 
-	if (tokens.size() < 2) return;
-	int id = atoi(tokens[0].c_str());
-	LPCWSTR path = ToLPCWSTR(tokens[1]);   // file: ASCII format (single-byte char) => Wide Char
+	if (tokens.size() < 3) return; // Need 3 columns now: id, type, file
 
-	LPSCENE scene = new CPlayScene(id, path);
+	int id = atoi(tokens[0].c_str());
+	int type = atoi(tokens[1].c_str());
+	LPCWSTR path = ToLPCWSTR(tokens[2]);   // file: ASCII format (single-byte char) => Wide Char
+
+	LPSCENE scene = nullptr;
+	switch (type)
+	{
+	case (int)SceneType::PlayScene:
+		scene = new CPlayScene(id, path);
+		break;
+	case (int)SceneType::WorldMapScene:
+		scene = new CWorldMapScene(id, path);
+		break;
+	default:
+		DebugOut(L"[ERROR] Unknown scene type: %d\n", type);
+		return;
+	}
+
 	scenes[id] = scene;
 }
 
@@ -559,4 +592,5 @@ CGame* CGame::GetInstance()
 	if (__instance == NULL) __instance = new CGame();
 	return __instance;
 }
+
 

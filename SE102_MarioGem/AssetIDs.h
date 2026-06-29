@@ -10,18 +10,6 @@ constexpr int ID_TEX_ENEMY = 10;
 constexpr int ID_TEX_MISC = 20;
 constexpr int ID_TEX_BOSS = 50;
 
-//[OBJECT_TYPE]
-enum class ObjectType : int {
-  Mario = 0,
-  Brick = 1,
-  Goomba = 2,
-  Koopas = 3,
-  Coin = 4,
-  Platform = 5,
-  BoomBoom = 36,
-  Portal = 50
-};
-
 //[SPRITE_ID]
 #pragma region MARIO
 
@@ -113,3 +101,32 @@ constexpr int ID_SPRITE_CLOUD = 50000;
 constexpr int ID_SPRITE_CLOUD_BEGIN = ID_SPRITE_CLOUD + 1000;
 constexpr int ID_SPRITE_CLOUD_MIDDLE = ID_SPRITE_CLOUD + 2000;
 constexpr int ID_SPRITE_CLOUD_END = ID_SPRITE_CLOUD + 3000;
+enum class ObjectType : int
+{
+	Mario = 0,
+	Brick = 1,
+	Goomba = 2,
+	Koopas = 3,
+	Coin = 4,
+	Platform = 5,
+	Portal = 50,
+	Burner = 7,
+	Blaster = 8,
+	Canon = 9,
+	CannonBall = 10,
+  BoomBoom = 36,
+	CollisionBox = 100,
+};
+
+enum class MapObjectType : int
+{
+	MapMario = 200,
+	MapNode = 201,
+	MapDecoration = 202, // Cây, lâu đài...
+};
+
+enum class SceneType : int
+{
+	PlayScene = 1,
+	WorldMapScene = 2
+};

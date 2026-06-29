@@ -6,7 +6,8 @@
 enum class GoombaState : int
 {
 	Walking = 100,
-	Die = 200
+	Die = 200,
+	Die_KnockOut = 300
 };
 
 
@@ -22,7 +23,7 @@ constexpr int GOOMBA_DIE_TIMEOUT = 500;
 
 constexpr int ID_ANI_GOOMBA_WALKING = 5000;
 constexpr int ID_ANI_GOOMBA_DIE = 5001;
-
+constexpr int ID_ANI_GOOMBA_DIE_KNOCKOUT = 5002;
 
 class CGoomba : public CGameObject
 {
@@ -36,7 +37,7 @@ protected:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
 	virtual void Render();
 
-	virtual int IsCollidable() { return 1; };
+	virtual int IsCollidable() { return (state != static_cast<int>(GoombaState::Die) && state != static_cast<int>(GoombaState::Die_KnockOut)); };
 	virtual int IsBlocking() { return 0; }
 	virtual void OnNoCollision(DWORD dt);
 
