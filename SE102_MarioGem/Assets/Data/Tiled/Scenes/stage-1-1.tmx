@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="176" height="40" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="19">
+<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="176" height="40" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="36">
  <editorsettings>
-  <export target="map-01.json" format="json"/>
+  <export target="stage-1-1.json" format="json"/>
  </editorsettings>
  <tileset firstgid="1" source="../Tilesets/Tilesets.tsx"/>
  <tileset firstgid="871" source="../Tilesets/bg-1-1.tsx"/>
@@ -49,7 +49,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="4" name="CollisionBox">
+ <objectgroup id="4" name="Ground">
   <object id="6" type="CollisionBox" x="0" y="416" width="624" height="16"/>
   <object id="9" type="CollisionBox" x="624" y="400" width="464" height="32"/>
   <object id="10" type="CollisionBox" x="1152" y="416" width="352" height="16"/>
@@ -61,5 +61,19 @@
   <object id="16" type="CollisionBox" x="1664" y="384" width="32" height="32"/>
   <object id="17" type="CollisionBox" x="1696" y="400" width="16" height="16"/>
   <object id="18" type="CollisionBox" x="1664" y="416" width="576" height="16"/>
+ </objectgroup>
+ <objectgroup id="6" name="Objects">
+  <object id="20" name="Mario" type="Mario" x="80" y="352">
+   <point/>
+  </object>
+  <object id="33" name="Coin" type="Coin" x="160" y="384">
+   <point/>
+  </object>
+  <object id="34" name="Coin" type="Coin" x="176" y="384">
+   <point/>
+  </object>
+  <object id="35" name="Coin" type="Coin" x="192" y="384">
+   <point/>
+  </object>
  </objectgroup>
 </map>

@@ -14,6 +14,7 @@
 #include "PlaySceneKeyHandler.h"
 
 #include "ObjectFactory.h"
+#include "Camera.h"
 
 using namespace std;
 
@@ -345,6 +346,8 @@ void CPlayScene::LoadMapJSON(LPCWSTR jsonPath)
 	map = new CTileMap();
 	map->LoadJSON(jsonPath, basePath.c_str());
 
+	CCamera::GetInstance()->SetMapBounds((float)map->GetWidth() * map->GetTileWidth(), (float)map->GetHeight() * map->GetTileHeight());
+
 	ifstream f(jsonPath);
 	if (!f.is_open())
 	{
@@ -410,7 +413,7 @@ bool CPlayScene::IsGameObjectInRegion(LPGAMEOBJECT obj, float r_left, float r_to
 void CPlayScene::Update(DWORD dt)
 {
 	float cx, cy;
-	CGame::GetInstance()->GetCamPos(cx, cy);
+	CCamera::GetInstance()->GetCamPos(cx, cy);
 	float screenWidth = (float)CGame::GetInstance()->GetBackBufferWidth();
 	float screenHeight = (float)CGame::GetInstance()->GetBackBufferHeight();
 
@@ -445,15 +448,9 @@ void CPlayScene::Update(DWORD dt)
 	if (player == NULL) return; 
 
 	// Update camera to follow mario
-	player->GetPosition(cx, cy);
-
-	CGame *game = CGame::GetInstance();
-	cx -= game->GetBackBufferWidth() / 2;
-	cy -= game->GetBackBufferHeight() / 2;
-
-	if (cx < 0) cx = 0;
-
-	CGame::GetInstance()->SetCamPos(cx, 0.0f /*cy*/);
+	CCamera* camera = CCamera::GetInstance();
+	camera->SetTarget(player);
+	camera->Update();
 
 	for (auto obj : spawnQueue)
 		objects.push_back(obj);
@@ -471,7 +468,7 @@ void CPlayScene::Render()
 		map->Render();
 
 	float cx, cy;
-	CGame::GetInstance()->GetCamPos(cx, cy);
+	CCamera::GetInstance()->GetCamPos(cx, cy);
 	float screenWidth = (float)CGame::GetInstance()->GetBackBufferWidth();
 	float screenHeight = (float)CGame::GetInstance()->GetBackBufferHeight();
 

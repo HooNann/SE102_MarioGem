@@ -7,6 +7,8 @@
 #include "Sprites.h"
 #include "WorldMapKeyHandler.h"
 #include "ObjectFactory.h"
+#include "Mario.h"
+#include "Camera.h"
 #include "Game.h"
 #include "debug.h"
 
@@ -152,9 +154,10 @@ void CWorldMapScene::Update(DWORD dt)
 		float map_width = (float)(map->GetWidth() * map->GetTileWidth());
 		float screen_width = (float)CGame::GetInstance()->GetBackBufferWidth();
 		cx = (map_width - screen_width) / 2.0f;
-	}
+		if (cx < 0) cx = 0;
 
-	CGame::GetInstance()->SetCamPos(cx, cy);
+		CCamera::GetInstance()->SetCamPos(cx, cy);
+	}
 
 	if (player) player->Update(dt);
 	for (auto obj : mapObjects)

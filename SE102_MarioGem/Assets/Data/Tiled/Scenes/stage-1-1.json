@@ -56,7 +56,7 @@
         {
          "draworder":"topdown",
          "id":4,
-         "name":"CollisionBox",
+         "name":"Ground",
          "objects":[
                 {
                  "height":16,
@@ -195,9 +195,72 @@
          "visible":true,
          "x":0,
          "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":6,
+         "name":"Objects",
+         "objects":[
+                {
+                 "height":0,
+                 "id":20,
+                 "name":"Mario",
+                 "opacity":1,
+                 "point":true,
+                 "rotation":0,
+                 "type":"Mario",
+                 "visible":true,
+                 "width":0,
+                 "x":80,
+                 "y":352
+                }, 
+                {
+                 "height":0,
+                 "id":33,
+                 "name":"Coin",
+                 "opacity":1,
+                 "point":true,
+                 "rotation":0,
+                 "type":"Coin",
+                 "visible":true,
+                 "width":0,
+                 "x":160,
+                 "y":384
+                }, 
+                {
+                 "height":0,
+                 "id":34,
+                 "name":"Coin",
+                 "opacity":1,
+                 "point":true,
+                 "rotation":0,
+                 "type":"Coin",
+                 "visible":true,
+                 "width":0,
+                 "x":176,
+                 "y":384
+                }, 
+                {
+                 "height":0,
+                 "id":35,
+                 "name":"Coin",
+                 "opacity":1,
+                 "point":true,
+                 "rotation":0,
+                 "type":"Coin",
+                 "visible":true,
+                 "width":0,
+                 "x":192,
+                 "y":384
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
         }],
- "nextlayerid":5,
- "nextobjectid":19,
+ "nextlayerid":7,
+ "nextobjectid":36,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.12.1",

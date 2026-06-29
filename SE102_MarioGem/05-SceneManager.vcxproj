@@ -195,6 +195,7 @@
     <ClInclude Include="CollisionBox.h" />
     <ClInclude Include="debug.h" />
     <ClInclude Include="FireBall.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Hud.h" />

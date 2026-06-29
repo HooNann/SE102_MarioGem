@@ -191,6 +191,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Camera.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
     <ClInclude Include="Game.h">
       <Filter>Framework\Core</Filter>
     </ClInclude>
