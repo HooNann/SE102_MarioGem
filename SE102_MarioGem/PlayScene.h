@@ -28,8 +28,8 @@ protected:
 	float timeRemaining;
 	std::string hudWorld;
 
-  vector<LPGAMEOBJECT> objects;
-
+	void _ParseSection_SPRITES(string line);
+	void _ParseSection_ANIMATIONS(string line);
 	void _ParseSection_SPRITES_JSON(string line);
 	void _ParseSection_ANIMATIONS_JSON(string line);
 
