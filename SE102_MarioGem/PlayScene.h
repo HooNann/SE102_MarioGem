@@ -42,6 +42,8 @@ protected:
 
 	// Load map và objects từ file JSON của Tiled Map Editor
 	void LoadMapJSON(LPCWSTR jsonPath);
+
+	bool IsGameObjectInRegion(LPGAMEOBJECT obj, float r_left, float r_top, float r_right, float r_bottom);
 	
 public:
   CPlayScene(int id, LPCWSTR filePath);

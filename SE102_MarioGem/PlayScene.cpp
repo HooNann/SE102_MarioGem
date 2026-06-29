@@ -442,7 +442,6 @@ void CPlayScene::Update(DWORD dt)
     return;
 
   // Update camera to follow mario
-  float cx, cy;
   player->GetPosition(cx, cy);
 
   CGame *game = CGame::GetInstance();
