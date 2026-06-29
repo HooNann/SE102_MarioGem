@@ -461,9 +461,6 @@ void CPlayScene::Clear() {
 */
 void CPlayScene::Unload() {
   Clear();
-  player = NULL;
-
-	objects.clear();
 
 	// Free any objects queued to spawn but not yet added (e.g. Canon fires on same frame as scene switch)
 	for (auto obj : spawnQueue) delete obj;
