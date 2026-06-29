@@ -1,5 +1,6 @@
 #include "Portal.h"
 #include "Game.h"
+#include "Camera.h"
 #include "Textures.h"
 
 CPortal::CPortal(float l, float t, float r, float b, int scene_id )
@@ -27,7 +28,7 @@ void CPortal::RenderBoundingBox()
 	rect.bottom = (int)b - (int)t;
 
 	float cx, cy;
-	CGame::GetInstance()->GetCamPos(cx, cy);
+	CCamera::GetInstance()->GetCamPos(cx, cy);
 
 	CGame::GetInstance()->Draw(x - cx, y - cy, bbox, nullptr, BBOX_ALPHA, rect.right - 1, rect.bottom - 1);
 }

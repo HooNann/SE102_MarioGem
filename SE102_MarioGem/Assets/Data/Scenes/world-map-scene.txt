@@ -1,2 +1,2 @@
 [MAP]
-Assets\Data\Scenes\world-map-scene.json
+Assets\Data\Tiled\Scenes\world-map-scene.json

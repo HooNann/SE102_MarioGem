@@ -37,7 +37,7 @@
         {
          "columns":8,
          "firstgid":1,
-         "image":"..\/..\/Textures\/All\/world-map-texture-atlas.png",
+         "image":"..\/..\/..\/Textures\/All\/world-map-texture-atlas.png",
          "imageheight":64,
          "imagewidth":128,
          "margin":0,

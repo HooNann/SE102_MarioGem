@@ -61,8 +61,7 @@ struct ID3DX10Sprite {
 #define MAIN_WINDOW_TITLE L"SE102 - Mario Gem"
 #define WINDOW_ICON_PATH L"mario.ico"
 
-#define BACKGROUND_COLOR                                                       \
-  D3DXCOLOR(200.0f / 255, 200.0f / 255, 255.0f / 255, 0.0f)
+#define BACKGROUND_COLOR D3DXCOLOR(0.0f, 0.0f, 0.0f, 0.0f)
 
 #define SCREEN_WIDTH 320
 #define SCREEN_HEIGHT 240
@@ -205,7 +204,7 @@ int WINAPI WinMain(
 	_In_ LPSTR lpCmdLine,
 	_In_ int nCmdShow
 ) {
-	HWND hWnd = CreateGameWindow(hInstance, nCmdShow, SCREEN_WIDTH * RENDER_SCALE, SCREEN_HEIGHT * RENDER_SCALE);
+	HWND hWnd = CreateGameWindow(hInstance, nCmdShow, SCREEN_WIDTH, SCREEN_HEIGHT);
 
 	SetDebugWindow(hWnd);
 
@@ -217,6 +216,8 @@ int WINAPI WinMain(
 
 	//IMPORTANT: this is the only place where a hardcoded file name is allowed !
 	game->Load(L"Assets\\Data\\Config\\main-config.txt");
+
+	SetWindowPos(hWnd, 0, 0, 0, SCREEN_WIDTH * RENDER_SCALE, SCREEN_HEIGHT * RENDER_SCALE, SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOZORDER);
 
 	Run();
 

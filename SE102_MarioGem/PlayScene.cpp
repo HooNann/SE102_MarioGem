@@ -15,6 +15,7 @@
 
 #include "ObjectFactory.h"
 #include <fstream>
+#include "Camera.h"
 
 using namespace std;
 
@@ -338,6 +339,8 @@ void CPlayScene::LoadMapJSON(LPCWSTR jsonPath)
 	map = new CTileMap();
 	map->LoadJSON(jsonPath, basePath.c_str());
 
+	CCamera::GetInstance()->SetMapBounds((float)map->GetWidth() * map->GetTileWidth(), (float)map->GetHeight() * map->GetTileHeight());
+
 	ifstream f(jsonPath);
 	if (!f.is_open())
 	{
@@ -384,19 +387,55 @@ void CPlayScene::LoadMapJSON(LPCWSTR jsonPath)
 	DebugOut(L"[INFO] Done loading Tiled map: %s\n", jsonPath);
 }
 
+bool CPlayScene::IsGameObjectInRegion(LPGAMEOBJECT obj, float r_left, float r_top, float r_right, float r_bottom)
+{
+	float l, t, r, b;
+	obj->GetBoundingBox(l, t, r, b);
+
+	// Some objects (like UI or special markers) might return 0 for all bounds. If so, fallback to position check.
+	if (l == 0 && t == 0 && r == 0 && b == 0)
+	{
+		float ox, oy;
+		obj->GetPosition(ox, oy);
+		return (ox >= r_left && ox <= r_right && oy >= r_top && oy <= r_bottom);
+	}
+
+	return !(r < r_left || l > r_right || b < r_top || t > r_bottom);
+}
+
 void CPlayScene::Update(DWORD dt)
 {
-	// We know that Mario is the first object in the list hence we won't add him into the colliable object list
-	// TO-DO: This is a "dirty" way, need a more organized way 
+	float cx, cy;
+	CCamera::GetInstance()->GetCamPos(cx, cy);
+	float screenWidth = (float)CGame::GetInstance()->GetBackBufferWidth();
+	float screenHeight = (float)CGame::GetInstance()->GetBackBufferHeight();
 
-  vector<LPGAMEOBJECT> coObjects;
-  for (size_t i = 1; i < objects.size(); i++) {
-    coObjects.push_back(objects[i]);
-  }
+	vector<LPGAMEOBJECT> activeObjects;
+	float update_margin = 160.0f;
+	float active_left = cx - update_margin;
+	float active_top = cy - update_margin;
+	float active_right = cx + screenWidth + update_margin;
+	float active_bottom = cy + screenHeight + update_margin;
 
-  for (size_t i = 0; i < objects.size(); i++) {
-    objects[i]->Update(dt, &coObjects);
-  }
+	for (size_t i = 0; i < objects.size(); i++)
+	{
+		if (objects[i] == player || IsGameObjectInRegion(objects[i], active_left, active_top, active_right, active_bottom))
+		{
+			activeObjects.push_back(objects[i]);
+		}
+	}
+
+	vector<LPGAMEOBJECT> coObjects;
+	for (size_t i = 0; i < activeObjects.size(); i++)
+	{
+		if (activeObjects[i] != player && !activeObjects[i]->IsDeleted())
+			coObjects.push_back(activeObjects[i]);
+	}
+
+	for (size_t i = 0; i < activeObjects.size(); i++)
+	{
+		activeObjects[i]->Update(dt, &coObjects);
+	}
 
   // skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
   if (player == NULL)
@@ -418,6 +457,10 @@ void CPlayScene::Update(DWORD dt)
   float maxCamX = 250.0f; 
   if (cx > maxCamX)
     cx = maxCamX;
+	// Update camera to follow mario
+	CCamera* camera = CCamera::GetInstance();
+	camera->SetTarget(player);
+	camera->Update();
 
 	for (auto obj : spawnQueue)
 		objects.push_back(obj);
@@ -434,8 +477,24 @@ void CPlayScene::Render()
 	if (map != NULL)
 		map->Render();
 
+	float cx, cy;
+	CCamera::GetInstance()->GetCamPos(cx, cy);
+	float screenWidth = (float)CGame::GetInstance()->GetBackBufferWidth();
+	float screenHeight = (float)CGame::GetInstance()->GetBackBufferHeight();
+
+	float render_margin = 48.0f;
+	float render_left = cx - render_margin;
+	float render_top = cy - render_margin;
+	float render_right = cx + screenWidth + render_margin;
+	float render_bottom = cy + screenHeight + render_margin;
+
 	for (int i = 0; i < objects.size(); i++)
-		objects[i]->Render();
+	{
+		if (objects[i] == player || IsGameObjectInRegion(objects[i], render_left, render_top, render_right, render_bottom))
+		{
+			objects[i]->Render();
+		}
+	}
 
 	if (hud != NULL && player != NULL)
 		hud->Render((CMario*)player, (int)timeRemaining, hudWorld.c_str());
