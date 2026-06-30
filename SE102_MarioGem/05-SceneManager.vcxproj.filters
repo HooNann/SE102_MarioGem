@@ -132,6 +132,9 @@
     <ClCompile Include="Coin.cpp">
       <Filter>Game\Objects\Items</Filter>
     </ClCompile>
+    <ClCompile Include="BossExplosion.cpp">
+      <Filter>Game\Objects\Effects</Filter>
+    </ClCompile>
     <ClCompile Include="PlayScene.cpp">
       <Filter>Game\Scenes\PlayScene</Filter>
     </ClCompile>
@@ -262,6 +265,9 @@
     </ClInclude>
     <ClInclude Include="Coin.h">
       <Filter>Game\Objects\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="BossExplosion.h">
+      <Filter>Game\Objects\Effects</Filter>
     </ClInclude>
     <ClInclude Include="PlayScene.h">
       <Filter>Game\Scenes\PlayScene</Filter>

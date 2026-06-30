@@ -1,6 +1,8 @@
 #include "BoomBoom.h"
 #include "AssetIDs.h"
 #include "debug.h"
+#include <math.h>
+#include "BossExplosion.h"
 
 #define ID_ANI_BOOMBOOM_WALKING 36000
 #define ID_ANI_BOOMBOOM_HIDING 36004
@@ -119,6 +121,16 @@ void CBoomBoom::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 	if (state == BOOMBOOM_STATE_DIE) {
 		if (GetTickCount64() - untouchable_start > 3000) {
+			CPlayScene* scene = (CPlayScene*)CGame::GetInstance()->GetCurrentScene();
+			int num_stars = 8;
+			for (int i = 0; i < num_stars; i++) {
+				float angle = i * (3.14159265f * 2.0f / num_stars);
+				float speed = 0.15f;
+				float star_vx = speed * cos(angle);
+				float star_vy = speed * sin(angle);
+				CBossExplosion* star = new CBossExplosion(x, y, star_vx, star_vy);
+				scene->QueueSpawn(star); 
+			}
 			Delete();
 			return;
 		}
@@ -198,12 +210,14 @@ void CBoomBoom::SetState(int state)
 	switch (state)
 	{
 	case BOOMBOOM_STATE_DIE:
+	{
 		y += (BOOMBOOM_BBOX_HEIGHT - BOOMBOOM_BBOX_HEIGHT_DIE) / 2;
 		vx = 0;
 		vy = 0;
 		ay = 0;
 		untouchable_start = GetTickCount64();
 		break;
+	}
 	case BOOMBOOM_STATE_HIDING:
 		y += (BOOMBOOM_BBOX_HEIGHT - BOOMBOOM_BBOX_HEIGHT_HIDING) / 2;
 		vx = 0;

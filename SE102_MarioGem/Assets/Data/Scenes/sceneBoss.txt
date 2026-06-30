@@ -4,6 +4,7 @@ Assets\Data\Graphics\mario.txt
 Assets\Data\Graphics\brick.txt
 Assets\Data\Graphics\boom_boom.txt
 Assets\Data\Graphics\boom_boom_platform.txt
+Assets\Data\Graphics\boss_explosion.txt
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type
