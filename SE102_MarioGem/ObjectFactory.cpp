@@ -14,6 +14,7 @@
 #include "Mario.h"
 #include "Platform.h"
 #include "Portal.h"
+#include "QuestionBlock.h"
 
 
 using json = nlohmann::json;
@@ -145,6 +146,8 @@ LPGAMEOBJECT ObjectFactory::CreateFromJSON(const json &obj) {
       objectType = ObjectType::MapNode;
     else if (typeStr == "MapDecoration")
       objectType = ObjectType::MapDecoration;
+	else if (typeStr == "QuestionBlock")
+		objectType = ObjectType::QuestionBlock;
     else {
       DebugOut(L"[WARNING] Unknown object type in JSON: %s\n",
                wstring(typeStr.begin(), typeStr.end()).c_str());
@@ -195,6 +198,11 @@ LPGAMEOBJECT ObjectFactory::CreateFromJSON(const json &obj) {
 
   case ObjectType::Burner:
     return new CBurner(x, y);
+
+  case ObjectType::QuestionBlock: {
+      int item_type = GetIntProperty(obj, "item_type", -1);
+	  return new CQuestionBlock(x, y, item_type);
+  }
 
   case ObjectType::Blaster:
     return new CBlaster(x, y);

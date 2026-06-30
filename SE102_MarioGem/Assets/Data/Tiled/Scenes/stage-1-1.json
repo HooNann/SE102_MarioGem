@@ -252,6 +252,25 @@
                  "width":0,
                  "x":192,
                  "y":384
+                }, 
+                {
+                 "height":0,
+                 "id":36,
+                 "name":"QuestionBlock",
+                 "opacity":1,
+                 "point":true,
+                 "properties":[
+                        {
+                         "name":"item_type",
+                         "type":"int",
+                         "value":2
+                        }],
+                 "rotation":0,
+                 "type":"QuestionBlock",
+                 "visible":true,
+                 "width":0,
+                 "x":176,
+                 "y":352
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -260,37 +279,19 @@
          "y":0
         }],
  "nextlayerid":7,
- "nextobjectid":36,
+ "nextobjectid":37,
  "orientation":"orthogonal",
  "renderorder":"right-down",
- "tiledversion":"1.12.1",
+ "tiledversion":"1.12.2",
  "tileheight":16,
  "tilesets":[
         {
-         "columns":29,
          "firstgid":1,
-         "image":"..\/..\/..\/Textures\/Items\/tilesheet.png",
-         "imageheight":480,
-         "imagewidth":464,
-         "margin":0,
-         "name":"Tilesets",
-         "spacing":0,
-         "tilecount":870,
-         "tileheight":16,
-         "tilewidth":16
+         "source":"..\/Tilesets\/Tilesets.tsx"
         }, 
         {
-         "columns":176,
          "firstgid":871,
-         "image":"..\/..\/..\/Textures\/Environment\/Background\/bg-1-1.png",
-         "imageheight":626,
-         "imagewidth":2816,
-         "margin":0,
-         "name":"bg-1-1",
-         "spacing":0,
-         "tilecount":6864,
-         "tileheight":16,
-         "tilewidth":16
+         "source":"..\/Tilesets\/bg-1-1.tsx"
         }],
  "tilewidth":16,
  "type":"map",

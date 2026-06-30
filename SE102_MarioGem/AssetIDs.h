@@ -13,7 +13,7 @@ enum class ObjectType : int {
   Canon = 9,
   CannonBall = 10,
   CollisionBox = 100,
-
+  QuestionBlock = 101,
   BoomBoom = 36,
 
   MapMario = 200,
