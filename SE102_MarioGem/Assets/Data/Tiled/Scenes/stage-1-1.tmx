@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="176" height="40" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="37">
+<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="176" height="40" tilewidth="16" tileheight="16" infinite="0" nextlayerid="9" nextobjectid="51">
  <editorsettings>
   <export target="stage-1-1.json" format="json"/>
  </editorsettings>
@@ -61,6 +61,24 @@
   <object id="16" type="CollisionBox" x="1664" y="384" width="32" height="32"/>
   <object id="17" type="CollisionBox" x="1696" y="400" width="16" height="16"/>
   <object id="18" type="CollisionBox" x="1664" y="416" width="576" height="16"/>
+  <object id="49" type="CollisionBox" x="2256" y="416" width="560" height="16"/>
+ </objectgroup>
+ <objectgroup id="8" name="CameraZone">
+  <object id="50" type="CameraZone" x="0" y="0" width="2816" height="432"/>
+ </objectgroup>
+ <objectgroup id="7" name="Platform">
+  <object id="37" type="Platform" x="240" y="368" width="48" height="16"/>
+  <object id="38" type="Platform" x="272" y="336" width="48" height="16"/>
+  <object id="39" type="Platform" x="400" y="368" width="80" height="16"/>
+  <object id="40" type="Platform" x="464" y="336" width="64" height="16"/>
+  <object id="41" type="Platform" x="512" y="304" width="64" height="16"/>
+  <object id="42" type="Platform" x="512" y="384" width="96" height="16"/>
+  <object id="43" type="Platform" x="1312" y="144" width="64" height="16"/>
+  <object id="44" type="Platform" x="1264" y="384" width="112" height="16"/>
+  <object id="45" type="Platform" x="1296" y="352" width="112" height="16"/>
+  <object id="46" type="Platform" x="1328" y="320" width="112" height="16"/>
+  <object id="47" type="Platform" x="2144" y="368" width="48" height="16"/>
+  <object id="48" type="Platform" x="2176" y="272" width="48" height="16"/>
  </objectgroup>
  <objectgroup id="6" name="Objects">
   <object id="20" name="Mario" type="Mario" x="80" y="352">

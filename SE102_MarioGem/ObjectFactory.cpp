@@ -40,9 +40,6 @@ LPGAMEOBJECT ObjectFactory::Create(ObjectType type,
   case ObjectType::Portal:
     return CPortal::CreateFromTokens(tokens);
 
-  case ObjectType::Platform:
-    return CPlatform::CreateFromTokens(tokens);
-
   case ObjectType::Burner:
     return CBurner::CreateFromTokens(tokens);
 
@@ -185,15 +182,10 @@ LPGAMEOBJECT ObjectFactory::CreateFromJSON(const json &obj) {
   }
 
   case ObjectType::Platform: {
-    // Platform đọc thêm các Custom Properties từ Tiled
-    float cellWidth = GetFloatProperty(obj, "CellWidth", 16.0f);
-    float cellHeight = GetFloatProperty(obj, "CellHeight", 16.0f);
-    int length = GetIntProperty(obj, "Length", 1);
-    int spriteBegin = GetIntProperty(obj, "SpriteBegin", 0);
-    int spriteMiddle = GetIntProperty(obj, "SpriteMiddle", 0);
-    int spriteEnd = GetIntProperty(obj, "SpriteEnd", 0);
-    return new CPlatform(x, y, cellWidth, cellHeight, length, spriteBegin,
-                         spriteMiddle, spriteEnd);
+    // Platform giờ đây chỉ lấy chiều dài và chiều rộng giống hệt CollisionBox
+    float cx = x + w / 2.0f;
+    float cy = y + h / 2.0f;
+    return new CPlatform(cx, cy, w, h);
   }
 
   case ObjectType::Burner:

@@ -23,6 +23,12 @@ protected:
 
 	CTileMap* map;	// Tiled Map (background tiles)
 
+	struct CameraZone {
+		float l, t, r, b;
+	};
+	vector<CameraZone> cameraZones;
+	float map_width, map_height;
+
 	CHud* hud;
 	float timeRemaining;
 	std::string hudWorld;

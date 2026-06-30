@@ -2,37 +2,26 @@
 
 #include "GameObject.h"
 
-// 
-// The most popular type of object in Mario! 
-// 
+// Platform giờ đây là một khối tàng hình chỉ lo xử lý vật lý (nhảy xuyên từ dưới lên)
 class CPlatform : public CGameObject
 {
-protected:
-	int length;				// Unit: cell 
-	float cellWidth;
-	float cellHeight;
-	int spriteIdBegin, spriteIdMiddle, spriteIdEnd;
+	float width;
+	float height;
 
 public:
-	CPlatform(float x, float y,
-		float cell_width, float cell_height, int length,
-		int sprite_id_begin, int sprite_id_middle, int sprite_id_end) :CGameObject(x, y)
+	CPlatform(float x, float y, float width, float height) : CGameObject(x, y)
 	{
-		this->length = length;
-		this->cellWidth = cell_width;
-		this->cellHeight = cell_height;
-		this->spriteIdBegin = sprite_id_begin;
-		this->spriteIdMiddle = sprite_id_middle;
-		this->spriteIdEnd = sprite_id_end;
+		this->width = width;
+		this->height = height;
 	}
 
-	void Render();
+	void Render() {} // Tàng hình
 	void Update(DWORD dt) {}
 	void GetBoundingBox(float& l, float& t, float& r, float& b);
-	void RenderBoundingBox();
-
+	
+	// Cốt lõi của Platform: Chỉ cản Mario khi rơi từ trên xuống
 	int IsDirectionColliable(float nx, float ny);
-	static LPGAMEOBJECT CreateFromTokens(const vector<string>& tokens);
+	int IsBlocking() { return 1; }
 };
 
 typedef CPlatform* LPPLATFORM;

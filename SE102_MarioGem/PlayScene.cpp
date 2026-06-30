@@ -288,7 +288,7 @@ void CPlayScene::Load()
 	DebugOut(L"[INFO] Start loading scene from : %s \n", sceneFilePath);
 
 	// Reset camera bounds to 0,0 in case this scene doesn't have a map
-	CCamera::GetInstance()->SetMapBounds(0.0f, 0.0f);
+	CCamera::GetInstance()->SetCameraBounds(0.0f, 0.0f, 0.0f, 0.0f);
 
 	ifstream f;
 	f.open(sceneFilePath);
@@ -349,7 +349,11 @@ void CPlayScene::LoadMapJSON(LPCWSTR jsonPath)
 	map = new CTileMap();
 	map->LoadJSON(jsonPath, basePath.c_str());
 
-	CCamera::GetInstance()->SetMapBounds((float)map->GetWidth() * map->GetTileWidth(), (float)map->GetHeight() * map->GetTileHeight());
+	map_width = (float)map->GetWidth() * map->GetTileWidth();
+	map_height = (float)map->GetHeight() * map->GetTileHeight();
+	
+	cameraZones.clear();
+	CCamera::GetInstance()->SetCameraBounds(0, 0, map_width, map_height);
 
 	ifstream f(jsonPath);
 	if (!f.is_open())
@@ -373,6 +377,51 @@ void CPlayScene::LoadMapJSON(LPCWSTR jsonPath)
 
 		for (auto& obj : layer["objects"])
 		{
+			// Tự động chia hình chữ nhật lớn thành nhiều block nhỏ (QuestionBlock, Brick, Coin)
+			string typeStr = "";
+			if (obj.contains("type") && obj["type"].is_string()) typeStr = obj["type"].get<string>();
+			else if (obj.contains("class") && obj["class"].is_string()) typeStr = obj["class"].get<string>();
+
+			float w = obj.value("width", 0.0f);
+			float h = obj.value("height", 0.0f);
+
+			if (typeStr == "CameraZone") {
+				CameraZone z;
+				z.l = obj.value("x", 0.0f);
+				z.t = obj.value("y", 0.0f);
+				z.r = z.l + w;
+				z.b = z.t + h;
+				cameraZones.push_back(z);
+				continue; // Không tạo thành GameObject
+			}
+
+			if ((typeStr == "QuestionBlock" || typeStr == "Brick" || typeStr == "Coin") && w > 0 && h > 0) 
+			{
+				float startX = obj.value("x", 0.0f);
+				float startY = obj.value("y", 0.0f);
+
+				int cols = round(w / 16.0f);
+				int rows = round(h / 16.0f);
+				if (cols < 1) cols = 1;
+				if (rows < 1) rows = 1;
+
+				for (int r = 0; r < rows; ++r) {
+					for (int c = 0; c < cols; ++c) {
+						nlohmann::json singleObj = obj;
+						// Tiled xuất tọa độ x,y là góc trái trên của hình chữ nhật
+						// Ta cộng 8 pixel để dịch tọa độ vào chính giữa tâm khối 16x16
+						singleObj["x"] = startX + c * 16.0f + 8.0f;
+						singleObj["y"] = startY + r * 16.0f + 8.0f;
+						singleObj["width"] = 16.0f;
+						singleObj["height"] = 16.0f;
+						
+						LPGAMEOBJECT gameObj = ObjectFactory::CreateFromJSON(singleObj);
+						if (gameObj) objects.push_back(gameObj);
+					}
+				}
+				continue; // Đã xử lý xong nguyên mảng khối, bỏ qua việc khởi tạo object đơn
+			}
+
 			LPGAMEOBJECT gameObj = ObjectFactory::CreateFromJSON(obj);
 
 			if (gameObj == nullptr) continue;
@@ -450,8 +499,25 @@ void CPlayScene::Update(DWORD dt)
 	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
 	if (player == NULL) return; 
 
-	// Update camera to follow mario
+	// Update camera bounds if player is inside a CameraZone
+	bool inZone = false;
+	float px, py;
+	player->GetPosition(px, py);
+	
 	CCamera* camera = CCamera::GetInstance();
+	for (auto& z : cameraZones) {
+		if (px >= z.l && px <= z.r && py >= z.t && py <= z.b) {
+			camera->SetCameraBounds(z.l, z.t, z.r, z.b);
+			inZone = true;
+			break;
+		}
+	}
+	
+	if (!inZone) {
+		camera->SetCameraBounds(0, 0, map_width, map_height);
+	}
+
+	// Update camera to follow mario
 	camera->SetTarget(player);
 	camera->Update();
 
