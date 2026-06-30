@@ -47,8 +47,8 @@ void CQuestionBlock::SetState(int state)
 		{
 			isAlive = 0;		// Tước đoạt phần thưởng bên trong
 			bumpDirection = -1;	// Ra lệnh cho khối gạch bắt đầu chu kỳ nảy lên
+			ReleaseItem();
 		}
-		ReleaseItem();
 		break;
 	}
 
@@ -68,13 +68,13 @@ void CQuestionBlock::Render()
 	CAnimations* animations = CAnimations::GetInstance();
 	int aniId = -1;
 
-	if (state == QUESTION_BLOCK_STATE_EMPTY)
+	if (state == QUESTION_BLOCK_STATE_ALIVE)
 	{
-		aniId = ID_ANI_QUESTION_BLOCK_EMPTY; // ID_ANI của khối gạch sắt nâu rỗng chết cứng
+		aniId = ID_ANI_QUESTION_BLOCK_ALIVE; // ID_ANI của khối gạch nhấp nháy dấu hỏi vàng
 	}
 	else
 	{
-		aniId = ID_ANI_QUESTION_BLOCK_ALIVE; // ID_ANI của khối gạch nhấp nháy dấu hỏi vàng
+		aniId = ID_ANI_QUESTION_BLOCK_EMPTY; // ID_ANI của khối gạch sắt nâu rỗng chết cứng
 	}
 
 	animations->Get(aniId)->Render(x, y);
@@ -105,6 +105,10 @@ void CQuestionBlock::ReleaseItem()
 
 	if (newItem != NULL)
 	{
-		currentScene->AddObject(newItem);
+		currentScene->QueueSpawn(newItem);
+	}
+	else if (newCoin != NULL)
+	{
+		currentScene->QueueSpawn(newCoin);
 	}
 }

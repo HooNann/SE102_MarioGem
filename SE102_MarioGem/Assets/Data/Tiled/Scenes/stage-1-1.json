@@ -263,14 +263,14 @@
                         {
                          "name":"item_type",
                          "type":"int",
-                         "value":2
+                         "value":3
                         }],
                  "rotation":0,
                  "type":"QuestionBlock",
                  "visible":true,
                  "width":0,
-                 "x":176,
-                 "y":352
+                 "x":224,
+                 "y":368
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -282,16 +282,34 @@
  "nextobjectid":37,
  "orientation":"orthogonal",
  "renderorder":"right-down",
- "tiledversion":"1.12.2",
+ "tiledversion":"1.12.1",
  "tileheight":16,
  "tilesets":[
         {
+         "columns":29,
          "firstgid":1,
-         "source":"..\/Tilesets\/Tilesets.tsx"
+         "image":"..\/..\/..\/Textures\/Items\/tilesheet.png",
+         "imageheight":480,
+         "imagewidth":464,
+         "margin":0,
+         "name":"Tilesets",
+         "spacing":0,
+         "tilecount":870,
+         "tileheight":16,
+         "tilewidth":16
         }, 
         {
+         "columns":176,
          "firstgid":871,
-         "source":"..\/Tilesets\/bg-1-1.tsx"
+         "image":"..\/..\/..\/Textures\/Environment\/Background\/bg-1-1.png",
+         "imageheight":626,
+         "imagewidth":2816,
+         "margin":0,
+         "name":"bg-1-1",
+         "spacing":0,
+         "tilecount":6864,
+         "tileheight":16,
+         "tilewidth":16
         }],
  "tilewidth":16,
  "type":"map",

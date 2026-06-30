@@ -2,6 +2,7 @@
 #include "debug.h"
 
 #include "Mario.h"
+#include "QuestionBlock.h"
 #include "Game.h"
 
 #include "Goomba.h"
@@ -81,6 +82,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithCannonBall(e);
 	else if (dynamic_cast<CItem*>(e->obj))
 		OnCollisionWithItem(e);
+	else if (dynamic_cast<CQuestionBlock*>(e->obj))
+		OnCollisionWithQuestionBlock(e);
 }
 
 void CMario::OnCollisionWithCoin(LPCOLLISIONEVENT e)
@@ -94,6 +97,20 @@ void CMario::OnCollisionWithPortal(LPCOLLISIONEVENT e)
 {
 	CPortal* p = (CPortal*)e->obj;
 	CGame::GetInstance()->InitiateSwitchScene(p->GetSceneId());
+}
+
+void CMario::OnCollisionWithQuestionBlock(LPCOLLISIONEVENT e)
+{
+	// Mario nhảy húc đầu vào từ dưới lên
+	if (e->ny > 0)
+	{
+		vy = 0; // Chặn Mario lại, rơi xuống ngay lập tức
+		CQuestionBlock* block = dynamic_cast<CQuestionBlock*>(e->obj);
+		if (block->GetState() != QUESTION_BLOCK_STATE_EMPTY)
+		{
+			block->SetState(QUESTION_BLOCK_STATE_HIT);
+		}
+	}
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
