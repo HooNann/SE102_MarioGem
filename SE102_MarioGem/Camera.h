@@ -10,6 +10,7 @@ private:
 	float cam_x, cam_y;
 	float width, height;      // Kích thước màn hình
 	float max_x, max_y;       // Kích thước bản đồ (để giới hạn camera)
+	float min_x, min_y;       // Tọa độ góc trên cùng bên trái của biên camera
 
 	LPGAMEOBJECT target;      // Nhân vật camera đang theo dõi
 
@@ -20,7 +21,10 @@ public:
 
 	void SetTarget(LPGAMEOBJECT t) { target = t; }
 	void SetSize(float w, float h) { width = w; height = h; }
-	void SetMapBounds(float max_x, float max_y) { this->max_x = max_x; this->max_y = max_y; }
+	void SetCameraBounds(float min_x, float min_y, float max_x, float max_y) { 
+		this->min_x = min_x; this->min_y = min_y; 
+		this->max_x = max_x; this->max_y = max_y; 
+	}
 
 	void Update();
 
