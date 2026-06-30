@@ -10,6 +10,7 @@
 #include "Burner.h"
 #include "Blaster.h"
 #include "CannonBall.h"
+#include "CItem.h"
 
 #include "Collision.h"
 #include "FireBall.h"
@@ -78,40 +79,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithBlaster(e);
 	else if (dynamic_cast<CCannonBall*>(e->obj))
 		OnCollisionWithCannonBall(e);
-}
-
-void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
-{
-	CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
-
-	// jump on top >> kill Goomba and deflect a bit 
-	if (e->ny < 0)
-	{
-		if (goomba->GetState() != ToInt(GoombaState::Die))
-		{
-			goomba->SetState(GoombaState::Die);
-			vy = -MARIO_JUMP_DEFLECT_SPEED;
-		}
-	}
-	else // hit by Goomba
-	{
-		if (untouchable == 0)
-		{
-			if (goomba->GetState() != ToInt(GoombaState::Die))
-			{
-				if (level > MarioLevel::Small)
-				{
-					level = MarioLevel::Small;
-					StartUntouchable();
-				}
-				else
-				{
-					DebugOut(L">>> Mario DIE >>> \n");
-					SetState(MarioState::Die);
-				}
-			}
-		}
-	}
+	else if (dynamic_cast<CItem*>(e->obj))
+		OnCollisionWithItem(e);
 }
 
 void CMario::OnCollisionWithCoin(LPCOLLISIONEVENT e)
@@ -217,6 +186,33 @@ void CMario::OnCollisionWithEnemy(LPCOLLISIONEVENT e)
 	}
 }
 
+
+
+void CMario::OnCollisionWithItem(LPCOLLISIONEVENT e)
+{
+	CItem* item = dynamic_cast<CItem*>(e->obj);
+
+	if (item)
+	{
+		item->Delete();
+		switch (item->GetItemType())
+		{
+		case ITEM_TYPE_FLOWER:
+			if (level < MarioLevel::Fire)
+			{
+				SetLevel(MarioLevel::Fire);
+			}
+			break;
+		case ITEM_TYPE_LEAF:
+			if (level < MarioLevel::Raccoon)
+			{
+				SetLevel(MarioLevel::Raccoon);
+			}
+			break;
+		}
+	}
+	item->Delete();
+}
 
 void CMario::ShootFireBall()
 {

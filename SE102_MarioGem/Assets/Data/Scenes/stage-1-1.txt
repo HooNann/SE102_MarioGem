@@ -12,6 +12,12 @@ Assets\Data\Graphics\burner.txt
 Assets\Data\Graphics\blaster.txt
 Assets\Data\Graphics\canon.txt
 Assets\Data\Graphics\cannonball.txt
+Assets\Data\Graphics\FireFlower.txt
+Assets\Data\Graphics\Leaf.txt
+Assets\Data\Graphics\QuestionBlock.txt
+
+
+
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type

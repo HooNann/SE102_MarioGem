@@ -1,5 +1,7 @@
 #include "QuestionBlock.h"
 #include "Animations.h"
+#include "CItem.h"
+#include "PlayScene.h"
 
 CQuestionBlock::CQuestionBlock(float x, float y, int itemType) : CGameObject(x, y)
 {
@@ -45,6 +47,7 @@ void CQuestionBlock::SetState(int state)
 			isAlive = 0;		// Tước đoạt phần thưởng bên trong
 			bumpDirection = -1;	// Ra lệnh cho khối gạch bắt đầu chu kỳ nảy lên
 		}
+		ReleaseItem();
 		break;
 	}
 
@@ -53,7 +56,6 @@ void CQuestionBlock::SetState(int state)
 
 void CQuestionBlock::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
-	// Khối gạch dấu hỏi chuẩn trong Mario 3 thường có kích thước 16x16 pixel
 	l = x - 16.0f / 2;
 	t = y - 16.0f / 2;
 	r = l + 16.0f;
@@ -65,7 +67,6 @@ void CQuestionBlock::Render()
 	CAnimations* animations = CAnimations::GetInstance();
 	int aniId = -1;
 
-	// Cấu hình ID Animation tương ứng khớp với file dữ liệu cấu hình .txt bên ngoài
 	if (state == QUESTION_BLOCK_STATE_EMPTY)
 	{
 		aniId = 21011; // ID_ANI của khối gạch sắt nâu rỗng chết cứng
@@ -76,4 +77,28 @@ void CQuestionBlock::Render()
 	}
 
 	animations->Get(aniId)->Render(x, y);
+}
+
+void CQuestionBlock::ReleaseItem()
+{
+	CPlayScene* currentScene = (CPlayScene*)CGame::GetInstance()->GetCurrentScene();
+
+	float itemX = this->x;
+	float itemY = this->y - 16.0f;
+
+	CItem* newItem = NULL;
+
+	if (this->itemType == QUESTION_BLOCK_ITEM_FLOWER)
+	{
+		newItem = new CItem(itemX, itemY, ITEM_TYPE_FLOWER); // Sinh hoa lửa
+	}
+	else if (this->itemType == QUESTION_BLOCK_ITEM_LEAF)
+	{
+		newItem = new CItem(itemX, itemY, ITEM_TYPE_LEAF);   // Sinh lá chồn
+	}
+
+	if (newItem != NULL)
+	{
+		currentScene->AddObject(newItem);
+	}
 }
