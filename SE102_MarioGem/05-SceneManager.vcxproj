@@ -147,11 +147,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BoomBoom.cpp" />
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Animations.cpp" />
     <ClCompile Include="Brick.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Coin.cpp" />
+    <ClCompile Include="BossExplosion.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="CollisionBox.cpp" />
     <ClCompile Include="debug.cpp" />
@@ -185,12 +187,14 @@
     <ClCompile Include="WorldMapScene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BoomBoom.h" />
     <ClInclude Include="Animation.h" />
     <ClInclude Include="AnimationFrame.h" />
     <ClInclude Include="Animations.h" />
     <ClInclude Include="AssetIDs.h" />
     <ClInclude Include="Brick.h" />
     <ClInclude Include="Coin.h" />
+    <ClInclude Include="BossExplosion.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="CollisionBox.h" />
     <ClInclude Include="debug.h" />

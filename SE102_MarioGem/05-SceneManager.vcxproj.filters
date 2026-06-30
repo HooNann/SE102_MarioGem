@@ -132,6 +132,9 @@
     <ClCompile Include="Coin.cpp">
       <Filter>Game\Objects\Items</Filter>
     </ClCompile>
+    <ClCompile Include="BossExplosion.cpp">
+      <Filter>Game\Objects\Effects</Filter>
+    </ClCompile>
     <ClCompile Include="PlayScene.cpp">
       <Filter>Game\Scenes\PlayScene</Filter>
     </ClCompile>
@@ -188,6 +191,9 @@
     </ClCompile>
     <ClCompile Include="WorldMapScene.cpp">
       <Filter>Game\Scenes\WorldMap</Filter>
+    </ClCompile>
+    <ClCompile Include="BoomBoom.cpp">
+      <Filter>Game\Objects\Bosses</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -260,6 +266,9 @@
     <ClInclude Include="Coin.h">
       <Filter>Game\Objects\Items</Filter>
     </ClInclude>
+    <ClInclude Include="BossExplosion.h">
+      <Filter>Game\Objects\Effects</Filter>
+    </ClInclude>
     <ClInclude Include="PlayScene.h">
       <Filter>Game\Scenes\PlayScene</Filter>
     </ClInclude>
@@ -313,6 +322,9 @@
     </ClInclude>
     <ClInclude Include="ObjectFactory.h">
       <Filter>Game\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="BoomBoom.h">
+      <Filter>Game\Objects\Bosses</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
