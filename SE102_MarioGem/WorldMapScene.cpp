@@ -350,8 +350,16 @@ void CWorldMapScene::LoadMapJSON(LPCWSTR jsonPath)
 	// Gắn Mario vào Node bắt đầu (giả sử node gần nhất hoặc node có id chỉ định)
 	if (player != nullptr && !nodes.empty())
 	{
-		// Tạm thời gán node đầu tiên tìm thấy
-		player->currentNode = nodes.begin()->second; 
+		if (player->start_node_id != -1 && nodes.count(player->start_node_id) > 0)
+		{
+			player->currentNode = nodes[player->start_node_id];
+		}
+		else
+		{
+			// Tạm thời gán node đầu tiên tìm thấy nếu không tìm thấy node chỉ định
+			player->currentNode = nodes.begin()->second; 
+		}
+		
 		float nx, ny;
 		player->currentNode->GetPosition(nx, ny);
 		player->SetPosition(nx, ny);

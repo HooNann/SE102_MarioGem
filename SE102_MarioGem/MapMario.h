@@ -12,8 +12,9 @@ public:
 
 	bool isMoving;
 	float destX, destY;
+	int start_node_id;
 
-	CMapMario(float x, float y, int aniId = -1);
+	CMapMario(float x, float y, int aniId = -1, int start_node_id = -1);
 
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL);
 	virtual void Render();

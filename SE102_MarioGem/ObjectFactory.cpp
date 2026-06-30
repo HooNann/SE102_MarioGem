@@ -206,9 +206,10 @@ LPGAMEOBJECT ObjectFactory::CreateFromJSON(const json &obj) {
 
   case ObjectType::MapMario: {
     int aniId = GetIntProperty(obj, "aniId", -1);
+    int start_node_id = GetIntProperty(obj, "start_node_id", -1);
     float ox = (w > 0) ? w / 2.0f : 8.0f;
     float oy = (h > 0) ? h / 2.0f : 8.0f;
-    return new CMapMario(x + ox, y + oy, aniId);
+    return new CMapMario(x + ox, y + oy, aniId, start_node_id);
   }
 
   case ObjectType::MapNode: {

@@ -2,8 +2,9 @@
 #include <cmath>
 #include "debug.h"
 
-CMapMario::CMapMario(float x, float y, int aniId) : CMapObject(x, y, aniId)
+CMapMario::CMapMario(float x, float y, int aniId, int start_node_id) : CMapObject(x, y, aniId)
 {
+	this->start_node_id = start_node_id;
 	currentNode = NULL;
 	targetNode = NULL;
 	isMoving = false;
