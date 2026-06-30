@@ -2,6 +2,7 @@
 #include "debug.h"
 
 #include "Mario.h"
+#include "QuestionBlock.h"
 #include "Game.h"
 
 #include "Goomba.h"
@@ -10,6 +11,7 @@
 #include "Burner.h"
 #include "Blaster.h"
 #include "CannonBall.h"
+#include "CItem.h"
 
 #include "Collision.h"
 #include "FireBall.h"
@@ -78,6 +80,37 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithBlaster(e);
 	else if (dynamic_cast<CCannonBall*>(e->obj))
 		OnCollisionWithCannonBall(e);
+	else if (dynamic_cast<CItem*>(e->obj))
+		OnCollisionWithItem(e);
+	else if (dynamic_cast<CQuestionBlock*>(e->obj))
+		OnCollisionWithQuestionBlock(e);
+}
+
+void CMario::OnCollisionWithCoin(LPCOLLISIONEVENT e)
+{
+	e->obj->Delete();
+	coin++;
+	score += 100;
+}
+
+void CMario::OnCollisionWithPortal(LPCOLLISIONEVENT e)
+{
+	CPortal* p = (CPortal*)e->obj;
+	CGame::GetInstance()->InitiateSwitchScene(p->GetSceneId());
+}
+
+void CMario::OnCollisionWithQuestionBlock(LPCOLLISIONEVENT e)
+{
+	// Mario nhảy húc đầu vào từ dưới lên
+	if (e->ny > 0)
+	{
+		vy = 0; // Chặn Mario lại, rơi xuống ngay lập tức
+		CQuestionBlock* block = dynamic_cast<CQuestionBlock*>(e->obj);
+		if (block->GetState() != QUESTION_BLOCK_STATE_EMPTY)
+		{
+			block->SetState(QUESTION_BLOCK_STATE_HIT);
+		}
+	}
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -112,19 +145,6 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 			}
 		}
 	}
-}
-
-void CMario::OnCollisionWithCoin(LPCOLLISIONEVENT e)
-{
-	e->obj->Delete();
-	coin++;
-	score += 100;
-}
-
-void CMario::OnCollisionWithPortal(LPCOLLISIONEVENT e)
-{
-	CPortal* p = (CPortal*)e->obj;
-	CGame::GetInstance()->InitiateSwitchScene(p->GetSceneId());
 }
 
 void CMario::OnCollisionWithEnemy(LPCOLLISIONEVENT e)
@@ -197,6 +217,33 @@ void CMario::OnCollisionWithEnemy(LPCOLLISIONEVENT e)
 	}
 }
 
+
+
+void CMario::OnCollisionWithItem(LPCOLLISIONEVENT e)
+{
+	CItem* item = dynamic_cast<CItem*>(e->obj);
+
+	if (item)
+	{
+		item->Delete();
+		switch (item->GetItemType())
+		{
+		case ITEM_TYPE_FLOWER:
+			if (level < MarioLevel::Fire)
+			{
+				SetLevel(MarioLevel::Fire);
+			}
+			break;
+		case ITEM_TYPE_LEAF:
+			if (level < MarioLevel::Raccoon)
+			{
+				SetLevel(MarioLevel::Raccoon);
+			}
+			break;
+		}
+	}
+	item->Delete();
+}
 
 void CMario::ShootFireBall()
 {
