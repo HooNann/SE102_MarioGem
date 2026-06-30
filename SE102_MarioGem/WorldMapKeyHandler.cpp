@@ -32,7 +32,7 @@ void CWorldMapKeyHandler::OnKeyDown(int KeyCode)
 		if (mario->currentNode->rightNode != NULL)
 			mario->MoveToNode(mario->currentNode->rightNode);
 		break;
-	case DIK_S:
+	case DIK_Z:
 		if (mario->currentNode->sceneId != -1)
 		{
 			DebugOut(L"[INFO] Switch to scene %d\n", mario->currentNode->sceneId);

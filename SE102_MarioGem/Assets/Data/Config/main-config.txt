@@ -22,3 +22,4 @@ height	240
 40	Assets\Textures\Environment\Tiles\tiles-3.png
 50	Assets\Textures\Enemies\Mobs\enemies_2.png
 60	Assets\Textures\All\overworld.png
+70	Assets\Textures\All\mario.png

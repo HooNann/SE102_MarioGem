@@ -16,7 +16,7 @@ void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_DOWN:
 		mario->SetState(MarioState::Sit);
 		break;
-	case DIK_S:
+	case DIK_Z:
 		mario->SetState(MarioState::Jump);
 		break;
 	case DIK_1:
@@ -41,7 +41,7 @@ void CPlaySceneKeyHandler::OnKeyUp(int KeyCode)
 	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 	switch (KeyCode)
 	{
-	case DIK_S:
+	case DIK_Z:
 		mario->SetState(MarioState::ReleaseJump);
 		break;
 	case DIK_DOWN:
@@ -57,14 +57,14 @@ void CPlaySceneKeyHandler::KeyState(BYTE *states)
 
 	if (game->IsKeyDown(DIK_RIGHT))
 	{
-		if (game->IsKeyDown(DIK_A))
+		if (game->IsKeyDown(DIK_X))
 			mario->SetState(MarioState::RunningRight);
 		else
 			mario->SetState(MarioState::WalkingRight);
 	}
 	else if (game->IsKeyDown(DIK_LEFT))
 	{
-		if (game->IsKeyDown(DIK_A))
+		if (game->IsKeyDown(DIK_X))
 			mario->SetState(MarioState::RunningLeft);
 		else
 			mario->SetState(MarioState::WalkingLeft);
