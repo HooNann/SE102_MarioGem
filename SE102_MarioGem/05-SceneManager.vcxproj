@@ -147,6 +147,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BoomBoom.cpp" />
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Animations.cpp" />
     <ClCompile Include="Brick.cpp" />
@@ -185,6 +186,7 @@
     <ClCompile Include="WorldMapScene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BoomBoom.h" />
     <ClInclude Include="Animation.h" />
     <ClInclude Include="AnimationFrame.h" />
     <ClInclude Include="Animations.h" />

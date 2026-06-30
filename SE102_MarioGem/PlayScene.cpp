@@ -287,6 +287,9 @@ void CPlayScene::Load()
 {
 	DebugOut(L"[INFO] Start loading scene from : %s \n", sceneFilePath);
 
+	// Reset camera bounds to 0,0 in case this scene doesn't have a map
+	CCamera::GetInstance()->SetMapBounds(0.0f, 0.0f);
+
 	ifstream f;
 	f.open(sceneFilePath);
 

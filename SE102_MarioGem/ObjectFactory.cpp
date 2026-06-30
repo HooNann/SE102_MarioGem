@@ -12,6 +12,8 @@
 #include "MapMario.h"
 #include "MapNode.h"
 #include "MapObject.h"
+#include "Brick.h"
+#include "BoomBoom.h"
 
 using json = nlohmann::json;
 
@@ -21,6 +23,12 @@ LPGAMEOBJECT ObjectFactory::Create(ObjectType type, const vector<string>& tokens
     {
     case ObjectType::Mario:
         return CMario::CreateFromTokens(tokens);
+
+    case ObjectType::Brick:
+        return CBrick::CreateFromTokens(tokens);
+
+    case ObjectType::BoomBoom:
+        return CBoomBoom::CreateFromTokens(tokens);
 
     case ObjectType::Goomba:
         return CGoomba::CreateFromTokens(tokens);
@@ -115,6 +123,8 @@ LPGAMEOBJECT ObjectFactory::CreateFromJSON(const json& obj)
             objectType = ObjectType::Mario;
         else if (typeStr == "Brick")
             objectType = ObjectType::Brick;
+        else if (typeStr == "BoomBoom")
+            objectType = ObjectType::BoomBoom;
         else if (typeStr == "Goomba")
             objectType = ObjectType::Goomba;
         else if (typeStr == "Koopas")
@@ -152,6 +162,12 @@ LPGAMEOBJECT ObjectFactory::CreateFromJSON(const json& obj)
     {
     case ObjectType::Mario:
         return new CMario(x, y);
+
+    case ObjectType::Brick:
+        return new CBrick(x, y);
+
+    case ObjectType::BoomBoom:
+        return new CBoomBoom(x, y);
 
     case ObjectType::Goomba:
         return new CGoomba(x, y);

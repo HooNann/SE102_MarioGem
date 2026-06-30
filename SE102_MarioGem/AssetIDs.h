@@ -15,6 +15,8 @@ enum class ObjectType : int
 	CannonBall = 10,
 	CollisionBox = 100,
 
+	BoomBoom = 36,
+
 	MapMario = 200,
 	MapNode = 201,
 	MapDecoration = 202, // Cây, lâu đài...

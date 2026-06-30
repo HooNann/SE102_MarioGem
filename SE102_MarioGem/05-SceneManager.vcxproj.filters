@@ -189,6 +189,9 @@
     <ClCompile Include="WorldMapScene.cpp">
       <Filter>Game\Scenes\WorldMap</Filter>
     </ClCompile>
+    <ClCompile Include="BoomBoom.cpp">
+      <Filter>Game\Objects\Bosses</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -313,6 +316,9 @@
     </ClInclude>
     <ClInclude Include="ObjectFactory.h">
       <Filter>Game\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="BoomBoom.h">
+      <Filter>Game\Objects\Bosses</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
