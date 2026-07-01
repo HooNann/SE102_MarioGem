@@ -1,0 +1,33 @@
+# id	left	top	right	bottom	texture_id
+[SPRITES]
+#MAP
+23001	220	8	233	23	70	# spr-small-mario-map-0
+23002	237	8	250	23	70	# spr-small-mario-map-1
+23003	159	53	174	74	70	# spr-big-mario-map-0
+23004	178	53	193	74	70	# spr-big-mario-map-1
+23005	4	146	19	169	70	# spr-raccoon-mario-map-0
+23006	23	146	38	169	70	# spr-raccoon-mario-map-1
+23007	124	114	139	135	70	# spr-fire-mario-map-0
+23008	143	114	158	135	70	# spr-fire-mario-map-1
+23009	145	220	158	235	70	# spr-hammer-small-mario-map-idle-front-0
+23010	161	214	177	235	70	# spr-hammer-mario-map-idle-front-0
+23011	180	214	196	235	70	# spr-hammer-mario-map-idle-front-1
+23012	168	253	183	268	70	# spr-frog-small-mario-map-idle-front-0
+23013	187	249	202	268	70	# spr-frog-mario-map-idle-front-0
+23014	206	247	221	268	70	# spr-frog-mario-map-idle-front-1
+23015	8	291	20	306	70	# spr-tanooki-small-mario-map-???-0
+23016	23	283	39	306	70	# spr-tanooki-mario-map-???-0
+23017	43	282	58	306	70	# spr-tanooki-mario-map-???-1
+
+# ani_id	sprite1_id	time1	sprite2_id	time2	...
+[ANIMATIONS]
+10001	23001	100	23002	100	# Animation Small Mario Map
+10002	23003	100	23004	100	# Animation Big Mario Map
+10003	23005	100	23006	100	# Animation Raccoon Mario Map
+10004	23007	100	23008	100	# Animation Fire Mario Map
+10005	23009	100			# Animation Hammer Small Mario Map (Chỉ có 1 frame)
+10006	23010	100	23011	100	# Animation Hammer Mario Map
+10007	23012	100			# Animation Frog Small Mario Map (Chỉ có 1 frame)
+10008	23013	100	23014	100	# Animation Frog Mario Map
+10009	23015	100			# Animation Tanooki Small Mario Map (Chỉ có 1 frame)
+10010	23016	100	23017	100	# Animation Tanooki Mario Map

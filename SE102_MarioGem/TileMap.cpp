@@ -2,6 +2,7 @@
 #include "Game.h"
 #include "Textures.h"
 #include "debug.h"
+#include "Camera.h"
 #include "json.hpp"
 
 #include <fstream>
@@ -186,7 +187,7 @@ void CTileMap::Render()
 
 	// Lấy vị trí camera để tối ưu: chỉ vẽ tile trong vùng nhìn thấy
 	float camX, camY;
-	CGame::GetInstance()->GetCamPos(camX, camY);
+	CCamera::GetInstance()->GetCamPos(camX, camY);
 
 	// Làm tròn camera để tránh rác pixel / mờ (Linear filtering issue)
 	float cx = (float)floor(camX);

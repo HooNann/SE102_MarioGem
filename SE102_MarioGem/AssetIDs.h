@@ -1,7 +1,6 @@
 #pragma once
 
-enum class ObjectType : int
-{
+enum class ObjectType : int {
 	Mario = 0,
 	Brick = 1,
 	Goomba = 2,
@@ -14,17 +13,14 @@ enum class ObjectType : int
 	Canon = 9,
 	CannonBall = 10,
 	CollisionBox = 100,
-};
-
-enum class MapObjectType : int
-{
+	QuestionBlock = 101,
+	BoomBoom = 36,
 	MapMario = 200,
 	MapNode = 201,
 	MapDecoration = 202, // Cây, lâu đài...
 };
 
-enum class SceneType : int
-{
+enum class SceneType : int {
 	PlayScene = 1,
 	WorldMapScene = 2
 };

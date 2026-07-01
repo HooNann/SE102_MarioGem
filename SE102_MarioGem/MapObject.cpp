@@ -20,6 +20,18 @@ void CMapObject::Render()
 
 void CMapObject::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-	// Không có bounding box
-	left = top = right = bottom = 0;
+	float w = 0, h = 0;
+	if (aniId != -1)
+	{
+		LPANIMATION ani = CAnimations::GetInstance()->Get(aniId);
+		if (ani)
+		{
+			w = (float)ani->GetSpriteWidth();
+			h = (float)ani->GetSpriteHeight();
+		}
+	}
+	left = x - w / 2;
+	right = x + w / 2;
+	top = y - h / 2;
+	bottom = y + h / 2;
 }

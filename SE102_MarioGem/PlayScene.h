@@ -23,6 +23,12 @@ protected:
 
 	CTileMap* map;	// Tiled Map (background tiles)
 
+	struct CameraZone {
+		float l, t, r, b;
+	};
+	vector<CameraZone> cameraZones;
+	float map_width, map_height;
+
 	CHud* hud;
 	float timeRemaining;
 	std::string hudWorld;
@@ -61,6 +67,8 @@ public:
 	void ReloadAssets();
 
 	static bool IsGameObjectDeleted(const LPGAMEOBJECT& o);
+	
+	bool IsGameObjectInRegion(LPGAMEOBJECT obj, float r_left, float r_top, float r_right, float r_bottom);
 };
 
 typedef CPlayScene* LPPLAYSCENE;

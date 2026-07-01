@@ -14,6 +14,7 @@
 #include "PlaySceneKeyHandler.h"
 
 #include "ObjectFactory.h"
+#include "Camera.h"
 
 using namespace std;
 
@@ -286,6 +287,9 @@ void CPlayScene::Load()
 {
 	DebugOut(L"[INFO] Start loading scene from : %s \n", sceneFilePath);
 
+	// Reset camera bounds to 0,0 in case this scene doesn't have a map
+	CCamera::GetInstance()->SetCameraBounds(0.0f, 0.0f, 0.0f, 0.0f);
+
 	ifstream f;
 	f.open(sceneFilePath);
 
@@ -345,6 +349,12 @@ void CPlayScene::LoadMapJSON(LPCWSTR jsonPath)
 	map = new CTileMap();
 	map->LoadJSON(jsonPath, basePath.c_str());
 
+	map_width = (float)map->GetWidth() * map->GetTileWidth();
+	map_height = (float)map->GetHeight() * map->GetTileHeight();
+	
+	cameraZones.clear();
+	CCamera::GetInstance()->SetCameraBounds(0, 0, map_width, map_height);
+
 	ifstream f(jsonPath);
 	if (!f.is_open())
 	{
@@ -367,6 +377,62 @@ void CPlayScene::LoadMapJSON(LPCWSTR jsonPath)
 
 		for (auto& obj : layer["objects"])
 		{
+			// Tự động chia hình chữ nhật lớn thành nhiều block nhỏ (QuestionBlock, Brick, Coin)
+			string typeStr = "";
+			if (obj.contains("type") && obj["type"].is_string()) typeStr = obj["type"].get<string>();
+			else if (obj.contains("class") && obj["class"].is_string()) typeStr = obj["class"].get<string>();
+
+			float w = obj.value("width", 0.0f);
+			float h = obj.value("height", 0.0f);
+
+			if (typeStr == "CameraZone") {
+				CameraZone z;
+				z.l = obj.value("x", 0.0f);
+				z.t = obj.value("y", 0.0f);
+				z.r = z.l + w;
+				z.b = z.t + h;
+				cameraZones.push_back(z);
+				continue; // Không tạo thành GameObject
+			}
+
+			if ((typeStr == "QuestionBlock" || typeStr == "Brick" || typeStr == "Coin") && w > 0 && h > 0) 
+			{
+				float startX = obj.value("x", 0.0f);
+				float startY = obj.value("y", 0.0f);
+
+				int cols = round(w / 16.0f);
+				int rows = round(h / 16.0f);
+				if (cols < 1) cols = 1;
+				if (rows < 1) rows = 1;
+
+				for (int r = 0; r < rows; ++r) {
+					for (int c = 0; c < cols; ++c) {
+						nlohmann::json singleObj = obj;
+						// Tiled xuất tọa độ x,y là góc trái trên của hình chữ nhật
+						// Ta cộng 8 pixel để dịch tọa độ vào chính giữa tâm khối 16x16
+						singleObj["x"] = startX + c * 16.0f + 8.0f;
+						singleObj["y"] = startY + r * 16.0f + 8.0f;
+						singleObj["width"] = 16.0f;
+						singleObj["height"] = 16.0f;
+						
+						LPGAMEOBJECT gameObj = ObjectFactory::CreateFromJSON(singleObj);
+						if (gameObj) {
+							float l, t, r_box, b;
+							gameObj->GetBoundingBox(l, t, r_box, b);
+							float h_box = b - t;
+							if (h_box > 0) {
+								float cx, cy;
+								gameObj->GetPosition(cx, cy);
+								float bottomOfCell = startY + (r + 1) * 16.0f;
+								gameObj->SetPosition(cx, bottomOfCell - h_box / 2.0f);
+							}
+							objects.push_back(gameObj);
+						}
+					}
+				}
+				continue; // Đã xử lý xong nguyên mảng khối, bỏ qua việc khởi tạo object đơn
+			}
+
 			LPGAMEOBJECT gameObj = ObjectFactory::CreateFromJSON(obj);
 
 			if (gameObj == nullptr) continue;
@@ -391,37 +457,80 @@ void CPlayScene::LoadMapJSON(LPCWSTR jsonPath)
 	DebugOut(L"[INFO] Done loading Tiled map: %s\n", jsonPath);
 }
 
-void CPlayScene::Update(DWORD dt)
+bool CPlayScene::IsGameObjectInRegion(LPGAMEOBJECT obj, float r_left, float r_top, float r_right, float r_bottom)
 {
-	// We know that Mario is the first object in the list hence we won't add him into the colliable object list
-	// TO-DO: This is a "dirty" way, need a more organized way 
+	float l, t, r, b;
+	obj->GetBoundingBox(l, t, r, b);
 
-	vector<LPGAMEOBJECT> coObjects;
-	for (size_t i = 0; i < objects.size(); i++)
+	// Some objects (like UI or special markers) might return 0 for all bounds. If so, fallback to position check.
+	if (l == 0 && t == 0 && r == 0 && b == 0)
 	{
-		if (objects[i] != player && !objects[i]->IsDeleted())
-			coObjects.push_back(objects[i]);
+		float ox, oy;
+		obj->GetPosition(ox, oy);
+		return (ox >= r_left && ox <= r_right && oy >= r_top && oy <= r_bottom);
 	}
 
+	return !(r < r_left || l > r_right || b < r_top || t > r_bottom);
+}
+
+void CPlayScene::Update(DWORD dt)
+{
+	float cx, cy;
+	CCamera::GetInstance()->GetCamPos(cx, cy);
+	float screenWidth = (float)CGame::GetInstance()->GetBackBufferWidth();
+	float screenHeight = (float)CGame::GetInstance()->GetBackBufferHeight();
+
+	vector<LPGAMEOBJECT> activeObjects;
+	float update_margin = 160.0f;
+	float active_left = cx - update_margin;
+	float active_top = cy - update_margin;
+	float active_right = cx + screenWidth + update_margin;
+	float active_bottom = cy + screenHeight + update_margin;
+
 	for (size_t i = 0; i < objects.size(); i++)
 	{
-		objects[i]->Update(dt, &coObjects);
+		if (objects[i] == player || IsGameObjectInRegion(objects[i], active_left, active_top, active_right, active_bottom))
+		{
+			activeObjects.push_back(objects[i]);
+		}
+	}
+
+	vector<LPGAMEOBJECT> coObjects;
+	for (size_t i = 0; i < activeObjects.size(); i++)
+	{
+		if (activeObjects[i] != player && !activeObjects[i]->IsDeleted())
+			coObjects.push_back(activeObjects[i]);
+	}
+
+	for (size_t i = 0; i < activeObjects.size(); i++)
+	{
+		activeObjects[i]->Update(dt, &coObjects);
 	}
 
 	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
 	if (player == NULL) return; 
 
+	// Update camera bounds if player is inside a CameraZone
+	bool inZone = false;
+	float px, py;
+	player->GetPosition(px, py);
+	
+	CCamera* camera = CCamera::GetInstance();
+	for (auto& z : cameraZones) {
+		if (px >= z.l && px <= z.r && py >= z.t && py <= z.b) {
+			camera->SetCameraBounds(z.l, z.t, z.r, z.b);
+			inZone = true;
+			break;
+		}
+	}
+	
+	if (!inZone) {
+		camera->SetCameraBounds(0, 0, map_width, map_height);
+	}
+
 	// Update camera to follow mario
-	float cx, cy;
-	player->GetPosition(cx, cy);
-
-	CGame *game = CGame::GetInstance();
-	cx -= game->GetBackBufferWidth() / 2;
-	cy -= game->GetBackBufferHeight() / 2;
-
-	if (cx < 0) cx = 0;
-
-	CGame::GetInstance()->SetCamPos(cx, 0.0f /*cy*/);
+	camera->SetTarget(player);
+	camera->Update();
 
 	for (auto obj : spawnQueue)
 		objects.push_back(obj);
@@ -438,8 +547,24 @@ void CPlayScene::Render()
 	if (map != NULL)
 		map->Render();
 
+	float cx, cy;
+	CCamera::GetInstance()->GetCamPos(cx, cy);
+	float screenWidth = (float)CGame::GetInstance()->GetBackBufferWidth();
+	float screenHeight = (float)CGame::GetInstance()->GetBackBufferHeight();
+
+	float render_margin = 48.0f;
+	float render_left = cx - render_margin;
+	float render_top = cy - render_margin;
+	float render_right = cx + screenWidth + render_margin;
+	float render_bottom = cy + screenHeight + render_margin;
+
 	for (int i = 0; i < objects.size(); i++)
-		objects[i]->Render();
+	{
+		if (objects[i] == player || IsGameObjectInRegion(objects[i], render_left, render_top, render_right, render_bottom))
+		{
+			objects[i]->Render();
+		}
+	}
 
 	if (hud != NULL && player != NULL)
 		hud->Render((CMario*)player, (int)timeRemaining, hudWorld.c_str());

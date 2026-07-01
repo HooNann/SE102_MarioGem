@@ -1,14 +1,17 @@
 #include "Portal.h"
 #include "Game.h"
+#include "Camera.h"
 #include "Textures.h"
 
 CPortal::CPortal(float l, float t, float r, float b, int scene_id )
 {
 	this->scene_id = scene_id;
-	x = l; 
-	y = t;
 	width = r - l;
 	height = b - t;
+	
+	// Game engine uses x, y as center for bounding box calculation
+	x = l + width / 2.0f;
+	y = t + height / 2.0f;
 }
 
 void CPortal::RenderBoundingBox()
@@ -27,7 +30,7 @@ void CPortal::RenderBoundingBox()
 	rect.bottom = (int)b - (int)t;
 
 	float cx, cy;
-	CGame::GetInstance()->GetCamPos(cx, cy);
+	CCamera::GetInstance()->GetCamPos(cx, cy);
 
 	CGame::GetInstance()->Draw(x - cx, y - cy, bbox, nullptr, BBOX_ALPHA, rect.right - 1, rect.bottom - 1);
 }
