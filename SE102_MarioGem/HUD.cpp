@@ -2,6 +2,7 @@
 #include "Game.h"
 #include "Textures.h"
 #include "Mario.h"
+#include "GameData.h"
 
 #include <string>
 #include <cmath>
@@ -123,9 +124,9 @@ void CHud::Render(CMario* mario, int timeLeft, const char* world)
 	float botY = fy + ROW_BOT;
 
 	DrawString(world ? world : "1-1", fx + WORLD_X, topY);
-	DrawNumber(mario->GetCoins(), fx + COINS_RIGHT, topY, 2);
-	DrawNumber(mario->GetScore(), fx + SCORE_RIGHT, topY, 6);
-	DrawNumber(mario->GetLives(), fx + LIVES_RIGHT, botY, 1);
+	DrawNumber(CGameData::GetInstance()->GetCoin(), fx + COINS_RIGHT, topY, 2);
+	DrawNumber(CGameData::GetInstance()->GetScore(), fx + SCORE_RIGHT, topY, 6);
+	DrawNumber(CGameData::GetInstance()->GetLives(), fx + LIVES_RIGHT, botY, 1);
 	DrawNumber(timeLeft, fx + TIME_RIGHT, botY, 3);
 	DrawPMeter(mario->GetPMeter(), fx + PMETER_X, botY);
 }

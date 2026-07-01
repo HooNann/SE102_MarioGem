@@ -89,8 +89,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithCoin(LPCOLLISIONEVENT e)
 {
 	e->obj->Delete();
-	coin++;
-	score += 100;
+	CGameData::GetInstance()->AddCoin(1);
+	CGameData::GetInstance()->AddScore(100);
 }
 
 void CMario::OnCollisionWithPortal(LPCOLLISIONEVENT e)
@@ -132,9 +132,9 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 		{
 			if (goomba->GetState() != ToInt(GoombaState::Die))
 			{
-				if (level > MarioLevel::Small)
+				if (GetLevel() > MarioLevel::Small)
 				{
-					level = MarioLevel::Small;
+					SetLevel(MarioLevel::Small);
 					StartUntouchable();
 				}
 				else
@@ -198,14 +198,14 @@ void CMario::OnCollisionWithEnemy(LPCOLLISIONEVENT e)
 		{
 			if (untouchable == 0)
 			{
-				if (level > MarioLevel::Big) // Nếu đang ở dạng đặc biệt (Chồn, Ếch...)
+				if (GetLevel() > MarioLevel::Big) // Nếu đang ở dạng đặc biệt (Chồn, Ếch...)
 				{
-					level = MarioLevel::Big; // Rớt về Mario Lớn
+					SetLevel(MarioLevel::Big); // Rớt về Mario Lớn
 					StartUntouchable();      // Bật bất tử tạm thời
 				}
-				else if (level == MarioLevel::Big) // Nếu đang ở Mario Lớn
+				else if (GetLevel() == MarioLevel::Big) // Nếu đang ở Mario Lớn
 				{
-					level = MarioLevel::Small; // Rớt về Mario Nhỏ
+					SetLevel(MarioLevel::Small); // Rớt về Mario Nhỏ
 					StartUntouchable();
 				}
 				else 
@@ -229,13 +229,13 @@ void CMario::OnCollisionWithItem(LPCOLLISIONEVENT e)
 		switch (item->GetItemType())
 		{
 		case ITEM_TYPE_FLOWER:
-			if (level < MarioLevel::Fire)
+			if (GetLevel() < MarioLevel::Fire)
 			{
 				SetLevel(MarioLevel::Fire);
 			}
 			break;
 		case ITEM_TYPE_LEAF:
-			if (level < MarioLevel::Raccoon)
+			if (GetLevel() < MarioLevel::Raccoon)
 			{
 				SetLevel(MarioLevel::Raccoon);
 			}
@@ -247,7 +247,7 @@ void CMario::OnCollisionWithItem(LPCOLLISIONEVENT e)
 
 void CMario::ShootFireBall()
 {
-	if (this->level != MarioLevel::Fire) return;
+	if (this->GetLevel() != MarioLevel::Fire) return;
 
 	this->isThrowingFire = true;
 	this->throwingFireStartTime = GetTickCount64();
@@ -296,7 +296,7 @@ void CMario::HandlePMeter(DWORD dt)
 void CMario::FlyUp()
 {
 	// Chỉ cho phép bay nếu đang là Mario Chồn VÀ thanh năng lượng đã nạp đầy 100%
-	if (this->level != MarioLevel::Raccoon || pMeter < MARIO_PMETER_MAX) return;
+	if (this->GetLevel() != MarioLevel::Raccoon || pMeter < MARIO_PMETER_MAX) return;
 
 	// Nếu đây là cái nhấp nút cất cánh đầu tiên trên không
 	if (state != static_cast<int>(MarioState::Fly))
@@ -316,7 +316,7 @@ void CMario::FlyUp()
 
 void CMario::FloatDown()
 {
-	if (this->level == MarioLevel::Raccoon && vy > 0 && isOnPlatform == false)
+	if (this->GetLevel() == MarioLevel::Raccoon && vy > 0 && isOnPlatform == false)
 	{
 		SetState(static_cast<int>(MarioState::Float)); // Chuyển sang hành động vỗ đuôi
 		vy = 0.03f;                  // Gán một vận tốc rơi cực kỳ nhỏ (hãm phanh trọng lực)
@@ -332,14 +332,14 @@ void CMario::OnCollisionWithBlaster(LPCOLLISIONEVENT e)
 	CBlaster* blaster = dynamic_cast<CBlaster*>(e->obj);
 	if (!blaster || blaster->GetState() != static_cast<int>(BlasterState::Firing)) return;
 
-	if (level > MarioLevel::Big)
+	if (GetLevel() > MarioLevel::Big)
 	{
-		SetLevel(level  = MarioLevel::Big);
+		SetLevel(MarioLevel::Big);
 		StartUntouchable();
 	}
-	else if (level > MarioLevel::Small)
+	else if (GetLevel() > MarioLevel::Small)
 	{
-		SetLevel(level = MarioLevel::Small);
+		SetLevel(MarioLevel::Small);
 		StartUntouchable();
 	}
 	else
@@ -357,14 +357,14 @@ void CMario::OnCollisionWithBurner(LPCOLLISIONEVENT e)
 	CBurner* burner = dynamic_cast<CBurner*>(e->obj);
 	if (!burner || burner->GetState() != static_cast<int>(BurnerState::Firing)) return;
 
-	if (level > MarioLevel::Big)
+	if (GetLevel() > MarioLevel::Big)
 	{
-		SetLevel(level = MarioLevel::Big);
+		SetLevel(MarioLevel::Big);
 		StartUntouchable();
 	}
-	else if (level > MarioLevel::Small)
+	else if (GetLevel() > MarioLevel::Small)
 	{
-		SetLevel(level = MarioLevel::Small);
+		SetLevel(MarioLevel::Small);
 		StartUntouchable();
 	}
 	else
@@ -375,14 +375,14 @@ void CMario::OnCollisionWithCannonBall(LPCOLLISIONEVENT e)
 {
 	if (untouchable != 0) return;
 
-	if (level > MarioLevel::Big)
+	if (GetLevel() > MarioLevel::Big)
 	{
-		SetLevel(level = MarioLevel::Big);
+		SetLevel(MarioLevel::Big);
 		StartUntouchable();
 	}
-	else if (level > MarioLevel::Small)
+	else if (GetLevel() > MarioLevel::Small)
 	{
-		SetLevel(level = MarioLevel::Small);
+		SetLevel(MarioLevel::Small);
 		StartUntouchable();
 	}
 	else
@@ -665,19 +665,19 @@ void CMario::Render()
 
 	if (state == ToInt(MarioState::Die))
 		aniId = ID_ANI_MARIO_DIE;
-	else if (level == MarioLevel::Big)
+	else if (GetLevel() == MarioLevel::Big)
 		aniId = GetAniIdBig();
-	else if (level == MarioLevel::Small)
+	else if (GetLevel() == MarioLevel::Small)
 		aniId = GetAniIdSmall();
-	else if (level == MarioLevel::Fire)
+	else if (GetLevel() == MarioLevel::Fire)
 		aniId = GetAniIdFire();
-	else if (level == MarioLevel::Raccoon)
+	else if (GetLevel() == MarioLevel::Raccoon)
 		aniId = GetAniIdRaccoon();
 	animations->Get(aniId)->Render(x, y);
 
 	//RenderBoundingBox();
 	
-	DebugOutTitle(L"Coins: %d", coin);
+	DebugOutTitle(L"Coins: %d", GetCoins());
 }
 
 void CMario::SetState(MarioState state)
@@ -727,7 +727,7 @@ void CMario::SetState(MarioState state)
 		break;
 
 	case MarioState::Sit:
-		if (isOnPlatform && level != MarioLevel::Small)
+		if (isOnPlatform && GetLevel() != MarioLevel::Small)
 		{
 			state = MarioState::Idle;
 			isSitting = true;
@@ -762,7 +762,7 @@ void CMario::SetState(MarioState state)
 
 void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom)
 {
-	if (level==MarioLevel::Big)
+	if (GetLevel()==MarioLevel::Big)
 	{
 		if (isSitting)
 		{
@@ -791,11 +791,11 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 void CMario::SetLevel(int l)
 {
 	// Adjust position to avoid falling off platform
-	if (this->level == MarioLevel::Small)
+	if (this->GetLevel() == MarioLevel::Small)
 	{
 		y -= (MARIO_BIG_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT) / 2;
 	}
-	level = static_cast<MarioLevel>(l);
+	SetLevel(static_cast<MarioLevel>(l));
 }
 
 LPGAMEOBJECT CMario::CreateFromTokens(const vector<string>& tokens)
@@ -805,4 +805,5 @@ LPGAMEOBJECT CMario::CreateFromTokens(const vector<string>& tokens)
 
 	return new CMario(x, y);
 }
+
 

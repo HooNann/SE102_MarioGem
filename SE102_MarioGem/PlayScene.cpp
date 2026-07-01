@@ -416,7 +416,18 @@ void CPlayScene::LoadMapJSON(LPCWSTR jsonPath)
 						singleObj["height"] = 16.0f;
 						
 						LPGAMEOBJECT gameObj = ObjectFactory::CreateFromJSON(singleObj);
-						if (gameObj) objects.push_back(gameObj);
+						if (gameObj) {
+							float l, t, r_box, b;
+							gameObj->GetBoundingBox(l, t, r_box, b);
+							float h_box = b - t;
+							if (h_box > 0) {
+								float cx, cy;
+								gameObj->GetPosition(cx, cy);
+								float bottomOfCell = startY + (r + 1) * 16.0f;
+								gameObj->SetPosition(cx, bottomOfCell - h_box / 2.0f);
+							}
+							objects.push_back(gameObj);
+						}
 					}
 				}
 				continue; // Đã xử lý xong nguyên mảng khối, bỏ qua việc khởi tạo object đơn

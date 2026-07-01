@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="16" height="14" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="90">
+<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="16" height="14" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="103">
  <editorsettings>
   <export target="world-map-scene.json" format="json"/>
  </editorsettings>
  <tileset firstgid="1" source="../Tilesets/world-map-texture-atlas.tsx"/>
  <layer id="1" name="Background" width="16" height="14">
   <data encoding="csv">
-23,29,29,29,29,29,29,29,29,29,29,29,29,29,29,24,
+23,30,30,30,30,30,30,30,30,30,30,30,30,30,30,24,
 21,1,1,1,1,19,6,19,1,19,1,19,6,1,1,22,
 21,1,1,1,20,1,1,1,20,1,1,1,20,1,1,22,
 21,19,1,19,8,1,1,1,7,19,1,19,17,1,1,22,
@@ -17,409 +17,165 @@
 21,1,16,16,20,16,16,1,20,9,1,1,1,9,1,22,
 21,1,16,16,1,19,6,19,1,15,10,10,10,14,1,22,
 21,1,1,1,1,1,1,1,1,1,1,1,1,1,1,22,
-31,30,30,30,30,30,30,30,30,30,30,30,30,30,30,32,
+31,29,29,29,29,29,29,29,29,29,29,29,29,29,29,32,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
  <objectgroup id="4" name="Node">
-  <object id="53" name="Node_53" type="MapNode" x="64" y="16">
+  <object id="53" name="Node_53" type="MapNode" x="64" y="16" width="16" height="16">
    <properties>
+    <property name="ani_active" type="int" value="90011"/>
+    <property name="ani_cleared" type="int" value="90002"/>
     <property name="down_id" type="int" value="81"/>
     <property name="right_id" type="int" value="54"/>
+    <property name="scene_id" type="int" value="1"/>
    </properties>
-   <point/>
   </object>
-  <object id="54" name="Node_54" type="MapNode" x="96" y="16">
+  <object id="54" name="Node_54" type="MapNode" x="96" y="16" width="16" height="16">
    <properties>
     <property name="left_id" type="int" value="53"/>
     <property name="right_id" type="int" value="55"/>
    </properties>
-   <point/>
   </object>
-  <object id="55" name="Node_55" type="MapNode" x="128" y="16">
+  <object id="55" name="Node_55" type="MapNode" x="128" y="16" width="16" height="16">
    <properties>
     <property name="down_id" type="int" value="56"/>
     <property name="left_id" type="int" value="54"/>
     <property name="right_id" type="int" value="57"/>
    </properties>
-   <point/>
   </object>
-  <object id="56" name="Node_56" type="MapNode" x="128" y="48">
+  <object id="56" name="Node_56" type="MapNode" x="128" y="48" width="16" height="16">
    <properties>
     <property name="down_id" type="int" value="61"/>
     <property name="right_id" type="int" value="60"/>
     <property name="up_id" type="int" value="55"/>
    </properties>
-   <point/>
   </object>
-  <object id="57" name="Node_57" type="MapNode" x="160" y="16">
+  <object id="57" name="Node_57" type="MapNode" x="160" y="16" width="16" height="16">
    <properties>
     <property name="left_id" type="int" value="55"/>
     <property name="right_id" type="int" value="58"/>
    </properties>
-   <point/>
   </object>
-  <object id="58" name="Node_58" type="MapNode" x="192" y="16">
+  <object id="58" name="Node_58" type="MapNode" x="192" y="16" width="16" height="16">
    <properties>
     <property name="down_id" type="int" value="59"/>
     <property name="left_id" type="int" value="57"/>
    </properties>
-   <point/>
   </object>
-  <object id="59" name="Node_59" type="MapNode" x="192" y="48">
+  <object id="59" name="Node_59" type="MapNode" x="192" y="48" width="16" height="16">
    <properties>
     <property name="left_id" type="int" value="60"/>
     <property name="up_id" type="int" value="58"/>
    </properties>
-   <point/>
   </object>
-  <object id="60" name="Node_60" type="MapNode" x="160" y="48">
+  <object id="60" name="Node_60" type="MapNode" x="160" y="48" width="16" height="16">
    <properties>
     <property name="left_id" type="int" value="56"/>
     <property name="right_id" type="int" value="59"/>
    </properties>
-   <point/>
   </object>
-  <object id="61" name="Node_61" type="MapNode" x="128" y="80">
+  <object id="61" name="Node_61" type="MapNode" x="128" y="80" width="16" height="16">
    <properties>
     <property name="left_id" type="int" value="62"/>
     <property name="up_id" type="int" value="56"/>
    </properties>
-   <point/>
   </object>
-  <object id="62" name="Node_62" type="MapNode" x="96" y="80">
+  <object id="62" name="Node_62" type="MapNode" x="96" y="80" width="16" height="16">
    <properties>
     <property name="left_id" type="int" value="63"/>
     <property name="right_id" type="int" value="61"/>
    </properties>
-   <point/>
   </object>
-  <object id="63" name="Node_63" type="MapNode" x="64" y="80">
+  <object id="63" name="Node_63" type="MapNode" x="64" y="80" width="16" height="16">
    <properties>
     <property name="down_id" type="int" value="86"/>
     <property name="right_id" type="int" value="62"/>
    </properties>
-   <point/>
   </object>
-  <object id="80" name="Node_80" type="MapNode" x="32" y="48">
+  <object id="80" name="Node_80" type="MapNode" x="32" y="48" width="16" height="16">
    <properties>
+    <property name="ani_active" type="int" value="90009"/>
     <property name="right_id" type="int" value="81"/>
    </properties>
-   <point/>
   </object>
-  <object id="81" name="Node_81" type="MapNode" x="64" y="48">
+  <object id="81" name="Node_81" type="MapNode" x="64" y="48" width="16" height="16">
    <properties>
     <property name="left_id" type="int" value="80"/>
     <property name="up_id" type="int" value="53"/>
    </properties>
-   <point/>
   </object>
-  <object id="86" name="Node_86" type="MapNode" x="64" y="112">
+  <object id="86" name="Node_86" type="MapNode" x="64" y="112" width="16" height="16">
    <properties>
     <property name="down_id" type="int" value="89"/>
     <property name="up_id" type="int" value="63"/>
    </properties>
-   <point/>
   </object>
-  <object id="89" name="Node_89" type="MapNode" x="64" y="144">
+  <object id="89" name="Node_89" type="MapNode" x="64" y="144" width="16" height="16">
    <properties>
     <property name="up_id" type="int" value="86"/>
    </properties>
-   <point/>
   </object>
  </objectgroup>
  <objectgroup id="2" name="Decorations" visible="0">
-  <object id="1" name="Bush" type="MapDecoration" x="16" y="16">
+  <object id="92" name="Bush" type="MapDecoration" x="16" y="16" width="48" height="32">
    <properties>
-    <property name="aniId" type="int" value="90001"/>
+    <property name="aniId" type="int" value="90005"/>
    </properties>
-   <point/>
   </object>
-  <object id="2" name="Bush" type="MapDecoration" x="32" y="16">
+  <object id="93" name="Bush" type="MapDecoration" x="16" y="64" width="48" height="32">
    <properties>
-    <property name="aniId" type="int" value="90001"/>
+    <property name="aniId" type="int" value="90005"/>
    </properties>
-   <point/>
   </object>
-  <object id="3" name="Bush" type="MapDecoration" x="48" y="16">
+  <object id="94" name="Bush" type="MapDecoration" x="16" y="96" width="16" height="16">
    <properties>
-    <property name="aniId" type="int" value="90001"/>
+    <property name="aniId" type="int" value="90005"/>
    </properties>
-   <point/>
   </object>
-  <object id="4" name="Bush" type="MapDecoration" x="16" y="32">
+  <object id="95" name="Bush" type="MapDecoration" x="80" y="32" width="48" height="48">
    <properties>
-    <property name="aniId" type="int" value="90001"/>
+    <property name="aniId" type="int" value="90005"/>
    </properties>
-   <point/>
   </object>
-  <object id="5" name="Bush" type="MapDecoration" x="32" y="32">
+  <object id="96" name="Bush" type="MapDecoration" x="96" y="96" width="48" height="16">
    <properties>
-    <property name="aniId" type="int" value="90001"/>
+    <property name="aniId" type="int" value="90005"/>
    </properties>
-   <point/>
   </object>
-  <object id="6" name="Bush" type="MapDecoration" x="48" y="32">
+  <object id="97" name="Bush" type="MapDecoration" x="144" y="64" width="32" height="32">
    <properties>
-    <property name="aniId" type="int" value="90001"/>
+    <property name="aniId" type="int" value="90005"/>
    </properties>
-   <point/>
   </object>
-  <object id="7" name="Bush" type="MapDecoration" x="16" y="64">
+  <object id="98" name="Bush" type="MapDecoration" x="208" y="16" width="32" height="64">
    <properties>
-    <property name="aniId" type="int" value="90001"/>
+    <property name="aniId" type="int" value="90005"/>
    </properties>
-   <point/>
   </object>
-  <object id="8" name="Bush" type="MapDecoration" x="32" y="64">
+  <object id="99" name="Bush" type="MapDecoration" x="176" y="64" width="32" height="16">
    <properties>
-    <property name="aniId" type="int" value="90001"/>
+    <property name="aniId" type="int" value="90005"/>
    </properties>
-   <point/>
   </object>
-  <object id="9" name="Bush" type="MapDecoration" x="48" y="64">
+  <object id="100" name="Bush" type="MapDecoration" x="224" y="80" width="16" height="80">
    <properties>
-    <property name="aniId" type="int" value="90001"/>
+    <property name="aniId" type="int" value="90005"/>
    </properties>
-   <point/>
   </object>
-  <object id="10" name="Bush" type="MapDecoration" x="16" y="80">
+  <object id="101" name="HelpBubble" type="MapDecoration" x="208" y="96" width="16" height="16">
    <properties>
     <property name="aniId" type="int" value="90001"/>
    </properties>
-   <point/>
-  </object>
-  <object id="11" name="Bush" type="MapDecoration" x="32" y="80">
-   <properties>
-    <property name="aniId" type="int" value="90001"/>
-   </properties>
-   <point/>
-  </object>
-  <object id="12" name="Bush" type="MapDecoration" x="48" y="80">
-   <properties>
-    <property name="aniId" type="int" value="90001"/>
-   </properties>
-   <point/>
-  </object>
-  <object id="13" name="Bush" type="MapDecoration" x="16" y="96">
-   <properties>
-    <property name="aniId" type="int" value="90001"/>
-   </properties>
-   <point/>
-  </object>
-  <object id="14" name="Bush" type="MapDecoration" x="80" y="32">
-   <properties>
-    <property name="aniId" type="int" value="90001"/>
-   </properties>
-   <point/>
-  </object>
-  <object id="15" name="Bush" type="MapDecoration" x="96" y="32">
-   <properties>
-    <property name="aniId" type="int" value="90001"/>
-   </properties>
-   <point/>
-  </object>
-  <object id="16" name="Bush" type="MapDecoration" x="112" y="32">
-   <properties>
-    <property name="aniId" type="int" value="90001"/>
-   </properties>
-   <point/>
-  </object>
-  <object id="17" name="Bush" type="MapDecoration" x="80" y="48">
-   <properties>
-    <property name="aniId" type="int" value="90001"/>
-   </properties>
-   <point/>
-  </object>
-  <object id="18" name="Bush" type="MapDecoration" x="96" y="48">
-   <properties>
-    <property name="aniId" type="int" value="90001"/>
-   </properties>
-   <point/>
-  </object>
-  <object id="19" name="Bush" type="MapDecoration" x="112" y="48">
-   <properties>
-    <property name="aniId" type="int" value="90001"/>
-   </properties>
-   <point/>
-  </object>
-  <object id="20" name="Bush" type="MapDecoration" x="80" y="64">
-   <properties>
-    <property name="aniId" type="int" value="90001"/>
-   </properties>
-   <point/>
-  </object>
-  <object id="21" name="Bush" type="MapDecoration" x="96" y="64">
-   <properties>
-    <property name="aniId" type="int" value="90001"/>
-   </properties>
-   <point/>
-  </object>
-  <object id="22" name="Bush" type="MapDecoration" x="112" y="64">
-   <properties>
-    <property name="aniId" type="int" value="90001"/>
-   </properties>
-   <point/>
-  </object>
-  <object id="23" name="Bush" type="MapDecoration" x="96" y="96">
-   <properties>
-    <property name="aniId" type="int" value="90001"/>
-   </properties>
-   <point/>
-  </object>
-  <object id="24" name="Bush" type="MapDecoration" x="112" y="96">
-   <properties>
-    <property name="aniId" type="int" value="90001"/>
-   </properties>
-   <point/>
-  </object>
-  <object id="25" name="Bush" type="MapDecoration" x="128" y="96">
-   <properties>
-    <property name="aniId" type="int" value="90001"/>
-   </properties>
-   <point/>
-  </object>
-  <object id="26" name="Bush" type="MapDecoration" x="144" y="32">
-   <properties>
-    <property name="aniId" type="int" value="90001"/>
-   </properties>
-   <point/>
-  </object>
-  <object id="27" name="Bush" type="MapDecoration" x="160" y="32">
-   <properties>
-    <property name="aniId" type="int" value="90001"/>
-   </properties>
-   <point/>
-  </object>
-  <object id="28" name="Bush" type="MapDecoration" x="176" y="32">
-   <properties>
-    <property name="aniId" type="int" value="90001"/>
-   </properties>
-   <point/>
-  </object>
-  <object id="29" name="Bush" type="MapDecoration" x="144" y="80">
-   <properties>
-    <property name="aniId" type="int" value="90001"/>
-   </properties>
-   <point/>
-  </object>
-  <object id="30" name="Bush" type="MapDecoration" x="160" y="80">
-   <properties>
-    <property name="aniId" type="int" value="90001"/>
-   </properties>
-   <point/>
-  </object>
-  <object id="31" name="Bush" type="MapDecoration" x="144" y="64">
-   <properties>
-    <property name="aniId" type="int" value="90001"/>
-   </properties>
-   <point/>
-  </object>
-  <object id="32" name="Bush" type="MapDecoration" x="160" y="64">
-   <properties>
-    <property name="aniId" type="int" value="90001"/>
-   </properties>
-   <point/>
-  </object>
-  <object id="33" name="Bush" type="MapDecoration" x="176" y="64">
-   <properties>
-    <property name="aniId" type="int" value="90001"/>
-   </properties>
-   <point/>
-  </object>
-  <object id="34" name="Bush" type="MapDecoration" x="192" y="64">
-   <properties>
-    <property name="aniId" type="int" value="90001"/>
-   </properties>
-   <point/>
-  </object>
-  <object id="35" name="Bush" type="MapDecoration" x="208" y="64">
-   <properties>
-    <property name="aniId" type="int" value="90001"/>
-   </properties>
-   <point/>
-  </object>
-  <object id="36" name="Bush" type="MapDecoration" x="224" y="64">
-   <properties>
-    <property name="aniId" type="int" value="90001"/>
-   </properties>
-   <point/>
-  </object>
-  <object id="37" name="Bush" type="MapDecoration" x="208" y="48">
-   <properties>
-    <property name="aniId" type="int" value="90001"/>
-   </properties>
-   <point/>
-  </object>
-  <object id="38" name="Bush" type="MapDecoration" x="224" y="48">
-   <properties>
-    <property name="aniId" type="int" value="90001"/>
-   </properties>
-   <point/>
-  </object>
-  <object id="39" name="Bush" type="MapDecoration" x="208" y="32">
-   <properties>
-    <property name="aniId" type="int" value="90001"/>
-   </properties>
-   <point/>
-  </object>
-  <object id="40" name="Bush" type="MapDecoration" x="224" y="32">
-   <properties>
-    <property name="aniId" type="int" value="90001"/>
-   </properties>
-   <point/>
-  </object>
-  <object id="41" name="Bush" type="MapDecoration" x="208" y="16">
-   <properties>
-    <property name="aniId" type="int" value="90001"/>
-   </properties>
-   <point/>
-  </object>
-  <object id="42" name="Bush" type="MapDecoration" x="224" y="16">
-   <properties>
-    <property name="aniId" type="int" value="90001"/>
-   </properties>
-   <point/>
-  </object>
-  <object id="43" name="Bush" type="MapDecoration" x="224" y="80">
-   <properties>
-    <property name="aniId" type="int" value="90001"/>
-   </properties>
-   <point/>
-  </object>
-  <object id="44" name="Bush" type="MapDecoration" x="224" y="96">
-   <properties>
-    <property name="aniId" type="int" value="90001"/>
-   </properties>
-   <point/>
-  </object>
-  <object id="45" name="Bush" type="MapDecoration" x="224" y="112">
-   <properties>
-    <property name="aniId" type="int" value="90001"/>
-   </properties>
-   <point/>
-  </object>
-  <object id="46" name="Bush" type="MapDecoration" x="224" y="128">
-   <properties>
-    <property name="aniId" type="int" value="90001"/>
-   </properties>
-   <point/>
-  </object>
-  <object id="47" name="Bush" type="MapDecoration" x="224" y="144">
-   <properties>
-    <property name="aniId" type="int" value="90001"/>
-   </properties>
-   <point/>
   </object>
  </objectgroup>
- <objectgroup id="3" name="Objects">
-  <object id="85" name="Mario" type="MapMario" x="32" y="48">
+ <objectgroup id="3" name="Objects" visible="0">
+  <object id="102" name="Mario" type="MapMario" x="32" y="48" width="16" height="16">
    <properties>
-    <property name="aniId" type="int" value="10001"/>
+    <property name="aniId" type="int" value="10003"/>
     <property name="start_node_id" type="int" value="80"/>
    </properties>
-   <point/>
   </object>
  </objectgroup>
 </map>

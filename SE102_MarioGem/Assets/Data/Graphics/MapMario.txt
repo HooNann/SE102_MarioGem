@@ -3,21 +3,21 @@
 #MAP
 23001	220	8	233	23	70	# spr-small-mario-map-0
 23002	237	8	250	23	70	# spr-small-mario-map-1
-23003	159	54	174	74	70	# spr-big-mario-map-0
-23004	178	54	193	74	70	# spr-big-mario-map-1
+23003	159	53	174	74	70	# spr-big-mario-map-0
+23004	178	53	193	74	70	# spr-big-mario-map-1
 23005	4	146	19	169	70	# spr-raccoon-mario-map-0
 23006	23	146	38	169	70	# spr-raccoon-mario-map-1
-23007	124	115	139	135	70	# spr-fire-mario-map-0
-23008	143	115	158	135	70	# spr-fire-mario-map-1
+23007	124	114	139	135	70	# spr-fire-mario-map-0
+23008	143	114	158	135	70	# spr-fire-mario-map-1
 23009	145	220	158	235	70	# spr-hammer-small-mario-map-idle-front-0
-23010	162	215	177	235	70	# spr-hammer-mario-map-idle-front-0
-23011	181	215	196	235	70	# spr-hammer-mario-map-idle-front-1
+23010	161	214	177	235	70	# spr-hammer-mario-map-idle-front-0
+23011	180	214	196	235	70	# spr-hammer-mario-map-idle-front-1
 23012	168	253	183	268	70	# spr-frog-small-mario-map-idle-front-0
 23013	187	249	202	268	70	# spr-frog-mario-map-idle-front-0
-23014	206	248	221	268	70	# spr-frog-mario-map-idle-front-1
-23015	9	291	20	306	70	# spr-tanooki-small-mario-map-???-0
-23016	24	284	39	306	70	# spr-tanooki-mario-map-???-0
-23017	43	283	58	306	70	# spr-tanooki-mario-map-???-1
+23014	206	247	221	268	70	# spr-frog-mario-map-idle-front-1
+23015	8	291	20	306	70	# spr-tanooki-small-mario-map-???-0
+23016	23	283	39	306	70	# spr-tanooki-mario-map-???-0
+23017	43	282	58	306	70	# spr-tanooki-mario-map-???-1
 
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]

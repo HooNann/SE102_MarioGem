@@ -6,10 +6,12 @@
 CPortal::CPortal(float l, float t, float r, float b, int scene_id )
 {
 	this->scene_id = scene_id;
-	x = l; 
-	y = t;
 	width = r - l;
 	height = b - t;
+	
+	// Game engine uses x, y as center for bounding box calculation
+	x = l + width / 2.0f;
+	y = t + height / 2.0f;
 }
 
 void CPortal::RenderBoundingBox()

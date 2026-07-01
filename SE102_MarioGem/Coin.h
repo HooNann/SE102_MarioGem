@@ -5,7 +5,7 @@
 #include "Animations.h"
 #include <string>
 
-constexpr int ID_ANI_COIN = 11000;
+constexpr int ID_ANI_COIN = 91001;
 
 #define	COIN_WIDTH 10
 #define COIN_BBOX_WIDTH 10
