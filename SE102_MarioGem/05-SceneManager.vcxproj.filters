@@ -84,6 +84,9 @@
     <ClCompile Include="Game.cpp">
       <Filter>Framework\Core</Filter>
     </ClCompile>
+    <ClCompile Include="GameData.cpp">
+      <Filter>Framework\Core</Filter>
+    </ClCompile>
     <ClCompile Include="debug.cpp">
       <Filter>Framework\Core</Filter>
     </ClCompile>

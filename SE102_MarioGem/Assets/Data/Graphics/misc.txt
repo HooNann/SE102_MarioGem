@@ -1,0 +1,145 @@
+[SPRITES]
+# ID	Left	Top	Right	Bottom	TEX_ID
+
+# --- tex-misc (TEX_ID: 80) ---
+# Dong xu (Coins)
+71001	294	101	301	114	80  # Dong xu tron
+71002	310	101	311	114	80  # Dong xu det doc doc
+71003	321	101	324	114	80  # Dong xu det vua
+71004	334	100	347	115	80  # Dong xu det ngang lon
+71005	356	100	361	115	80  # Dong xu nghieng 1
+71006	372	100	381	115	80  # Dong xu nghieng 2
+71065	391	100	400	115	80
+
+# Nam va La (Mushrooms & Leaves)
+71007	156	121	171	136	80  # Nam do sieu cap Super Mushroom
+71008	286	121	301	136	80  # Nam xanh tang mang 1-Up Mushroom
+71009	180	122	195	136	80  # La phong do Super Leaf trang thai 1
+71010	265	121	280	136	80  # La phong xanh Super Leaf trang thai 2
+
+# Sao bat tu (Star-man)
+71011	201	121	216	136	80  # Sao bat tu Star-man mau do
+71012	222	121	237	136	80  # Sao bat tu Star-man mau vang
+71013	245	121	260	136	80  # Sao bat tu Star-man mau xanh doremon
+
+# Vat pham & Vu khi khac (Flowers & Items)
+71014	370	121	385	136	80  # Hoa lua Fire Flower mau do hoat anh 1
+71015	309	121	324	136	80  # Hoa lua Fire Flower mau xam hoat anh 2
+71016	330	121	343	136	80  # Canh thit Magic Wing
+71017	350	121	365	136	80  # Vu khi Cai bua Hammer
+
+# Khoi cong tac (Switch-blocks)
+71018	156	144	171	159	80  # Cong tac P-Switch xanh lam nguyen ven
+71019	200	152	215	159	80  # Cong tac P-Switch xanh lam da bi xep
+71020	178	144	193	159	80  # Cong tac P-Switch xanh la nguyen ven
+71021	200	152	215	159	80  # Cong tac P-Switch xanh la da bi xep
+
+# Do nang cap dac biet (Special items)
+71022	223	144	238	159	80  # Qua cau ma thuat Magic Ball
+71023	247	144	262	159	80  # Ruong kho bau Treasure Chest
+71024	268	144	283	159	80  # Bo do ech Frog Suit
+71025	288	144	303	159	80  # Bo do cao Tanooki Suit
+71026	309	144	324	159	80  # Dam may tao quai Jugem Cloud
+71027	335	144	341	159	80  # Coi than ky Magic Whistle
+71028	349	144	364	159	80  # Hop nhac Music Box
+
+# Cac loai Khoi nen (Blocks & Platforms)
+71029	157	188	172	203	80  # Khoi hoi cham Question Block mau cam sang
+71030	176	188	191	203	80  # Khoi hoi cham Question Block mau vang chanh
+71031	196	188	211	203	80  # Khoi hoi cham Question Block mau vang dam
+71032	215	188	230	203	80  # Khoi hoi cham Question Block mau nau mo
+71033	235	188	250	203	80  # Khoi rong sau khi dap Empty Block
+71034	254	188	269	203	80  # Khoi go Wood Block
+71035	274	188	289	203	80  # Khoi gạch Brick mau nau sáng
+71036	293	188	308	203	80  # Khoi gạch Brick mau nau trung binh
+71037	312	188	327	203	80  # Khoi gạch Brick mau nau dam
+71038	331	188	346	203	80  # Khoi gạch Brick mau nau toi
+71039	352	167	399	182	80  # Be go di dong Platform
+71040	352	188	367	203	80  # Khoi not nhac trang Music Note hoat anh 1
+71041	371	188	386	203	80  # Khoi not nhac trang Music Note hoat anh 2
+71042	390	188	405	203	80  # Khoi not nhac trang Music Note hoat anh 3
+71043	409	188	424	203	80  # Khoi not nhac do Red Music Note
+
+# Manh vo gach (Debris)
+71044	153	350	164	363	80  # Manh vo gach Brick Debris loai 1
+71045	165	351	178	362	80  # Manh vo gach Brick Debris loai 2
+71046	179	350	190	363	80  # Manh vo gach Brick Debris loai 3
+71047	191	351	204	362	80  # Manh vo gach Brick Debris loai 4
+
+
+# --- tex-fire-ball (TEX_ID: 80) ---
+# Dan lua (Fireball)
+71048	0	1	7	8	80  # Dan lua Mario ban goc quay 0 do
+71049	11	-1	18	8	80  # Dan lua Mario ban goc quay 90 do
+71050	22	1	29	8	80  # Dan lua Mario ban goc quay 180 do
+71051	33	-1	40	8	80  # Dan lua Mario ban goc quay 270 do
+
+
+# --- tex-reward (TEX_ID: 80) ---
+# O thuong cuoi man (Goal Items)
+71052	5	28	20	43	80  # Phan thuong Nam Goal Mushroom mac dinh
+71053	66	28	76	43	80  # Phan thuong Nam Goal Mushroom bien dang 1
+71054	110	28	111	43	80  # Phan thuong Nam Goal Mushroom bien dang 2
+71055	25	28	40	43	80  # Phan thuong Hoa Goal Flower mac dinh
+71056	66	28	76	44	80  # Phan thuong Hoa Goal Flower bien dang
+71057	45	27	60	42	80  # Phan thuong Sao Goal Star mac dinh
+71058	94	28	104	43	80  # Phan thuong Sao Goal Star bien dang
+
+
+# --- tex-pipe (TEX_ID: 80) ---
+# He thong ong nuoc tinh (Pipes)
+71059	32	32	63	47	80  # Dau ong nuoc doc xanh la
+71060	32	48	63	63	80  # Than ong nuoc doc xanh la
+71061	32	0	47	31	80  # Dau ong nuoc ngang xanh la
+71062	48	0	63	31	80  # Than ong nuoc ngang xanh la
+71063	192	32	223	47	80  # Dau ong nuoc doc xanh duong
+71064	192	48	223	63	80  # Than ong nuoc doc xanh duong
+
+
+[ANIMATIONS]
+# ID_Anim	ID_Sprite_1	Time_1	ID_Sprite_2	Time_2 ...
+
+# ani-coin-spinning
+91001	71004	125	71065	125	71005	125	71006	125  # Hoat anh dong xu vang xoay tron
+
+# ani-question-block-flashing
+91002	71029	150	71030	150	71031	150	71032	150  # Hoat anh khoi hoi cham nhap nhay cho nguoi choi den dap
+
+# ani-question-block-hit
+91003	71033	100  # Hoat anh khoi hoi cham sau khi bi dap trung se bien thanh khoi rong tinh
+
+# ani-fire-ball-rotating
+91004	71048	80	71049	80	71050	80	71051	80  # Hoat anh vien dan lua tu xoay chieu khi bay
+
+# ani-star-man-blinking
+91005	71011	100	71012	100	71013	100  # Hoat anh ngoi sao bat tu nhap nhay mau sac
+
+# ani-fire-flower-pulsing
+91006	71014	150	71015	150  # Hoat anh bong hoa lua thoi doi mau canh hoa
+
+# ani-super-leaf-fluttering
+91007	71009	200	71010	200  # Hoat anh chiec la phong lac lu khi dang roi
+
+# ani-brick-shining
+91008	71035	120	71036	120	71037	120	71038	120  # Hoat anh gach bong ma vang nhap nhay nhe
+
+# ani-music-note-idle
+91009	71040	100  # Hoat anh khoi not nhac khi dung yen o trang thai cho
+
+# ani-music-note-jumping
+91010	71040	60	71041	60	71042	60	71041	60  # Hoat anh khoi not nhac co dan hoi nhe khi bi chu the giam len
+
+# ani-switch-block-idle-blue
+91011	71018	100  # Hoat anh nut bam P-Switch xanh lam luc chua tuong tac
+
+# ani-switch-block-hit-blue
+91012	71019	100  # Hoat anh nut bam P-Switch xanh lam ngay khi bi dap bẹp xuong
+
+# ani-switch-block-idle-green
+91013	71020	100  # Hoat anh nut bam P-Switch xanh la luc chua tuong tac
+
+# ani-switch-block-hit-green
+91014	71021	100  # Hoat anh nut bam P-Switch xanh la ngay khi bi dap bẹp xuong
+
+# ani-goal-roulette-speed
+91015	71052	150	71055	150	71057	150  # Hoat anh vong quay may man phan thuong cuoi man choi chay lien tuc

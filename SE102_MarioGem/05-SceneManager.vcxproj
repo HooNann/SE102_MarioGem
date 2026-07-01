@@ -160,6 +160,7 @@
     <ClCompile Include="debug.cpp" />
     <ClCompile Include="FireBall.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameData.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Blaster.cpp" />
     <ClCompile Include="Burner.cpp" />
@@ -203,6 +204,7 @@
     <ClInclude Include="FireBall.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameData.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Hud.h" />
     <ClInclude Include="Blaster.h" />

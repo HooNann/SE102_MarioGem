@@ -22,5 +22,11 @@ public:
 	int left_id;
 	int right_id;
 
-	CMapNode(int id, float x, float y, int scene_id = -1);
+	int aniActive;
+	int aniCleared;
+
+	CMapNode(int id, float x, float y, int scene_id = -1, int ani_active = -1, int ani_cleared = -1);
+
+	virtual void Render();
+	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 };

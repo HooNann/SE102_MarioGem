@@ -3,7 +3,7 @@
  "infinite":false,
  "layers":[
         {
-         "data":[23, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 24,
+         "data":[23, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 24,
             21, 1, 1, 1, 1, 19, 6, 19, 1, 19, 1, 19, 6, 1, 1, 22,
             21, 1, 1, 1, 20, 1, 1, 1, 20, 1, 1, 1, 20, 1, 1, 22,
             21, 19, 1, 19, 8, 1, 1, 1, 7, 19, 1, 19, 17, 1, 1, 22,
@@ -14,7 +14,7 @@
             21, 1, 16, 16, 20, 16, 16, 1, 20, 9, 1, 1, 1, 9, 1, 22,
             21, 1, 16, 16, 1, 19, 6, 19, 1, 15, 10, 10, 10, 14, 1, 22,
             21, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 22,
-            31, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 32,
+            31, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 32,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
          "height":14,
@@ -33,12 +33,21 @@
          "name":"Node",
          "objects":[
                 {
-                 "height":0,
+                 "height":16,
                  "id":53,
                  "name":"Node_53",
                  "opacity":1,
-                 "point":true,
                  "properties":[
+                        {
+                         "name":"ani_active",
+                         "type":"int",
+                         "value":90011
+                        }, 
+                        {
+                         "name":"ani_cleared",
+                         "type":"int",
+                         "value":90002
+                        }, 
                         {
                          "name":"down_id",
                          "type":"int",
@@ -48,20 +57,24 @@
                          "name":"right_id",
                          "type":"int",
                          "value":54
+                        }, 
+                        {
+                         "name":"scene_id",
+                         "type":"int",
+                         "value":1
                         }],
                  "rotation":0,
                  "type":"MapNode",
                  "visible":true,
-                 "width":0,
+                 "width":16,
                  "x":64,
                  "y":16
                 }, 
                 {
-                 "height":0,
+                 "height":16,
                  "id":54,
                  "name":"Node_54",
                  "opacity":1,
-                 "point":true,
                  "properties":[
                         {
                          "name":"left_id",
@@ -76,16 +89,15 @@
                  "rotation":0,
                  "type":"MapNode",
                  "visible":true,
-                 "width":0,
+                 "width":16,
                  "x":96,
                  "y":16
                 }, 
                 {
-                 "height":0,
+                 "height":16,
                  "id":55,
                  "name":"Node_55",
                  "opacity":1,
-                 "point":true,
                  "properties":[
                         {
                          "name":"down_id",
@@ -105,16 +117,15 @@
                  "rotation":0,
                  "type":"MapNode",
                  "visible":true,
-                 "width":0,
+                 "width":16,
                  "x":128,
                  "y":16
                 }, 
                 {
-                 "height":0,
+                 "height":16,
                  "id":56,
                  "name":"Node_56",
                  "opacity":1,
-                 "point":true,
                  "properties":[
                         {
                          "name":"down_id",
@@ -134,16 +145,15 @@
                  "rotation":0,
                  "type":"MapNode",
                  "visible":true,
-                 "width":0,
+                 "width":16,
                  "x":128,
                  "y":48
                 }, 
                 {
-                 "height":0,
+                 "height":16,
                  "id":57,
                  "name":"Node_57",
                  "opacity":1,
-                 "point":true,
                  "properties":[
                         {
                          "name":"left_id",
@@ -158,16 +168,15 @@
                  "rotation":0,
                  "type":"MapNode",
                  "visible":true,
-                 "width":0,
+                 "width":16,
                  "x":160,
                  "y":16
                 }, 
                 {
-                 "height":0,
+                 "height":16,
                  "id":58,
                  "name":"Node_58",
                  "opacity":1,
-                 "point":true,
                  "properties":[
                         {
                          "name":"down_id",
@@ -182,16 +191,15 @@
                  "rotation":0,
                  "type":"MapNode",
                  "visible":true,
-                 "width":0,
+                 "width":16,
                  "x":192,
                  "y":16
                 }, 
                 {
-                 "height":0,
+                 "height":16,
                  "id":59,
                  "name":"Node_59",
                  "opacity":1,
-                 "point":true,
                  "properties":[
                         {
                          "name":"left_id",
@@ -206,16 +214,15 @@
                  "rotation":0,
                  "type":"MapNode",
                  "visible":true,
-                 "width":0,
+                 "width":16,
                  "x":192,
                  "y":48
                 }, 
                 {
-                 "height":0,
+                 "height":16,
                  "id":60,
                  "name":"Node_60",
                  "opacity":1,
-                 "point":true,
                  "properties":[
                         {
                          "name":"left_id",
@@ -230,16 +237,15 @@
                  "rotation":0,
                  "type":"MapNode",
                  "visible":true,
-                 "width":0,
+                 "width":16,
                  "x":160,
                  "y":48
                 }, 
                 {
-                 "height":0,
+                 "height":16,
                  "id":61,
                  "name":"Node_61",
                  "opacity":1,
-                 "point":true,
                  "properties":[
                         {
                          "name":"left_id",
@@ -254,16 +260,15 @@
                  "rotation":0,
                  "type":"MapNode",
                  "visible":true,
-                 "width":0,
+                 "width":16,
                  "x":128,
                  "y":80
                 }, 
                 {
-                 "height":0,
+                 "height":16,
                  "id":62,
                  "name":"Node_62",
                  "opacity":1,
-                 "point":true,
                  "properties":[
                         {
                          "name":"left_id",
@@ -278,16 +283,15 @@
                  "rotation":0,
                  "type":"MapNode",
                  "visible":true,
-                 "width":0,
+                 "width":16,
                  "x":96,
                  "y":80
                 }, 
                 {
-                 "height":0,
+                 "height":16,
                  "id":63,
                  "name":"Node_63",
                  "opacity":1,
-                 "point":true,
                  "properties":[
                         {
                          "name":"down_id",
@@ -302,17 +306,21 @@
                  "rotation":0,
                  "type":"MapNode",
                  "visible":true,
-                 "width":0,
+                 "width":16,
                  "x":64,
                  "y":80
                 }, 
                 {
-                 "height":0,
+                 "height":16,
                  "id":80,
                  "name":"Node_80",
                  "opacity":1,
-                 "point":true,
                  "properties":[
+                        {
+                         "name":"ani_active",
+                         "type":"int",
+                         "value":90009
+                        }, 
                         {
                          "name":"right_id",
                          "type":"int",
@@ -321,16 +329,15 @@
                  "rotation":0,
                  "type":"MapNode",
                  "visible":true,
-                 "width":0,
+                 "width":16,
                  "x":32,
                  "y":48
                 }, 
                 {
-                 "height":0,
+                 "height":16,
                  "id":81,
                  "name":"Node_81",
                  "opacity":1,
-                 "point":true,
                  "properties":[
                         {
                          "name":"left_id",
@@ -345,16 +352,15 @@
                  "rotation":0,
                  "type":"MapNode",
                  "visible":true,
-                 "width":0,
+                 "width":16,
                  "x":64,
                  "y":48
                 }, 
                 {
-                 "height":0,
+                 "height":16,
                  "id":86,
                  "name":"Node_86",
                  "opacity":1,
-                 "point":true,
                  "properties":[
                         {
                          "name":"down_id",
@@ -369,16 +375,15 @@
                  "rotation":0,
                  "type":"MapNode",
                  "visible":true,
-                 "width":0,
+                 "width":16,
                  "x":64,
                  "y":112
                 }, 
                 {
-                 "height":0,
+                 "height":16,
                  "id":89,
                  "name":"Node_89",
                  "opacity":1,
-                 "point":true,
                  "properties":[
                         {
                          "name":"up_id",
@@ -388,7 +393,7 @@
                  "rotation":0,
                  "type":"MapNode",
                  "visible":true,
-                 "width":0,
+                 "width":16,
                  "x":64,
                  "y":144
                 }],
@@ -404,830 +409,172 @@
          "name":"Decorations",
          "objects":[
                 {
-                 "height":0,
-                 "id":1,
+                 "height":32,
+                 "id":92,
                  "name":"Bush",
                  "opacity":1,
-                 "point":true,
                  "properties":[
                         {
                          "name":"aniId",
                          "type":"int",
-                         "value":90001
+                         "value":90005
                         }],
                  "rotation":0,
                  "type":"MapDecoration",
                  "visible":true,
-                 "width":0,
+                 "width":48,
                  "x":16,
                  "y":16
                 }, 
                 {
-                 "height":0,
-                 "id":2,
+                 "height":32,
+                 "id":93,
                  "name":"Bush",
                  "opacity":1,
-                 "point":true,
                  "properties":[
                         {
                          "name":"aniId",
                          "type":"int",
-                         "value":90001
+                         "value":90005
                         }],
                  "rotation":0,
                  "type":"MapDecoration",
                  "visible":true,
-                 "width":0,
-                 "x":32,
+                 "width":48,
+                 "x":16,
+                 "y":64
+                }, 
+                {
+                 "height":16,
+                 "id":94,
+                 "name":"Bush",
+                 "opacity":1,
+                 "properties":[
+                        {
+                         "name":"aniId",
+                         "type":"int",
+                         "value":90005
+                        }],
+                 "rotation":0,
+                 "type":"MapDecoration",
+                 "visible":true,
+                 "width":16,
+                 "x":16,
+                 "y":96
+                }, 
+                {
+                 "height":48,
+                 "id":95,
+                 "name":"Bush",
+                 "opacity":1,
+                 "properties":[
+                        {
+                         "name":"aniId",
+                         "type":"int",
+                         "value":90005
+                        }],
+                 "rotation":0,
+                 "type":"MapDecoration",
+                 "visible":true,
+                 "width":48,
+                 "x":80,
+                 "y":32
+                }, 
+                {
+                 "height":16,
+                 "id":96,
+                 "name":"Bush",
+                 "opacity":1,
+                 "properties":[
+                        {
+                         "name":"aniId",
+                         "type":"int",
+                         "value":90005
+                        }],
+                 "rotation":0,
+                 "type":"MapDecoration",
+                 "visible":true,
+                 "width":48,
+                 "x":96,
+                 "y":96
+                }, 
+                {
+                 "height":32,
+                 "id":97,
+                 "name":"Bush",
+                 "opacity":1,
+                 "properties":[
+                        {
+                         "name":"aniId",
+                         "type":"int",
+                         "value":90005
+                        }],
+                 "rotation":0,
+                 "type":"MapDecoration",
+                 "visible":true,
+                 "width":32,
+                 "x":144,
+                 "y":64
+                }, 
+                {
+                 "height":64,
+                 "id":98,
+                 "name":"Bush",
+                 "opacity":1,
+                 "properties":[
+                        {
+                         "name":"aniId",
+                         "type":"int",
+                         "value":90005
+                        }],
+                 "rotation":0,
+                 "type":"MapDecoration",
+                 "visible":true,
+                 "width":32,
+                 "x":208,
                  "y":16
                 }, 
                 {
-                 "height":0,
-                 "id":3,
+                 "height":16,
+                 "id":99,
                  "name":"Bush",
                  "opacity":1,
-                 "point":true,
                  "properties":[
                         {
                          "name":"aniId",
                          "type":"int",
-                         "value":90001
+                         "value":90005
                         }],
                  "rotation":0,
                  "type":"MapDecoration",
                  "visible":true,
-                 "width":0,
-                 "x":48,
-                 "y":16
-                }, 
-                {
-                 "height":0,
-                 "id":4,
-                 "name":"Bush",
-                 "opacity":1,
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"aniId",
-                         "type":"int",
-                         "value":90001
-                        }],
-                 "rotation":0,
-                 "type":"MapDecoration",
-                 "visible":true,
-                 "width":0,
-                 "x":16,
-                 "y":32
-                }, 
-                {
-                 "height":0,
-                 "id":5,
-                 "name":"Bush",
-                 "opacity":1,
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"aniId",
-                         "type":"int",
-                         "value":90001
-                        }],
-                 "rotation":0,
-                 "type":"MapDecoration",
-                 "visible":true,
-                 "width":0,
-                 "x":32,
-                 "y":32
-                }, 
-                {
-                 "height":0,
-                 "id":6,
-                 "name":"Bush",
-                 "opacity":1,
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"aniId",
-                         "type":"int",
-                         "value":90001
-                        }],
-                 "rotation":0,
-                 "type":"MapDecoration",
-                 "visible":true,
-                 "width":0,
-                 "x":48,
-                 "y":32
-                }, 
-                {
-                 "height":0,
-                 "id":7,
-                 "name":"Bush",
-                 "opacity":1,
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"aniId",
-                         "type":"int",
-                         "value":90001
-                        }],
-                 "rotation":0,
-                 "type":"MapDecoration",
-                 "visible":true,
-                 "width":0,
-                 "x":16,
-                 "y":64
-                }, 
-                {
-                 "height":0,
-                 "id":8,
-                 "name":"Bush",
-                 "opacity":1,
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"aniId",
-                         "type":"int",
-                         "value":90001
-                        }],
-                 "rotation":0,
-                 "type":"MapDecoration",
-                 "visible":true,
-                 "width":0,
-                 "x":32,
-                 "y":64
-                }, 
-                {
-                 "height":0,
-                 "id":9,
-                 "name":"Bush",
-                 "opacity":1,
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"aniId",
-                         "type":"int",
-                         "value":90001
-                        }],
-                 "rotation":0,
-                 "type":"MapDecoration",
-                 "visible":true,
-                 "width":0,
-                 "x":48,
-                 "y":64
-                }, 
-                {
-                 "height":0,
-                 "id":10,
-                 "name":"Bush",
-                 "opacity":1,
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"aniId",
-                         "type":"int",
-                         "value":90001
-                        }],
-                 "rotation":0,
-                 "type":"MapDecoration",
-                 "visible":true,
-                 "width":0,
-                 "x":16,
-                 "y":80
-                }, 
-                {
-                 "height":0,
-                 "id":11,
-                 "name":"Bush",
-                 "opacity":1,
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"aniId",
-                         "type":"int",
-                         "value":90001
-                        }],
-                 "rotation":0,
-                 "type":"MapDecoration",
-                 "visible":true,
-                 "width":0,
-                 "x":32,
-                 "y":80
-                }, 
-                {
-                 "height":0,
-                 "id":12,
-                 "name":"Bush",
-                 "opacity":1,
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"aniId",
-                         "type":"int",
-                         "value":90001
-                        }],
-                 "rotation":0,
-                 "type":"MapDecoration",
-                 "visible":true,
-                 "width":0,
-                 "x":48,
-                 "y":80
-                }, 
-                {
-                 "height":0,
-                 "id":13,
-                 "name":"Bush",
-                 "opacity":1,
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"aniId",
-                         "type":"int",
-                         "value":90001
-                        }],
-                 "rotation":0,
-                 "type":"MapDecoration",
-                 "visible":true,
-                 "width":0,
-                 "x":16,
-                 "y":96
-                }, 
-                {
-                 "height":0,
-                 "id":14,
-                 "name":"Bush",
-                 "opacity":1,
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"aniId",
-                         "type":"int",
-                         "value":90001
-                        }],
-                 "rotation":0,
-                 "type":"MapDecoration",
-                 "visible":true,
-                 "width":0,
-                 "x":80,
-                 "y":32
-                }, 
-                {
-                 "height":0,
-                 "id":15,
-                 "name":"Bush",
-                 "opacity":1,
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"aniId",
-                         "type":"int",
-                         "value":90001
-                        }],
-                 "rotation":0,
-                 "type":"MapDecoration",
-                 "visible":true,
-                 "width":0,
-                 "x":96,
-                 "y":32
-                }, 
-                {
-                 "height":0,
-                 "id":16,
-                 "name":"Bush",
-                 "opacity":1,
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"aniId",
-                         "type":"int",
-                         "value":90001
-                        }],
-                 "rotation":0,
-                 "type":"MapDecoration",
-                 "visible":true,
-                 "width":0,
-                 "x":112,
-                 "y":32
-                },
-            
-                {
-                 "height":0,
-                 "id":17,
-                 "name":"Bush",
-                 "opacity":1,
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"aniId",
-                         "type":"int",
-                         "value":90001
-                        }],
-                 "rotation":0,
-                 "type":"MapDecoration",
-                 "visible":true,
-                 "width":0,
-                 "x":80,
-                 "y":48
-                }, 
-                {
-                 "height":0,
-                 "id":18,
-                 "name":"Bush",
-                 "opacity":1,
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"aniId",
-                         "type":"int",
-                         "value":90001
-                        }],
-                 "rotation":0,
-                 "type":"MapDecoration",
-                 "visible":true,
-                 "width":0,
-                 "x":96,
-                 "y":48
-                }, 
-                {
-                 "height":0,
-                 "id":19,
-                 "name":"Bush",
-                 "opacity":1,
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"aniId",
-                         "type":"int",
-                         "value":90001
-                        }],
-                 "rotation":0,
-                 "type":"MapDecoration",
-                 "visible":true,
-                 "width":0,
-                 "x":112,
-                 "y":48
-                }, 
-                {
-                 "height":0,
-                 "id":20,
-                 "name":"Bush",
-                 "opacity":1,
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"aniId",
-                         "type":"int",
-                         "value":90001
-                        }],
-                 "rotation":0,
-                 "type":"MapDecoration",
-                 "visible":true,
-                 "width":0,
-                 "x":80,
-                 "y":64
-                }, 
-                {
-                 "height":0,
-                 "id":21,
-                 "name":"Bush",
-                 "opacity":1,
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"aniId",
-                         "type":"int",
-                         "value":90001
-                        }],
-                 "rotation":0,
-                 "type":"MapDecoration",
-                 "visible":true,
-                 "width":0,
-                 "x":96,
-                 "y":64
-                }, 
-                {
-                 "height":0,
-                 "id":22,
-                 "name":"Bush",
-                 "opacity":1,
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"aniId",
-                         "type":"int",
-                         "value":90001
-                        }],
-                 "rotation":0,
-                 "type":"MapDecoration",
-                 "visible":true,
-                 "width":0,
-                 "x":112,
-                 "y":64
-                }, 
-                {
-                 "height":0,
-                 "id":23,
-                 "name":"Bush",
-                 "opacity":1,
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"aniId",
-                         "type":"int",
-                         "value":90001
-                        }],
-                 "rotation":0,
-                 "type":"MapDecoration",
-                 "visible":true,
-                 "width":0,
-                 "x":96,
-                 "y":96
-                }, 
-                {
-                 "height":0,
-                 "id":24,
-                 "name":"Bush",
-                 "opacity":1,
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"aniId",
-                         "type":"int",
-                         "value":90001
-                        }],
-                 "rotation":0,
-                 "type":"MapDecoration",
-                 "visible":true,
-                 "width":0,
-                 "x":112,
-                 "y":96
-                }, 
-                {
-                 "height":0,
-                 "id":25,
-                 "name":"Bush",
-                 "opacity":1,
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"aniId",
-                         "type":"int",
-                         "value":90001
-                        }],
-                 "rotation":0,
-                 "type":"MapDecoration",
-                 "visible":true,
-                 "width":0,
-                 "x":128,
-                 "y":96
-                }, 
-                {
-                 "height":0,
-                 "id":26,
-                 "name":"Bush",
-                 "opacity":1,
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"aniId",
-                         "type":"int",
-                         "value":90001
-                        }],
-                 "rotation":0,
-                 "type":"MapDecoration",
-                 "visible":true,
-                 "width":0,
-                 "x":144,
-                 "y":32
-                }, 
-                {
-                 "height":0,
-                 "id":27,
-                 "name":"Bush",
-                 "opacity":1,
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"aniId",
-                         "type":"int",
-                         "value":90001
-                        }],
-                 "rotation":0,
-                 "type":"MapDecoration",
-                 "visible":true,
-                 "width":0,
-                 "x":160,
-                 "y":32
-                }, 
-                {
-                 "height":0,
-                 "id":28,
-                 "name":"Bush",
-                 "opacity":1,
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"aniId",
-                         "type":"int",
-                         "value":90001
-                        }],
-                 "rotation":0,
-                 "type":"MapDecoration",
-                 "visible":true,
-                 "width":0,
-                 "x":176,
-                 "y":32
-                }, 
-                {
-                 "height":0,
-                 "id":29,
-                 "name":"Bush",
-                 "opacity":1,
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"aniId",
-                         "type":"int",
-                         "value":90001
-                        }],
-                 "rotation":0,
-                 "type":"MapDecoration",
-                 "visible":true,
-                 "width":0,
-                 "x":144,
-                 "y":80
-                }, 
-                {
-                 "height":0,
-                 "id":30,
-                 "name":"Bush",
-                 "opacity":1,
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"aniId",
-                         "type":"int",
-                         "value":90001
-                        }],
-                 "rotation":0,
-                 "type":"MapDecoration",
-                 "visible":true,
-                 "width":0,
-                 "x":160,
-                 "y":80
-                }, 
-                {
-                 "height":0,
-                 "id":31,
-                 "name":"Bush",
-                 "opacity":1,
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"aniId",
-                         "type":"int",
-                         "value":90001
-                        }],
-                 "rotation":0,
-                 "type":"MapDecoration",
-                 "visible":true,
-                 "width":0,
-                 "x":144,
-                 "y":64
-                }, 
-                {
-                 "height":0,
-                 "id":32,
-                 "name":"Bush",
-                 "opacity":1,
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"aniId",
-                         "type":"int",
-                         "value":90001
-                        }],
-                 "rotation":0,
-                 "type":"MapDecoration",
-                 "visible":true,
-                 "width":0,
-                 "x":160,
-                 "y":64
-                },
-            
-                {
-                 "height":0,
-                 "id":33,
-                 "name":"Bush",
-                 "opacity":1,
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"aniId",
-                         "type":"int",
-                         "value":90001
-                        }],
-                 "rotation":0,
-                 "type":"MapDecoration",
-                 "visible":true,
-                 "width":0,
+                 "width":32,
                  "x":176,
                  "y":64
                 }, 
                 {
-                 "height":0,
-                 "id":34,
+                 "height":80,
+                 "id":100,
                  "name":"Bush",
                  "opacity":1,
-                 "point":true,
                  "properties":[
                         {
                          "name":"aniId",
                          "type":"int",
-                         "value":90001
+                         "value":90005
                         }],
                  "rotation":0,
                  "type":"MapDecoration",
                  "visible":true,
-                 "width":0,
-                 "x":192,
-                 "y":64
-                }, 
-                {
-                 "height":0,
-                 "id":35,
-                 "name":"Bush",
-                 "opacity":1,
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"aniId",
-                         "type":"int",
-                         "value":90001
-                        }],
-                 "rotation":0,
-                 "type":"MapDecoration",
-                 "visible":true,
-                 "width":0,
-                 "x":208,
-                 "y":64
-                }, 
-                {
-                 "height":0,
-                 "id":36,
-                 "name":"Bush",
-                 "opacity":1,
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"aniId",
-                         "type":"int",
-                         "value":90001
-                        }],
-                 "rotation":0,
-                 "type":"MapDecoration",
-                 "visible":true,
-                 "width":0,
-                 "x":224,
-                 "y":64
-                }, 
-                {
-                 "height":0,
-                 "id":37,
-                 "name":"Bush",
-                 "opacity":1,
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"aniId",
-                         "type":"int",
-                         "value":90001
-                        }],
-                 "rotation":0,
-                 "type":"MapDecoration",
-                 "visible":true,
-                 "width":0,
-                 "x":208,
-                 "y":48
-                }, 
-                {
-                 "height":0,
-                 "id":38,
-                 "name":"Bush",
-                 "opacity":1,
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"aniId",
-                         "type":"int",
-                         "value":90001
-                        }],
-                 "rotation":0,
-                 "type":"MapDecoration",
-                 "visible":true,
-                 "width":0,
-                 "x":224,
-                 "y":48
-                }, 
-                {
-                 "height":0,
-                 "id":39,
-                 "name":"Bush",
-                 "opacity":1,
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"aniId",
-                         "type":"int",
-                         "value":90001
-                        }],
-                 "rotation":0,
-                 "type":"MapDecoration",
-                 "visible":true,
-                 "width":0,
-                 "x":208,
-                 "y":32
-                }, 
-                {
-                 "height":0,
-                 "id":40,
-                 "name":"Bush",
-                 "opacity":1,
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"aniId",
-                         "type":"int",
-                         "value":90001
-                        }],
-                 "rotation":0,
-                 "type":"MapDecoration",
-                 "visible":true,
-                 "width":0,
-                 "x":224,
-                 "y":32
-                }, 
-                {
-                 "height":0,
-                 "id":41,
-                 "name":"Bush",
-                 "opacity":1,
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"aniId",
-                         "type":"int",
-                         "value":90001
-                        }],
-                 "rotation":0,
-                 "type":"MapDecoration",
-                 "visible":true,
-                 "width":0,
-                 "x":208,
-                 "y":16
-                }, 
-                {
-                 "height":0,
-                 "id":42,
-                 "name":"Bush",
-                 "opacity":1,
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"aniId",
-                         "type":"int",
-                         "value":90001
-                        }],
-                 "rotation":0,
-                 "type":"MapDecoration",
-                 "visible":true,
-                 "width":0,
-                 "x":224,
-                 "y":16
-                }, 
-                {
-                 "height":0,
-                 "id":43,
-                 "name":"Bush",
-                 "opacity":1,
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"aniId",
-                         "type":"int",
-                         "value":90001
-                        }],
-                 "rotation":0,
-                 "type":"MapDecoration",
-                 "visible":true,
-                 "width":0,
+                 "width":16,
                  "x":224,
                  "y":80
                 }, 
                 {
-                 "height":0,
-                 "id":44,
-                 "name":"Bush",
+                 "height":16,
+                 "id":101,
+                 "name":"HelpBubble",
                  "opacity":1,
-                 "point":true,
                  "properties":[
                         {
                          "name":"aniId",
@@ -1237,66 +584,9 @@
                  "rotation":0,
                  "type":"MapDecoration",
                  "visible":true,
-                 "width":0,
-                 "x":224,
+                 "width":16,
+                 "x":208,
                  "y":96
-                }, 
-                {
-                 "height":0,
-                 "id":45,
-                 "name":"Bush",
-                 "opacity":1,
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"aniId",
-                         "type":"int",
-                         "value":90001
-                        }],
-                 "rotation":0,
-                 "type":"MapDecoration",
-                 "visible":true,
-                 "width":0,
-                 "x":224,
-                 "y":112
-                }, 
-                {
-                 "height":0,
-                 "id":46,
-                 "name":"Bush",
-                 "opacity":1,
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"aniId",
-                         "type":"int",
-                         "value":90001
-                        }],
-                 "rotation":0,
-                 "type":"MapDecoration",
-                 "visible":true,
-                 "width":0,
-                 "x":224,
-                 "y":128
-                }, 
-                {
-                 "height":0,
-                 "id":47,
-                 "name":"Bush",
-                 "opacity":1,
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"aniId",
-                         "type":"int",
-                         "value":90001
-                        }],
-                 "rotation":0,
-                 "type":"MapDecoration",
-                 "visible":true,
-                 "width":0,
-                 "x":224,
-                 "y":144
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -1310,16 +600,15 @@
          "name":"Objects",
          "objects":[
                 {
-                 "height":0,
-                 "id":85,
+                 "height":16,
+                 "id":102,
                  "name":"Mario",
                  "opacity":1,
-                 "point":true,
                  "properties":[
                         {
                          "name":"aniId",
                          "type":"int",
-                         "value":10001
+                         "value":10003
                         }, 
                         {
                          "name":"start_node_id",
@@ -1329,18 +618,18 @@
                  "rotation":0,
                  "type":"MapMario",
                  "visible":true,
-                 "width":0,
+                 "width":16,
                  "x":32,
                  "y":48
                 }],
          "opacity":1,
          "type":"objectgroup",
-         "visible":true,
+         "visible":false,
          "x":0,
          "y":0
         }],
  "nextlayerid":5,
- "nextobjectid":90,
+ "nextobjectid":103,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.12.1",

@@ -444,23 +444,40 @@
                  "y":384
                 }, 
                 {
-                 "height":0,
-                 "id":36,
+                 "height":16,
+                 "id":51,
                  "name":"QuestionBlock",
                  "opacity":1,
-                 "point":true,
                  "properties":[
                         {
                          "name":"item_type",
                          "type":"int",
-                         "value":3
+                         "value":2
                         }],
                  "rotation":0,
                  "type":"QuestionBlock",
                  "visible":true,
-                 "width":0,
+                 "width":16,
                  "x":224,
-                 "y":368
+                 "y":352
+                }, 
+                {
+                 "height":32,
+                 "id":53,
+                 "name":"Portal",
+                 "opacity":1,
+                 "properties":[
+                        {
+                         "name":"target_scene_id",
+                         "type":"int",
+                         "value":2
+                        }],
+                 "rotation":0,
+                 "type":"Portal",
+                 "visible":true,
+                 "width":16,
+                 "x":544,
+                 "y":272
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -469,7 +486,7 @@
          "y":0
         }],
  "nextlayerid":9,
- "nextobjectid":51,
+ "nextobjectid":54,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.12.1",

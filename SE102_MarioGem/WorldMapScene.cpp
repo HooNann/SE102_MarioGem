@@ -11,6 +11,7 @@
 #include "Mario.h"
 #include "Camera.h"
 #include "Game.h"
+#include "GameData.h"
 #include "debug.h"
 
 using namespace std;
@@ -302,37 +303,90 @@ void CWorldMapScene::LoadMapJSON(LPCWSTR jsonPath)
 
 		for (auto& obj : layer["objects"])
 		{
-			LPGAMEOBJECT gameObj = ObjectFactory::CreateFromJSON(obj);
-			if (gameObj == nullptr) continue;
+			string typeStr = "";
+			if (obj.contains("type") && obj["type"].is_string()) typeStr = obj["type"].get<string>();
+			else if (obj.contains("class") && obj["class"].is_string()) typeStr = obj["class"].get<string>();
 
-			CMapNode* node = dynamic_cast<CMapNode*>(gameObj);
-			if (node != nullptr)
+			float w = obj.value("width", 0.0f);
+			float h = obj.value("height", 0.0f);
+
+			vector<nlohmann::json> objectsToProcess;
+
+			if ((typeStr == "MapNode" || typeStr == "MapDecoration" || typeStr == "MapMario") && w > 0 && h > 0)
 			{
-				nodes[node->nodeId] = node;
-				
-				// Đọc custom properties
-				if (obj.contains("properties"))
-				{
-					for (auto& prop : obj["properties"])
-					{
-						string name = prop["name"];
-						if (name == "up_id") node->up_id = prop["value"];
-						else if (name == "down_id") node->down_id = prop["value"];
-						else if (name == "left_id") node->left_id = prop["value"];
-						else if (name == "right_id") node->right_id = prop["value"];
-						else if (name == "scene_id") node->sceneId = prop["value"];
+				float startX = obj.value("x", 0.0f);
+				float startY = obj.value("y", 0.0f);
+
+				int cols = round(w / 16.0f);
+				int rows = round(h / 16.0f);
+				if (cols < 1) cols = 1;
+				if (rows < 1) rows = 1;
+
+				for (int r = 0; r < rows; ++r) {
+					for (int c = 0; c < cols; ++c) {
+						nlohmann::json singleObj = obj;
+						singleObj["x"] = startX + c * 16.0f + 8.0f;
+						singleObj["y"] = startY + r * 16.0f + 8.0f;
+						singleObj["width"] = 0.0f; // Set to 0 so ObjectFactory processes it as a Point
+						singleObj["height"] = 0.0f;
+						singleObj["cell_bottom"] = startY + (r + 1) * 16.0f;
+						objectsToProcess.push_back(singleObj);
 					}
 				}
 			}
-
-			CMapMario* mario = dynamic_cast<CMapMario*>(gameObj);
-			if (mario != nullptr)
-			{
-				player = mario;
-			}
 			else
 			{
-				mapObjects.push_back(dynamic_cast<CMapObject*>(gameObj));
+				objectsToProcess.push_back(obj);
+			}
+
+			for (auto& singleObj : objectsToProcess)
+			{
+				LPGAMEOBJECT gameObj = ObjectFactory::CreateFromJSON(singleObj);
+				if (gameObj == nullptr) continue;
+
+				if (singleObj.contains("cell_bottom"))
+				{
+					float l, t, r_box, b;
+					gameObj->GetBoundingBox(l, t, r_box, b);
+					float h_box = b - t;
+					if (h_box > 0)
+					{
+						float cx, cy;
+						gameObj->GetPosition(cx, cy);
+						float cell_bottom = singleObj["cell_bottom"];
+						gameObj->SetPosition(cx, cell_bottom - h_box / 2.0f);
+					}
+				}
+
+				CMapNode* node = dynamic_cast<CMapNode*>(gameObj);
+				if (node != nullptr)
+				{
+					nodes[node->nodeId] = node;
+					
+					// Đọc custom properties
+					if (singleObj.contains("properties"))
+					{
+						for (auto& prop : singleObj["properties"])
+						{
+							string name = prop["name"];
+							if (name == "up_id") node->up_id = prop["value"];
+							else if (name == "down_id") node->down_id = prop["value"];
+							else if (name == "left_id") node->left_id = prop["value"];
+							else if (name == "right_id") node->right_id = prop["value"];
+							else if (name == "scene_id") node->sceneId = prop["value"];
+						}
+					}
+				}
+
+				CMapMario* mario = dynamic_cast<CMapMario*>(gameObj);
+				if (mario != nullptr)
+				{
+					player = mario;
+				}
+				else
+				{
+					mapObjects.push_back(dynamic_cast<CMapObject*>(gameObj));
+				}
 			}
 		}
 	}
@@ -350,7 +404,13 @@ void CWorldMapScene::LoadMapJSON(LPCWSTR jsonPath)
 	// Gắn Mario vào Node bắt đầu (giả sử node gần nhất hoặc node có id chỉ định)
 	if (player != nullptr && !nodes.empty())
 	{
-		if (player->start_node_id != -1 && nodes.count(player->start_node_id) > 0)
+		int gameDataNodeId = CGameData::GetInstance()->GetCurrentNodeId();
+		
+		if (gameDataNodeId != 0 && nodes.count(gameDataNodeId) > 0)
+		{
+			player->currentNode = nodes[gameDataNodeId];
+		}
+		else if (player->start_node_id != -1 && nodes.count(player->start_node_id) > 0)
 		{
 			player->currentNode = nodes[player->start_node_id];
 		}
@@ -362,6 +422,18 @@ void CWorldMapScene::LoadMapJSON(LPCWSTR jsonPath)
 		
 		float nx, ny;
 		player->currentNode->GetPosition(nx, ny);
+		
+		float nl, nt, nr, nb;
+		player->currentNode->GetBoundingBox(nl, nt, nr, nb);
+		
+		float ml, mt, mr, mb;
+		player->GetBoundingBox(ml, mt, mr, mb);
+		float mario_h = mb - mt;
+
+		if (mario_h > 0) {
+			ny = nb - mario_h / 2.0f;
+		}
+
 		player->SetPosition(nx, ny);
 	}
 }

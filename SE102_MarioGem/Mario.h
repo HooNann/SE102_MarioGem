@@ -1,5 +1,6 @@
 #pragma once
 #include "GameObject.h"
+#include "GameData.h"
 
 #include "Animation.h"
 #include "Animations.h"
@@ -127,16 +128,6 @@ constexpr int ID_ANI_MARIO_RACCOON_FLY_LEFT = 3101;
 
 //RACCOON MARIO
 
-//#define	MARIO_LEVEL_SMALL	1
-//#define	MARIO_LEVEL_BIG		2
-enum class MarioLevel : int
-{
-	Small = 1,
-	Big = 2,
-	Fire = 3,
-	Raccoon = 4
-};
-
 #define MARIO_BIG_BBOX_WIDTH  14
 #define MARIO_BIG_BBOX_HEIGHT 24
 #define MARIO_BIG_SITTING_BBOX_WIDTH  14
@@ -158,13 +149,9 @@ class CMario : public CGameObject
 	float ax;				// acceleration on x 
 	float ay;				// acceleration on y 
 
-	MarioLevel level;
 	int untouchable; 
 	ULONGLONG untouchable_start;
 	BOOLEAN isOnPlatform;
-	int coin;
-	int score;
-	int lives;
 
 	BOOLEAN isThrowingFire;
 	DWORD throwingFireStartTime;
@@ -195,17 +182,13 @@ public:
 		ay = MARIO_GRAVITY; 
 
 
-		level = MarioLevel::Big;
 		untouchable = 0;
 		untouchable_start = -1;
 		isOnPlatform = false;
-		coin = 0;
-		score = 0;
-		lives = 4;
 	}
 
-	MarioLevel GetLevel() { return level; }
-	void SetLevel(MarioLevel l) { level = l; }
+	MarioLevel GetLevel() { return CGameData::GetInstance()->GetLevel(); }
+	void SetLevel(MarioLevel l) { CGameData::GetInstance()->SetLevel(l); }
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
 	void SetState(MarioState state);
@@ -219,10 +202,10 @@ public:
 	void FlyUp();
 	void FloatDown();
 	int GetPMeter() { return pMeter; }
-	int GetCoins() { return coin; }
-	int GetScore() { return score; }
-	int GetLives() { return lives; }
-	void AddScore(int amount) { score += amount; }
+	int GetCoins() { return CGameData::GetInstance()->GetCoin(); }
+	int GetScore() { return CGameData::GetInstance()->GetScore(); }
+	int GetLives() { return CGameData::GetInstance()->GetLives(); }
+	void AddScore(int amount) { CGameData::GetInstance()->AddScore(amount); }
 
 	int IsCollidable()
 	{ 

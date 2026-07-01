@@ -16,8 +16,8 @@
 #define QUESTION_BLOCK_BUMP_SPEED	0.15f
 #define QUESTION_BLOCK_BUMP_MAX_DIST	8.0f	
 
-constexpr int ID_ANI_QUESTION_BLOCK_ALIVE = 21010; // ID Animation khối gạch dấu hỏi vàng nhấp nháy
-constexpr int ID_ANI_QUESTION_BLOCK_EMPTY = 21011;
+constexpr int ID_ANI_QUESTION_BLOCK_ALIVE = 91002; // ID Animation khối gạch dấu hỏi vàng nhấp nháy
+constexpr int ID_ANI_QUESTION_BLOCK_EMPTY = 91003;
 
 class CQuestionBlock : public CGameObject
 {
