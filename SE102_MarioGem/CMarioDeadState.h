@@ -1,0 +1,10 @@
+#pragma once
+#include "CMarioState.h"
+
+class CMarioDeadState : public CMarioState
+{
+public:
+    MarioStateID GetID() override { return MarioStateID::Dead; }
+    void Enter(CMario* mario) override;
+    void Update(CMario* mario, DWORD dt) override;
+};
