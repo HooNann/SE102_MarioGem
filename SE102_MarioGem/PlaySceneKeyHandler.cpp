@@ -21,6 +21,8 @@ void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
 	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
 	CMario* mario = (CMario *)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer(); 
 
+    if (mario->currentState && mario->currentState->GetID() == MarioStateID::Dead) return;
+
 	switch (KeyCode)
 	{
 	case DIK_DOWN:
@@ -84,6 +86,9 @@ void CPlaySceneKeyHandler::OnKeyUp(int KeyCode)
 	//DebugOut(L"[INFO] KeyUp: %d\n", KeyCode);
 
 	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+
+    if (mario->currentState && mario->currentState->GetID() == MarioStateID::Dead) return;
+
 	switch (KeyCode)
 	{
 	case DIK_Z:
@@ -109,6 +114,9 @@ void CPlaySceneKeyHandler::KeyState(BYTE *states)
     
     // Ngăn đổi state nếu đang bay hoặc rơi chậm (để không ngắt animation bay)
     MarioStateID curID = mario->currentState ? mario->currentState->GetID() : MarioStateID::Idle;
+    if (curID == MarioStateID::Dead)
+        return;
+
     if (curID == MarioStateID::Fly || curID == MarioStateID::Float)
         return;
 

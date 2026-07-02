@@ -164,8 +164,17 @@ void CMario::Render()
 		aniId = currentState->GetAnimationId(this);
 	}
 
+	float timeScale = 1.0f;
+	if (isOnPlatform && abs(vx) > 0)
+	{
+		timeScale = abs(vx) / MARIO_WALKING_SPEED;
+		// Giới hạn để chân không quạt quá chậm hoặc quá nhanh
+		if (timeScale < 0.5f) timeScale = 0.5f;
+		if (timeScale > 3.0f) timeScale = 3.0f;
+	}
+
 	if (aniId != -1) {
-		animations->Get(aniId)->Render(x, y, nx);
+		animations->Get(aniId)->Render(x, y, nx, 1, timeScale);
 	}
 
 	//RenderBoundingBox();
