@@ -192,7 +192,7 @@ void CMario::Render()
 
 	//RenderBoundingBox();
 	
-	DebugOutTitle(L"Coins: %d", GetCoins());
+	//DebugOutTitle(L"Coins: %d", GetCoins());
 }
 
 
