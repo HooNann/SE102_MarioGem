@@ -17,6 +17,8 @@ constexpr int FRAME_SRC_T = 127;
 constexpr int FRAME_W = 232;
 constexpr int FRAME_H = 30;
 
+constexpr int BAND_H = 34;
+
 constexpr int DASH_SRC_L = 92;
 constexpr int DASH_SRC_T = 165;
 constexpr int DASH_W = 4;
@@ -57,6 +59,7 @@ static bool GlyphCell(char c, int& left, int& top)
 CHud::CHud()
 {
 	tex = CTextures::GetInstance()->Get(ID_TEX_UI);
+	texBlack = CTextures::GetInstance()->Get(ID_TEX_BLACK);
 }
 
 void CHud::DrawRegion(float centerX, float centerY, int srcLeft, int srcTop, int srcW, int srcH)
@@ -120,8 +123,11 @@ void CHud::Render(CMario* mario, int timeLeft, const char* world)
 	int W = game->GetBackBufferWidth();
 	int H = game->GetBackBufferHeight();
 
+	if (texBlack != NULL)
+		game->Draw(W / 2.0f, H - BAND_H / 2.0f, texBlack, (RECT*)NULL, 1.0f, W, BAND_H);
+
 	float fx = (float)((W - FRAME_W) / 2);
-	float fy = (float)(H - FRAME_H - 6);
+	float fy = (float)(H - BAND_H + (BAND_H - FRAME_H) / 2);
 
 	DrawRegion(fx + FRAME_W / 2.0f, fy + FRAME_H / 2.0f, FRAME_SRC_L, FRAME_SRC_T, FRAME_W, FRAME_H);
 

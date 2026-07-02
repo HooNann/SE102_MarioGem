@@ -4,10 +4,12 @@
 class CMario;
 
 constexpr int ID_TEX_UI = 30;
+constexpr int ID_TEX_BLACK = 31;
 
 class CHud
 {
 	LPTEXTURE tex;
+	LPTEXTURE texBlack;
 
 	void DrawRegion(float centerX, float centerY, int srcLeft, int srcTop, int srcW, int srcH);
 	bool DrawGlyph(char c, float screenX, float screenY);
