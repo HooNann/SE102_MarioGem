@@ -562,6 +562,9 @@ void CPlayScene::Update(DWORD dt)
 
 void CPlayScene::Render()
 {
+	CGame* game = CGame::GetInstance();
+	game->BeginViewportClip((int)HUD_RESERVED_HEIGHT);
+
 	if (map != NULL)
 		map->Render();
 
@@ -584,6 +587,8 @@ void CPlayScene::Render()
 			objects[i]->Render();
 		}
 	}
+
+	game->EndViewportClip();
 
 	if (hud != NULL && player != NULL)
 		hud->Render((CMario*)player, (int)timeRemaining, hudWorld.c_str());
