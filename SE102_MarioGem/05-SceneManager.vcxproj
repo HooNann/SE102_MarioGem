@@ -173,6 +173,9 @@
     <ClCompile Include="CMarioIdleState.cpp" />
     <ClCompile Include="CMarioWalkState.cpp" />
     <ClCompile Include="CMarioRunState.cpp" />
+    <ClCompile Include="CMarioSkidState.cpp" />
+    <ClCompile Include="CMarioFlyState.cpp" />
+    <ClCompile Include="CMarioFloatState.cpp" />
     <ClCompile Include="CMarioJumpState.cpp" />
     <ClCompile Include="CMarioFallState.cpp" />
     <ClCompile Include="CMarioDuckState.cpp" />
@@ -226,6 +229,9 @@
     <ClInclude Include="CMarioIdleState.h" />
     <ClInclude Include="CMarioWalkState.h" />
     <ClInclude Include="CMarioRunState.h" />
+    <ClInclude Include="CMarioSkidState.h" />
+    <ClInclude Include="CMarioFlyState.h" />
+    <ClInclude Include="CMarioFloatState.h" />
     <ClInclude Include="CMarioJumpState.h" />
     <ClInclude Include="CMarioFallState.h" />
     <ClInclude Include="CMarioDuckState.h" />

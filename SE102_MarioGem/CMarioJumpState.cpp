@@ -1,22 +1,30 @@
 #include "CMarioJumpState.h"
 #include "Mario.h"
 #include <math.h>
+#include "CMarioFallState.h"
 
 void CMarioJumpState::Enter(CMario* mario)
 {
     if (mario->IsOnPlatform())
     {
-        if (abs(mario->GetVelocityX()) == MARIO_RUNNING_SPEED)
+        if (mario->GetPMeter() == MARIO_PMETER_MAX && abs(mario->GetVelocityX()) >= MARIO_RUNNING_SPEED)
+            mario->SetVelocityY(-MARIO_JUMP_MAX_SPEED_Y);
+        else if (abs(mario->GetVelocityX()) >= MARIO_RUNNING_SPEED)
             mario->SetVelocityY(-MARIO_JUMP_RUN_SPEED_Y);
         else
             mario->SetVelocityY(-MARIO_JUMP_SPEED_Y);
         
         mario->SetOnPlatform(false);
+        mario->SetAccelerationY(MARIO_GRAVITY_JUMP); // Trọng lực thấp khi giữ phím Z
     }
 }
 
 void CMarioJumpState::Update(CMario* mario, DWORD dt)
 {
+    if (mario->GetVelocityY() >= 0)
+    {
+        mario->ChangeState(new CMarioFallState());
+    }
 }
 
 int CMarioJumpState::GetAnimationId(CMario* mario)

@@ -61,11 +61,22 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
 
+#include "CMarioFallState.h"
+
 void CMario::OnNoCollision(DWORD dt)
 {
 	x += vx * dt;
 	y += vy * dt;
 	isOnPlatform = false;
+
+    if (vy > 0 && currentState)
+    {
+        MarioStateID curID = currentState->GetID();
+        if (curID == MarioStateID::Idle || curID == MarioStateID::Walk || curID == MarioStateID::Run || curID == MarioStateID::Skid)
+        {
+            ChangeState(new CMarioFallState());
+        }
+    }
 }
 
 void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
@@ -117,51 +128,28 @@ void CMario::UpdateThrowingFireTime(DWORD dt)
 
 void CMario::HandlePMeter(DWORD dt)
 {
-	if (currentState && (currentState->GetID() == MarioStateID::Run))
+	if (currentState && currentState->GetID() == MarioStateID::Run)
 	{
-		if (abs(vx) >= MARIO_RUNNING_SPEED - 0.02f)
+		if (isOnPlatform && abs(vx) >= MARIO_RUNNING_SPEED - 0.02f)
 		{
 			pMeter += dt;
-			if (pMeter > MARIO_PMETER_MAX) pMeter = MARIO_PMETER_MAX; // Khóa trần pin
+			if (pMeter > MARIO_PMETER_MAX) pMeter = MARIO_PMETER_MAX;
 		}
 	}
 	else 
 	{
-		if (isOnPlatform) // Chỉ xả pin nhanh khi đã đáp đất an toàn
+		// Xả pin nếu không chạy
+		if (pMeter > 0)
 		{
-			pMeter -= dt * 2; // Tốc độ xả pin nhanh gấp đôi sạc
+			pMeter -= dt * 2;
 			if (pMeter < 0) pMeter = 0;
 		}
 	}
 }
 
-void CMario::FlyUp()
-{
-	// Chỉ cho phép bay nếu đang là Mario Chồn VÀ thanh năng lượng đã nạp đầy 100%
-	if (this->GetLevel() != MarioLevel::Raccoon || pMeter < MARIO_PMETER_MAX) return;
-
-	if (currentState && (currentState->GetID() == MarioStateID::Run));
-	{
-		flyStartTime = GetTickCount64();
-	}
-
-	// Trong vòng giới hạn 4 giây, mỗi lần nhấp phím sẽ đẩy Mario lên tiếp
-	if (GetTickCount64() - flyStartTime < MARIO_FLYING_TIME_MAX)
-	{
-		vy = -MARIO_JUMP_SPEED_Y * 0.75f; // Đẩy một lực Y âm để cất cánh hướng lên trên
-		isOnPlatform = false;             // Rời đất
-	}
-}
 
 
-void CMario::FloatDown()
-{
-	if (this->GetLevel() == MarioLevel::Raccoon && vy > 0 && isOnPlatform == false)
-	{
-		// SetState(static_cast<int>(MarioState::Float)); // Chuyển sang hành động vỗ đuôi
-		vy = 0.03f;                  // Gán một vận tốc rơi cực kỳ nhỏ (hãm phanh trọng lực)
-	}
-}
+
 
 
 

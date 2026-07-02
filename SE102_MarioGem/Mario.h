@@ -10,16 +10,22 @@
 
 constexpr float MARIO_WALKING_SPEED = 0.1f;
 constexpr float MARIO_RUNNING_SPEED = 0.2f;
+constexpr float MARIO_MAX_SPEED = 0.3f;
+
 #define MARIO_PMETER_MAX			1000
 #define MARIO_FLYING_TIME_MAX		4000
 
 constexpr float MARIO_ACCEL_WALK_X = 0.0005f;
 constexpr float MARIO_ACCEL_RUN_X = 0.0007f;
+constexpr float MARIO_ACCEL_SKID_X = 0.0007f;
 
-constexpr float MARIO_JUMP_SPEED_Y = 0.5f;
-constexpr float MARIO_JUMP_RUN_SPEED_Y = 0.6f;
+constexpr float MARIO_JUMP_SPEED_Y = 0.45f;
+constexpr float MARIO_JUMP_RUN_SPEED_Y = 0.55f;
+constexpr float MARIO_JUMP_MAX_SPEED_Y = 0.65f;
 
 constexpr float MARIO_GRAVITY = 0.002f;
+constexpr float MARIO_GRAVITY_JUMP = 0.001f;
+constexpr float MARIO_FLOAT_SPEED_Y = 0.05f;
 
 constexpr float MARIO_JUMP_DEFLECT_SPEED = 0.4f;
 
@@ -39,6 +45,7 @@ constexpr int ID_ANI_MARIO_BIG_IDLE = 18;
 constexpr int ID_ANI_MARIO_BIG_WALK = 20;
 constexpr int ID_ANI_MARIO_BIG_SKID = 21;
 constexpr int ID_ANI_MARIO_BIG_RUN = 22;
+constexpr int ID_ANI_MARIO_BIG_HIGH_SPEED = 23;
 constexpr int ID_ANI_MARIO_BIG_JUMP = 24;
 constexpr int ID_ANI_MARIO_BIG_FALL = 25;
 constexpr int ID_ANI_MARIO_BIG_CROUCH = 27;
@@ -47,21 +54,23 @@ constexpr int ID_ANI_MARIO_BIG_CROUCH = 27;
 constexpr int ID_ANI_MARIO_FIRE_IDLE = 81;
 constexpr int ID_ANI_MARIO_FIRE_WALK = 82;
 constexpr int ID_ANI_MARIO_FIRE_SKID = 83;
+constexpr int ID_ANI_MARIO_FIRE_THROW = 84;
 constexpr int ID_ANI_MARIO_FIRE_RUN = 86;
+constexpr int ID_ANI_MARIO_FIRE_HIGH_SPEED = 87;
 constexpr int ID_ANI_MARIO_FIRE_JUMP = 88;
 constexpr int ID_ANI_MARIO_FIRE_FALL = 89;
 constexpr int ID_ANI_MARIO_FIRE_CROUCH = 91;
-constexpr int ID_ANI_MARIO_FIRE_THROW = 84;
 
 // RACCOON MARIO
 constexpr int ID_ANI_MARIO_RACCOON_IDLE = 59;
 constexpr int ID_ANI_MARIO_RACCOON_WALK = 60;
 constexpr int ID_ANI_MARIO_RACCOON_SKID = 61;
-constexpr int ID_ANI_MARIO_RACCOON_RUN = 65; // speed up
+constexpr int ID_ANI_MARIO_RACCOON_FLOAT = 62;
 constexpr int ID_ANI_MARIO_RACCOON_JUMP = 63;
 constexpr int ID_ANI_MARIO_RACCOON_FALL = 64;
-constexpr int ID_ANI_MARIO_RACCOON_CROUCH = 68;
+constexpr int ID_ANI_MARIO_RACCOON_RUN = 65; // speed up
 constexpr int ID_ANI_MARIO_RACCOON_FLY = 66;
+constexpr int ID_ANI_MARIO_RACCOON_CROUCH = 68;
 
 #pragma endregion
 
@@ -99,7 +108,7 @@ public:
 	ULONGLONG throwingFireStartTime = 0;
 
 	int pMeter;					
-	DWORD flyStartTime;
+	ULONGLONG flyStartTime;
 
 
 
@@ -133,6 +142,16 @@ public:
     float GetAccelerationX() const { return ax; }
     void SetAccelerationX(float a) { ax = a; }
     
+    float GetAccelerationY() const { return ay; }
+    void SetAccelerationY(float a) { ay = a; }
+
+    int GetPMeter() const { return pMeter; }
+    void ResetPMeter() { pMeter = 0; }
+    void DecreasePMeter(int amount) { pMeter -= amount; if (pMeter < 0) pMeter = 0; }
+    
+    ULONGLONG GetFlyStartTime() const { return flyStartTime; }
+    void StartFlying() { flyStartTime = GetTickCount64(); }
+    
     float GetMaxVelocityX() const { return maxVx; }
     void SetMaxVelocityX(float m) { maxVx = m; }
     
@@ -154,9 +173,6 @@ public:
 	bool IsThrowingFire() { return isThrowingFire; };
 
 	void HandlePMeter(DWORD dt);
-	void FlyUp();
-	void FloatDown();
-	int GetPMeter() { return pMeter; }
 	int GetCoins() { return CGameData::GetInstance()->GetCoin(); }
 	int GetScore() { return CGameData::GetInstance()->GetScore(); }
 	int GetLives() { return CGameData::GetInstance()->GetLives(); }
