@@ -115,18 +115,7 @@ public:
 
 
 public:
-	CMario(float x, float y) : CGameObject(x, y)
-	{
-		isSitting = false;
-		maxVx = 0.0f;
-		ax = 0.0f;
-		ay = MARIO_GRAVITY; 
-
-
-		untouchable = 0;
-		untouchable_start = -1;
-		isOnPlatform = false;
-	}
+	CMario(float x, float y);
 
 	MarioLevel GetLevel() { return CGameData::GetInstance()->GetLevel(); }
 	void SetLevel(MarioLevel l);

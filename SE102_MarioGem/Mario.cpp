@@ -39,6 +39,19 @@ namespace
 	}
 }
 
+CMario::CMario(float x, float y) : CGameObject(x, y)
+{
+	isSitting = false;
+	maxVx = 0.0f;
+	ax = 0.0f;
+	ay = MARIO_GRAVITY;
+
+	untouchable = 0;
+	untouchable_start = -1;
+	isOnPlatform = false;
+	currentState = new CMarioIdleState();
+}
+
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	HandlePMeter(dt);

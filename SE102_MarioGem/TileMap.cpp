@@ -186,15 +186,16 @@ void CTileMap::Render()
 	if (mapLayers.empty() || tilesets.empty()) return;
 
 	// Lấy vị trí camera để tối ưu: chỉ vẽ tile trong vùng nhìn thấy
+	CCamera* camera = CCamera::GetInstance();
 	float camX, camY;
-	CCamera::GetInstance()->GetCamPos(camX, camY);
+	camera->GetCamPos(camX, camY);
 
 	// Làm tròn camera để tránh rác pixel / mờ (Linear filtering issue)
 	float cx = (float)floor(camX);
 	float cy = (float)floor(camY);
 
-	int screenWidth = CGame::GetInstance()->GetBackBufferWidth();
-	int screenHeight = CGame::GetInstance()->GetBackBufferHeight();
+	int screenWidth = (int)camera->GetWidth();
+	int screenHeight = (int)camera->GetHeight();
 
 	// Tính toán phạm vi cột/hàng cần vẽ (clip theo camera)
 	int colStart = max(0, (int)(cx / tileWidth));

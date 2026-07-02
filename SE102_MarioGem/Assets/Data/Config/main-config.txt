@@ -1,5 +1,5 @@
 [SETTINGS]
-start	2
+start	1
 width	320
 height	240
 
@@ -19,6 +19,7 @@ height	240
 10	Assets\Textures\Enemies\Mobs\enemies_transparent.png
 20	Assets\Textures\Items\misc_transparent.png
 30	Assets\Textures\All\ui.png
+31	Assets\Textures\All\black.png
 40	Assets\Textures\Environment\Tiles\tiles-3.png
 50	Assets\Textures\Enemies\Mobs\enemies_2.png
 60	Assets\Textures\All\overworld.png

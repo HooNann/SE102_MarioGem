@@ -4,6 +4,7 @@
 #include "MapObject.h"
 #include "MapMario.h"
 #include "TileMap.h"
+#include "Hud.h"
 #include <unordered_map>
 #include <vector>
 #include <string>
@@ -19,6 +20,8 @@ protected:
 	vector<CMapObject*> mapObjects;
 	
 	CTileMap* map; // Hình nền (TileMap)
+
+	CHud* hud;
 
 	wstring currentAssetFilePath;
 	void _ParseSection_SPRITES(string line);
