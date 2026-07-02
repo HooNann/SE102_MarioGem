@@ -9,22 +9,22 @@
 #include <vector>
 
 constexpr float MARIO_WALKING_SPEED = 0.1f;
-constexpr float MARIO_RUNNING_SPEED = 0.2f;
-constexpr float MARIO_MAX_SPEED = 0.3f;
+constexpr float MARIO_RUNNING_SPEED = 0.15f;
+constexpr float MARIO_MAX_SPEED = 0.2f;
 
 #define MARIO_PMETER_MAX			1000
 #define MARIO_FLYING_TIME_MAX		4000
 
-constexpr float MARIO_ACCEL_WALK_X = 0.0005f;
-constexpr float MARIO_ACCEL_RUN_X = 0.0007f;
-constexpr float MARIO_ACCEL_SKID_X = 0.0007f;
+constexpr float MARIO_ACCEL_WALK_X = 0.0002f;
+constexpr float MARIO_ACCEL_RUN_X = 0.0004f;
+constexpr float MARIO_ACCEL_SKID_X = 0.0004f;
 
-constexpr float MARIO_JUMP_SPEED_Y = 0.45f;
-constexpr float MARIO_JUMP_RUN_SPEED_Y = 0.55f;
-constexpr float MARIO_JUMP_MAX_SPEED_Y = 0.65f;
+constexpr float MARIO_JUMP_SPEED_Y = 0.25f;
+constexpr float MARIO_JUMP_RUN_SPEED_Y = 0.27f;
+constexpr float MARIO_JUMP_MAX_SPEED_Y = 0.30f;
 
-constexpr float MARIO_GRAVITY = 0.002f;
-constexpr float MARIO_GRAVITY_JUMP = 0.001f;
+constexpr float MARIO_GRAVITY = 0.0015f;
+constexpr float MARIO_GRAVITY_JUMP = 0.0004f;
 constexpr float MARIO_FLOAT_SPEED_Y = 0.05f;
 
 constexpr float MARIO_JUMP_DEFLECT_SPEED = 0.4f;

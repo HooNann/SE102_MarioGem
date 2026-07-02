@@ -56,7 +56,7 @@
         {
          "draworder":"topdown",
          "id":4,
-         "name":"Ground",
+         "name":"CollisionBox",
          "objects":[
                 {
                  "height":16,
@@ -201,6 +201,18 @@
                  "width":560,
                  "x":2256,
                  "y":416
+                }, 
+                {
+                 "height":416,
+                 "id":59,
+                 "name":"CollisionBox",
+                 "opacity":1,
+                 "rotation":0,
+                 "type":"CollisionBox",
+                 "visible":true,
+                 "width":16,
+                 "x":0,
+                 "y":0
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -553,7 +565,7 @@
          "y":0
         }],
  "nextlayerid":9,
- "nextobjectid":59,
+ "nextobjectid":60,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.12.1",

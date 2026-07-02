@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="176" height="40" tilewidth="16" tileheight="16" infinite="0" nextlayerid="9" nextobjectid="59">
+<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="176" height="40" tilewidth="16" tileheight="16" infinite="0" nextlayerid="9" nextobjectid="60">
  <editorsettings>
   <export target="stage-1-1.json" format="json"/>
  </editorsettings>
@@ -49,7 +49,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="4" name="Ground">
+ <objectgroup id="4" name="CollisionBox">
   <object id="6" type="CollisionBox" x="0" y="416" width="624" height="16"/>
   <object id="9" type="CollisionBox" x="624" y="400" width="464" height="32"/>
   <object id="10" type="CollisionBox" x="1152" y="416" width="352" height="16"/>
@@ -62,6 +62,7 @@
   <object id="17" type="CollisionBox" x="1696" y="400" width="16" height="16"/>
   <object id="18" type="CollisionBox" x="1664" y="416" width="576" height="16"/>
   <object id="49" type="CollisionBox" x="2256" y="416" width="560" height="16"/>
+  <object id="59" name="CollisionBox" type="CollisionBox" x="0" y="0" width="16" height="416"/>
  </objectgroup>
  <objectgroup id="8" name="CameraZone">
   <object id="50" type="CameraZone" x="0" y="0" width="2816" height="432"/>
