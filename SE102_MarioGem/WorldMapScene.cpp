@@ -450,7 +450,7 @@ void CWorldMapScene::LoadMapJSON(LPCWSTR jsonPath)
 void CWorldMapScene::Update(DWORD dt)
 {
 	float cx = 0;
-	float cy = -8.0f;
+	float cy = 0.0f; 
 
 	if (map != NULL)
 	{

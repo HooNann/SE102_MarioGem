@@ -13,6 +13,7 @@ Assets\Data\Graphics\FireFlower.txt
 Assets\Data\Graphics\Leaf.txt
 Assets\Data\Graphics\QuestionBlock.txt
 Assets\Data\Graphics\misc.txt
+Assets\Data\Graphics\new_mario.txt
 
 [MAP]
 Assets\Data\Tiled\Scenes\stage-1-1.json

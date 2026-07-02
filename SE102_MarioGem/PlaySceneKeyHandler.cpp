@@ -12,11 +12,16 @@
 #include "CMarioFallState.h"
 #include "CMarioDuckState.h"
 #include "CMarioDeadState.h"
+#include "CMarioSkidState.h"
+#include "CMarioFlyState.h"
+#include "CMarioFloatState.h"
 
 void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
 {
 	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
 	CMario* mario = (CMario *)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer(); 
+
+    if (mario->currentState && mario->currentState->GetID() == MarioStateID::Dead) return;
 
 	switch (KeyCode)
 	{
@@ -24,7 +29,42 @@ void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
 		mario->ChangeState(new CMarioDuckState());
 		break;
 	case DIK_Z:
-		mario->ChangeState(new CMarioJumpState());
+		if (!mario->IsOnPlatform())
+		{
+			if (mario->GetLevel() == MarioLevel::Raccoon)
+			{
+                MarioStateID curID = mario->currentState ? mario->currentState->GetID() : MarioStateID::Idle;
+				if (mario->GetPMeter() == MARIO_PMETER_MAX)
+                {
+                    if (curID != MarioStateID::Fly)
+                    {
+					    mario->ChangeState(new CMarioFlyState());
+                    }
+                    else
+                    {
+                        // Đã bay rồi, đập cánh tiếp
+                        mario->SetVelocityY(-0.25f);
+                    }
+                }
+				else
+                {
+                    if (curID != MarioStateID::Float)
+                    {
+					    mario->ChangeState(new CMarioFloatState());
+                    }
+                    else
+                    {
+                        // Đã vẫy đuôi rồi, đập cánh lơ lửng tiếp (làm mới float)
+                        mario->SetVelocityY(MARIO_FLOAT_SPEED_Y);
+                        mario->SetAccelerationY(MARIO_GRAVITY / 4);
+                    }
+                }
+			}
+		}
+		else
+		{
+			mario->ChangeState(new CMarioJumpState());
+		}
 		break;
 	case DIK_1:
 		mario->SetLevel(MarioLevel::Small);
@@ -46,10 +86,16 @@ void CPlaySceneKeyHandler::OnKeyUp(int KeyCode)
 	//DebugOut(L"[INFO] KeyUp: %d\n", KeyCode);
 
 	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+
+    if (mario->currentState && mario->currentState->GetID() == MarioStateID::Dead) return;
+
 	switch (KeyCode)
 	{
 	case DIK_Z:
-		mario->ChangeState(new CMarioFallState());
+        if (!mario->IsOnPlatform())
+        {
+		    mario->ChangeState(new CMarioFallState());
+        }
 		break;
 	case DIK_DOWN:
         // Exiting DuckState is handled in Exit(), but we need to transition out to Idle
@@ -65,23 +111,77 @@ void CPlaySceneKeyHandler::KeyState(BYTE *states)
 
     if (mario->currentState && mario->currentState->GetID() == MarioStateID::Duck)
         return;
+    
+    // Ngăn đổi state nếu đang bay hoặc rơi chậm (để không ngắt animation bay)
+    MarioStateID curID = mario->currentState ? mario->currentState->GetID() : MarioStateID::Idle;
+    if (curID == MarioStateID::Dead)
+        return;
 
-	if (game->IsKeyDown(DIK_RIGHT))
+    if (curID == MarioStateID::Fly || curID == MarioStateID::Float)
+        return;
+
+	if (!mario->IsOnPlatform())
 	{
-        mario->SetDirection(1);
-		if (game->IsKeyDown(DIK_X))
-			mario->ChangeState(new CMarioRunState());
+		// HÀNH VI TRÊN KHÔNG (Air Control)
+		// Không thay đổi State (để giữ Jump/Fall/Fly/Float), chỉ tác động lên gia tốc và vận tốc ngang
+		if (game->IsKeyDown(DIK_RIGHT))
+		{
+			mario->SetDirection(1);
+			float maxSpeed = game->IsKeyDown(DIK_X) ? MARIO_RUNNING_SPEED : MARIO_WALKING_SPEED;
+			mario->SetMaxVelocityX(maxSpeed);
+			mario->SetAccelerationX(MARIO_ACCEL_WALK_X);
+		}
+		else if (game->IsKeyDown(DIK_LEFT))
+		{
+			mario->SetDirection(-1);
+			float maxSpeed = game->IsKeyDown(DIK_X) ? -MARIO_RUNNING_SPEED : -MARIO_WALKING_SPEED;
+			mario->SetMaxVelocityX(maxSpeed);
+			mario->SetAccelerationX(-MARIO_ACCEL_WALK_X);
+		}
 		else
-			mario->ChangeState(new CMarioWalkState());
-	}
-	else if (game->IsKeyDown(DIK_LEFT))
-	{
-        mario->SetDirection(-1);
-		if (game->IsKeyDown(DIK_X))
-			mario->ChangeState(new CMarioRunState());
-		else
-			mario->ChangeState(new CMarioWalkState());
+		{
+			// Không bấm phím -> trôi theo quán tính
+			mario->SetAccelerationX(0.0f);
+		}
 	}
 	else
-		mario->ChangeState(new CMarioIdleState());
+	{
+		// HÀNH VI TRÊN MẶT ĐẤT (Ground Control)
+		if (game->IsKeyDown(DIK_RIGHT))
+		{
+			mario->SetDirection(1);
+			if (mario->GetVelocityX() < 0)
+			{
+				if (curID != MarioStateID::Skid) mario->ChangeState(new CMarioSkidState());
+			}
+			else if (game->IsKeyDown(DIK_X))
+			{
+				if (curID != MarioStateID::Run) mario->ChangeState(new CMarioRunState());
+			}
+			else
+			{
+				if (curID != MarioStateID::Walk) mario->ChangeState(new CMarioWalkState());
+			}
+		}
+		else if (game->IsKeyDown(DIK_LEFT))
+		{
+			mario->SetDirection(-1);
+			if (mario->GetVelocityX() > 0)
+			{
+				if (curID != MarioStateID::Skid) mario->ChangeState(new CMarioSkidState());
+			}
+			else if (game->IsKeyDown(DIK_X))
+			{
+				if (curID != MarioStateID::Run) mario->ChangeState(new CMarioRunState());
+			}
+			else
+			{
+				if (curID != MarioStateID::Walk) mario->ChangeState(new CMarioWalkState());
+			}
+		}
+		else if (curID != MarioStateID::Idle)
+		{
+			mario->ChangeState(new CMarioIdleState());
+		}
+	}
 }

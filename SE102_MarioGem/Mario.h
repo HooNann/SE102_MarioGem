@@ -9,116 +9,80 @@
 #include <vector>
 
 constexpr float MARIO_WALKING_SPEED = 0.1f;
-constexpr float MARIO_RUNNING_SPEED = 0.2f;
+constexpr float MARIO_RUNNING_SPEED = 0.15f;
+constexpr float MARIO_MAX_SPEED = 0.2f;
+
 #define MARIO_PMETER_MAX			1000
 #define MARIO_FLYING_TIME_MAX		4000
 
-constexpr float MARIO_ACCEL_WALK_X = 0.0005f;
-constexpr float MARIO_ACCEL_RUN_X = 0.0007f;
+constexpr float MARIO_ACCEL_WALK_X = 0.0002f;
+constexpr float MARIO_ACCEL_RUN_X = 0.0004f;
+constexpr float MARIO_ACCEL_SKID_X = 0.0004f;
 
-constexpr float MARIO_JUMP_SPEED_Y = 0.5f;
-constexpr float MARIO_JUMP_RUN_SPEED_Y = 0.6f;
+constexpr float MARIO_JUMP_SPEED_Y = 0.25f;
+constexpr float MARIO_JUMP_RUN_SPEED_Y = 0.27f;
+constexpr float MARIO_JUMP_MAX_SPEED_Y = 0.30f;
 
-constexpr float MARIO_GRAVITY = 0.002f;
+constexpr float MARIO_GRAVITY = 0.0015f;
+constexpr float MARIO_GRAVITY_JUMP = 0.0004f;
+constexpr float MARIO_FLOAT_SPEED_Y = 0.05f;
 
 constexpr float MARIO_JUMP_DEFLECT_SPEED = 0.4f;
 
 #pragma region ANIMATION_ID
 
-constexpr int ID_ANI_MARIO_IDLE_RIGHT = 400;
-constexpr int ID_ANI_MARIO_IDLE_LEFT = 401;
-
-constexpr int ID_ANI_MARIO_WALKING_RIGHT = 500;
-constexpr int ID_ANI_MARIO_WALKING_LEFT = 501;
-
-constexpr int ID_ANI_MARIO_RUNNING_RIGHT = 600;
-constexpr int ID_ANI_MARIO_RUNNING_LEFT = 601;
-
-constexpr int ID_ANI_MARIO_JUMP_WALK_RIGHT = 700;
-constexpr int ID_ANI_MARIO_JUMP_WALK_LEFT = 701;
-
-constexpr int ID_ANI_MARIO_JUMP_RUN_RIGHT = 800;
-constexpr int ID_ANI_MARIO_JUMP_RUN_LEFT = 801;
-
-constexpr int ID_ANI_MARIO_SIT_RIGHT = 900;
-constexpr int ID_ANI_MARIO_SIT_LEFT = 901;
-
-constexpr int ID_ANI_MARIO_BRACE_RIGHT = 1000;
-constexpr int ID_ANI_MARIO_BRACE_LEFT = 1001;
-
-constexpr int ID_ANI_MARIO_DIE = 999;
-
 // SMALL MARIO
-constexpr int ID_ANI_MARIO_SMALL_IDLE_RIGHT = 1100;
-constexpr int ID_ANI_MARIO_SMALL_IDLE_LEFT = 1102;
+constexpr int ID_ANI_MARIO_SMALL_IDLE = 2;
+constexpr int ID_ANI_MARIO_SMALL_WALK = 3;
+constexpr int ID_ANI_MARIO_SMALL_SKID = 4;
+constexpr int ID_ANI_MARIO_SMALL_RUN = 5;
+constexpr int ID_ANI_MARIO_SMALL_JUMP = 6;
+constexpr int ID_ANI_MARIO_SMALL_DIE = 8;
+constexpr int ID_ANI_MARIO_SMALL_CROUCH = 2; // fallback
 
-constexpr int ID_ANI_MARIO_SMALL_WALKING_RIGHT = 1200;
-constexpr int ID_ANI_MARIO_SMALL_WALKING_LEFT = 1201;
+// BIG MARIO
+constexpr int ID_ANI_MARIO_BIG_IDLE = 18;
+constexpr int ID_ANI_MARIO_BIG_WALK = 20;
+constexpr int ID_ANI_MARIO_BIG_SKID = 21;
+constexpr int ID_ANI_MARIO_BIG_RUN = 22;
+constexpr int ID_ANI_MARIO_BIG_HIGH_SPEED = 23;
+constexpr int ID_ANI_MARIO_BIG_JUMP = 24;
+constexpr int ID_ANI_MARIO_BIG_FALL = 25;
+constexpr int ID_ANI_MARIO_BIG_CROUCH = 27;
 
-constexpr int ID_ANI_MARIO_SMALL_RUNNING_RIGHT = 1300;
-constexpr int ID_ANI_MARIO_SMALL_RUNNING_LEFT = 1301;
+// FIRE MARIO
+constexpr int ID_ANI_MARIO_FIRE_IDLE = 81;
+constexpr int ID_ANI_MARIO_FIRE_WALK = 82;
+constexpr int ID_ANI_MARIO_FIRE_SKID = 83;
+constexpr int ID_ANI_MARIO_FIRE_THROW = 84;
+constexpr int ID_ANI_MARIO_FIRE_RUN = 86;
+constexpr int ID_ANI_MARIO_FIRE_HIGH_SPEED = 87;
+constexpr int ID_ANI_MARIO_FIRE_JUMP = 88;
+constexpr int ID_ANI_MARIO_FIRE_FALL = 89;
+constexpr int ID_ANI_MARIO_FIRE_CROUCH = 91;
 
-constexpr int ID_ANI_MARIO_SMALL_BRACE_RIGHT = 1400;
-constexpr int ID_ANI_MARIO_SMALL_BRACE_LEFT = 1401;
-
-constexpr int ID_ANI_MARIO_SMALL_JUMP_WALK_RIGHT = 1500;
-constexpr int ID_ANI_MARIO_SMALL_JUMP_WALK_LEFT = 1501;
-
-constexpr int ID_ANI_MARIO_SMALL_JUMP_RUN_RIGHT = 1600;
-constexpr int ID_ANI_MARIO_SMALL_JUMP_RUN_LEFT = 1601;
+// RACCOON MARIO
+constexpr int ID_ANI_MARIO_RACCOON_IDLE = 59;
+constexpr int ID_ANI_MARIO_RACCOON_WALK = 60;
+constexpr int ID_ANI_MARIO_RACCOON_SKID = 61;
+constexpr int ID_ANI_MARIO_RACCOON_FLOAT = 62;
+constexpr int ID_ANI_MARIO_RACCOON_JUMP = 63;
+constexpr int ID_ANI_MARIO_RACCOON_FALL = 64;
+constexpr int ID_ANI_MARIO_RACCOON_RUN = 65; // speed up
+constexpr int ID_ANI_MARIO_RACCOON_FLY = 66;
+constexpr int ID_ANI_MARIO_RACCOON_CROUCH = 68;
 
 #pragma endregion
 
-constexpr float GROUND_Y = 160.0f;
-
-//FIRE MARIO
-constexpr int ID_ANI_MARIO_FIRE_IDLE_RIGHT = 1700;
-constexpr int ID_ANI_MARIO_FIRE_IDLE_LEFT = 1701;
-constexpr int ID_ANI_MARIO_FIRE_WALKING_RIGHT = 1800;
-constexpr int ID_ANI_MARIO_FIRE_WALKING_LEFT = 1801;
-constexpr int ID_ANI_MARIO_FIRE_RUNNING_RIGHT = 1900;
-constexpr int ID_ANI_MARIO_FIRE_RUNNING_LEFT = 1901;
-constexpr int ID_ANI_MARIO_FIRE_JUMP_WALK_RIGHT = 2000;
-constexpr int ID_ANI_MARIO_FIRE_JUMP_WALK_LEFT = 2001;
-constexpr int ID_ANI_MARIO_FIRE_JUMP_RUN_RIGHT = 2100;
-constexpr int ID_ANI_MARIO_FIRE_JUMP_RUN_LEFT = 2101;
-constexpr int ID_ANI_MARIO_FIRE_BRACE_RIGHT = 2200;
-constexpr int ID_ANI_MARIO_FIRE_BRACE_LEFT = 2201;
-constexpr int ID_ANI_MARIO_FIRE_THROW_RIGHT = 2300;
-constexpr int ID_ANI_MARIO_FIRE_THROW_LEFT = 2301;
-constexpr int ID_ANI_MARIO_FIRE_SIT_RIGHT = 2400;
-constexpr int ID_ANI_MARIO_FIRE_SIT_LEFT = 2401;
-
-
-//RACCOON MARIO 
-constexpr int ID_ANI_MARIO_RACCOON_IDLE_RIGHT = 2500;
-constexpr int ID_ANI_MARIO_RACCOON_IDLE_LEFT = 2501;
-constexpr int ID_ANI_MARIO_RACCOON_WALKING_RIGHT = 2600;
-constexpr int ID_ANI_MARIO_RACCOON_WALKING_LEFT = 2601;
-constexpr int ID_ANI_MARIO_RACCOON_RUNNING_RIGHT = 2700;
-constexpr int ID_ANI_MARIO_RACCOON_RUNNING_LEFT = 2701;
-constexpr int ID_ANI_MARIO_RACCOON_JUMP_WALK_RIGHT = 2800;
-constexpr int ID_ANI_MARIO_RACCOON_JUMP_WALK_LEFT = 2801;
-constexpr int ID_ANI_MARIO_RACCOON_JUMP_RUN_RIGHT = 2900;
-constexpr int ID_ANI_MARIO_RACCOON_JUMP_RUN_LEFT = 2901;
-constexpr int ID_ANI_MARIO_RACCOON_BRACE_RIGHT = 3000;
-constexpr int ID_ANI_MARIO_RACCOON_BRACE_LEFT = 3001;
-constexpr int ID_ANI_MARIO_RACCOON_SIT_RIGHT = 3200;
-constexpr int ID_ANI_MARIO_RACCOON_SIT_LEFT = 3201;
-constexpr int ID_ANI_MARIO_RACCOON_FLY_RIGHT = 3100;
-constexpr int ID_ANI_MARIO_RACCOON_FLY_LEFT = 3101;
-
-//RACCOON MARIO
-
 #define MARIO_BIG_BBOX_WIDTH  14
-#define MARIO_BIG_BBOX_HEIGHT 24
+#define MARIO_BIG_BBOX_HEIGHT 26
 #define MARIO_BIG_SITTING_BBOX_WIDTH  14
 #define MARIO_BIG_SITTING_BBOX_HEIGHT 16
 
 #define MARIO_SIT_HEIGHT_ADJUST ((MARIO_BIG_BBOX_HEIGHT-MARIO_BIG_SITTING_BBOX_HEIGHT)/2)
 
 #define MARIO_SMALL_BBOX_WIDTH  13
-#define MARIO_SMALL_BBOX_HEIGHT 12
+#define MARIO_SMALL_BBOX_HEIGHT 14
 
 
 #define MARIO_UNTOUCHABLE_TIME 2500
@@ -141,38 +105,17 @@ public:
 	BOOLEAN isOnPlatform;
 
 	BOOLEAN isThrowingFire;
-	DWORD throwingFireStartTime;
+	ULONGLONG throwingFireStartTime = 0;
 
 	int pMeter;					
-	DWORD flyStartTime;
+	ULONGLONG flyStartTime;
 
-	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
-	void OnCollisionWithCoin(LPCOLLISIONEVENT e);
-	void OnCollisionWithPortal(LPCOLLISIONEVENT e);
-	void OnCollisionWithQuestionBlock(LPCOLLISIONEVENT e);
-	void OnCollisionWithEnemy(LPCOLLISIONEVENT e);
-	void OnCollisionWithTrap(LPCOLLISIONEVENT e);
-	void OnCollisionWithItem(LPCOLLISIONEVENT e);
 
-	int GetAniIdBig();
-	int GetAniIdSmall();
-	int GetAniIdFire();
-	int GetAniIdRaccoon();
+
 
 
 public:
-	CMario(float x, float y) : CGameObject(x, y)
-	{
-		isSitting = false;
-		maxVx = 0.0f;
-		ax = 0.0f;
-		ay = MARIO_GRAVITY; 
-
-
-		untouchable = 0;
-		untouchable_start = -1;
-		isOnPlatform = false;
-	}
+	CMario(float x, float y);
 
 	MarioLevel GetLevel() { return CGameData::GetInstance()->GetLevel(); }
 	void SetLevel(MarioLevel l);
@@ -187,6 +130,16 @@ public:
     
     float GetAccelerationX() const { return ax; }
     void SetAccelerationX(float a) { ax = a; }
+    
+    float GetAccelerationY() const { return ay; }
+    void SetAccelerationY(float a) { ay = a; }
+
+    int GetPMeter() const { return pMeter; }
+    void ResetPMeter() { pMeter = 0; }
+    void DecreasePMeter(int amount) { pMeter -= amount; if (pMeter < 0) pMeter = 0; }
+    
+    ULONGLONG GetFlyStartTime() const { return flyStartTime; }
+    void StartFlying() { flyStartTime = GetTickCount64(); }
     
     float GetMaxVelocityX() const { return maxVx; }
     void SetMaxVelocityX(float m) { maxVx = m; }
@@ -209,9 +162,6 @@ public:
 	bool IsThrowingFire() { return isThrowingFire; };
 
 	void HandlePMeter(DWORD dt);
-	void FlyUp();
-	void FloatDown();
-	int GetPMeter() { return pMeter; }
 	int GetCoins() { return CGameData::GetInstance()->GetCoin(); }
 	int GetScore() { return CGameData::GetInstance()->GetScore(); }
 	int GetLives() { return CGameData::GetInstance()->GetLives(); }
@@ -222,9 +172,6 @@ public:
 
 	void OnNoCollision(DWORD dt);
 	void OnCollisionWith(LPCOLLISIONEVENT e);
-	void OnCollisionWithBurner(LPCOLLISIONEVENT e);
-	void OnCollisionWithBlaster(LPCOLLISIONEVENT e);
-	void OnCollisionWithCannonBall(LPCOLLISIONEVENT e);
 
 	// void SetLevel(int l); // Removed, merged with SetLevel(MarioLevel l)
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount64(); }

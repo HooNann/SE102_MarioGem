@@ -1,6 +1,7 @@
 #pragma once
 #include <Windows.h>
 #include "AssetIDs.h"
+#include "Collision.h"
 
 class CMario;
 
@@ -18,6 +19,12 @@ public:
     virtual void Update(CMario* mario, DWORD dt) = 0; // Chuyên để nhảy state hoặc nhảy animation
     virtual void Exit(CMario* mario) {}
     virtual void HandleInput(CMario* mario, const Input& input) {}
+    
+    // Xử lý va chạm mặc định
+    virtual void OnCollisionWith(CMario* mario, LPCOLLISIONEVENT e);
+    
+    // Xử lý animation
+    virtual int GetAnimationId(CMario* mario);
     
     virtual ~CMarioState() = default;
 };
