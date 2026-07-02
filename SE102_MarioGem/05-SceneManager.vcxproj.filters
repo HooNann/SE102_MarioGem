@@ -129,6 +129,36 @@
     <ClCompile Include="Mario.cpp">
       <Filter>Game\Objects\Player</Filter>
     </ClCompile>
+    <ClCompile Include="CMarioIdleState.cpp">
+      <Filter>Game\Objects\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CMarioWalkState.cpp">
+      <Filter>Game\Objects\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CMarioRunState.cpp">
+      <Filter>States</Filter>
+    </ClCompile>
+    <ClCompile Include="CMarioSkidState.cpp">
+      <Filter>States</Filter>
+    </ClCompile>
+    <ClCompile Include="CMarioFlyState.cpp">
+      <Filter>States</Filter>
+    </ClCompile>
+    <ClCompile Include="CMarioFloatState.cpp">
+      <Filter>States</Filter>
+    </ClCompile>
+    <ClCompile Include="CMarioJumpState.cpp">
+      <Filter>Game\Objects\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CMarioFallState.cpp">
+      <Filter>Game\Objects\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CMarioDuckState.cpp">
+      <Filter>Game\Objects\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CMarioDeadState.cpp">
+      <Filter>Game\Objects\Player</Filter>
+    </ClCompile>
     <ClCompile Include="Goomba.cpp">
       <Filter>Game\Objects\Enemies</Filter>
     </ClCompile>
@@ -267,6 +297,30 @@
       <Filter>Game\Objects\Tiles</Filter>
     </ClInclude>
     <ClInclude Include="Mario.h">
+      <Filter>Game\Objects\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="CMarioState.h">
+      <Filter>Game\Objects\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="CMarioIdleState.h">
+      <Filter>Game\Objects\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="CMarioWalkState.h">
+      <Filter>Game\Objects\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="CMarioRunState.h">
+      <Filter>Game\Objects\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="CMarioJumpState.h">
+      <Filter>Game\Objects\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="CMarioFallState.h">
+      <Filter>Game\Objects\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="CMarioDuckState.h">
+      <Filter>Game\Objects\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="CMarioDeadState.h">
       <Filter>Game\Objects\Player</Filter>
     </ClInclude>
     <ClInclude Include="Goomba.h">

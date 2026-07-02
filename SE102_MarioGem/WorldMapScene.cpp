@@ -21,6 +21,7 @@ CWorldMapScene::CWorldMapScene(int id, LPCWSTR filePath) : CScene(id, filePath)
 {
 	player = NULL;
 	map = NULL;
+	hud = NULL;
 	key_handler = new CWorldMapKeyHandler(this);
 }
 
@@ -235,6 +236,10 @@ void CWorldMapScene::Load()
 {
 	DebugOut(L"[INFO] Start loading WorldMapScene from : %s \n", sceneFilePath);
 
+	CCamera::GetInstance()->SetSize(
+		(float)CGame::GetInstance()->GetBackBufferWidth(),
+		(float)CGame::GetInstance()->GetBackBufferHeight());
+
 	ifstream f;
 	f.open(sceneFilePath);
 
@@ -271,6 +276,10 @@ void CWorldMapScene::Load()
 	}
 
 	f.close();
+
+	if (hud != NULL) delete hud;
+	hud = new CHud();
+
 	DebugOut(L"[INFO] Done loading WorldMapScene %s\n", sceneFilePath);
 }
 
@@ -441,13 +450,16 @@ void CWorldMapScene::LoadMapJSON(LPCWSTR jsonPath)
 void CWorldMapScene::Update(DWORD dt)
 {
 	float cx = 0;
-	float cy = -8.0f; 
+	float cy = 0.0f; 
 
-	if (map != NULL) 
+	if (map != NULL)
 	{
 		float map_width = (float)(map->GetWidth() * map->GetTileWidth());
+		float map_height = (float)(map->GetHeight() * map->GetTileHeight());
 		float screen_width = (float)CGame::GetInstance()->GetBackBufferWidth();
+		float screen_height = (float)CGame::GetInstance()->GetBackBufferHeight();
 		cx = (map_width - screen_width) / 2.0f;
+		cy = map_height - screen_height;
 
 		CCamera::GetInstance()->SetCamPos(cx, cy);
 	}
@@ -470,6 +482,8 @@ void CWorldMapScene::Render()
 	}
 
 	if (player) player->Render();
+
+	if (hud != NULL) hud->RenderWorldMap("1");
 }
 
 void CWorldMapScene::Unload()
@@ -480,4 +494,6 @@ void CWorldMapScene::Unload()
 	nodes.clear(); // Các CMapNode đã được đẩy vào mapObjects rồi nên sẽ bị delete trong vòng lặp trên
 	
 	if (map != NULL) { delete map; map = NULL; }
+
+	if (hud != NULL) { delete hud; hud = NULL; }
 }
