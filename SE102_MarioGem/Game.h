@@ -37,6 +37,7 @@ class CGame
 	IDXGISwapChain* pSwapChain = NULL;
 	ID3D10RenderTargetView* pRenderTargetView = NULL;
 	ID3D10BlendState* pBlendStateAlpha = NULL;			// To store alpha blending state
+	ID3D10RasterizerState* pScissorRasterState = NULL;	// Enables scissor test to clip the playfield above the HUD
 
 	LPD3DX10SPRITE spriteObject;						// Sprite handling object, BIG MYSTERY: it has to be in this place OR will lead to access violation in D3D11.dll ????
 
@@ -102,6 +103,9 @@ public:
 	static CGame* GetInstance();
 
 	void SetPointSamplerState();
+
+	void BeginViewportClip(int reservedBottom);
+	void EndViewportClip();
 
 	LPSCENE GetCurrentScene() { return scenes[current_scene]; }
 	void Load(LPCWSTR gameFile);

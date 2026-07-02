@@ -28,6 +28,8 @@ public:
 
 	void Update();
 
+	float GetWidth() { return width; }
+	float GetHeight() { return height; }
 	void GetCamPos(float& x, float& y) { x = cam_x; y = cam_y; }
 	void SetCamPos(float x, float y) { cam_x = x; cam_y = y; }
 };

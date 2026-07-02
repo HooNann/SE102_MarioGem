@@ -150,6 +150,15 @@ void CGame::Init(HWND hWnd, HINSTANCE hInstance)
 	StateDesc.RenderTargetWriteMask[0] = D3D10_COLOR_WRITE_ENABLE_ALL;
 	pD3DDevice->CreateBlendState(&StateDesc, &this->pBlendStateAlpha);
 
+	D3D10_RASTERIZER_DESC rasterDesc;
+	ZeroMemory(&rasterDesc, sizeof(D3D10_RASTERIZER_DESC));
+	rasterDesc.FillMode = D3D10_FILL_SOLID;
+	rasterDesc.CullMode = D3D10_CULL_BACK;
+	rasterDesc.FrontCounterClockwise = FALSE;
+	rasterDesc.DepthClipEnable = TRUE;
+	rasterDesc.ScissorEnable = TRUE;
+	pD3DDevice->CreateRasterizerState(&rasterDesc, &this->pScissorRasterState);
+
 	DebugOut((wchar_t*)L"[INFO] InitDirectX has been successful\n");
 
 	return;
@@ -160,6 +169,25 @@ void CGame::SetPointSamplerState()
 	pD3DDevice->VSSetSamplers(0, 1, &pPointSamplerState);
 	pD3DDevice->GSSetSamplers(0, 1, &pPointSamplerState);
 	pD3DDevice->PSSetSamplers(0, 1, &pPointSamplerState);
+}
+
+void CGame::BeginViewportClip(int reservedBottom)
+{
+	if (pScissorRasterState == NULL) return;
+
+	D3D10_RECT scissorRect;
+	scissorRect.left = 0;
+	scissorRect.top = 0;
+	scissorRect.right = backBufferWidth;
+	scissorRect.bottom = backBufferHeight - reservedBottom;
+
+	pD3DDevice->RSSetScissorRects(1, &scissorRect);
+	pD3DDevice->RSSetState(pScissorRasterState);
+}
+
+void CGame::EndViewportClip()
+{
+	pD3DDevice->RSSetState(NULL);
 }
 
 /*
@@ -580,6 +608,7 @@ void CGame::_ParseSection_TEXTURES(string line)
 
 CGame::~CGame()
 {
+	if (pScissorRasterState != NULL) pScissorRasterState->Release();
 	pBlendStateAlpha->Release();
 	spriteObject->Release();
 	pRenderTargetView->Release();
