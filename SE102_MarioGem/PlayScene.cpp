@@ -18,6 +18,21 @@
 
 using namespace std;
 
+namespace
+{
+	constexpr float HUD_RESERVED_HEIGHT = 36.0f;
+
+	void ConfigurePlaySceneCamera()
+	{
+		CGame* game = CGame::GetInstance();
+		float cameraHeight = (float)game->GetBackBufferHeight() - HUD_RESERVED_HEIGHT;
+		if (cameraHeight < 1.0f)
+			cameraHeight = (float)game->GetBackBufferHeight();
+
+		CCamera::GetInstance()->SetSize((float)game->GetBackBufferWidth(), cameraHeight);
+	}
+}
+
 CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 	CScene(id, filePath)
 {
@@ -27,7 +42,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 
 	hud = NULL;
 	timeRemaining = 300.0f;	
-	hudWorld = "1-1";
+	hudWorld = "1";
 }
 
 
@@ -288,6 +303,7 @@ void CPlayScene::Load()
 	DebugOut(L"[INFO] Start loading scene from : %s \n", sceneFilePath);
 
 	// Reset camera bounds to 0,0 in case this scene doesn't have a map
+	ConfigurePlaySceneCamera();
 	CCamera::GetInstance()->SetCameraBounds(0.0f, 0.0f, 0.0f, 0.0f);
 
 	ifstream f;
@@ -475,10 +491,13 @@ bool CPlayScene::IsGameObjectInRegion(LPGAMEOBJECT obj, float r_left, float r_to
 
 void CPlayScene::Update(DWORD dt)
 {
+	ConfigurePlaySceneCamera();
+
+	CCamera* camera = CCamera::GetInstance();
 	float cx, cy;
-	CCamera::GetInstance()->GetCamPos(cx, cy);
-	float screenWidth = (float)CGame::GetInstance()->GetBackBufferWidth();
-	float screenHeight = (float)CGame::GetInstance()->GetBackBufferHeight();
+	camera->GetCamPos(cx, cy);
+	float screenWidth = camera->GetWidth();
+	float screenHeight = camera->GetHeight();
 
 	vector<LPGAMEOBJECT> activeObjects;
 	float update_margin = 160.0f;
@@ -515,7 +534,6 @@ void CPlayScene::Update(DWORD dt)
 	float px, py;
 	player->GetPosition(px, py);
 	
-	CCamera* camera = CCamera::GetInstance();
 	for (auto& z : cameraZones) {
 		if (px >= z.l && px <= z.r && py >= z.t && py <= z.b) {
 			camera->SetCameraBounds(z.l, z.t, z.r, z.b);
@@ -547,10 +565,11 @@ void CPlayScene::Render()
 	if (map != NULL)
 		map->Render();
 
+	CCamera* camera = CCamera::GetInstance();
 	float cx, cy;
-	CCamera::GetInstance()->GetCamPos(cx, cy);
-	float screenWidth = (float)CGame::GetInstance()->GetBackBufferWidth();
-	float screenHeight = (float)CGame::GetInstance()->GetBackBufferHeight();
+	camera->GetCamPos(cx, cy);
+	float screenWidth = camera->GetWidth();
+	float screenHeight = camera->GetHeight();
 
 	float render_margin = 48.0f;
 	float render_left = cx - render_margin;

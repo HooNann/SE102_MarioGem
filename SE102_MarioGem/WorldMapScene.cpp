@@ -235,6 +235,10 @@ void CWorldMapScene::Load()
 {
 	DebugOut(L"[INFO] Start loading WorldMapScene from : %s \n", sceneFilePath);
 
+	CCamera::GetInstance()->SetSize(
+		(float)CGame::GetInstance()->GetBackBufferWidth(),
+		(float)CGame::GetInstance()->GetBackBufferHeight());
+
 	ifstream f;
 	f.open(sceneFilePath);
 

@@ -13,7 +13,7 @@ class CHud
 	bool DrawGlyph(char c, float screenX, float screenY);
 	void DrawString(const char* s, float x, float y);
 	void DrawNumber(int value, float rightX, float y, int minDigits);
-	void DrawPMeter(int pmeter, float x, float y);
+	void DrawPMeter(float x, float y);
 
 public:
 	CHud();
