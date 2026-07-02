@@ -146,18 +146,8 @@ public:
 	int pMeter;					
 	DWORD flyStartTime;
 
-	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
-	void OnCollisionWithCoin(LPCOLLISIONEVENT e);
-	void OnCollisionWithPortal(LPCOLLISIONEVENT e);
-	void OnCollisionWithQuestionBlock(LPCOLLISIONEVENT e);
-	void OnCollisionWithEnemy(LPCOLLISIONEVENT e);
-	void OnCollisionWithTrap(LPCOLLISIONEVENT e);
-	void OnCollisionWithItem(LPCOLLISIONEVENT e);
 
-	int GetAniIdBig();
-	int GetAniIdSmall();
-	int GetAniIdFire();
-	int GetAniIdRaccoon();
+
 
 
 public:
@@ -222,9 +212,6 @@ public:
 
 	void OnNoCollision(DWORD dt);
 	void OnCollisionWith(LPCOLLISIONEVENT e);
-	void OnCollisionWithBurner(LPCOLLISIONEVENT e);
-	void OnCollisionWithBlaster(LPCOLLISIONEVENT e);
-	void OnCollisionWithCannonBall(LPCOLLISIONEVENT e);
 
 	// void SetLevel(int l); // Removed, merged with SetLevel(MarioLevel l)
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount64(); }
