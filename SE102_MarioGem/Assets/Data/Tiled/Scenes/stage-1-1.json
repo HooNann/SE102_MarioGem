@@ -496,6 +496,19 @@
                  "width":16,
                  "x":160,
                  "y":352
+                }, 
+                {
+                 "height":0,
+                 "id":56,
+                 "name":"Goomba",
+                 "opacity":1,
+                 "point":true,
+                 "rotation":0,
+                 "type":"Goomba",
+                 "visible":true,
+                 "width":0,
+                 "x":496,
+                 "y":384
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -504,7 +517,7 @@
          "y":0
         }],
  "nextlayerid":9,
- "nextobjectid":55,
+ "nextobjectid":57,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.12.1",

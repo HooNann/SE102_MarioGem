@@ -94,5 +94,5 @@ void CMarioState::OnCollisionWith(CMario* mario, LPCOLLISIONEVENT e)
 int CMarioState::GetAnimationId(CMario* mario)
 {
     // Fallback animation
-    return ID_ANI_MARIO_SMALL_IDLE_RIGHT;
+    return ID_ANI_MARIO_SMALL_IDLE;
 }

@@ -18,15 +18,14 @@ void CMarioDuckState::Update(CMario* mario, DWORD dt)
 
 int CMarioDuckState::GetAnimationId(CMario* mario)
 {
-    int nx = mario->GetDirection();
     switch (mario->GetLevel())
     {
-    case MarioLevel::Small: return (nx > 0) ? ID_ANI_MARIO_SMALL_IDLE_RIGHT : ID_ANI_MARIO_SMALL_IDLE_LEFT;
-    case MarioLevel::Big: return (nx > 0) ? ID_ANI_MARIO_SIT_RIGHT : ID_ANI_MARIO_SIT_LEFT;
-    case MarioLevel::Fire: return (nx > 0) ? ID_ANI_MARIO_FIRE_SIT_RIGHT : ID_ANI_MARIO_FIRE_SIT_LEFT;
-    case MarioLevel::Raccoon: return (nx > 0) ? ID_ANI_MARIO_RACCOON_SIT_RIGHT : ID_ANI_MARIO_RACCOON_SIT_LEFT;
+    case MarioLevel::Small: return ID_ANI_MARIO_SMALL_CROUCH;
+    case MarioLevel::Big: return ID_ANI_MARIO_BIG_CROUCH;
+    case MarioLevel::Fire: return ID_ANI_MARIO_FIRE_CROUCH;
+    case MarioLevel::Raccoon: return ID_ANI_MARIO_RACCOON_CROUCH;
     }
-    return ID_ANI_MARIO_SMALL_IDLE_RIGHT;
+    return ID_ANI_MARIO_SMALL_CROUCH;
 }
 
 void CMarioDuckState::Exit(CMario* mario)

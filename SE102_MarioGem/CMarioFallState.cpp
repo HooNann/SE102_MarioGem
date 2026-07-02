@@ -15,28 +15,14 @@ void CMarioFallState::Update(CMario* mario, DWORD dt)
 
 int CMarioFallState::GetAnimationId(CMario* mario)
 {
-    int nx = mario->GetDirection();
-    float ax = mario->GetAccelerationX();
-    bool isRunJump = (abs(ax) == MARIO_ACCEL_RUN_X);
-    
     switch (mario->GetLevel())
     {
-    case MarioLevel::Small: 
-        if (isRunJump) return (nx >= 0) ? ID_ANI_MARIO_SMALL_JUMP_RUN_RIGHT : ID_ANI_MARIO_SMALL_JUMP_RUN_LEFT;
-        return (nx >= 0) ? ID_ANI_MARIO_SMALL_JUMP_WALK_RIGHT : ID_ANI_MARIO_SMALL_JUMP_WALK_LEFT;
-    case MarioLevel::Big: 
-        if (isRunJump) return (nx >= 0) ? ID_ANI_MARIO_JUMP_RUN_RIGHT : ID_ANI_MARIO_JUMP_RUN_LEFT;
-        return (nx >= 0) ? ID_ANI_MARIO_JUMP_WALK_RIGHT : ID_ANI_MARIO_JUMP_WALK_LEFT;
-    case MarioLevel::Fire:
-        if (isRunJump) return (nx >= 0) ? ID_ANI_MARIO_FIRE_JUMP_RUN_RIGHT : ID_ANI_MARIO_FIRE_JUMP_RUN_LEFT;
-        return (nx >= 0) ? ID_ANI_MARIO_FIRE_JUMP_WALK_RIGHT : ID_ANI_MARIO_FIRE_JUMP_WALK_LEFT;
-    case MarioLevel::Raccoon: 
-        // For Raccoon, falling can be floating (fly_left/right) if Z is pressed, but let's stick to basic animation for now. 
-        // In the original code, `isFlying` changes animation to FLY. Here, we check falling normally.
-        if (isRunJump) return (nx >= 0) ? ID_ANI_MARIO_RACCOON_JUMP_RUN_RIGHT : ID_ANI_MARIO_RACCOON_JUMP_RUN_LEFT;
-        return (nx >= 0) ? ID_ANI_MARIO_RACCOON_JUMP_WALK_RIGHT : ID_ANI_MARIO_RACCOON_JUMP_WALK_LEFT;
+    case MarioLevel::Small: return ID_ANI_MARIO_SMALL_JUMP; // new_mario.txt uses jump for small fall too
+    case MarioLevel::Big: return ID_ANI_MARIO_BIG_FALL;
+    case MarioLevel::Fire: return ID_ANI_MARIO_FIRE_FALL;
+    case MarioLevel::Raccoon: return ID_ANI_MARIO_RACCOON_FALL;
     }
-    return ID_ANI_MARIO_SMALL_JUMP_WALK_RIGHT;
+    return ID_ANI_MARIO_SMALL_JUMP;
 }
 
 #include "Goomba.h"

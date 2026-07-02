@@ -177,7 +177,7 @@ void CMario::Render()
 	}
 
 	if (aniId != -1) {
-		animations->Get(aniId)->Render(x, y);
+		animations->Get(aniId)->Render(x, y, nx);
 	}
 
 	//RenderBoundingBox();

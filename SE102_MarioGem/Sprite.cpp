@@ -53,15 +53,20 @@ void CSprite::Draw(float x, float y, int nx, int ny)
 	float scaleX = (FLOAT)spriteWidth;
 	float scaleY = (FLOAT)spriteHeight;
 
+	float originalTexCoordX = this->sprite.TexCoord.x;
+	float originalTexSizeX = this->sprite.TexSize.x;
+	float originalTexCoordY = this->sprite.TexCoord.y;
+	float originalTexSizeY = this->sprite.TexSize.y;
+
 	if (nx < 0)
 	{
-		scaleX = -scaleX;
-		x += spriteWidth;
+		this->sprite.TexCoord.x = originalTexCoordX + originalTexSizeX;
+		this->sprite.TexSize.x = -originalTexSizeX;
 	}
 	if (ny < 0)
 	{
-		scaleY = -scaleY;
-		y -= spriteHeight;
+		this->sprite.TexCoord.y = originalTexCoordY + originalTexSizeY;
+		this->sprite.TexSize.y = -originalTexSizeY;
 	}
 
 	D3DXMATRIX finalScaling;
@@ -72,6 +77,12 @@ void CSprite::Draw(float x, float y, int nx, int ny)
 	this->sprite.matWorld = (finalScaling * matTranslation);
 
 	g->GetSpriteHandler()->DrawSpritesImmediate(&sprite, 1, 0, 0);
+
+	// Restore original UVs
+	this->sprite.TexCoord.x = originalTexCoordX;
+	this->sprite.TexSize.x = originalTexSizeX;
+	this->sprite.TexCoord.y = originalTexCoordY;
+	this->sprite.TexSize.y = originalTexSizeY;
 }
 
 

@@ -14,5 +14,5 @@ void CMarioDeadState::Update(CMario* mario, DWORD dt)
 
 int CMarioDeadState::GetAnimationId(CMario* mario)
 {
-    return ID_ANI_MARIO_DIE;
+    return ID_ANI_MARIO_SMALL_DIE;
 }

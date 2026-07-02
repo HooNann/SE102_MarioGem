@@ -21,26 +21,20 @@ void CMarioJumpState::Update(CMario* mario, DWORD dt)
 
 int CMarioJumpState::GetAnimationId(CMario* mario)
 {
-    int nx = mario->GetDirection();
-    float ax = mario->GetAccelerationX();
-    bool isRunJump = (abs(ax) == MARIO_ACCEL_RUN_X);
+    // float ax = mario->GetAccelerationX();
+    // bool isRunJump = (abs(ax) == MARIO_ACCEL_RUN_X);
+    // Usually new_mario.txt only has 1 jump animation per form, except maybe Raccoon?
+    // Let's map everything to JUMP. If we need a specific RUN JUMP we can adjust later,
+    // but the provided list only has one JUMP.
     
     switch (mario->GetLevel())
     {
-    case MarioLevel::Small: 
-        if (isRunJump) return (nx >= 0) ? ID_ANI_MARIO_SMALL_JUMP_RUN_RIGHT : ID_ANI_MARIO_SMALL_JUMP_RUN_LEFT;
-        return (nx >= 0) ? ID_ANI_MARIO_SMALL_JUMP_WALK_RIGHT : ID_ANI_MARIO_SMALL_JUMP_WALK_LEFT;
-    case MarioLevel::Big: 
-        if (isRunJump) return (nx >= 0) ? ID_ANI_MARIO_JUMP_RUN_RIGHT : ID_ANI_MARIO_JUMP_RUN_LEFT;
-        return (nx >= 0) ? ID_ANI_MARIO_JUMP_WALK_RIGHT : ID_ANI_MARIO_JUMP_WALK_LEFT;
-    case MarioLevel::Fire:
-        if (isRunJump) return (nx >= 0) ? ID_ANI_MARIO_FIRE_JUMP_RUN_RIGHT : ID_ANI_MARIO_FIRE_JUMP_RUN_LEFT;
-        return (nx >= 0) ? ID_ANI_MARIO_FIRE_JUMP_WALK_RIGHT : ID_ANI_MARIO_FIRE_JUMP_WALK_LEFT;
-    case MarioLevel::Raccoon: 
-        if (isRunJump) return (nx >= 0) ? ID_ANI_MARIO_RACCOON_JUMP_RUN_RIGHT : ID_ANI_MARIO_RACCOON_JUMP_RUN_LEFT;
-        return (nx >= 0) ? ID_ANI_MARIO_RACCOON_JUMP_WALK_RIGHT : ID_ANI_MARIO_RACCOON_JUMP_WALK_LEFT;
+    case MarioLevel::Small: return ID_ANI_MARIO_SMALL_JUMP;
+    case MarioLevel::Big: return ID_ANI_MARIO_BIG_JUMP;
+    case MarioLevel::Fire: return ID_ANI_MARIO_FIRE_JUMP;
+    case MarioLevel::Raccoon: return ID_ANI_MARIO_RACCOON_JUMP;
     }
-    return ID_ANI_MARIO_SMALL_JUMP_WALK_RIGHT;
+    return ID_ANI_MARIO_SMALL_JUMP;
 }
 
 #include "Goomba.h"
