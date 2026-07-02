@@ -147,10 +147,14 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 			{
 				if (GetLevel() > MarioLevel::Small)
 				{
+<<<<<<< HEAD
 					if (GetLevel() == MarioLevel::Fire || GetLevel() == MarioLevel::Raccoon)
 						SetLevel(MarioLevel::Big);
 					else if (GetLevel() == MarioLevel::Big)
 						SetLevel(MarioLevel::Small);
+=======
+					SetLevel(MarioLevel::Small);
+>>>>>>> dev
 					StartUntouchable();
 				}
 				else
@@ -214,6 +218,7 @@ void CMario::OnCollisionWithEnemy(LPCOLLISIONEVENT e)
 		{
 			if (untouchable == 0)
 			{
+<<<<<<< HEAD
 				if (GetLevel() == MarioLevel::Fire || GetLevel() == MarioLevel::Raccoon) 
 				{
 					SetLevel(MarioLevel::Big); 
@@ -222,6 +227,16 @@ void CMario::OnCollisionWithEnemy(LPCOLLISIONEVENT e)
 				else if (GetLevel() == MarioLevel::Big) 
 				{
 					SetLevel(MarioLevel::Small); 
+=======
+				if (GetLevel() > MarioLevel::Big) // Nếu đang ở dạng đặc biệt (Chồn, Ếch...)
+				{
+					SetLevel(MarioLevel::Big); // Rớt về Mario Lớn
+					StartUntouchable();      // Bật bất tử tạm thời
+				}
+				else if (GetLevel() == MarioLevel::Big) // Nếu đang ở Mario Lớn
+				{
+					SetLevel(MarioLevel::Small); // Rớt về Mario Nhỏ
+>>>>>>> dev
 					StartUntouchable();
 				}
 				else 
@@ -245,10 +260,23 @@ void CMario::OnCollisionWithItem(LPCOLLISIONEVENT e)
 		switch (item->GetItemType())
 		{
 		case ITEM_TYPE_FLOWER:
+<<<<<<< HEAD
 			SetLevel(MarioLevel::Fire);
 			break;
 		case ITEM_TYPE_LEAF:
 			SetLevel(MarioLevel::Raccoon);
+=======
+			if (GetLevel() < MarioLevel::Fire)
+			{
+				SetLevel(MarioLevel::Fire);
+			}
+			break;
+		case ITEM_TYPE_LEAF:
+			if (GetLevel() < MarioLevel::Raccoon)
+			{
+				SetLevel(MarioLevel::Raccoon);
+			}
+>>>>>>> dev
 			break;
 		}
 	}
@@ -340,12 +368,20 @@ void CMario::OnCollisionWithBlaster(LPCOLLISIONEVENT e)
 	CBlaster* blaster = dynamic_cast<CBlaster*>(e->obj);
 	if (!blaster || blaster->GetState() != static_cast<int>(BlasterState::Firing)) return;
 
+<<<<<<< HEAD
 	if (GetLevel() == MarioLevel::Fire || GetLevel() == MarioLevel::Raccoon)
+=======
+	if (GetLevel() > MarioLevel::Big)
+>>>>>>> dev
 	{
 		SetLevel(MarioLevel::Big);
 		StartUntouchable();
 	}
+<<<<<<< HEAD
 	else if (GetLevel() == MarioLevel::Big)
+=======
+	else if (GetLevel() > MarioLevel::Small)
+>>>>>>> dev
 	{
 		SetLevel(MarioLevel::Small);
 		StartUntouchable();
@@ -365,12 +401,20 @@ void CMario::OnCollisionWithBurner(LPCOLLISIONEVENT e)
 	CBurner* burner = dynamic_cast<CBurner*>(e->obj);
 	if (!burner || burner->GetState() != static_cast<int>(BurnerState::Firing)) return;
 
+<<<<<<< HEAD
 	if (GetLevel() == MarioLevel::Fire || GetLevel() == MarioLevel::Raccoon)
+=======
+	if (GetLevel() > MarioLevel::Big)
+>>>>>>> dev
 	{
 		SetLevel(MarioLevel::Big);
 		StartUntouchable();
 	}
+<<<<<<< HEAD
 	else if (GetLevel() == MarioLevel::Big)
+=======
+	else if (GetLevel() > MarioLevel::Small)
+>>>>>>> dev
 	{
 		SetLevel(MarioLevel::Small);
 		StartUntouchable();
@@ -383,12 +427,20 @@ void CMario::OnCollisionWithCannonBall(LPCOLLISIONEVENT e)
 {
 	if (untouchable != 0) return;
 
+<<<<<<< HEAD
 	if (GetLevel() == MarioLevel::Fire || GetLevel() == MarioLevel::Raccoon)
+=======
+	if (GetLevel() > MarioLevel::Big)
+>>>>>>> dev
 	{
 		SetLevel(MarioLevel::Big);
 		StartUntouchable();
 	}
+<<<<<<< HEAD
 	else if (GetLevel() == MarioLevel::Big)
+=======
+	else if (GetLevel() > MarioLevel::Small)
+>>>>>>> dev
 	{
 		SetLevel(MarioLevel::Small);
 		StartUntouchable();

@@ -1,3 +1,4 @@
+
 #pragma once
 
 enum class ObjectType : int {
@@ -38,4 +39,5 @@ enum class MarioStateID
     Pipe,
     AutoMove,
     Dead
-};
+};
+
