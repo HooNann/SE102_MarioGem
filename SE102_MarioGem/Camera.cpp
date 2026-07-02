@@ -1,6 +1,8 @@
 #include "Camera.h"
 #include <algorithm>
 #include "Mario.h"
+#include "AssetIDs.h"
+#include "CMarioState.h"
 
 CCamera *CCamera::__instance = NULL;
 
@@ -23,7 +25,8 @@ CCamera *CCamera::GetInstance() {
 }
 
 void CCamera::Update() {
-  if (target != NULL && target->GetState() != static_cast<int>(MarioState::Die)) {
+  CMario* mario = dynamic_cast<CMario*>(target);
+  if (mario != NULL && mario->currentState && mario->currentState->GetID() != MarioStateID::Dead) {
     float tx, ty;
     target->GetPosition(tx, ty);
 

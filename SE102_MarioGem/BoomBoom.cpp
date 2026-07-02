@@ -2,7 +2,9 @@
 #include "AssetIDs.h"
 #include "debug.h"
 #include <math.h>
+#include "PlayScene.h"
 #include "BossExplosion.h"
+#include "CMarioDeadState.h"
 
 #define ID_ANI_BOOMBOOM_WALKING 36000
 #define ID_ANI_BOOMBOOM_HIDING 36004
@@ -80,7 +82,7 @@ void CBoomBoom::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 	//Tracking Mario when walking
 	if (state == BOOMBOOM_STATE_WALKING && mario != NULL) {
-		if (mario->GetState() == static_cast<int>(MarioState::Die)) {
+		if (mario->currentState && mario->currentState->GetID() == MarioStateID::Dead) {
 			vx = 0; // Stop moving
 		} else {
 			float mx, my;
@@ -142,7 +144,7 @@ void CBoomBoom::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	// Manual collision check with Mario
 	if (state != BOOMBOOM_STATE_DIE) {
 		CMario *mario = (CMario *)((CPlayScene*)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
-		if (mario != NULL && mario->GetState() != static_cast<int>(MarioState::Die)) {
+		if (mario != NULL && mario->currentState && mario->currentState->GetID() != MarioStateID::Dead) {
 			float ml, mt, mr, mb;
 			mario->GetBoundingBox(ml, mt, mr, mb);
 			
@@ -157,7 +159,7 @@ void CBoomBoom::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 				// If Boom Boom is in Spiked Shell, Mario dies from ANY angle
 				if (state == BOOMBOOM_STATE_HIDING) {
-					mario->SetState(static_cast<int>(MarioState::Die));
+					mario->ChangeState(new CMarioDeadState());
 				} else {
 					// Mario is falling onto Boom Boom (normal state)
 					if (mvy > 0 && mb < bb) {
@@ -173,7 +175,7 @@ void CBoomBoom::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					} else {
 						// Mario touches from side or bottom
 						if (!untouchable) {
-							mario->SetState(static_cast<int>(MarioState::Die));
+							mario->ChangeState(new CMarioDeadState());
 						}
 					}
 				}

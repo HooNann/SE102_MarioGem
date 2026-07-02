@@ -5,6 +5,13 @@
 
 #include "Mario.h"
 #include "PlayScene.h"
+#include "CMarioIdleState.h"
+#include "CMarioWalkState.h"
+#include "CMarioRunState.h"
+#include "CMarioJumpState.h"
+#include "CMarioFallState.h"
+#include "CMarioDuckState.h"
+#include "CMarioDeadState.h"
 
 void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
 {
@@ -14,10 +21,10 @@ void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
 	switch (KeyCode)
 	{
 	case DIK_DOWN:
-		mario->SetState(MarioState::Sit);
+		mario->ChangeState(new CMarioDuckState());
 		break;
 	case DIK_Z:
-		mario->SetState(MarioState::Jump);
+		mario->ChangeState(new CMarioJumpState());
 		break;
 	case DIK_1:
 		mario->SetLevel(MarioLevel::Small);
@@ -26,7 +33,7 @@ void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
 		mario->SetLevel(MarioLevel::Big);
 		break;
 	case DIK_0:
-		mario->SetState(MarioState::Die);
+		mario->ChangeState(new CMarioDeadState());
 		break;
 	case DIK_R: // reset
 		((CPlayScene*)CGame::GetInstance()->GetCurrentScene())->ReloadAssets();
@@ -42,10 +49,11 @@ void CPlaySceneKeyHandler::OnKeyUp(int KeyCode)
 	switch (KeyCode)
 	{
 	case DIK_Z:
-		mario->SetState(MarioState::ReleaseJump);
+		mario->ChangeState(new CMarioFallState());
 		break;
 	case DIK_DOWN:
-		mario->SetState(MarioState::SitRelease);
+        // Exiting DuckState is handled in Exit(), but we need to transition out to Idle
+		mario->ChangeState(new CMarioIdleState());
 		break;
 	}
 }
@@ -55,20 +63,25 @@ void CPlaySceneKeyHandler::KeyState(BYTE *states)
 	LPGAME game = CGame::GetInstance();
 	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 
+    if (mario->currentState && mario->currentState->GetID() == MarioStateID::Duck)
+        return;
+
 	if (game->IsKeyDown(DIK_RIGHT))
 	{
+        mario->SetDirection(1);
 		if (game->IsKeyDown(DIK_X))
-			mario->SetState(MarioState::RunningRight);
+			mario->ChangeState(new CMarioRunState());
 		else
-			mario->SetState(MarioState::WalkingRight);
+			mario->ChangeState(new CMarioWalkState());
 	}
 	else if (game->IsKeyDown(DIK_LEFT))
 	{
+        mario->SetDirection(-1);
 		if (game->IsKeyDown(DIK_X))
-			mario->SetState(MarioState::RunningLeft);
+			mario->ChangeState(new CMarioRunState());
 		else
-			mario->SetState(MarioState::WalkingLeft);
+			mario->ChangeState(new CMarioWalkState());
 	}
 	else
-		mario->SetState(MarioState::Idle);
+		mario->ChangeState(new CMarioIdleState());
 }

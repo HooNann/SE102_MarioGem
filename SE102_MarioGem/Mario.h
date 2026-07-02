@@ -23,24 +23,6 @@ constexpr float MARIO_GRAVITY = 0.002f;
 
 constexpr float MARIO_JUMP_DEFLECT_SPEED = 0.4f;
 
-enum class MarioState : int
-{
-	Die = -10,
-	Idle = 0,
-	WalkingRight = 100,
-	WalkingLeft = 200,
-	Jump = 300,
-	ReleaseJump = 301,
-	RunningRight = 400,
-	RunningLeft = 500,
-	Sit = 600,
-	SitRelease = 601,
-	Fly = 700,
-	Float = 800
-
-};
-
-
 #pragma region ANIMATION_ID
 
 constexpr int ID_ANI_MARIO_IDLE_RIGHT = 400;
@@ -142,8 +124,13 @@ constexpr int ID_ANI_MARIO_RACCOON_FLY_LEFT = 3101;
 #define MARIO_UNTOUCHABLE_TIME 2500
 #define MARIO_THROWING_FIRE_TIME   180
 
+class CMarioState; // Forward declaration
+
 class CMario : public CGameObject
 {
+public:
+	CMarioState* currentState = nullptr;
+
 	BOOLEAN isSitting;
 	float maxVx;
 	float ax;				// acceleration on x 
@@ -188,11 +175,34 @@ public:
 	}
 
 	MarioLevel GetLevel() { return CGameData::GetInstance()->GetLevel(); }
-	void SetLevel(MarioLevel l) { CGameData::GetInstance()->SetLevel(l); }
+	void SetLevel(MarioLevel l);
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
-	void SetState(MarioState state);
-	void SetState(int state) override { SetState(static_cast<MarioState>(state)); }
+	void ChangeState(CMarioState* newState);
+
+    float GetVelocityX() const { return vx; }
+    void SetVelocityX(float v) { vx = v; }
+    float GetVelocityY() const { return vy; }
+    void SetVelocityY(float v) { vy = v; }
+    
+    float GetAccelerationX() const { return ax; }
+    void SetAccelerationX(float a) { ax = a; }
+    
+    float GetMaxVelocityX() const { return maxVx; }
+    void SetMaxVelocityX(float m) { maxVx = m; }
+    
+    int GetDirection() const { return nx; }
+    void SetDirection(int dir) { nx = dir; }
+    
+    float GetY() const { return y; }
+    void SetY(float newY) { y = newY; }
+
+    bool IsSitting() const { return isSitting; }
+    void SetSitting(bool sit) { isSitting = sit; }
+
+    bool IsOnPlatform() const { return isOnPlatform; }
+    void SetOnPlatform(bool p) { isOnPlatform = p; }
+
 
 	void ShootFireBall();
 	void UpdateThrowingFireTime(DWORD dt);
@@ -207,12 +217,8 @@ public:
 	int GetLives() { return CGameData::GetInstance()->GetLives(); }
 	void AddScore(int amount) { CGameData::GetInstance()->AddScore(amount); }
 
-	int IsCollidable()
-	{ 
-		return (state != static_cast<int>(MarioState::Die)); 
-	}
-
-	int IsBlocking() { return (state != static_cast<int>(MarioState::Die) && untouchable==0); }
+	int IsCollidable();
+	int IsBlocking();
 
 	void OnNoCollision(DWORD dt);
 	void OnCollisionWith(LPCOLLISIONEVENT e);
@@ -220,7 +226,7 @@ public:
 	void OnCollisionWithBlaster(LPCOLLISIONEVENT e);
 	void OnCollisionWithCannonBall(LPCOLLISIONEVENT e);
 
-	void SetLevel(int l);
+	// void SetLevel(int l); // Removed, merged with SetLevel(MarioLevel l)
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount64(); }
 
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);

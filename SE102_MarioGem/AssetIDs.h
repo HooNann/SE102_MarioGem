@@ -1,3 +1,4 @@
+
 #pragma once
 
 enum class ObjectType : int {
@@ -24,3 +25,19 @@ enum class SceneType : int {
 	PlayScene = 1,
 	WorldMapScene = 2
 };
+
+enum class MarioStateID
+{
+    Idle,
+    Walk,
+    Run,
+    Jump,
+    Fall,
+    Duck,
+    Climb,
+    Swim,
+    Pipe,
+    AutoMove,
+    Dead
+};
+
