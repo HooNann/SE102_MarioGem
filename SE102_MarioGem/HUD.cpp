@@ -17,7 +17,7 @@ constexpr int FRAME_SRC_T = 127;
 constexpr int FRAME_W = 232;
 constexpr int FRAME_H = 30;
 
-constexpr int BAND_H = 34;
+constexpr int BAND_H = 32;
 
 constexpr int DASH_SRC_L = 92;
 constexpr int DASH_SRC_T = 165;
@@ -28,7 +28,7 @@ constexpr int ROW_TOP = 8;
 constexpr int ROW_BOT = 16;
 
 constexpr int WORLD_X     = 40;
-constexpr int PMETER_X    = 52;
+constexpr int PMETER_X    = 54;
 constexpr int COINS_RIGHT = 150;
 constexpr int LIVES_RIGHT = 40;
 constexpr int SCORE_RIGHT = 104;
@@ -115,10 +115,8 @@ void CHud::DrawPMeter(float x, float y)
 	DrawRegion(px + PM_P_W / 2.0f, y + PM_H / 2.0f, PM_P_UNLIT_L, PM_SRC_T, PM_P_W, PM_H);
 }
 
-void CHud::Render(CMario* mario, int timeLeft, const char* world)
+void CHud::DrawPanel(float& fx, float& fy)
 {
-	if (tex == NULL || mario == NULL) return;
-
 	CGame* game = CGame::GetInstance();
 	int W = game->GetBackBufferWidth();
 	int H = game->GetBackBufferHeight();
@@ -126,10 +124,18 @@ void CHud::Render(CMario* mario, int timeLeft, const char* world)
 	if (texBlack != NULL)
 		game->Draw(W / 2.0f, H - BAND_H / 2.0f, texBlack, (RECT*)NULL, 1.0f, W, BAND_H);
 
-	float fx = (float)((W - FRAME_W) / 2);
-	float fy = (float)(H - BAND_H + (BAND_H - FRAME_H) / 2);
+	fx = (float)((W - FRAME_W) / 2);
+	fy = (float)(H - BAND_H + (BAND_H - FRAME_H) / 2);
 
 	DrawRegion(fx + FRAME_W / 2.0f, fy + FRAME_H / 2.0f, FRAME_SRC_L, FRAME_SRC_T, FRAME_W, FRAME_H);
+}
+
+void CHud::Render(CMario* mario, int timeLeft, const char* world)
+{
+	if (tex == NULL || mario == NULL) return;
+
+	float fx, fy;
+	DrawPanel(fx, fy);
 
 	float topY = fy + ROW_TOP;
 	float botY = fy + ROW_BOT;
@@ -141,4 +147,22 @@ void CHud::Render(CMario* mario, int timeLeft, const char* world)
 	DrawNumber(CGameData::GetInstance()->GetLives(), fx + LIVES_RIGHT, botY, 1);
 	DrawNumber(CGameData::GetInstance()->GetScore(), fx + SCORE_RIGHT, botY, 6);
 	DrawNumber(timeLeft, fx + TIME_RIGHT, botY, 3);
+}
+
+void CHud::RenderWorldMap(const char* world)
+{
+	if (tex == NULL) return;
+
+	float fx, fy;
+	DrawPanel(fx, fy);
+
+	float topY = fy + ROW_TOP;
+	float botY = fy + ROW_BOT;
+
+	DrawString(world ? world : "1", fx + WORLD_X, topY);
+	DrawPMeter(fx + PMETER_X, topY);
+	DrawNumber(CGameData::GetInstance()->GetCoin(), fx + COINS_RIGHT, topY, 2);
+
+	DrawNumber(CGameData::GetInstance()->GetLives(), fx + LIVES_RIGHT, botY, 1);
+	DrawNumber(CGameData::GetInstance()->GetScore(), fx + SCORE_RIGHT, botY, 6);
 }

@@ -20,7 +20,7 @@ using namespace std;
 
 namespace
 {
-	constexpr float HUD_RESERVED_HEIGHT = 34.0f;
+	constexpr float HUD_RESERVED_HEIGHT = 32.0f;
 
 	void ConfigurePlaySceneCamera()
 	{
