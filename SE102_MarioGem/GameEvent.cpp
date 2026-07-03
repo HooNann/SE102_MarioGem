@@ -35,3 +35,24 @@ bool CEventWaitForSound::IsDone()
 {
 	return !CSoundManager::GetInstance()->IsPlaying(trackId);
 }
+
+// CEventAction
+CEventAction::CEventAction(std::function<void()> action)
+{
+	this->action = action;
+	this->done = false;
+}
+void CEventAction::Start()
+{
+	if (action != nullptr) {
+		action();
+	}
+	done = true;
+}
+void CEventAction::Update(DWORD dt)
+{
+}
+bool CEventAction::IsDone()
+{
+	return done;
+}

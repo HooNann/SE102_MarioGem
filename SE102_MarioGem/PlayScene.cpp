@@ -21,6 +21,7 @@
 #include "SoundEvents.h"
 #include "SoundSubject.h"
 #include "EventManager.h"
+#include "SoundManager.h"
 
 using namespace std;
 
@@ -630,16 +631,17 @@ void CPlayScene::Update(DWORD dt)
 		if (!isDeathTransitioning)
 		{
 			isDeathTransitioning = true;
-			deathStartTime = GetTickCount64();
+			
 			CSoundSubject::GetInstance()->Notify(EVENT_MUSIC_STOP);
-			CSoundSubject::GetInstance()->Notify(EVENT_PLAYER_DOWN);
-		}
-
-		if (!isDeathResolved && GetTickCount64() - deathStartTime > DEATH_RETURN_DELAY_MS)
-		{
-			isDeathResolved = true;
-			CGameData::GetInstance()->AddLife(-1);
-			CGame::GetInstance()->InitiateSwitchScene(WORLD_MAP_SCENE_ID);
+			
+			size_t soundId = CSoundManager::GetInstance()->PlayTrackedSfx(SND_PLAYER_DOWN);
+			
+			CEventManager::GetInstance()->AddEvent(new CEventWaitForSound(soundId));
+			CEventManager::GetInstance()->AddEvent(new CEventDelay(500)); 
+			CEventManager::GetInstance()->AddEvent(new CEventAction([]() {
+				CGameData::GetInstance()->AddLife(-1);
+				CGame::GetInstance()->InitiateSwitchScene(WORLD_MAP_SCENE_ID);
+			}));
 		}
 	}
 

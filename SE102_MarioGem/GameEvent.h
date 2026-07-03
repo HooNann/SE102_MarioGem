@@ -1,5 +1,6 @@
 #pragma once
 #include <Windows.h>
+#include <functional>
 
 class CGameEvent
 {
@@ -26,6 +27,17 @@ class CEventWaitForSound : public CGameEvent
 	size_t trackId;
 public:
 	CEventWaitForSound(size_t trackId);
+	virtual void Start();
+	virtual void Update(DWORD dt);
+	virtual bool IsDone();
+};
+
+class CEventAction : public CGameEvent
+{
+	std::function<void()> action;
+	bool done;
+public:
+	CEventAction(std::function<void()> action);
 	virtual void Start();
 	virtual void Update(DWORD dt);
 	virtual bool IsDone();
