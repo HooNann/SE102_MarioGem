@@ -284,6 +284,11 @@
                          "name":"right_id",
                          "type":"int",
                          "value":61
+                        }, 
+                        {
+                         "name":"scene_id",
+                         "type":"int",
+                         "value":6
                         }],
                  "rotation":0,
                  "type":"MapNode",
