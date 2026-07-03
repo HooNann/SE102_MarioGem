@@ -1,10 +1,10 @@
 #pragma once
 
-#define ID_TEX_INTRO 90
-#define ID_TEX_WHITE 91
-#define ID_TEX_ITEMS 92
+#define ID_TEX_INTRO 120
+#define ID_TEX_WHITE 121
+#define ID_TEX_ITEMS 122
 
-#define INTRO_SCENE_WORLDMAP 2
+#define INTRO_SCENE_WORLDMAP 100
 
 #define SPR_INTRO_CURTAIN        90001
 #define SPR_INTRO_VALANCE        90002

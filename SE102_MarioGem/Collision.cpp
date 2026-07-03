@@ -206,12 +206,32 @@ void CCollision::Filter( LPGAMEOBJECT objSrc,
 			continue;
 		}
 
-		if (c->t < min_tx && c->nx != 0 && filterX == 1) {
-			min_tx = c->t; min_ix = i;
+		if (c->nx != 0 && filterX == 1) {
+			if (c->t < min_tx) {
+				min_tx = c->t; min_ix = i;
+			}
+			else if (c->t == min_tx) {
+				float sx, sy; objSrc->GetPosition(sx, sy);
+				float d1x, d1y; coEvents[min_ix]->obj->GetPosition(d1x, d1y);
+				float d2x, d2y; c->obj->GetPosition(d2x, d2y);
+				if (abs(sy - d2y) < abs(sy - d1y)) {
+					min_ix = i;
+				}
+			}
 		}
 
-		if (c->t < min_ty && c->ny != 0 && filterY == 1) {
-			min_ty = c->t; min_iy = i;
+		if (c->ny != 0 && filterY == 1) {
+			if (c->t < min_ty) {
+				min_ty = c->t; min_iy = i;
+			}
+			else if (c->t == min_ty) {
+				float sx, sy; objSrc->GetPosition(sx, sy);
+				float d1x, d1y; coEvents[min_iy]->obj->GetPosition(d1x, d1y);
+				float d2x, d2y; c->obj->GetPosition(d2x, d2y);
+				if (abs(sx - d2x) < abs(sx - d1x)) {
+					min_iy = i;
+				}
+			}
 		}
 	}
 

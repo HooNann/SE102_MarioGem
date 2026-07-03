@@ -56,9 +56,7 @@ void CFireBall::OnCollisionWith(LPCOLLISIONEVENT e)
 void CFireBall::Render()
 {
 	CAnimations* animations = CAnimations::GetInstance();
-	int aniId = (nx > 0) ? ID_ANI_FIREBALL_RIGHT : ID_ANI_FIREBALL_LEFT;
-
-	animations->Get(aniId)->Render(x, y);
+	animations->Get(ID_ANI_FIREBALL)->Render(x, y, nx);
 }
 
 void CFireBall::GetBoundingBox(float& left, float& top, float& right, float& bottom)

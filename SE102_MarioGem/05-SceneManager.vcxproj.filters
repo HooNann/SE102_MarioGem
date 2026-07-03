@@ -76,9 +76,9 @@
     <Filter Include="Game\Scenes\WorldMap">
       <UniqueIdentifier>{dc056a9e-9790-479f-8405-3ab51b1d61ac}</UniqueIdentifier>
     </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
+    <Filter Include="Game\Sounds">
+      <UniqueIdentifier>{286e4dd4-4adf-4101-8069-26e0c533c44d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -120,6 +120,9 @@
     <ClCompile Include="Portal.cpp">
       <Filter>Game\Objects\Triggers</Filter>
     </ClCompile>
+    <ClCompile Include="Pipe.cpp">
+      <Filter>Game\Objects\Triggers</Filter>
+    </ClCompile>
     <ClCompile Include="Platform.cpp">
       <Filter>Game\Objects\Tiles</Filter>
     </ClCompile>
@@ -142,6 +145,9 @@
       <Filter>Game\Objects\Player</Filter>
     </ClCompile>
     <ClCompile Include="CMarioDuckState.cpp">
+      <Filter>Game\Objects\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CMarioPipeState.cpp">
       <Filter>Game\Objects\Player</Filter>
     </ClCompile>
     <ClCompile Include="CMarioDeadState.cpp">
@@ -170,6 +176,12 @@
     </ClCompile>
     <ClCompile Include="HUD.cpp">
       <Filter>Game\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="GoalRoulette.cpp">
+      <Filter>Game\Objects\Tiles</Filter>
+    </ClCompile>
+    <ClCompile Include="GoalRewardItem.cpp">
+      <Filter>Game\Objects\Items</Filter>
     </ClCompile>
     <ClCompile Include="ObjectFactory.cpp">
       <Filter>Game\Systems</Filter>
@@ -237,6 +249,21 @@
     <ClCompile Include="CMarioState.cpp">
       <Filter>Game\Objects\Player</Filter>
     </ClCompile>
+    <ClCompile Include="miniaudio_impl.cpp">
+      <Filter>Game\Sounds</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundManager.cpp">
+      <Filter>Game\Sounds</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundSubject.cpp">
+      <Filter>Game\Sounds</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundTestKeyHandler.cpp">
+      <Filter>Game\Sounds</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundTestScene.cpp">
+      <Filter>Game\Sounds</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -247,6 +274,12 @@
     </ClInclude>
     <ClInclude Include="Hud.h">
       <Filter>Game\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="GoalRoulette.h">
+      <Filter>Game\Objects\Tiles</Filter>
+    </ClInclude>
+    <ClInclude Include="GoalRewardItem.h">
+      <Filter>Game\Objects\Items</Filter>
     </ClInclude>
     <ClInclude Include="debug.h">
       <Filter>Framework\Core</Filter>
@@ -293,6 +326,9 @@
     <ClInclude Include="Portal.h">
       <Filter>Game\Objects\Triggers</Filter>
     </ClInclude>
+    <ClInclude Include="Pipe.h">
+      <Filter>Game\Objects\Triggers</Filter>
+    </ClInclude>
     <ClInclude Include="Platform.h">
       <Filter>Game\Objects\Tiles</Filter>
     </ClInclude>
@@ -321,6 +357,9 @@
       <Filter>Game\Objects\Player</Filter>
     </ClInclude>
     <ClInclude Include="CMarioDuckState.h">
+      <Filter>Game\Objects\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="CMarioPipeState.h">
       <Filter>Game\Objects\Player</Filter>
     </ClInclude>
     <ClInclude Include="CMarioDeadState.h">
@@ -413,5 +452,31 @@
     <ClInclude Include="GameData.h">
       <Filter>Game\Systems</Filter>
     </ClInclude>
+    <ClInclude Include="ISoundObserver.h">
+      <Filter>Game\Sounds</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\miniaudio\miniaudio.h">
+      <Filter>Game\Sounds</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundEvents.h">
+      <Filter>Game\Sounds</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundManager.h">
+      <Filter>Game\Sounds</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundSubject.h">
+      <Filter>Game\Sounds</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundTestKeyHandler.h">
+      <Filter>Game\Sounds</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundTestScene.h">
+      <Filter>Game\Sounds</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config">
+      <Filter>Game\Sounds</Filter>
+    </None>
   </ItemGroup>
 </Project>

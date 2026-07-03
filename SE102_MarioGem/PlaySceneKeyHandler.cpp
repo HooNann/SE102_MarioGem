@@ -15,28 +15,40 @@
 #include "CMarioSkidState.h"
 #include "CMarioFlyState.h"
 #include "CMarioFloatState.h"
+#include "CMarioPipeState.h"
+#include "Pipe.h"
 
 void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
 {
 	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
-	CMario* mario = (CMario *)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+	CPlayScene* scene = (CPlayScene*)CGame::GetInstance()->GetCurrentScene();
+	if (scene->IsCourseClear()) return;
+
+	CMario* mario = (CMario*)scene->GetPlayer();
 
 	if (mario == NULL) return;
 
     if (mario->currentState && mario->currentState->GetID() == MarioStateID::Dead) return;
+    if (mario->currentState && mario->currentState->GetID() == MarioStateID::Pipe) return;
 
 	switch (KeyCode)
 	{
 	case DIK_DOWN:
-		mario->ChangeState(new CMarioDuckState());
+	{
+		CPipe* pipe = scene->GetOverlappingPipe(mario, PipeDirection::Down);
+		if (pipe != nullptr)
+			mario->ChangeState(new CMarioPipeState(pipe));
+		else
+			mario->ChangeState(new CMarioDuckState());
 		break;
+	}
 	case DIK_Z:
 		if (!mario->IsOnPlatform())
 		{
 			if (mario->GetLevel() == MarioLevel::Raccoon)
 			{
                 MarioStateID curID = mario->currentState ? mario->currentState->GetID() : MarioStateID::Idle;
-				if (mario->GetPMeter() == MARIO_PMETER_MAX)
+				if (mario->IsFlyingPowerActive())
                 {
                     if (curID != MarioStateID::Fly)
                     {
@@ -46,7 +58,7 @@ void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
                     {
                         // Đã bay rồi, đập cánh tiếp
                         mario->StartFlapping();
-                        mario->SetVelocityY(-0.2f);
+                        mario->SetVelocityY(-MARIO_FLY_SPEED_Y);
                         mario->SetAccelerationY(0);
                     }
                 }
@@ -80,6 +92,15 @@ void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_2:
 		mario->SetLevel(MarioLevel::Big);
 		break;
+	case DIK_3:
+		mario->SetLevel(MarioLevel::Raccoon);
+		break;
+	case DIK_4:
+		mario->SetLevel(MarioLevel::Fire);
+		break;
+	case DIK_X:
+		mario->ShootFireBall();
+		break;
 	case DIK_0:
 		mario->ChangeState(new CMarioDeadState());
 		break;
@@ -92,12 +113,15 @@ void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
 void CPlaySceneKeyHandler::OnKeyUp(int KeyCode)
 {
 	//DebugOut(L"[INFO] KeyUp: %d\n", KeyCode);
+	CPlayScene* scene = (CPlayScene*)CGame::GetInstance()->GetCurrentScene();
+	if (scene->IsCourseClear()) return;
 
-	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+	CMario* mario = (CMario*)scene->GetPlayer();
 
 	if (mario == NULL) return;
 
     if (mario->currentState && mario->currentState->GetID() == MarioStateID::Dead) return;
+    if (mario->currentState && mario->currentState->GetID() == MarioStateID::Pipe) return;
 
 	switch (KeyCode)
 	{
@@ -124,8 +148,11 @@ void CPlaySceneKeyHandler::OnKeyUp(int KeyCode)
 
 void CPlaySceneKeyHandler::KeyState(BYTE *states)
 {
+	CPlayScene* scene = (CPlayScene*)CGame::GetInstance()->GetCurrentScene();
+	if (scene->IsCourseClear()) return;
+
 	LPGAME game = CGame::GetInstance();
-	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+	CMario* mario = (CMario*)scene->GetPlayer();
 
 	if (mario == NULL) return;
 
@@ -135,10 +162,23 @@ void CPlaySceneKeyHandler::KeyState(BYTE *states)
     if (mario->currentState && mario->currentState->GetID() == MarioStateID::Dead)
         return;
 
+    if (mario->currentState && mario->currentState->GetID() == MarioStateID::Pipe)
+        return;
+
     MarioStateID curID = mario->currentState ? mario->currentState->GetID() : MarioStateID::Idle;
 
     // Không ngăn đổi state ở đây nữa để giữ Air Control (di chuyển trái phải).
     // Các logic Air Control bên dưới không làm đổi state (chỉ đổi vận tốc/gia tốc).
+
+	if (game->IsKeyDown(DIK_UP))
+	{
+		CPipe* pipe = scene->GetOverlappingPipe(mario, PipeDirection::Up);
+		if (pipe != nullptr)
+		{
+			mario->ChangeState(new CMarioPipeState(pipe));
+			return;
+		}
+	}
 
 	if (!mario->IsOnPlatform())
 	{

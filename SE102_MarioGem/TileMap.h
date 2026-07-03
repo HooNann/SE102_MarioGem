@@ -20,6 +20,13 @@ struct TilesetInfo
 	LPTEXTURE texture;	// Con trỏ texture đã load vào DirectX
 };
 
+struct TileLayerInfo
+{
+	string name;
+	vector<unsigned int> data;
+	bool isForeground;
+};
+
 class CTileMap
 {
 	int width;			// Số cột của map (tính bằng tile)
@@ -27,8 +34,10 @@ class CTileMap
 	int tileWidth;		// Chiều rộng 1 tile (pixel)
 	int tileHeight;		// Chiều cao 1 tile (pixel)
 
-	vector<vector<unsigned int>> mapLayers;		// Mảng 2 chiều chứa ID các tile của tất cả các layer
+	vector<TileLayerInfo> mapLayers;		// Danh sách các tile layer
 	vector<TilesetInfo> tilesets;		// Danh sách các tileset
+
+	void RenderLayers(bool foreground);
 
 public:
 	CTileMap();
@@ -41,6 +50,8 @@ public:
 
 	// Vẽ toàn bộ tile map lên màn hình (có tính camera)
 	void Render();
+	void RenderBackground();
+	void RenderForeground();
 
 	int GetWidth() { return width; }
 	int GetHeight() { return height; }

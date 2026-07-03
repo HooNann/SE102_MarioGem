@@ -69,31 +69,31 @@
 
 # --- tex-fire-ball (TEX_ID: 80) ---
 # Dan lua (Fireball)
-71048	0	1	7	8	80  # Dan lua Mario ban goc quay 0 do
-71049	11	-1	18	8	80  # Dan lua Mario ban goc quay 90 do
-71050	22	1	29	8	80  # Dan lua Mario ban goc quay 180 do
-71051	33	-1	40	8	80  # Dan lua Mario ban goc quay 270 do
+71048	0	0	7	9	100	# Dan lua Mario ban goc quay 0 do
+71049	11	0	18	9	100	# Dan lua Mario ban goc quay 90 do
+71050	22	0	29	9	100	# Dan lua Mario ban goc quay 180 do
+71051	33	0	40	9	100	# Dan lua Mario ban goc quay 270 do
 
 
 # --- tex-reward (TEX_ID: 80) ---
 # O thuong cuoi man (Goal Items)
-71052	5	28	20	43	80  # Phan thuong Nam Goal Mushroom mac dinh
-71053	66	28	76	43	80  # Phan thuong Nam Goal Mushroom bien dang 1
-71054	110	28	111	43	80  # Phan thuong Nam Goal Mushroom bien dang 2
-71055	25	28	40	43	80  # Phan thuong Hoa Goal Flower mac dinh
-71056	66	28	76	44	80  # Phan thuong Hoa Goal Flower bien dang
-71057	45	27	60	42	80  # Phan thuong Sao Goal Star mac dinh
-71058	94	28	104	43	80  # Phan thuong Sao Goal Star bien dang
+71052	5	28	20	43	90  # Phan thuong Nam Goal Mushroom mac dinh
+71053	66	28	76	43	90  # Phan thuong Nam Goal Mushroom bien dang 1
+71054	110	28	111	43	90  # Phan thuong Nam Goal Mushroom bien dang 2
+71055	25	28	40	43	90  # Phan thuong Hoa Goal Flower mac dinh
+71056	66	28	76	44	90  # Phan thuong Hoa Goal Flower bien dang
+71057	45	27	60	42	90  # Phan thuong Sao Goal Star mac dinh
+71058	94	28	104	43	90  # Phan thuong Sao Goal Star bien dang
 
 
 # --- tex-pipe (TEX_ID: 80) ---
 # He thong ong nuoc tinh (Pipes)
-71059	32	32	63	47	80  # Dau ong nuoc doc xanh la
-71060	32	48	63	63	80  # Than ong nuoc doc xanh la
-71061	32	0	47	31	80  # Dau ong nuoc ngang xanh la
-71062	48	0	63	31	80  # Than ong nuoc ngang xanh la
-71063	192	32	223	47	80  # Dau ong nuoc doc xanh duong
-71064	192	48	223	63	80  # Than ong nuoc doc xanh duong
+71059	32	32	63	47	110	# Dau ong nuoc doc xanh la
+71060	32	48	63	63	110	# Than ong nuoc doc xanh la
+71061	32	0	47	31	110	# Dau ong nuoc ngang xanh la
+71062	48	0	63	31	110	# Than ong nuoc ngang xanh la
+71063	192	32	223	47	110	# Dau ong nuoc doc xanh duong
+71064	192	48	223	63	110	# Than ong nuoc doc xanh duong
 
 
 [ANIMATIONS]

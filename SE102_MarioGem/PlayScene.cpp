@@ -8,6 +8,7 @@
 #include "Textures.h"
 #include "Sprites.h"
 #include "Portal.h"
+#include "Pipe.h"
 #include "Coin.h"
 #include "Platform.h"
 
@@ -43,6 +44,16 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 	hud = NULL;
 	timeRemaining = 300.0f;	
 	hudWorld = "1";
+
+	map_width = 0.0f;
+	map_height = 0.0f;
+
+	isCourseClear = false;
+	courseClearStartTime = 0;
+	courseClearReward = 0;
+
+	isCameraBlockingLeftEdge = true;
+	isCameraBlockingRightEdge = false;
 }
 
 
@@ -489,6 +500,30 @@ bool CPlayScene::IsGameObjectInRegion(LPGAMEOBJECT obj, float r_left, float r_to
 	return !(r < r_left || l > r_right || b < r_top || t > r_bottom);
 }
 
+CPipe* CPlayScene::GetOverlappingPipe(CMario* mario, PipeDirection entryDirection)
+{
+	if (mario == nullptr) return nullptr;
+	if (entryDirection == PipeDirection::Down && !mario->IsOnPlatform()) return nullptr;
+
+	float ml, mt, mr, mb;
+	mario->GetBoundingBox(ml, mt, mr, mb);
+
+	for (auto obj : objects)
+	{
+		CPipe* pipe = dynamic_cast<CPipe*>(obj);
+		if (pipe == nullptr || pipe->IsDeleted()) continue;
+		if (pipe->GetEntryDirection() != entryDirection) continue;
+
+		float pl, pt, pr, pb;
+		pipe->GetBoundingBox(pl, pt, pr, pb);
+
+		bool overlap = !(mr < pl || ml > pr || mb < pt || mt > pb);
+		if (overlap) return pipe;
+	}
+
+	return nullptr;
+}
+
 void CPlayScene::Update(DWORD dt)
 {
 	ConfigurePlaySceneCamera();
@@ -547,8 +582,11 @@ void CPlayScene::Update(DWORD dt)
 	}
 
 	// Update camera to follow mario
-	camera->SetTarget(player);
-	camera->Update();
+	if (!isCourseClear)
+	{
+		camera->SetTarget(player);
+		camera->Update();
+	}
 
 	for (auto obj : spawnQueue)
 		objects.push_back(obj);
@@ -556,6 +594,26 @@ void CPlayScene::Update(DWORD dt)
 
 	timeRemaining -= dt / 1000.0f;
 	if (timeRemaining < 0) timeRemaining = 0;
+
+	if (isCourseClear)
+	{
+		// Force Mario to keep walking right
+		if (player != NULL)
+		{
+			CMario* m = dynamic_cast<CMario*>(player);
+			if (m != NULL)
+			{
+				m->SetDirection(1);
+				m->SetAccelerationX(0.0005f); 
+			}
+		}
+
+		if (GetTickCount64() - courseClearStartTime > 4000)
+		{
+			CGameData::GetInstance()->MarkSceneCleared(id);
+			CGame::GetInstance()->InitiateSwitchScene(1); // Return to World Map
+		}
+	}
 
 	PurgeDeletedObjects();
 }
@@ -566,7 +624,7 @@ void CPlayScene::Render()
 	game->BeginViewportClip((int)HUD_RESERVED_HEIGHT);
 
 	if (map != NULL)
-		map->Render();
+		map->RenderBackground();
 
 	CCamera* camera = CCamera::GetInstance();
 	float cx, cy;
@@ -588,10 +646,39 @@ void CPlayScene::Render()
 		}
 	}
 
+	if (map != NULL)
+		map->RenderForeground();
+
 	game->EndViewportClip();
 
-	if (hud != NULL && player != NULL)
+	if (hud != NULL)
 		hud->Render((CMario*)player, (int)timeRemaining, hudWorld.c_str());
+
+	if (isCourseClear && hud != NULL)
+	{
+		hud->RenderCourseClear(courseClearReward);
+	}
+}
+
+void CPlayScene::TriggerCourseClear(int reward)
+{
+	if (!isCourseClear)
+	{
+		isCourseClear = true;
+		courseClearStartTime = GetTickCount64();
+		courseClearReward = reward;
+		
+		// Change Mario state to Walk right
+		if (player != NULL)
+		{
+			CMario* m = dynamic_cast<CMario*>(player);
+			if (m != NULL)
+			{
+				m->SetDirection(1);
+				m->SetAccelerationX(0.0005f); // MARIO_ACCEL_WALK_X
+			}
+		}
+	}
 }
 
 /*

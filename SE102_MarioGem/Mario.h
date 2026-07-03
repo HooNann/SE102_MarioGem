@@ -25,6 +25,7 @@ constexpr float MARIO_JUMP_MAX_SPEED_Y = 0.30f;
 
 constexpr float MARIO_GRAVITY = 0.0015f;
 constexpr float MARIO_GRAVITY_JUMP = 0.0004f;
+constexpr float MARIO_FLY_SPEED_Y = 0.1f;
 constexpr float MARIO_FLOAT_SPEED_Y = 0.05f;
 
 constexpr float MARIO_JUMP_DEFLECT_SPEED = 0.4f;
@@ -32,6 +33,7 @@ constexpr float MARIO_JUMP_DEFLECT_SPEED = 0.4f;
 #pragma region ANIMATION_ID
 
 // SMALL MARIO
+constexpr int ID_ANI_MARIO_SMALL_FRONT = 1;
 constexpr int ID_ANI_MARIO_SMALL_IDLE = 2;
 constexpr int ID_ANI_MARIO_SMALL_WALK = 3;
 constexpr int ID_ANI_MARIO_SMALL_SKID = 4;
@@ -42,6 +44,7 @@ constexpr int ID_ANI_MARIO_SMALL_CROUCH = 2; // fallback
 
 // BIG MARIO
 constexpr int ID_ANI_MARIO_BIG_IDLE = 18;
+constexpr int ID_ANI_MARIO_BIG_FRONT = 19;
 constexpr int ID_ANI_MARIO_BIG_WALK = 20;
 constexpr int ID_ANI_MARIO_BIG_SKID = 21;
 constexpr int ID_ANI_MARIO_BIG_RUN = 22;
@@ -51,6 +54,7 @@ constexpr int ID_ANI_MARIO_BIG_FALL = 25;
 constexpr int ID_ANI_MARIO_BIG_CROUCH = 27;
 
 // FIRE MARIO
+constexpr int ID_ANI_MARIO_FIRE_FRONT = 80;
 constexpr int ID_ANI_MARIO_FIRE_IDLE = 81;
 constexpr int ID_ANI_MARIO_FIRE_WALK = 82;
 constexpr int ID_ANI_MARIO_FIRE_SKID = 83;
@@ -62,6 +66,7 @@ constexpr int ID_ANI_MARIO_FIRE_FALL = 89;
 constexpr int ID_ANI_MARIO_FIRE_CROUCH = 91;
 
 // RACCOON MARIO
+constexpr int ID_ANI_MARIO_RACCOON_FRONT = 58;
 constexpr int ID_ANI_MARIO_RACCOON_IDLE = 59;
 constexpr int ID_ANI_MARIO_RACCOON_WALK = 60;
 constexpr int ID_ANI_MARIO_RACCOON_SKID = 61;
@@ -81,7 +86,7 @@ constexpr int ID_ANI_MARIO_RACCOON_CROUCH = 68;
 
 #define MARIO_SIT_HEIGHT_ADJUST ((MARIO_BIG_BBOX_HEIGHT-MARIO_BIG_SITTING_BBOX_HEIGHT)/2)
 
-#define MARIO_SMALL_BBOX_WIDTH  13
+#define MARIO_SMALL_BBOX_WIDTH  12
 #define MARIO_SMALL_BBOX_HEIGHT 14
 
 
@@ -110,7 +115,7 @@ public:
 	int pMeter;					
 	ULONGLONG flyStartTime;
 	ULONGLONG flapStartTime = 0;
-
+	bool isFlyingPowerActive = false;
 
 
 
@@ -141,6 +146,9 @@ public:
     
     ULONGLONG GetFlyStartTime() const { return flyStartTime; }
     void StartFlying() { flyStartTime = GetTickCount64(); }
+
+    bool IsFlyingPowerActive() const { return isFlyingPowerActive; }
+    void SetFlyingPowerActive(bool active) { isFlyingPowerActive = active; }
 
     ULONGLONG GetFlapStartTime() const { return flapStartTime; }
     void StartFlapping() { flapStartTime = GetTickCount64(); }

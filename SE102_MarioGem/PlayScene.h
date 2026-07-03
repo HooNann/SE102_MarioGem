@@ -11,6 +11,8 @@
 #include "TileMap.h"
 #include "Hud.h"
 
+class CPipe;
+enum class PipeDirection;
 
 class CPlayScene: public CScene
 {
@@ -32,6 +34,13 @@ protected:
 	CHud* hud;
 	float timeRemaining;
 	std::string hudWorld;
+
+	bool isCourseClear;
+	ULONGLONG courseClearStartTime;
+	int courseClearReward; // ItemType cast to int
+
+	bool isCameraBlockingLeftEdge;
+	bool isCameraBlockingRightEdge;
 
 	void _ParseSection_SPRITES(string line);
 	void _ParseSection_ANIMATIONS(string line);
@@ -58,6 +67,15 @@ public:
 
 	LPGAMEOBJECT GetPlayer() { return player; }
 	void AddObject(LPGAMEOBJECT obj) { objects.push_back(obj); }
+	CPipe* GetOverlappingPipe(CMario* mario, PipeDirection entryDirection);
+
+	void TriggerCourseClear(int reward);
+	bool IsCourseClear() const { return isCourseClear; }
+
+	bool IsCameraBlockingLeftEdge() const { return isCameraBlockingLeftEdge; }
+	bool IsCameraBlockingRightEdge() const { return isCameraBlockingRightEdge; }
+	void SetCameraBlockingLeftEdge(bool value) { isCameraBlockingLeftEdge = value; }
+	void SetCameraBlockingRightEdge(bool value) { isCameraBlockingRightEdge = value; }
 
 	void QueueSpawn(LPGAMEOBJECT obj) { spawnQueue.push_back(obj); }
 

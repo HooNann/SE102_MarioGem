@@ -8,10 +8,9 @@ height	240
 [SCENES]
 0	4	Assets\Data\Scenes\intro-scene.txt
 1	1	Assets\Data\Scenes\stage-1-1.txt
-2	2	Assets\Data\Scenes\world-map-scene.txt
-5	1	Assets\Data\Scenes\scene0005.txt
-6	1	Assets\Data\Scenes\sceneBoss.txt
+6	1	Assets\Data\Scenes\stage-1-fortress.txt
 99	3	Assets\Data\Scenes\sound-test.txt
+100	2	Assets\Data\Scenes\world-map-scene.txt
 
 # id	file
 [TEXTURES]
@@ -26,11 +25,14 @@ height	240
 60	Assets\Textures\All\overworld.png
 70	Assets\Textures\All\mario.png
 80	Assets\Textures\All\misc.png
-90	Assets\Textures\All\intro.png
-91	Assets\Textures\All\white.png
-92	Assets\Textures\All\items.png
-93	Assets\Textures\All\intro-ground.png
-94	Assets\Textures\All\intro-stage.png
+90	Assets\Textures\All\reward.png
+100	Assets\Textures\All\fire-ball-white.png
+110	Assets\Textures\All\pipe.png
+120	Assets\Textures\All\intro.png
+121	Assets\Textures\All\white.png
+122	Assets\Textures\All\items.png
+123	Assets\Textures\All\intro-ground.png
+124	Assets\Textures\All\intro-stage.png
 
 # id	file
 [AUDIO]
