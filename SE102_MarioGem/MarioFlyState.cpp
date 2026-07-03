@@ -1,5 +1,5 @@
-#include "CMarioFlyState.h"
-#include "CMarioFallState.h"
+#include "MarioFlyState.h"
+#include "MarioFallState.h"
 #include "Mario.h"
 #include "SoundEvents.h"
 #include "SoundSubject.h"

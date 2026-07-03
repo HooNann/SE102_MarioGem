@@ -1,0 +1,2 @@
+[ASSETS]
+Assets\Data\Graphics\intro.txt

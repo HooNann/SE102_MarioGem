@@ -58,9 +58,6 @@
     <Filter Include="Game\Objects\Effects">
       <UniqueIdentifier>{f776bd8a-b36d-4043-bf42-a3eebb8a4c52}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\Managers">
-      <UniqueIdentifier>{a87c94df-c6bd-40b5-a2d2-be7fce448410}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\Systems">
       <UniqueIdentifier>{7aaf8c08-acfb-413e-80a9-49451944eead}</UniqueIdentifier>
     </Filter>
@@ -79,18 +76,12 @@
     <Filter Include="Game\Sounds">
       <UniqueIdentifier>{286e4dd4-4adf-4101-8069-26e0c533c44d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Scenes\IntroScene">
+      <UniqueIdentifier>{45f181a5-0dfc-4e90-b6e3-c02b880887d9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
-      <Filter>Framework\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="EventManager.cpp">
-      <Filter>Framework\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="GameEvent.cpp">
-      <Filter>Framework\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="GameData.cpp">
       <Filter>Framework\Core</Filter>
     </ClCompile>
     <ClCompile Include="debug.cpp">
@@ -138,28 +129,28 @@
     <ClCompile Include="Mario.cpp">
       <Filter>Game\Objects\Player</Filter>
     </ClCompile>
-    <ClCompile Include="CMarioIdleState.cpp">
+    <ClCompile Include="MarioIdleState.cpp">
       <Filter>Game\Objects\Player</Filter>
     </ClCompile>
-    <ClCompile Include="CMarioWalkState.cpp">
+    <ClCompile Include="MarioWalkState.cpp">
       <Filter>Game\Objects\Player</Filter>
     </ClCompile>
-    <ClCompile Include="CMarioJumpState.cpp">
+    <ClCompile Include="MarioJumpState.cpp">
       <Filter>Game\Objects\Player</Filter>
     </ClCompile>
-    <ClCompile Include="CMarioFallState.cpp">
+    <ClCompile Include="MarioFallState.cpp">
       <Filter>Game\Objects\Player</Filter>
     </ClCompile>
-    <ClCompile Include="CMarioDuckState.cpp">
+    <ClCompile Include="MarioDuckState.cpp">
       <Filter>Game\Objects\Player</Filter>
     </ClCompile>
-    <ClCompile Include="CMarioPipeState.cpp">
+    <ClCompile Include="MarioPipeState.cpp">
       <Filter>Game\Objects\Player</Filter>
     </ClCompile>
-    <ClCompile Include="CMarioDeadState.cpp">
+    <ClCompile Include="MarioDeadState.cpp">
       <Filter>Game\Objects\Player</Filter>
     </ClCompile>
-    <ClCompile Include="CMarioPitDeadState.cpp">
+    <ClCompile Include="MarioPitDeadState.cpp">
       <Filter>Game\Objects\Player</Filter>
     </ClCompile>
     <ClCompile Include="Goomba.cpp">
@@ -180,17 +171,11 @@
     <ClCompile Include="Camera.cpp">
       <Filter>Game\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="ScoreSystem.cpp">
-      <Filter>Game\Systems</Filter>
-    </ClCompile>
     <ClCompile Include="ScreenTransition.cpp">
       <Filter>Game\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="HUD.cpp">
+    <ClCompile Include="Hud.cpp">
       <Filter>Game\Systems</Filter>
-    </ClCompile>
-    <ClCompile Include="GoalRoulette.cpp">
-      <Filter>Game\Objects\Tiles</Filter>
     </ClCompile>
     <ClCompile Include="GoalRewardItem.cpp">
       <Filter>Game\Objects\Items</Filter>
@@ -219,7 +204,7 @@
     <ClCompile Include="Canon.cpp">
       <Filter>Game\Objects\Traps</Filter>
     </ClCompile>
-    <ClCompile Include="CItem.cpp">
+    <ClCompile Include="Item.cpp">
       <Filter>Game\Objects\Items</Filter>
     </ClCompile>
     <ClCompile Include="QuestionBlock.cpp">
@@ -246,19 +231,19 @@
     <ClCompile Include="BoomBoom.cpp">
       <Filter>Game\Objects\Bosses</Filter>
     </ClCompile>
-    <ClCompile Include="CMarioFloatState.cpp">
+    <ClCompile Include="MarioFloatState.cpp">
       <Filter>Game\Objects\Player</Filter>
     </ClCompile>
-    <ClCompile Include="CMarioFlyState.cpp">
+    <ClCompile Include="MarioFlyState.cpp">
       <Filter>Game\Objects\Player</Filter>
     </ClCompile>
-    <ClCompile Include="CMarioRunState.cpp">
+    <ClCompile Include="MarioRunState.cpp">
       <Filter>Game\Objects\Player</Filter>
     </ClCompile>
-    <ClCompile Include="CMarioSkidState.cpp">
+    <ClCompile Include="MarioSkidState.cpp">
       <Filter>Game\Objects\Player</Filter>
     </ClCompile>
-    <ClCompile Include="CMarioState.cpp">
+    <ClCompile Include="MarioState.cpp">
       <Filter>Game\Objects\Player</Filter>
     </ClCompile>
     <ClCompile Include="miniaudio_impl.cpp">
@@ -276,25 +261,31 @@
     <ClCompile Include="SoundTestScene.cpp">
       <Filter>Game\Sounds</Filter>
     </ClCompile>
+    <ClCompile Include="GoalRoulette.cpp">
+      <Filter>Game\Objects\Triggers</Filter>
+    </ClCompile>
+    <ClCompile Include="IntroKeyHandler.cpp">
+      <Filter>Game\Scenes\IntroScene</Filter>
+    </ClCompile>
+    <ClCompile Include="IntroScene.cpp">
+      <Filter>Game\Scenes\IntroScene</Filter>
+    </ClCompile>
+    <ClCompile Include="EventManager.cpp">
+      <Filter>Game\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="GameData.cpp">
+      <Filter>Game\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEvent.cpp">
+      <Filter>Game\Systems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Camera.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
     <ClInclude Include="Game.h">
-      <Filter>Framework\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="EventManager.h">
-      <Filter>Framework\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="GameEvent.h">
       <Filter>Framework\Core</Filter>
     </ClInclude>
     <ClInclude Include="Hud.h">
       <Filter>Game\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="GoalRoulette.h">
-      <Filter>Game\Objects\Tiles</Filter>
     </ClInclude>
     <ClInclude Include="GoalRewardItem.h">
       <Filter>Game\Objects\Items</Filter>
@@ -356,34 +347,34 @@
     <ClInclude Include="Mario.h">
       <Filter>Game\Objects\Player</Filter>
     </ClInclude>
-    <ClInclude Include="CMarioState.h">
+    <ClInclude Include="MarioState.h">
       <Filter>Game\Objects\Player</Filter>
     </ClInclude>
-    <ClInclude Include="CMarioIdleState.h">
+    <ClInclude Include="MarioIdleState.h">
       <Filter>Game\Objects\Player</Filter>
     </ClInclude>
-    <ClInclude Include="CMarioWalkState.h">
+    <ClInclude Include="MarioWalkState.h">
       <Filter>Game\Objects\Player</Filter>
     </ClInclude>
-    <ClInclude Include="CMarioRunState.h">
+    <ClInclude Include="MarioRunState.h">
       <Filter>Game\Objects\Player</Filter>
     </ClInclude>
-    <ClInclude Include="CMarioJumpState.h">
+    <ClInclude Include="MarioJumpState.h">
       <Filter>Game\Objects\Player</Filter>
     </ClInclude>
-    <ClInclude Include="CMarioFallState.h">
+    <ClInclude Include="MarioFallState.h">
       <Filter>Game\Objects\Player</Filter>
     </ClInclude>
-    <ClInclude Include="CMarioDuckState.h">
+    <ClInclude Include="MarioDuckState.h">
       <Filter>Game\Objects\Player</Filter>
     </ClInclude>
-    <ClInclude Include="CMarioPipeState.h">
+    <ClInclude Include="MarioPipeState.h">
       <Filter>Game\Objects\Player</Filter>
     </ClInclude>
-    <ClInclude Include="CMarioDeadState.h">
+    <ClInclude Include="MarioDeadState.h">
       <Filter>Game\Objects\Player</Filter>
     </ClInclude>
-    <ClInclude Include="CMarioPitDeadState.h">
+    <ClInclude Include="MarioPitDeadState.h">
       <Filter>Game\Objects\Player</Filter>
     </ClInclude>
     <ClInclude Include="Goomba.h">
@@ -455,7 +446,7 @@
     <ClInclude Include="BoomBoom.h">
       <Filter>Game\Objects\Bosses</Filter>
     </ClInclude>
-    <ClInclude Include="CItem.h">
+    <ClInclude Include="Item.h">
       <Filter>Game\Objects\Items</Filter>
     </ClInclude>
     <ClInclude Include="QuestionBlock.h">
@@ -464,13 +455,13 @@
     <ClInclude Include="FireBall.h">
       <Filter>Game\Objects\Projectiles</Filter>
     </ClInclude>
-    <ClInclude Include="CMarioFloatState.h">
+    <ClInclude Include="MarioFloatState.h">
       <Filter>Game\Objects\Player</Filter>
     </ClInclude>
-    <ClInclude Include="CMarioFlyState.h">
+    <ClInclude Include="MarioFlyState.h">
       <Filter>Game\Objects\Player</Filter>
     </ClInclude>
-    <ClInclude Include="CMarioSkidState.h">
+    <ClInclude Include="MarioSkidState.h">
       <Filter>Game\Objects\Player</Filter>
     </ClInclude>
     <ClInclude Include="GameData.h">
@@ -496,6 +487,27 @@
     </ClInclude>
     <ClInclude Include="SoundTestScene.h">
       <Filter>Game\Sounds</Filter>
+    </ClInclude>
+    <ClInclude Include="GoalRoulette.h">
+      <Filter>Game\Objects\Triggers</Filter>
+    </ClInclude>
+    <ClInclude Include="IntroDefs.h">
+      <Filter>Game\Scenes\IntroScene</Filter>
+    </ClInclude>
+    <ClInclude Include="IntroKeyHandler.h">
+      <Filter>Game\Scenes\IntroScene</Filter>
+    </ClInclude>
+    <ClInclude Include="IntroScene.h">
+      <Filter>Game\Scenes\IntroScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Game\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="EventManager.h">
+      <Filter>Game\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEvent.h">
+      <Filter>Game\Systems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -152,7 +152,7 @@
     <ClCompile Include="Animations.cpp" />
     <ClCompile Include="Brick.cpp" />
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="CItem.cpp" />
+    <ClCompile Include="Item.cpp" />
     <ClCompile Include="Coin.cpp" />
     <ClCompile Include="BossExplosion.cpp" />
     <ClCompile Include="Collision.cpp" />
@@ -169,23 +169,23 @@
     <ClCompile Include="Canon.cpp" />
     <ClCompile Include="CannonBall.cpp" />
     <ClCompile Include="Goomba.cpp" />
-    <ClCompile Include="HUD.cpp" />
+    <ClCompile Include="Hud.cpp" />
     <ClCompile Include="GoalRoulette.cpp" />
     <ClCompile Include="GoalRewardItem.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mario.cpp" />
-    <ClCompile Include="CMarioIdleState.cpp" />
-    <ClCompile Include="CMarioWalkState.cpp" />
-    <ClCompile Include="CMarioRunState.cpp" />
-    <ClCompile Include="CMarioSkidState.cpp" />
-    <ClCompile Include="CMarioFlyState.cpp" />
-    <ClCompile Include="CMarioFloatState.cpp" />
-    <ClCompile Include="CMarioJumpState.cpp" />
-    <ClCompile Include="CMarioFallState.cpp" />
-    <ClCompile Include="CMarioDuckState.cpp" />
-    <ClCompile Include="CMarioPipeState.cpp" />
-    <ClCompile Include="CMarioDeadState.cpp" />
-    <ClCompile Include="CMarioPitDeadState.cpp" />
+    <ClCompile Include="MarioIdleState.cpp" />
+    <ClCompile Include="MarioWalkState.cpp" />
+    <ClCompile Include="MarioRunState.cpp" />
+    <ClCompile Include="MarioSkidState.cpp" />
+    <ClCompile Include="MarioFlyState.cpp" />
+    <ClCompile Include="MarioFloatState.cpp" />
+    <ClCompile Include="MarioJumpState.cpp" />
+    <ClCompile Include="MarioFallState.cpp" />
+    <ClCompile Include="MarioDuckState.cpp" />
+    <ClCompile Include="MarioPipeState.cpp" />
+    <ClCompile Include="MarioDeadState.cpp" />
+    <ClCompile Include="MarioPitDeadState.cpp" />
     <ClCompile Include="ObjectFactory.cpp" />
     <ClCompile Include="Platform.cpp" />
     <ClCompile Include="Pipe.cpp" />
@@ -193,13 +193,14 @@
     <ClCompile Include="Portal.cpp" />
     <ClCompile Include="PlaySceneKeyHandler.cpp" />
     <ClCompile Include="QuestionBlock.cpp" />
-    <ClCompile Include="ScoreSystem.cpp" />
     <ClCompile Include="ScreenTransition.cpp" />
     <ClCompile Include="miniaudio_impl.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="SoundSubject.cpp" />
     <ClCompile Include="SoundTestScene.cpp" />
     <ClCompile Include="SoundTestKeyHandler.cpp" />
+    <ClCompile Include="IntroScene.cpp" />
+    <ClCompile Include="IntroKeyHandler.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Sprites.cpp" />
     <ClCompile Include="Textures.cpp" />
@@ -210,7 +211,8 @@
     <ClCompile Include="MapObject.cpp" />
     <ClCompile Include="WorldMapKeyHandler.cpp" />
     <ClCompile Include="WorldMapScene.cpp" />
-  <ClCompile Include="CMarioState.cpp" /></ItemGroup>
+    <ClCompile Include="MarioState.cpp" />
+  </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BoomBoom.h" />
     <ClInclude Include="Animation.h" />
@@ -218,7 +220,7 @@
     <ClInclude Include="Animations.h" />
     <ClInclude Include="AssetIDs.h" />
     <ClInclude Include="Brick.h" />
-    <ClInclude Include="CItem.h" />
+    <ClInclude Include="Item.h" />
     <ClInclude Include="Coin.h" />
     <ClInclude Include="BossExplosion.h" />
     <ClInclude Include="Collision.h" />
@@ -242,19 +244,19 @@
     <ClInclude Include="json.hpp" />
     <ClInclude Include="KeyEventHandler.h" />
     <ClInclude Include="Mario.h" />
-    <ClInclude Include="CMarioState.h" />
-    <ClInclude Include="CMarioIdleState.h" />
-    <ClInclude Include="CMarioWalkState.h" />
-    <ClInclude Include="CMarioRunState.h" />
-    <ClInclude Include="CMarioSkidState.h" />
-    <ClInclude Include="CMarioFlyState.h" />
-    <ClInclude Include="CMarioFloatState.h" />
-    <ClInclude Include="CMarioJumpState.h" />
-    <ClInclude Include="CMarioFallState.h" />
-    <ClInclude Include="CMarioDuckState.h" />
-    <ClInclude Include="CMarioPipeState.h" />
-    <ClInclude Include="CMarioDeadState.h" />
-    <ClInclude Include="CMarioPitDeadState.h" />
+    <ClInclude Include="MarioState.h" />
+    <ClInclude Include="MarioIdleState.h" />
+    <ClInclude Include="MarioWalkState.h" />
+    <ClInclude Include="MarioRunState.h" />
+    <ClInclude Include="MarioSkidState.h" />
+    <ClInclude Include="MarioFlyState.h" />
+    <ClInclude Include="MarioFloatState.h" />
+    <ClInclude Include="MarioJumpState.h" />
+    <ClInclude Include="MarioFallState.h" />
+    <ClInclude Include="MarioDuckState.h" />
+    <ClInclude Include="MarioPipeState.h" />
+    <ClInclude Include="MarioDeadState.h" />
+    <ClInclude Include="MarioPitDeadState.h" />
     <ClInclude Include="ObjectFactory.h" />
     <ClInclude Include="Platform.h" />
     <ClInclude Include="Pipe.h" />
@@ -271,6 +273,9 @@
     <ClInclude Include="SoundSubject.h" />
     <ClInclude Include="SoundTestScene.h" />
     <ClInclude Include="SoundTestKeyHandler.h" />
+    <ClInclude Include="IntroScene.h" />
+    <ClInclude Include="IntroKeyHandler.h" />
+    <ClInclude Include="IntroDefs.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="Sprites.h" />
     <ClInclude Include="Texture.h" />

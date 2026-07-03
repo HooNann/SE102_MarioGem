@@ -1,6 +1,6 @@
 #pragma once
 
-#include "CMarioState.h"
+#include "MarioState.h"
 #include "Pipe.h"
 
 constexpr DWORD MARIO_PIPE_ENTER_TIME = 1000;

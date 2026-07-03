@@ -1,10 +1,10 @@
 #pragma once
-#include "CMarioState.h"
+#include "MarioState.h"
 
-class CMarioFloatState : public CMarioState
+class CMarioFlyState : public CMarioState
 {
 public:
-    MarioStateID GetID() override { return MarioStateID::Float; }
+    MarioStateID GetID() override { return MarioStateID::Fly; }
     void Enter(CMario* mario) override;
     void Exit(CMario* mario) override;
     void Update(CMario* mario, DWORD dt) override;

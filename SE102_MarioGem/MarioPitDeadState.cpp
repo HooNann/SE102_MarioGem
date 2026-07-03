@@ -1,4 +1,4 @@
-#include "CMarioPitDeadState.h"
+#include "MarioPitDeadState.h"
 #include "Mario.h"
 
 void CMarioPitDeadState::Enter(CMario* mario)

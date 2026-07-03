@@ -1,4 +1,4 @@
-#include "CMarioDuckState.h"
+#include "MarioDuckState.h"
 #include "Mario.h"
 
 void CMarioDuckState::Enter(CMario* mario)

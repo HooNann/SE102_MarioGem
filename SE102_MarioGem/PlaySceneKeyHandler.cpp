@@ -5,17 +5,17 @@
 
 #include "Mario.h"
 #include "PlayScene.h"
-#include "CMarioIdleState.h"
-#include "CMarioWalkState.h"
-#include "CMarioRunState.h"
-#include "CMarioJumpState.h"
-#include "CMarioFallState.h"
-#include "CMarioDuckState.h"
-#include "CMarioDeadState.h"
-#include "CMarioSkidState.h"
-#include "CMarioFlyState.h"
-#include "CMarioFloatState.h"
-#include "CMarioPipeState.h"
+#include "MarioIdleState.h"
+#include "MarioWalkState.h"
+#include "MarioRunState.h"
+#include "MarioJumpState.h"
+#include "MarioFallState.h"
+#include "MarioDuckState.h"
+#include "MarioDeadState.h"
+#include "MarioSkidState.h"
+#include "MarioFlyState.h"
+#include "MarioFloatState.h"
+#include "MarioPipeState.h"
 #include "Pipe.h"
 #include "SoundEvents.h"
 #include "SoundSubject.h"
@@ -26,7 +26,9 @@ void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
 	CPlayScene* scene = (CPlayScene*)CGame::GetInstance()->GetCurrentScene();
 	if (scene->IsCourseClear()) return;
 
-	CMario* mario = (CMario*)scene->GetPlayer(); 
+	CMario* mario = (CMario*)scene->GetPlayer();
+
+	if (mario == NULL) return;
 
     if (mario->currentState && mario->currentState->GetID() == MarioStateID::Dead) return;
     if (mario->currentState && mario->currentState->GetID() == MarioStateID::Pipe) return;
@@ -120,6 +122,8 @@ void CPlaySceneKeyHandler::OnKeyUp(int KeyCode)
 
 	CMario* mario = (CMario*)scene->GetPlayer();
 
+	if (mario == NULL) return;
+
     if (mario->currentState && mario->currentState->GetID() == MarioStateID::Dead) return;
     if (mario->currentState && mario->currentState->GetID() == MarioStateID::Pipe) return;
 
@@ -153,6 +157,8 @@ void CPlaySceneKeyHandler::KeyState(BYTE *states)
 
 	LPGAME game = CGame::GetInstance();
 	CMario* mario = (CMario*)scene->GetPlayer();
+
+	if (mario == NULL) return;
 
     if (mario->currentState && mario->currentState->GetID() == MarioStateID::Duck)
         return;

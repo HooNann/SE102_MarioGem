@@ -9,6 +9,7 @@
 #include "PlayScene.h"
 #include "WorldMapScene.h"
 #include "SoundTestScene.h"
+#include "IntroScene.h"
 #include "SoundManager.h"
 #include "AssetIDs.h"
 
@@ -199,6 +200,11 @@ void CGame::EndViewportClip()
 */
 void CGame::Draw(float x, float y, LPTEXTURE tex, RECT* rect, float alpha, int sprite_width, int sprite_height, int nx, int ny)
 {
+	Draw(x, y, tex, rect, D3DXCOLOR(1.0f, 1.0f, 1.0f, alpha), sprite_width, sprite_height, nx, ny);
+}
+
+void CGame::Draw(float x, float y, LPTEXTURE tex, RECT* rect, D3DXCOLOR color, int sprite_width, int sprite_height, int nx, int ny)
+{
 	if (tex == NULL) return;
 
 	x = (float)floor(x);
@@ -240,9 +246,7 @@ void CGame::Draw(float x, float y, LPTEXTURE tex, RECT* rect, float alpha, int s
 	// Set the texture index. Single textures will use 0
 	sprite.TextureIndex = 0;
 
-	// The color to apply to this sprite, full color applies white.
-	//sprite.ColorModulate = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-	sprite.ColorModulate = D3DXCOLOR(1.0f, 1.0f, 1.0f, alpha);
+	sprite.ColorModulate = color;
 
 
 	//
@@ -523,6 +527,9 @@ void CGame::_ParseSection_SCENES(string line)
 		break;
 	case (int)SceneType::SoundTestScene:
 		scene = new CSoundTestScene(id, path);
+		break;
+	case (int)SceneType::IntroScene:
+		scene = new CIntroScene(id, path);
 		break;
 	default:
 		DebugOut(L"[ERROR] Unknown scene type: %d\n", type);

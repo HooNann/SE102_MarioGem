@@ -11,8 +11,8 @@
 #include "Pipe.h"
 #include "Coin.h"
 #include "Platform.h"
-#include "CMarioState.h"
-#include "CMarioPitDeadState.h"
+#include "MarioState.h"
+#include "MarioPitDeadState.h"
 
 #include "PlaySceneKeyHandler.h"
 

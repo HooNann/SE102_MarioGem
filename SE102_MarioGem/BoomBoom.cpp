@@ -4,7 +4,7 @@
 #include <math.h>
 #include "PlayScene.h"
 #include "BossExplosion.h"
-#include "CMarioDeadState.h"
+#include "MarioDeadState.h"
 
 #define ID_ANI_BOOMBOOM_WALKING 36000
 #define ID_ANI_BOOMBOOM_HIDING 36004

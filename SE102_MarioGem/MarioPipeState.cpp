@@ -1,7 +1,7 @@
-#include "CMarioPipeState.h"
+#include "MarioPipeState.h"
 
 #include "Game.h"
-#include "CMarioIdleState.h"
+#include "MarioIdleState.h"
 #include "Mario.h"
 #include "SoundEvents.h"
 #include "SoundSubject.h"

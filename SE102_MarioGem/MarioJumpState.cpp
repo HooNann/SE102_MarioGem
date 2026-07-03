@@ -1,7 +1,7 @@
-#include "CMarioJumpState.h"
+#include "MarioJumpState.h"
 #include "Mario.h"
 #include <math.h>
-#include "CMarioFallState.h"
+#include "MarioFallState.h"
 #include "SoundEvents.h"
 #include "SoundSubject.h"
 
