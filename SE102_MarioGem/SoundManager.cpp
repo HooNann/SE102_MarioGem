@@ -18,6 +18,7 @@ CSoundManager::CSoundManager()
 	currentMusic = NULL;
 	currentMusicId = -1;
 	masterVolume = 1.0f;
+	nextTrackId = 1;
 
 	engine = new ma_engine();
 
@@ -53,6 +54,57 @@ void CSoundManager::PlaySfx(int soundId)
 	}
 
 	ma_engine_play_sound(engine, it->second.c_str(), NULL);
+}
+
+size_t CSoundManager::PlayTrackedSfx(int soundId)
+{
+	if (engine == NULL) return 0;
+
+	auto it = sounds.find(soundId);
+	if (it == sounds.end())
+	{
+		DebugOut(L"[ERROR] Sound Id %d not found\n", soundId);
+		return 0;
+	}
+
+	ma_sound* s = new ma_sound();
+	ma_result result = ma_sound_init_from_file(engine, it->second.c_str(), 0, NULL, NULL, s);
+	if (result != MA_SUCCESS)
+	{
+		delete s;
+		return 0;
+	}
+	
+	ma_sound_start(s);
+	
+	size_t id = nextTrackId++;
+	trackedSounds[id] = { s };
+	return id;
+}
+
+bool CSoundManager::IsPlaying(size_t trackId)
+{
+	auto it = trackedSounds.find(trackId);
+	if (it == trackedSounds.end()) return false;
+	
+	return !ma_sound_at_end(it->second.sound);
+}
+
+void CSoundManager::Update()
+{
+	for (auto it = trackedSounds.begin(); it != trackedSounds.end(); )
+	{
+		if (ma_sound_at_end(it->second.sound))
+		{
+			ma_sound_uninit(it->second.sound);
+			delete it->second.sound;
+			it = trackedSounds.erase(it);
+		}
+		else
+		{
+			++it;
+		}
+	}
 }
 
 void CSoundManager::PlayMusic(int soundId)
@@ -150,6 +202,15 @@ void CSoundManager::OnSoundEvent(int eventId)
 void CSoundManager::Shutdown()
 {
 	StopMusic();
+	
+	for (auto& pair : trackedSounds)
+	{
+		ma_sound_stop(pair.second.sound);
+		ma_sound_uninit(pair.second.sound);
+		delete pair.second.sound;
+	}
+	trackedSounds.clear();
+
 	if (engine != NULL)
 	{
 		ma_engine_uninit(engine);

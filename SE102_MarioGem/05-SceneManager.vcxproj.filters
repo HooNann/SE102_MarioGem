@@ -84,6 +84,12 @@
     <ClCompile Include="Game.cpp">
       <Filter>Framework\Core</Filter>
     </ClCompile>
+    <ClCompile Include="EventManager.cpp">
+      <Filter>Framework\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEvent.cpp">
+      <Filter>Framework\Core</Filter>
+    </ClCompile>
     <ClCompile Include="GameData.cpp">
       <Filter>Framework\Core</Filter>
     </ClCompile>
@@ -273,6 +279,12 @@
       <Filter>Framework</Filter>
     </ClInclude>
     <ClInclude Include="Game.h">
+      <Filter>Framework\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EventManager.h">
+      <Filter>Framework\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEvent.h">
       <Filter>Framework\Core</Filter>
     </ClInclude>
     <ClInclude Include="Hud.h">

@@ -20,6 +20,7 @@
 #include "Camera.h"
 #include "SoundEvents.h"
 #include "SoundSubject.h"
+#include "EventManager.h"
 
 using namespace std;
 
@@ -567,6 +568,7 @@ CPipe* CPlayScene::GetOverlappingPipe(CMario* mario, PipeDirection entryDirectio
 
 void CPlayScene::Update(DWORD dt)
 {
+	CEventManager::GetInstance()->Update(dt);
 	ConfigurePlaySceneCamera();
 
 	CCamera* camera = CCamera::GetInstance();
@@ -784,6 +786,8 @@ void CPlayScene::Clear()
 */
 void CPlayScene::Unload()
 {
+	CEventManager::GetInstance()->Clear();
+
 	for (int i = 0; i < objects.size(); i++)
 		delete objects[i];
 
