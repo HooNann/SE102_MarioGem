@@ -181,9 +181,11 @@
     <ClCompile Include="CMarioJumpState.cpp" />
     <ClCompile Include="CMarioFallState.cpp" />
     <ClCompile Include="CMarioDuckState.cpp" />
+    <ClCompile Include="CMarioPipeState.cpp" />
     <ClCompile Include="CMarioDeadState.cpp" />
     <ClCompile Include="ObjectFactory.cpp" />
     <ClCompile Include="Platform.cpp" />
+    <ClCompile Include="Pipe.cpp" />
     <ClCompile Include="PlayScene.cpp" />
     <ClCompile Include="Portal.cpp" />
     <ClCompile Include="PlaySceneKeyHandler.cpp" />
@@ -244,9 +246,11 @@
     <ClInclude Include="CMarioJumpState.h" />
     <ClInclude Include="CMarioFallState.h" />
     <ClInclude Include="CMarioDuckState.h" />
+    <ClInclude Include="CMarioPipeState.h" />
     <ClInclude Include="CMarioDeadState.h" />
     <ClInclude Include="ObjectFactory.h" />
     <ClInclude Include="Platform.h" />
+    <ClInclude Include="Pipe.h" />
     <ClInclude Include="PlayScene.h" />
     <ClInclude Include="Portal.h" />
     <ClInclude Include="PlaySceneKeyHandler.h" />

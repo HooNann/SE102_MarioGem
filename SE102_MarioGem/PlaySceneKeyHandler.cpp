@@ -15,6 +15,8 @@
 #include "CMarioSkidState.h"
 #include "CMarioFlyState.h"
 #include "CMarioFloatState.h"
+#include "CMarioPipeState.h"
+#include "Pipe.h"
 
 void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
 {
@@ -25,12 +27,19 @@ void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
 	CMario* mario = (CMario*)scene->GetPlayer(); 
 
     if (mario->currentState && mario->currentState->GetID() == MarioStateID::Dead) return;
+    if (mario->currentState && mario->currentState->GetID() == MarioStateID::Pipe) return;
 
 	switch (KeyCode)
 	{
 	case DIK_DOWN:
-		mario->ChangeState(new CMarioDuckState());
+	{
+		CPipe* pipe = scene->GetOverlappingPipe(mario);
+		if (pipe != nullptr)
+			mario->ChangeState(new CMarioPipeState(pipe));
+		else
+			mario->ChangeState(new CMarioDuckState());
 		break;
+	}
 	case DIK_Z:
 		if (!mario->IsOnPlatform())
 		{
@@ -108,6 +117,7 @@ void CPlaySceneKeyHandler::OnKeyUp(int KeyCode)
 	CMario* mario = (CMario*)scene->GetPlayer();
 
     if (mario->currentState && mario->currentState->GetID() == MarioStateID::Dead) return;
+    if (mario->currentState && mario->currentState->GetID() == MarioStateID::Pipe) return;
 
 	switch (KeyCode)
 	{
@@ -144,6 +154,9 @@ void CPlaySceneKeyHandler::KeyState(BYTE *states)
         return;
     
     if (mario->currentState && mario->currentState->GetID() == MarioStateID::Dead)
+        return;
+
+    if (mario->currentState && mario->currentState->GetID() == MarioStateID::Pipe)
         return;
 
     MarioStateID curID = mario->currentState ? mario->currentState->GetID() : MarioStateID::Idle;

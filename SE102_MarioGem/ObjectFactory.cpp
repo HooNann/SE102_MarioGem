@@ -12,6 +12,7 @@
 #include "MapNode.h"
 #include "MapObject.h"
 #include "Mario.h"
+#include "Pipe.h"
 #include "Platform.h"
 #include "Portal.h"
 #include "QuestionBlock.h"
@@ -52,6 +53,9 @@ LPGAMEOBJECT ObjectFactory::Create(ObjectType type,
 
 	case ObjectType::Portal:
 		return CPortal::CreateFromTokens(tokens);
+
+	case ObjectType::Pipe:
+		return CPipe::CreateFromTokens(tokens);
 
 	case ObjectType::Burner:
 		return CBurner::CreateFromTokens(tokens);
@@ -147,6 +151,8 @@ LPGAMEOBJECT ObjectFactory::CreateFromJSON(const json& obj) {
 			objectType = ObjectType::Platform;
 		else if (typeStr == "Portal")
 			objectType = ObjectType::Portal;
+		else if (typeStr == "Pipe")
+			objectType = ObjectType::Pipe;
 		else if (typeStr == "CollisionBox")
 			objectType = ObjectType::CollisionBox;
 		else if (typeStr == "Burner")
@@ -193,6 +199,16 @@ LPGAMEOBJECT ObjectFactory::CreateFromJSON(const json& obj) {
 		// Portal cần thêm scene_id từ Custom Properties trong Tiled
 		int sceneId = GetIntProperty(obj, "target_scene_id", 1);
 		return new CPortal(x, y, x + w, y + h, sceneId);
+	}
+
+	case ObjectType::Pipe: {
+		float targetX = GetFloatProperty(obj, "target_x", x + w / 2.0f);
+		float targetY = GetFloatProperty(obj, "target_y", y);
+		string entryDirection = GetStringProperty(obj, "entry_direction", "down");
+		string exitDirection = GetStringProperty(obj, "exit_direction", "up");
+		return new CPipe(x, y, x + w, y + h, targetX, targetY,
+			CPipe::ParseDirection(entryDirection),
+			CPipe::ParseDirection(exitDirection));
 	}
 
 	case ObjectType::CollisionBox: {
