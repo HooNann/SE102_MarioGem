@@ -11,6 +11,8 @@
 #include "Pipe.h"
 #include "Coin.h"
 #include "Platform.h"
+#include "CMarioState.h"
+#include "CMarioPitDeadState.h"
 
 #include "PlaySceneKeyHandler.h"
 
@@ -22,6 +24,9 @@ using namespace std;
 namespace
 {
 	constexpr float HUD_RESERVED_HEIGHT = 32.0f;
+	constexpr int WORLD_MAP_SCENE_ID = 100;
+	constexpr ULONGLONG COURSE_CLEAR_DURATION_MS = 4000;
+	constexpr ULONGLONG DEATH_RETURN_DELAY_MS = 2000;
 
 	void ConfigurePlaySceneCamera()
 	{
@@ -31,6 +36,11 @@ namespace
 			cameraHeight = (float)game->GetBackBufferHeight();
 
 		CCamera::GetInstance()->SetSize((float)game->GetBackBufferWidth(), cameraHeight);
+	}
+
+	bool IsPointInRect(float x, float y, float l, float t, float r, float b)
+	{
+		return x >= l && x <= r && y >= t && y <= b;
 	}
 }
 
@@ -47,10 +57,14 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 
 	map_width = 0.0f;
 	map_height = 0.0f;
+	activeCameraZoneIndex = -1;
 
 	isCourseClear = false;
 	courseClearStartTime = 0;
 	courseClearReward = 0;
+	isDeathTransitioning = false;
+	isDeathResolved = false;
+	deathStartTime = 0;
 
 	isCameraBlockingLeftEdge = true;
 	isCameraBlockingRightEdge = false;
@@ -313,6 +327,14 @@ void CPlayScene::Load()
 {
 	DebugOut(L"[INFO] Start loading scene from : %s \n", sceneFilePath);
 
+	isCourseClear = false;
+	courseClearStartTime = 0;
+	courseClearReward = 0;
+	isDeathTransitioning = false;
+	isDeathResolved = false;
+	deathStartTime = 0;
+	activeCameraZoneIndex = -1;
+
 	// Reset camera bounds to 0,0 in case this scene doesn't have a map
 	ConfigurePlaySceneCamera();
 	CCamera::GetInstance()->SetCameraBounds(0.0f, 0.0f, 0.0f, 0.0f);
@@ -380,6 +402,8 @@ void CPlayScene::LoadMapJSON(LPCWSTR jsonPath)
 	map_height = (float)map->GetHeight() * map->GetTileHeight();
 	
 	cameraZones.clear();
+	activeCameraZoneIndex = -1;
+	deadZones.clear();
 	CCamera::GetInstance()->SetCameraBounds(0, 0, map_width, map_height);
 
 	ifstream f(jsonPath);
@@ -422,13 +446,23 @@ void CPlayScene::LoadMapJSON(LPCWSTR jsonPath)
 				continue; // Không tạo thành GameObject
 			}
 
+			if (typeStr == "DeadZone" || typeStr == "DeathZone") {
+				DeadZone z;
+				z.l = obj.value("x", 0.0f);
+				z.t = obj.value("y", 0.0f);
+				z.r = z.l + w;
+				z.b = z.t + h;
+				deadZones.push_back(z);
+				continue; // Không tạo thành GameObject
+			}
+
 			if ((typeStr == "QuestionBlock" || typeStr == "Brick" || typeStr == "Coin") && w > 0 && h > 0) 
 			{
 				float startX = obj.value("x", 0.0f);
 				float startY = obj.value("y", 0.0f);
 
-				int cols = round(w / 16.0f);
-				int rows = round(h / 16.0f);
+				int cols = static_cast<int>(round(w / 16.0f));
+				int rows = static_cast<int>(round(h / 16.0f));
 				if (cols < 1) cols = 1;
 				if (rows < 1) rows = 1;
 
@@ -564,20 +598,57 @@ void CPlayScene::Update(DWORD dt)
 	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
 	if (player == NULL) return; 
 
-	// Update camera bounds if player is inside a CameraZone
-	bool inZone = false;
+	CMario* mario = dynamic_cast<CMario*>(player);
+	if (!isCourseClear && mario != NULL && mario->currentState != NULL && mario->currentState->GetID() != MarioStateID::Dead)
+	{
+		float ml, mt, mr, mb;
+		mario->GetBoundingBox(ml, mt, mr, mb);
+		float footX = (ml + mr) / 2.0f;
+		float footY = mb;
+
+		for (auto& z : deadZones)
+		{
+			if (IsPointInRect(footX, footY, z.l, z.t, z.r, z.b))
+			{
+				mario->ChangeState(new CMarioPitDeadState());
+				break;
+			}
+		}
+	}
+
+	if (!isCourseClear && mario != NULL && mario->currentState != NULL && mario->currentState->GetID() == MarioStateID::Dead)
+	{
+		if (!isDeathTransitioning)
+		{
+			isDeathTransitioning = true;
+			deathStartTime = GetTickCount64();
+		}
+
+		if (!isDeathResolved && GetTickCount64() - deathStartTime > DEATH_RETURN_DELAY_MS)
+		{
+			isDeathResolved = true;
+			CGameData::GetInstance()->AddLife(-1);
+			CGame::GetInstance()->InitiateSwitchScene(WORLD_MAP_SCENE_ID);
+		}
+	}
+
+	// Update active camera zone, but keep the last zone when Mario leaves it.
 	float px, py;
 	player->GetPosition(px, py);
 	
-	for (auto& z : cameraZones) {
+	for (int i = 0; i < (int)cameraZones.size(); i++) {
+		CameraZone& z = cameraZones[i];
 		if (px >= z.l && px <= z.r && py >= z.t && py <= z.b) {
-			camera->SetCameraBounds(z.l, z.t, z.r, z.b);
-			inZone = true;
+			activeCameraZoneIndex = i;
 			break;
 		}
 	}
 	
-	if (!inZone) {
+	if (activeCameraZoneIndex >= 0 && activeCameraZoneIndex < (int)cameraZones.size()) {
+		CameraZone& z = cameraZones[activeCameraZoneIndex];
+		camera->SetCameraBounds(z.l, z.t, z.r, z.b);
+	}
+	else {
 		camera->SetCameraBounds(0, 0, map_width, map_height);
 	}
 
@@ -608,10 +679,10 @@ void CPlayScene::Update(DWORD dt)
 			}
 		}
 
-		if (GetTickCount64() - courseClearStartTime > 4000)
+		if (GetTickCount64() - courseClearStartTime > COURSE_CLEAR_DURATION_MS)
 		{
 			CGameData::GetInstance()->MarkSceneCleared(id);
-			CGame::GetInstance()->InitiateSwitchScene(1); // Return to World Map
+			CGame::GetInstance()->InitiateSwitchScene(WORLD_MAP_SCENE_ID);
 		}
 	}
 

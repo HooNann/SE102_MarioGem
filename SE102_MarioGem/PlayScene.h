@@ -29,6 +29,13 @@ protected:
 		float l, t, r, b;
 	};
 	vector<CameraZone> cameraZones;
+	int activeCameraZoneIndex;
+
+	struct DeadZone {
+		float l, t, r, b;
+	};
+	vector<DeadZone> deadZones;
+
 	float map_width, map_height;
 
 	CHud* hud;
@@ -38,6 +45,9 @@ protected:
 	bool isCourseClear;
 	ULONGLONG courseClearStartTime;
 	int courseClearReward; // ItemType cast to int
+	bool isDeathTransitioning;
+	bool isDeathResolved;
+	ULONGLONG deathStartTime;
 
 	bool isCameraBlockingLeftEdge;
 	bool isCameraBlockingRightEdge;

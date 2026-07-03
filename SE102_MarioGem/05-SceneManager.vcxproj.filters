@@ -153,6 +153,9 @@
     <ClCompile Include="CMarioDeadState.cpp">
       <Filter>Game\Objects\Player</Filter>
     </ClCompile>
+    <ClCompile Include="CMarioPitDeadState.cpp">
+      <Filter>Game\Objects\Player</Filter>
+    </ClCompile>
     <ClCompile Include="Goomba.cpp">
       <Filter>Game\Objects\Enemies</Filter>
     </ClCompile>
@@ -363,6 +366,9 @@
       <Filter>Game\Objects\Player</Filter>
     </ClInclude>
     <ClInclude Include="CMarioDeadState.h">
+      <Filter>Game\Objects\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="CMarioPitDeadState.h">
       <Filter>Game\Objects\Player</Filter>
     </ClInclude>
     <ClInclude Include="Goomba.h">
