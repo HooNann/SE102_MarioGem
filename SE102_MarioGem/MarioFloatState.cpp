@@ -1,6 +1,8 @@
-#include "CMarioFloatState.h"
-#include "CMarioFallState.h"
+#include "MarioFloatState.h"
+#include "MarioFallState.h"
 #include "Mario.h"
+#include "SoundEvents.h"
+#include "SoundSubject.h"
 
 void CMarioFloatState::Enter(CMario* mario)
 {
@@ -8,6 +10,7 @@ void CMarioFloatState::Enter(CMario* mario)
     mario->StartFlapping();
     mario->SetVelocityY(MARIO_FLOAT_SPEED_Y);
     mario->SetAccelerationY(0); // Chuyển động đều
+    CSoundSubject::GetInstance()->Notify(EVENT_TWIRL);
 }
 
 void CMarioFloatState::Exit(CMario* mario)

@@ -18,6 +18,13 @@
 #define EVENT_MUSIC_STOP      16
 #define EVENT_VOLUME_UP       17
 #define EVENT_VOLUME_DOWN     18
+#define EVENT_MUSIC_FORTRESS  19
+#define EVENT_BREAK           20
+#define EVENT_TANOOKI         21
+#define EVENT_TWIRL           22
+#define EVENT_CANNON          23
+#define EVENT_PLAYER_DOWN     24
+#define EVENT_MAP_MOVE        25
 
 #define SND_JUMP           40
 #define SND_COIN           54
@@ -38,6 +45,7 @@
 #define SND_TWIRL          55
 #define SND_CANNON         51
 #define SND_VICTORY        30
+#define SND_MAP_MOVE       37
 
 #define MUS_WORLDMAP       1
 #define MUS_OVERWORLD      9

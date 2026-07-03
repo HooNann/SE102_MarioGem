@@ -1,6 +1,6 @@
-#include "CMarioSkidState.h"
-#include "CMarioWalkState.h"
-#include "CMarioIdleState.h"
+#include "MarioSkidState.h"
+#include "MarioWalkState.h"
+#include "MarioIdleState.h"
 #include "Mario.h"
 
 void CMarioSkidState::Enter(CMario* mario)

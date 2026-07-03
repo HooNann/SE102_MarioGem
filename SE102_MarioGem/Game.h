@@ -13,6 +13,7 @@ using namespace std;
 #include "Texture.h"
 #include "KeyEventHandler.h"
 #include "Scene.h"
+#include "ScreenTransition.h"
 
 #define MAX_FRAME_RATE 60
 #define KEYBOARD_BUFFER_SIZE 1024
@@ -56,6 +57,7 @@ class CGame
 	unordered_map<int, LPSCENE> scenes;
 	int current_scene = -1;
 	int next_scene = -1;
+	CScreenTransition transition;
 
 	void _ParseSection_SETTINGS(string line);
 	void _ParseSection_SCENES(string line);
@@ -108,6 +110,24 @@ public:
 
 	void BeginViewportClip(int reservedBottom);
 	void EndViewportClip();
+
+	void StartFadeIn(DWORD durationMs = TRANSITION_FADE_IN_DURATION_MS, bool blockInput = true, std::function<void()> onFinished = nullptr)
+	{
+		transition.StartFadeIn(durationMs, blockInput, onFinished);
+	}
+	void StartFadeOut(DWORD durationMs = TRANSITION_FADE_OUT_DURATION_MS, bool blockInput = true, std::function<void()> onFinished = nullptr)
+	{
+		transition.StartFadeOut(durationMs, blockInput, onFinished);
+	}
+	void StartIrisClose(bool blockInput = true, std::function<void()> onFinished = nullptr)
+	{
+		transition.StartIrisClose(blockInput, onFinished);
+	}
+	void UpdateTransition(DWORD dt) { transition.Update(dt); }
+	void CompleteTransitionIfReady() { transition.CompleteIfReady(); }
+	void RenderTransition() { transition.Render(); }
+	bool IsTransitionActive() { return transition.IsActive(); }
+	bool IsTransitionBlockingInput() { return transition.IsBlockingInput(); }
 
 	LPSCENE GetCurrentScene() { return scenes[current_scene]; }
 	void Load(LPCWSTR gameFile);

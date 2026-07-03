@@ -1,4 +1,4 @@
-#include "CMarioIdleState.h"
+#include "MarioIdleState.h"
 #include "Mario.h"
 
 #include <math.h>

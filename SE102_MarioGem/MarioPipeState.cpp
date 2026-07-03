@@ -1,6 +1,7 @@
-#include "CMarioPipeState.h"
+#include "MarioPipeState.h"
 
-#include "CMarioIdleState.h"
+#include "Game.h"
+#include "MarioIdleState.h"
 #include "Mario.h"
 #include "SoundEvents.h"
 #include "SoundSubject.h"
@@ -10,6 +11,7 @@ CMarioPipeState::CMarioPipeState(CPipe* pipe)
 	this->pipe = pipe;
 	phaseStartTime = 0;
 	exiting = false;
+	waitingForTransition = false;
 	phaseStartX = 0.0f;
 	phaseStartY = 0.0f;
 	phaseEndX = 0.0f;
@@ -114,6 +116,8 @@ void CMarioPipeState::Update(CMario* mario, DWORD dt)
 	mario->SetAccelerationX(0.0f);
 	mario->SetAccelerationY(0.0f);
 
+	if (waitingForTransition) return;
+
 	DWORD phaseTime = exiting ? MARIO_PIPE_EXIT_TIME : MARIO_PIPE_ENTER_TIME;
 	float progress = (float)(GetTickCount64() - phaseStartTime) / (float)phaseTime;
 	if (progress > 1.0f) progress = 1.0f;
@@ -126,7 +130,12 @@ void CMarioPipeState::Update(CMario* mario, DWORD dt)
 
 	if (!exiting)
 	{
-		StartExitPhase(mario);
+		waitingForTransition = true;
+		CGame::GetInstance()->StartFadeOut(TRANSITION_FADE_OUT_DURATION_MS, true, [this, mario]() {
+			StartExitPhase(mario);
+			waitingForTransition = false;
+			CGame::GetInstance()->StartFadeIn(TRANSITION_FADE_IN_DURATION_MS, true);
+		});
 	}
 	else
 	{

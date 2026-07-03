@@ -1,4 +1,4 @@
-#include "CItem.h"
+#include "Item.h"
 
 CItem::CItem(float x, float y, int type) : CGameObject(x, y)
 {

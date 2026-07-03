@@ -1,5 +1,5 @@
 #pragma once
-#include "CMarioState.h"
+#include "MarioState.h"
 
 class CMarioDuckState : public CMarioState
 {

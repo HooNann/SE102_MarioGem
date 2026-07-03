@@ -1,7 +1,9 @@
-#include "CMarioJumpState.h"
+#include "MarioJumpState.h"
 #include "Mario.h"
 #include <math.h>
-#include "CMarioFallState.h"
+#include "MarioFallState.h"
+#include "SoundEvents.h"
+#include "SoundSubject.h"
 
 void CMarioJumpState::Enter(CMario* mario)
 {
@@ -16,6 +18,7 @@ void CMarioJumpState::Enter(CMario* mario)
         
         mario->SetOnPlatform(false);
         mario->SetAccelerationY(MARIO_GRAVITY_JUMP); // Trọng lực thấp khi giữ phím Z
+        CSoundSubject::GetInstance()->Notify(EVENT_JUMP);
     }
 }
 
@@ -59,6 +62,7 @@ void CMarioJumpState::OnCollisionWith(CMario* mario, LPCOLLISIONEVENT e)
             {
                 goomba->SetState(GoombaState::Die);
                 mario->SetVelocityY(-MARIO_JUMP_DEFLECT_SPEED);
+                CSoundSubject::GetInstance()->Notify(EVENT_STOMP);
                 return;
             }
         }

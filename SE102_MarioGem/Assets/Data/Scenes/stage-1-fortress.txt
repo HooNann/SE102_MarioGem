@@ -6,6 +6,7 @@ Assets\Data\Graphics\boom_boom.txt
 Assets\Data\Graphics\boom_boom_platform.txt
 Assets\Data\Graphics\boss_explosion.txt
 Assets\Data\Graphics\new_mario.txt
+Assets\Data\Graphics\misc.txt
 
 [MAP]
 Assets\Data\Tiled\Scenes\stage-1-fortress.json

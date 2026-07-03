@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="176" height="40" tilewidth="16" tileheight="16" infinite="0" nextlayerid="10" nextobjectid="113">
+<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="176" height="40" tilewidth="16" tileheight="16" infinite="0" nextlayerid="11" nextobjectid="115">
  <editorsettings>
   <export target="stage-1-1.json" format="json"/>
  </editorsettings>
@@ -79,7 +79,7 @@
   <object id="108" name="CollisionBox" type="CollisionBox" x="2320" y="432" width="32" height="32"/>
  </objectgroup>
  <objectgroup id="8" name="CameraZone">
-  <object id="50" type="CameraZone" x="-1.09091" y="0" width="2816" height="432"/>
+  <object id="50" type="CameraZone" x="0" y="0" width="2816" height="432"/>
   <object id="110" type="CameraZone" x="1968" y="432" width="512" height="176"/>
  </objectgroup>
  <objectgroup id="7" name="Platform" visible="0">
@@ -98,15 +98,6 @@
  </objectgroup>
  <objectgroup id="6" name="Objects">
   <object id="20" name="Mario" type="Mario" x="80" y="352">
-   <point/>
-  </object>
-  <object id="33" name="Coin" type="Coin" x="160" y="384">
-   <point/>
-  </object>
-  <object id="34" name="Coin" type="Coin" x="176" y="384">
-   <point/>
-  </object>
-  <object id="35" name="Coin" type="Coin" x="192" y="384">
    <point/>
   </object>
   <object id="53" name="Portal" type="Portal" x="544" y="272" width="16" height="32">
@@ -167,6 +158,10 @@
     <property name="target_y" type="float" value="374"/>
    </properties>
   </object>
+  <object id="113" name="Coin" type="Coin" x="336" y="304" width="112" height="16"/>
+ </objectgroup>
+ <objectgroup id="10" name="DeadZone">
+  <object id="114" type="DeadZone" x="1088" y="432" width="64" height="16"/>
  </objectgroup>
  <layer id="9" name="Foreground" width="176" height="40">
   <data encoding="csv">

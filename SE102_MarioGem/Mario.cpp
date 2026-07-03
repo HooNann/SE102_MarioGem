@@ -4,13 +4,13 @@
 #include "Mario.h"
 #include "QuestionBlock.h"
 #include "Game.h"
-#include "CMarioIdleState.h"
-#include "CMarioWalkState.h"
-#include "CMarioRunState.h"
-#include "CMarioJumpState.h"
-#include "CMarioFallState.h"
-#include "CMarioDuckState.h"
-#include "CMarioDeadState.h"
+#include "MarioIdleState.h"
+#include "MarioWalkState.h"
+#include "MarioRunState.h"
+#include "MarioJumpState.h"
+#include "MarioFallState.h"
+#include "MarioDuckState.h"
+#include "MarioDeadState.h"
 #include "PlayScene.h"
 #include "Camera.h"
 
@@ -20,11 +20,13 @@
 #include "Burner.h"
 #include "Blaster.h"
 #include "CannonBall.h"
-#include "CItem.h"
+#include "Item.h"
 
 #include "Collision.h"
 #include "FireBall.h"
 #include	"PlayScene.h"
+#include "SoundEvents.h"
+#include "SoundSubject.h"
 
 namespace
 {
@@ -102,7 +104,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	}
 }
 
-#include "CMarioFallState.h"
+#include "MarioFallState.h"
 
 void CMario::OnNoCollision(DWORD dt)
 {
@@ -156,6 +158,7 @@ void CMario::ShootFireBall()
 
 	CPlayScene* currentScene = (CPlayScene*)CGame::GetInstance()->GetCurrentScene();
 	currentScene->AddObject(fireball);
+	CSoundSubject::GetInstance()->Notify(EVENT_FIREBALL);
 }
 
 void CMario::UpdateThrowingFireTime(DWORD dt)

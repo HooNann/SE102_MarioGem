@@ -1,6 +1,8 @@
-#include "CMarioFlyState.h"
-#include "CMarioFallState.h"
+#include "MarioFlyState.h"
+#include "MarioFallState.h"
 #include "Mario.h"
+#include "SoundEvents.h"
+#include "SoundSubject.h"
 
 void CMarioFlyState::Enter(CMario* mario)
 {
@@ -9,6 +11,7 @@ void CMarioFlyState::Enter(CMario* mario)
     mario->SetVelocityY(-MARIO_FLY_SPEED_Y);
     mario->SetOnPlatform(false);
     mario->SetAccelerationY(0);
+    CSoundSubject::GetInstance()->Notify(EVENT_TWIRL);
 }
 
 void CMarioFlyState::Exit(CMario* mario)

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "CMarioState.h"
+#include "MarioState.h"
 #include "Pipe.h"
 
 constexpr DWORD MARIO_PIPE_ENTER_TIME = 1000;
@@ -12,6 +12,7 @@ class CMarioPipeState : public CMarioState
 	CPipe* pipe;
 	ULONGLONG phaseStartTime;
 	bool exiting;
+	bool waitingForTransition;
 	float phaseStartX;
 	float phaseStartY;
 	float phaseEndX;

@@ -1,4 +1,4 @@
-#include "CMarioRunState.h"
+#include "MarioRunState.h"
 #include "Mario.h"
 
 void CMarioRunState::Enter(CMario* mario)

@@ -2,7 +2,7 @@
 #include <algorithm>
 #include "Mario.h"
 #include "AssetIDs.h"
-#include "CMarioState.h"
+#include "MarioState.h"
 
 CCamera *CCamera::__instance = NULL;
 

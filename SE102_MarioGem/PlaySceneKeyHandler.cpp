@@ -5,18 +5,20 @@
 
 #include "Mario.h"
 #include "PlayScene.h"
-#include "CMarioIdleState.h"
-#include "CMarioWalkState.h"
-#include "CMarioRunState.h"
-#include "CMarioJumpState.h"
-#include "CMarioFallState.h"
-#include "CMarioDuckState.h"
-#include "CMarioDeadState.h"
-#include "CMarioSkidState.h"
-#include "CMarioFlyState.h"
-#include "CMarioFloatState.h"
-#include "CMarioPipeState.h"
+#include "MarioIdleState.h"
+#include "MarioWalkState.h"
+#include "MarioRunState.h"
+#include "MarioJumpState.h"
+#include "MarioFallState.h"
+#include "MarioDuckState.h"
+#include "MarioDeadState.h"
+#include "MarioSkidState.h"
+#include "MarioFlyState.h"
+#include "MarioFloatState.h"
+#include "MarioPipeState.h"
 #include "Pipe.h"
+#include "SoundEvents.h"
+#include "SoundSubject.h"
 
 void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
 {
@@ -60,6 +62,7 @@ void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
                         mario->StartFlapping();
                         mario->SetVelocityY(-MARIO_FLY_SPEED_Y);
                         mario->SetAccelerationY(0);
+                        CSoundSubject::GetInstance()->Notify(EVENT_TWIRL);
                     }
                 }
 				else
@@ -76,6 +79,7 @@ void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
                             mario->StartFlapping();
                             mario->SetVelocityY(MARIO_FLOAT_SPEED_Y);
                             mario->SetAccelerationY(0);
+                            CSoundSubject::GetInstance()->Notify(EVENT_TWIRL);
                         }
                     }
                 }

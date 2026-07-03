@@ -1,6 +1,6 @@
 #include "QuestionBlock.h"
 #include "Animations.h"
-#include "CItem.h"
+#include "Item.h"
 #include "PlayScene.h"
 #include "Coin.h"
 

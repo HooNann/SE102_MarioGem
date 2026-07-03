@@ -390,7 +390,7 @@
                  "type":"CameraZone",
                  "visible":true,
                  "width":2816,
-                 "x":-1.09090909090907,
+                 "x":0,
                  "y":0
                 }, 
                 {
@@ -583,45 +583,6 @@
                  "width":0,
                  "x":80,
                  "y":352
-                }, 
-                {
-                 "height":0,
-                 "id":33,
-                 "name":"Coin",
-                 "opacity":1,
-                 "point":true,
-                 "rotation":0,
-                 "type":"Coin",
-                 "visible":true,
-                 "width":0,
-                 "x":160,
-                 "y":384
-                }, 
-                {
-                 "height":0,
-                 "id":34,
-                 "name":"Coin",
-                 "opacity":1,
-                 "point":true,
-                 "rotation":0,
-                 "type":"Coin",
-                 "visible":true,
-                 "width":0,
-                 "x":176,
-                 "y":384
-                }, 
-                {
-                 "height":0,
-                 "id":35,
-                 "name":"Coin",
-                 "opacity":1,
-                 "point":true,
-                 "rotation":0,
-                 "type":"Coin",
-                 "visible":true,
-                 "width":0,
-                 "x":192,
-                 "y":384
                 }, 
                 {
                  "height":32,
@@ -907,7 +868,7 @@
                  "y":128
                 }, 
                 {
-                 "height":2.90909090909088,
+                 "height":2.90909,
                  "id":93,
                  "name":"Pipe",
                  "opacity":1,
@@ -930,12 +891,12 @@
                  "rotation":0,
                  "type":"Pipe",
                  "visible":true,
-                 "width":2.54545454545467,
-                 "x":366.454545454545,
-                 "y":366.939393939394
+                 "width":2.54545,
+                 "x":366.455,
+                 "y":366.939
                 }, 
                 {
-                 "height":3.92094861660081,
+                 "height":3.92095,
                  "id":112,
                  "name":"Pipe",
                  "opacity":1,
@@ -963,9 +924,44 @@
                  "rotation":0,
                  "type":"Pipe",
                  "visible":true,
-                 "width":4.43478260869597,
-                 "x":2333.78260869565,
-                 "y":462.478260869565
+                 "width":4.43478,
+                 "x":2333.78,
+                 "y":462.478
+                }, 
+                {
+                 "height":16,
+                 "id":113,
+                 "name":"Coin",
+                 "opacity":1,
+                 "rotation":0,
+                 "type":"Coin",
+                 "visible":true,
+                 "width":112,
+                 "x":336,
+                 "y":304
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":10,
+         "name":"DeadZone",
+         "objects":[
+                {
+                 "height":16,
+                 "id":114,
+                 "name":"",
+                 "opacity":1,
+                 "rotation":0,
+                 "type":"DeadZone",
+                 "visible":true,
+                 "width":64,
+                 "x":1088,
+                 "y":432
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -1024,8 +1020,8 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":10,
- "nextobjectid":113,
+ "nextlayerid":11,
+ "nextobjectid":115,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.12.1",
