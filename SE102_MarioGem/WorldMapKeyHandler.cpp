@@ -3,6 +3,8 @@
 #include "MapMario.h"
 #include "Game.h"
 #include "debug.h"
+#include "SoundEvents.h"
+#include "SoundSubject.h"
 
 void CWorldMapKeyHandler::OnKeyDown(int KeyCode)
 {
@@ -18,19 +20,31 @@ void CWorldMapKeyHandler::OnKeyDown(int KeyCode)
 	{
 	case DIK_UP:
 		if (mario->currentNode->upNode != NULL)
+		{
+			CSoundSubject::GetInstance()->Notify(EVENT_MAP_MOVE);
 			mario->MoveToNode(mario->currentNode->upNode);
+		}
 		break;
 	case DIK_DOWN:
 		if (mario->currentNode->downNode != NULL)
+		{
+			CSoundSubject::GetInstance()->Notify(EVENT_MAP_MOVE);
 			mario->MoveToNode(mario->currentNode->downNode);
+		}
 		break;
 	case DIK_LEFT:
 		if (mario->currentNode->leftNode != NULL)
+		{
+			CSoundSubject::GetInstance()->Notify(EVENT_MAP_MOVE);
 			mario->MoveToNode(mario->currentNode->leftNode);
+		}
 		break;
 	case DIK_RIGHT:
 		if (mario->currentNode->rightNode != NULL)
+		{
+			CSoundSubject::GetInstance()->Notify(EVENT_MAP_MOVE);
 			mario->MoveToNode(mario->currentNode->rightNode);
+		}
 		break;
 	case DIK_Z:
 		if (mario->currentNode->sceneId != -1)

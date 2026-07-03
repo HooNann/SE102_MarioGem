@@ -13,6 +13,8 @@
 #include "Game.h"
 #include "GameData.h"
 #include "debug.h"
+#include "SoundEvents.h"
+#include "SoundSubject.h"
 
 using namespace std;
 using json = nlohmann::json;
@@ -279,6 +281,8 @@ void CWorldMapScene::Load()
 
 	if (hud != NULL) delete hud;
 	hud = new CHud();
+
+	CSoundSubject::GetInstance()->Notify(EVENT_MUSIC_WORLDMAP);
 
 	DebugOut(L"[INFO] Done loading WorldMapScene %s\n", sceneFilePath);
 }

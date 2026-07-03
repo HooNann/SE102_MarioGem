@@ -14,6 +14,7 @@ class CSoundManager : public ISoundObserver
 
 	ma_engine* engine;
 	ma_sound* currentMusic;
+	int currentMusicId;
 
 	std::unordered_map<int, std::string> sounds;
 

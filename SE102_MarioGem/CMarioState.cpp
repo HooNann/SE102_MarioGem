@@ -10,6 +10,8 @@
 #include "CannonBall.h"
 #include "CMarioDeadState.h"
 #include "QuestionBlock.h"
+#include "SoundEvents.h"
+#include "SoundSubject.h"
 
 void CMarioState::OnCollisionWith(CMario* mario, LPCOLLISIONEVENT e)
 {
@@ -23,6 +25,7 @@ void CMarioState::OnCollisionWith(CMario* mario, LPCOLLISIONEVENT e)
             if (block->GetState() != QUESTION_BLOCK_STATE_EMPTY)
             {
                 block->SetState(QUESTION_BLOCK_STATE_HIT);
+                CSoundSubject::GetInstance()->Notify(EVENT_BLOCK);
             }
             return;
         }
@@ -33,6 +36,7 @@ void CMarioState::OnCollisionWith(CMario* mario, LPCOLLISIONEVENT e)
         e->obj->Delete();
         CGameData::GetInstance()->AddCoin(1);
         CGameData::GetInstance()->AddScore(100);
+        CSoundSubject::GetInstance()->Notify(EVENT_COIN);
     }
     else if (dynamic_cast<CPortal*>(e->obj))
     {
@@ -49,9 +53,11 @@ void CMarioState::OnCollisionWith(CMario* mario, LPCOLLISIONEVENT e)
             {
             case ITEM_TYPE_FLOWER:
                 mario->SetLevel(MarioLevel::Fire);
+                CSoundSubject::GetInstance()->Notify(EVENT_POWERUP);
                 break;
             case ITEM_TYPE_LEAF:
                 mario->SetLevel(MarioLevel::Raccoon);
+                CSoundSubject::GetInstance()->Notify(EVENT_TANOOKI);
                 break;
             }
         }
@@ -77,11 +83,13 @@ void CMarioState::OnCollisionWith(CMario* mario, LPCOLLISIONEVENT e)
             {
                 mario->SetLevel(MarioLevel::Big);
                 mario->StartUntouchable();
+                CSoundSubject::GetInstance()->Notify(EVENT_POWERDOWN);
             }
             else if (mario->GetLevel() == MarioLevel::Big)
             {
                 mario->SetLevel(MarioLevel::Small);
                 mario->StartUntouchable();
+                CSoundSubject::GetInstance()->Notify(EVENT_POWERDOWN);
             }
             else
             {

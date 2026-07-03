@@ -25,6 +25,8 @@
 #include "Collision.h"
 #include "FireBall.h"
 #include	"PlayScene.h"
+#include "SoundEvents.h"
+#include "SoundSubject.h"
 
 namespace
 {
@@ -156,6 +158,7 @@ void CMario::ShootFireBall()
 
 	CPlayScene* currentScene = (CPlayScene*)CGame::GetInstance()->GetCurrentScene();
 	currentScene->AddObject(fireball);
+	CSoundSubject::GetInstance()->Notify(EVENT_FIREBALL);
 }
 
 void CMario::UpdateThrowingFireTime(DWORD dt)

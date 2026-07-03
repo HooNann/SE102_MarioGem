@@ -18,6 +18,8 @@
 
 #include "ObjectFactory.h"
 #include "Camera.h"
+#include "SoundEvents.h"
+#include "SoundSubject.h"
 
 using namespace std;
 
@@ -379,6 +381,11 @@ void CPlayScene::Load()
 	if (hud != NULL) delete hud;
 	hud = new CHud();
 
+	if (id == 6)
+		CSoundSubject::GetInstance()->Notify(EVENT_MUSIC_FORTRESS);
+	else
+		CSoundSubject::GetInstance()->Notify(EVENT_MUSIC_OVERWORLD);
+
 	DebugOut(L"[INFO] Done loading scene  %s\n", sceneFilePath);
 }
 
@@ -622,6 +629,8 @@ void CPlayScene::Update(DWORD dt)
 		{
 			isDeathTransitioning = true;
 			deathStartTime = GetTickCount64();
+			CSoundSubject::GetInstance()->Notify(EVENT_MUSIC_STOP);
+			CSoundSubject::GetInstance()->Notify(EVENT_PLAYER_DOWN);
 		}
 
 		if (!isDeathResolved && GetTickCount64() - deathStartTime > DEATH_RETURN_DELAY_MS)
@@ -738,6 +747,8 @@ void CPlayScene::TriggerCourseClear(int reward)
 		isCourseClear = true;
 		courseClearStartTime = GetTickCount64();
 		courseClearReward = reward;
+		CSoundSubject::GetInstance()->Notify(EVENT_MUSIC_STOP);
+		CSoundSubject::GetInstance()->Notify(EVENT_COURSE_CLEAR);
 		
 		// Change Mario state to Walk right
 		if (player != NULL)

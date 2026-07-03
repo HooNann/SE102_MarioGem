@@ -17,6 +17,8 @@
 #include "CMarioFloatState.h"
 #include "CMarioPipeState.h"
 #include "Pipe.h"
+#include "SoundEvents.h"
+#include "SoundSubject.h"
 
 void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
 {
@@ -58,6 +60,7 @@ void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
                         mario->StartFlapping();
                         mario->SetVelocityY(-MARIO_FLY_SPEED_Y);
                         mario->SetAccelerationY(0);
+                        CSoundSubject::GetInstance()->Notify(EVENT_TWIRL);
                     }
                 }
 				else
@@ -74,6 +77,7 @@ void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
                             mario->StartFlapping();
                             mario->SetVelocityY(MARIO_FLOAT_SPEED_Y);
                             mario->SetAccelerationY(0);
+                            CSoundSubject::GetInstance()->Notify(EVENT_TWIRL);
                         }
                     }
                 }

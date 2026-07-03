@@ -41,6 +41,7 @@ height	240
 31	Assets\Audio\31. Game Over.mp3
 32	Assets\Audio\32. Player Down.mp3
 36	Assets\Audio\36. Level Start.mp3
+37	Assets\Audio\37. Move Cursor (Map) (map) [map].mp3
 39	Assets\Audio\39. Pause.mp3
 40	Assets\Audio\40. Jump.mp3
 41	Assets\Audio\41. Fireball.mp3
