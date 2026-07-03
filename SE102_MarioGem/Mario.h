@@ -25,6 +25,7 @@ constexpr float MARIO_JUMP_MAX_SPEED_Y = 0.30f;
 
 constexpr float MARIO_GRAVITY = 0.0015f;
 constexpr float MARIO_GRAVITY_JUMP = 0.0004f;
+constexpr float MARIO_FLY_SPEED_Y = 0.1f;
 constexpr float MARIO_FLOAT_SPEED_Y = 0.05f;
 
 constexpr float MARIO_JUMP_DEFLECT_SPEED = 0.4f;
@@ -110,7 +111,7 @@ public:
 	int pMeter;					
 	ULONGLONG flyStartTime;
 	ULONGLONG flapStartTime = 0;
-
+	bool isFlyingPowerActive = false;
 
 
 
@@ -141,6 +142,9 @@ public:
     
     ULONGLONG GetFlyStartTime() const { return flyStartTime; }
     void StartFlying() { flyStartTime = GetTickCount64(); }
+
+    bool IsFlyingPowerActive() const { return isFlyingPowerActive; }
+    void SetFlyingPowerActive(bool active) { isFlyingPowerActive = active; }
 
     ULONGLONG GetFlapStartTime() const { return flapStartTime; }
     void StartFlapping() { flapStartTime = GetTickCount64(); }
