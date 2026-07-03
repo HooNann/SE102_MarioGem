@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="16" height="14" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="103">
+<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="16" height="14" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="106">
  <editorsettings>
   <export target="world-map-scene.json" format="json"/>
  </editorsettings>
@@ -40,6 +40,7 @@
   </object>
   <object id="55" name="Node_55" type="MapNode" x="128" y="16" width="16" height="16">
    <properties>
+    <property name="ani_active" type="int" value="90012"/>
     <property name="down_id" type="int" value="56"/>
     <property name="left_id" type="int" value="54"/>
     <property name="right_id" type="int" value="57"/>
@@ -54,6 +55,7 @@
   </object>
   <object id="57" name="Node_57" type="MapNode" x="160" y="16" width="16" height="16">
    <properties>
+    <property name="ani_active" type="int" value="90013"/>
     <property name="left_id" type="int" value="55"/>
     <property name="right_id" type="int" value="58"/>
    </properties>
@@ -72,12 +74,14 @@
   </object>
   <object id="60" name="Node_60" type="MapNode" x="160" y="48" width="16" height="16">
    <properties>
+    <property name="ani_active" type="int" value="90014"/>
     <property name="left_id" type="int" value="56"/>
     <property name="right_id" type="int" value="59"/>
    </properties>
   </object>
   <object id="61" name="Node_61" type="MapNode" x="128" y="80" width="16" height="16">
    <properties>
+    <property name="ani_active" type="int" value="90017"/>
     <property name="left_id" type="int" value="62"/>
     <property name="up_id" type="int" value="56"/>
    </properties>
@@ -116,7 +120,27 @@
   </object>
   <object id="89" name="Node_89" type="MapNode" x="64" y="144" width="16" height="16">
    <properties>
+    <property name="ani_active" type="int" value="90015"/>
+    <property name="right_id" type="int" value="104"/>
     <property name="up_id" type="int" value="86"/>
+   </properties>
+  </object>
+  <object id="103" name="Node_103" type="MapNode" x="128" y="144" width="16" height="16">
+   <properties>
+    <property name="ani_active" type="int" value="90016"/>
+    <property name="left_id" type="int" value="104"/>
+    <property name="up_id" type="int" value="105"/>
+   </properties>
+  </object>
+  <object id="104" name="Node_104" type="MapNode" x="96" y="144" width="16" height="16">
+   <properties>
+    <property name="left_id" type="int" value="89"/>
+    <property name="right_id" type="int" value="103"/>
+   </properties>
+  </object>
+  <object id="105" name="Node_105" type="MapNode" x="128" y="112" width="16" height="16">
+   <properties>
+    <property name="down_id" type="int" value="103"/>
    </properties>
   </object>
  </objectgroup>

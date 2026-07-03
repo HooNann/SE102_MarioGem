@@ -100,6 +100,11 @@
                  "opacity":1,
                  "properties":[
                         {
+                         "name":"ani_active",
+                         "type":"int",
+                         "value":90012
+                        }, 
+                        {
                          "name":"down_id",
                          "type":"int",
                          "value":56
@@ -155,6 +160,11 @@
                  "name":"Node_57",
                  "opacity":1,
                  "properties":[
+                        {
+                         "name":"ani_active",
+                         "type":"int",
+                         "value":90013
+                        }, 
                         {
                          "name":"left_id",
                          "type":"int",
@@ -225,6 +235,11 @@
                  "opacity":1,
                  "properties":[
                         {
+                         "name":"ani_active",
+                         "type":"int",
+                         "value":90014
+                        }, 
+                        {
                          "name":"left_id",
                          "type":"int",
                          "value":56
@@ -247,6 +262,11 @@
                  "name":"Node_61",
                  "opacity":1,
                  "properties":[
+                        {
+                         "name":"ani_active",
+                         "type":"int",
+                         "value":90017
+                        }, 
                         {
                          "name":"left_id",
                          "type":"int",
@@ -396,6 +416,16 @@
                  "opacity":1,
                  "properties":[
                         {
+                         "name":"ani_active",
+                         "type":"int",
+                         "value":90015
+                        }, 
+                        {
+                         "name":"right_id",
+                         "type":"int",
+                         "value":104
+                        }, 
+                        {
                          "name":"up_id",
                          "type":"int",
                          "value":86
@@ -406,6 +436,76 @@
                  "width":16,
                  "x":64,
                  "y":144
+                }, 
+                {
+                 "height":16,
+                 "id":103,
+                 "name":"Node_103",
+                 "opacity":1,
+                 "properties":[
+                        {
+                         "name":"ani_active",
+                         "type":"int",
+                         "value":90016
+                        }, 
+                        {
+                         "name":"left_id",
+                         "type":"int",
+                         "value":104
+                        }, 
+                        {
+                         "name":"up_id",
+                         "type":"int",
+                         "value":105
+                        }],
+                 "rotation":0,
+                 "type":"MapNode",
+                 "visible":true,
+                 "width":16,
+                 "x":128,
+                 "y":144
+                },
+            
+                {
+                 "height":16,
+                 "id":104,
+                 "name":"Node_104",
+                 "opacity":1,
+                 "properties":[
+                        {
+                         "name":"left_id",
+                         "type":"int",
+                         "value":89
+                        }, 
+                        {
+                         "name":"right_id",
+                         "type":"int",
+                         "value":103
+                        }],
+                 "rotation":0,
+                 "type":"MapNode",
+                 "visible":true,
+                 "width":16,
+                 "x":96,
+                 "y":144
+                }, 
+                {
+                 "height":16,
+                 "id":105,
+                 "name":"Node_105",
+                 "opacity":1,
+                 "properties":[
+                        {
+                         "name":"down_id",
+                         "type":"int",
+                         "value":103
+                        }],
+                 "rotation":0,
+                 "type":"MapNode",
+                 "visible":true,
+                 "width":16,
+                 "x":128,
+                 "y":112
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -639,7 +739,7 @@
          "y":0
         }],
  "nextlayerid":5,
- "nextobjectid":103,
+ "nextobjectid":106,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.12.1",
