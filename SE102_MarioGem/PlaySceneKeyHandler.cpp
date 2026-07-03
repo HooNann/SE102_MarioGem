@@ -24,7 +24,9 @@ void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
 	CPlayScene* scene = (CPlayScene*)CGame::GetInstance()->GetCurrentScene();
 	if (scene->IsCourseClear()) return;
 
-	CMario* mario = (CMario*)scene->GetPlayer(); 
+	CMario* mario = (CMario*)scene->GetPlayer();
+
+	if (mario == NULL) return;
 
     if (mario->currentState && mario->currentState->GetID() == MarioStateID::Dead) return;
     if (mario->currentState && mario->currentState->GetID() == MarioStateID::Pipe) return;
@@ -116,6 +118,8 @@ void CPlaySceneKeyHandler::OnKeyUp(int KeyCode)
 
 	CMario* mario = (CMario*)scene->GetPlayer();
 
+	if (mario == NULL) return;
+
     if (mario->currentState && mario->currentState->GetID() == MarioStateID::Dead) return;
     if (mario->currentState && mario->currentState->GetID() == MarioStateID::Pipe) return;
 
@@ -149,6 +153,8 @@ void CPlaySceneKeyHandler::KeyState(BYTE *states)
 
 	LPGAME game = CGame::GetInstance();
 	CMario* mario = (CMario*)scene->GetPlayer();
+
+	if (mario == NULL) return;
 
     if (mario->currentState && mario->currentState->GetID() == MarioStateID::Duck)
         return;

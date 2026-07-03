@@ -1,12 +1,12 @@
 [SETTINGS]
-start	100
+start	0
 width	320
 height	240
 
 # id	type	file
-# type: 1 = CPlayScene, 2 = CWorldMapScene, 3 = CSoundTestScene
+# type: 1 = CPlayScene, 2 = CWorldMapScene, 3 = CSoundTestScene, 4 = CIntroScene
 [SCENES]
-0	1	intro.txt
+0	4	Assets\Data\Scenes\intro-scene.txt
 1	1	Assets\Data\Scenes\stage-1-1.txt
 6	1	Assets\Data\Scenes\stage-1-fortress.txt
 99	3	Assets\Data\Scenes\sound-test.txt
@@ -28,6 +28,11 @@ height	240
 90	Assets\Textures\All\reward.png
 100	Assets\Textures\All\fire-ball-white.png
 110	Assets\Textures\All\pipe.png
+120	Assets\Textures\All\intro.png
+121	Assets\Textures\All\white.png
+122	Assets\Textures\All\items.png
+123	Assets\Textures\All\intro-ground.png
+124	Assets\Textures\All\intro-stage.png
 
 # id	file
 [AUDIO]
@@ -41,6 +46,8 @@ height	240
 31	Assets\Audio\31. Game Over.mp3
 32	Assets\Audio\32. Player Down.mp3
 36	Assets\Audio\36. Level Start.mp3
+37	Assets\Audio\37. Move Cursor (Map) (map) [map].mp3
+38	Assets\Audio\38. World Start.mp3
 39	Assets\Audio\39. Pause.mp3
 40	Assets\Audio\40. Jump.mp3
 41	Assets\Audio\41. Fireball.mp3
