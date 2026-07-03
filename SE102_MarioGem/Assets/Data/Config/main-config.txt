@@ -1,5 +1,5 @@
 [SETTINGS]
-start	1
+start	6
 width	320
 height	240
 
@@ -10,7 +10,7 @@ height	240
 1	1	Assets\Data\Scenes\stage-1-1.txt
 2	2	Assets\Data\Scenes\world-map-scene.txt
 5	1	Assets\Data\Scenes\scene0005.txt
-6	1	Assets\Data\Scenes\sceneBoss.txt
+6	1	Assets\Data\Scenes\stage-1-fortress.txt
 
 # id	file 
 [TEXTURES]

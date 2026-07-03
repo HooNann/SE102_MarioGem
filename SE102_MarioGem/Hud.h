@@ -22,4 +22,5 @@ public:
 	CHud();
 	void Render(CMario* mario, int timeLeft, const char* world);
 	void RenderWorldMap(const char* world);
+	void RenderCourseClear(int rewardCard);
 };

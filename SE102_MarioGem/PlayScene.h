@@ -33,6 +33,10 @@ protected:
 	float timeRemaining;
 	std::string hudWorld;
 
+	bool isCourseClear;
+	ULONGLONG courseClearStartTime;
+	int courseClearReward; // ItemType cast to int
+
 	void _ParseSection_SPRITES(string line);
 	void _ParseSection_ANIMATIONS(string line);
 
@@ -58,6 +62,9 @@ public:
 
 	LPGAMEOBJECT GetPlayer() { return player; }
 	void AddObject(LPGAMEOBJECT obj) { objects.push_back(obj); }
+
+	void TriggerCourseClear(int reward);
+	bool IsCourseClear() { return isCourseClear; }
 
 	void QueueSpawn(LPGAMEOBJECT obj) { spawnQueue.push_back(obj); }
 

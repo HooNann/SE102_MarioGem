@@ -1,5 +1,6 @@
 #include "CMarioFallState.h"
 #include "Mario.h"
+#include "Goomba.h"
 
 void CMarioFallState::Enter(CMario* mario)
 {
@@ -22,7 +23,7 @@ int CMarioFallState::GetAnimationId(CMario* mario)
     return ID_ANI_MARIO_SMALL_JUMP;
 }
 
-#include "Goomba.h"
+
 void CMarioFallState::OnCollisionWith(CMario* mario, LPCOLLISIONEVENT e)
 {
     if (e->ny < 0)

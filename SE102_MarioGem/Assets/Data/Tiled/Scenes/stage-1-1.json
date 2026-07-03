@@ -557,6 +557,18 @@
                  "width":16,
                  "x":224,
                  "y":304
+                }, 
+                {
+                 "height":32,
+                 "id":60,
+                 "name":"GoalRoulette",
+                 "opacity":1,
+                 "rotation":0,
+                 "type":"GoalRoulette",
+                 "visible":true,
+                 "width":32,
+                 "x":2688,
+                 "y":336
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -565,7 +577,7 @@
          "y":0
         }],
  "nextlayerid":9,
- "nextobjectid":60,
+ "nextobjectid":61,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.12.1",

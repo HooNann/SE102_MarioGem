@@ -168,6 +168,8 @@
     <ClCompile Include="CannonBall.cpp" />
     <ClCompile Include="Goomba.cpp" />
     <ClCompile Include="HUD.cpp" />
+    <ClCompile Include="GoalRoulette.cpp" />
+    <ClCompile Include="GoalRewardItem.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mario.cpp" />
     <ClCompile Include="CMarioIdleState.cpp" />
@@ -217,6 +219,8 @@
     <ClInclude Include="GameData.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Hud.h" />
+    <ClInclude Include="GoalRoulette.h" />
+    <ClInclude Include="GoalRewardItem.h" />
     <ClInclude Include="Blaster.h" />
     <ClInclude Include="Burner.h" />
     <ClInclude Include="Canon.h" />
