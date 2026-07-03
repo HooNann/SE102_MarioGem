@@ -20,6 +20,34 @@
 #include "SoundEvents.h"
 #include "SoundSubject.h"
 
+static bool CanMarioFitInPipe(CMario* mario, CPipe* pipe)
+{
+	if (pipe == nullptr) return false;
+	
+	int frontAniId = ID_ANI_MARIO_SMALL_FRONT;
+	switch (mario->GetLevel())
+	{
+	case MarioLevel::Big:     frontAniId = ID_ANI_MARIO_BIG_FRONT;     break;
+	case MarioLevel::Fire:    frontAniId = ID_ANI_MARIO_FIRE_FRONT;    break;
+	case MarioLevel::Raccoon: frontAniId = ID_ANI_MARIO_RACCOON_FRONT; break;
+	default: break;
+	}
+
+	LPANIMATION ani = CAnimations::GetInstance()->Get(frontAniId);
+	if (ani == nullptr) return true; // fallback: cho phép
+
+	float spriteHalfW = ani->GetSpriteWidth() / 2.0f;
+	float mx, my;
+	mario->GetPosition(mx, my);
+	float sprite_left  = mx - spriteHalfW;
+	float sprite_right = mx + spriteHalfW;
+
+	float pl, pt, pr, pb;
+	pipe->GetBoundingBox(pl, pt, pr, pb);
+
+	return pl < sprite_left && sprite_right < pr;
+}
+
 void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
 {
 	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
@@ -38,7 +66,7 @@ void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_DOWN:
 	{
 		CPipe* pipe = scene->GetOverlappingPipe(mario, PipeDirection::Down);
-		if (pipe != nullptr)
+		if (pipe != nullptr && CanMarioFitInPipe(mario, pipe))
 			mario->ChangeState(new CMarioPipeState(pipe));
 		else
 			mario->ChangeState(new CMarioDuckState());
@@ -177,7 +205,7 @@ void CPlaySceneKeyHandler::KeyState(BYTE *states)
 	if (game->IsKeyDown(DIK_UP))
 	{
 		CPipe* pipe = scene->GetOverlappingPipe(mario, PipeDirection::Up);
-		if (pipe != nullptr)
+		if (pipe != nullptr && CanMarioFitInPipe(mario, pipe))
 		{
 			mario->ChangeState(new CMarioPipeState(pipe));
 			return;

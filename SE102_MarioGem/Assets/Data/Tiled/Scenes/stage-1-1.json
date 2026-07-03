@@ -402,8 +402,8 @@
                  "type":"CameraZone",
                  "visible":true,
                  "width":2816,
-                 "x":0,
-                 "y":0
+                 "x":7.56521739130437,
+                 "y":0.391304347826065
                 }, 
                 {
                  "height":176,
@@ -885,8 +885,8 @@
                  "rotation":0,
                  "type":"Pipe",
                  "visible":true,
-                 "width":2.54545,
-                 "x":366.455,
+                 "width":26.3280586956522,
+                 "x":355.150652173913,
                  "y":366.939
                 }, 
                 {
@@ -918,8 +918,8 @@
                  "rotation":0,
                  "type":"Pipe",
                  "visible":true,
-                 "width":4.43478,
-                 "x":2333.78,
+                 "width":27.0869539130435,
+                 "x":2322.43217391304,
                  "y":462.478
                 }, 
                 {
@@ -1015,7 +1015,7 @@
          "y":0
         }],
  "nextlayerid":11,
- "nextobjectid":120,
+ "nextobjectid":121,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.12.1",

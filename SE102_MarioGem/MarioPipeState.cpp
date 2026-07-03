@@ -63,7 +63,7 @@ float CMarioPipeState::GetMarioBBoxWidth(CMario* mario)
 float CMarioPipeState::GetTravelDistance(CMario* mario, PipeDirection direction)
 {
 	if (direction == PipeDirection::Up || direction == PipeDirection::Down)
-		return GetMarioBBoxHeight(mario);
+		return GetMarioBBoxHeight(mario) * 1.5f;
 
 	return MARIO_PIPE_TRAVEL_DISTANCE;
 }
