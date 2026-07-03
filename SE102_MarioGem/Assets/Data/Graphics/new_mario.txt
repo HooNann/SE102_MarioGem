@@ -830,455 +830,455 @@
 # ID_Anim	ID_Sprite_1	Time_1	ID_Sprite_2	Time_2 ...
 
 # small mario map
-0	0	100	1	100
+0	0	50	1	50
 
 # small mario idle front
-1	18	100
+1	18	50
 
 # small mario idle
-2	19	100
+2	19	50
 
 # small mario walk
-3	2	100	3	100
+3	2	50	3	50
 
 # small mario skid
-4	4	100
+4	4	50
 
 # small mario run
-5	6	100	7	100
+5	6	50	7	50
 
 # small mario jump
-6	5	100
+6	5	50
 
 # small mario high jump
-7	8	100
+7	8	50
 
 # small mario die
-8	10	100
+8	10	50
 
 # small mario slide
-9	9	100
+9	9	50
 
 # small mario hold
-10	11	100	12	100
+10	11	50	12	50
 
 # small mario hold idle
-11	11	100
+11	11	50
 
 # small mario hold fall
-12	12	100
+12	12	50
 
 # small mario kick
-13	13	100
+13	13	50
 
 # small mario dive
-14	14	100	15	100
+14	14	50	15	50
 
 # small mario swim
-15	16	100	17	100
+15	16	50	17	50
 
 # small mario climb
-16	21	100	22	100
+16	21	50	22	50
 
 # big mario map
-17	23	100	24	100
+17	23	50	24	50
 
 # big mario idle
-18	47	100
+18	47	50
 
 # big mario idle front
-19	48	100
+19	48	50
 
 # big mario walk
-20	25	100	26	100	27	100	26	100
+20	25	50	26	50	27	50	26	50
 
 # big mario skid
-21	28	100
+21	28	50
 
 # big mario run
-22	25	100	26	100	27	100	26	100
+22	25	50	26	50	27	50	26	50
 
 # big mario high speed
-23	31	100	32	100	33	100
+23	31	50	32	50	33	50
 
 # big mario jump
-24	29	100
+24	29	50
 
 # big mario fall
-25	30	100
+25	30	50
 
 # big mario high jump
-26	34	100
+26	34	50
 
 # big mario crouch
-27	35	100
+27	35	50
 
 # big mario slide
-28	36	100
+28	36	50
 
 # big mario hold
-29	37	100	38	100	39	100
+29	37	50	38	50	39	50
 
 # big mario hold idle
-30	37	100
+30	37	50
 
 # big mario hold fall
-31	39	100
+31	39	50
 
 # big mario kick
-32	40	100
+32	40	50
 
 # big mario dive
-33	41	100	42	100
+33	41	50	42	50
 
 # big mario swim
-34	43	100	44	100	45	100
+34	43	50	44	50	45	50
 
 # big mario climb
-35	49	100	50	100
+35	49	50	50	50
 
 # big mario roll
-36	51	100	52	100	53	100	54	100	55	100	56	100	57	100	58	100
+36	51	50	52	50	53	50	54	50	55	50	56	50	57	50	58	50
 
 # big luigi map
-37	59	100
+37	59	50
 
 # big luigi idle
-38	82	100
+38	82	50
 
 # big luigi idle front
-39	83	100
+39	83	50
 
 # big luigi walk
-40	60	100	61	100	62	100	61	100
+40	60	50	61	50	62	50	61	50
 
 # big luigi skid
-41	63	100
+41	63	50
 
 # big luigi run
-42	60	100	61	100	62	100	61	100
+42	60	50	61	50	62	50	61	50
 
 # big luigi high speed
-43	66	100	67	100	68	100
+43	66	50	67	50	68	50
 
 # big luigi jump
-44	64	100
+44	64	50
 
 # big luigi fall
-45	65	100
+45	65	50
 
 # big luigi high jump
-46	69	100
+46	69	50
 
 # big luigi crouch
-47	70	100
+47	70	50
 
 # big luigi slide
-48	71	100
+48	71	50
 
 # big luigi hold
-49	72	100	73	100	74	100
+49	72	50	73	50	74	50
 
 # big luigi hold idle
-50	72	100
+50	72	50
 
 # big luigi hold fall
-51	74	100
+51	74	50
 
 # big luigi kick
-52	75	100
+52	75	50
 
 # big luigi dive
-53	76	100	77	100
+53	76	50	77	50
 
 # big luigi swim
-54	78	100	79	100	80	100
+54	78	50	79	50	80	50
 
 # big luigi climb
-55	84	100	85	100
+55	84	50	85	50
 
 # big luigi roll
-56	86	100	87	100	88	100	89	100	90	100	91	100	92	100	93	100
+56	86	50	87	50	88	50	89	50	90	50	91	50	92	50	93	50
 
 # raccoon mario map
-57	94	100	95	100
+57	94	50	95	50
 
 # raccoon mario idle front
-58	131	100
+58	131	50
 
 # raccoon mario idle
-59	130	100
+59	130	50
 
 # raccoon mario walk
-60	96	100	97	100	98	100	97	100
+60	96	50	97	50	98	50	97	50
 
 # raccoon mario skid
-61	99	100
+61	99	50
 
 # raccoon mario float
-62	109	30	110	30
+62	109	15	110	15
 
 # raccoon mario jump
-63	106	100
+63	106	50
 
 # raccoon mario fall
-64	107	100
+64	107	50
 
 # raccoon mario speed up
-65	111	100	112	100	113	100
+65	111	50	112	50	113	50
 
 # raccoon mario fly
-66	114	100	115	100	116	100
+66	114	50	115	50	116	50
 
 # raccoon mario spin
-67	100	100	102	100	103	100	104	100	105	100
+67	100	50	102	50	103	50	104	50	105	50
 
 # raccoon mario crouch
-68	117	100
+68	117	50
 
 # raccoon mario slide
-69	118	100
+69	118	50
 
 # raccoon mario hold
-70	119	100	120	100	121	100
+70	119	50	120	50	121	50
 
 # raccoon mario hold idle
-71	119	100
+71	119	50
 
 # raccoon mario hold fall
-72	121	100
+72	121	50
 
 # raccoon mario kick
-73	122	100
+73	122	50
 
 # raccoon mario dive
-74	123	100	124	100
+74	123	50	124	50
 
 # raccoon mario swim
-75	125	100	126	100	127	100
+75	125	50	126	50	127	50
 
 # raccoon mario climb
-76	128	100	129	100
+76	128	50	129	50
 
 # raccoon mario roll
-77	132	100	133	100	134	100	135	100	136	100	137	100	138	100	139	100
+77	132	50	133	50	134	50	135	50	136	50	137	50	138	50	139	50
 
 # fire mario map
-78	140	100	141	100
+78	140	50	141	50
 
 # fire mario map ???
 79
 
 # fire mario idle front
-80	142	100
+80	142	50
 
 # fire mario idle
-81	143	100
+81	143	50
 
 # fire mario walk
-82	144	100	145	100	146	100	145	100
+82	144	50	145	50	146	50	145	50
 
 # fire mario skid
-83	147	100
+83	147	50
 
 # fire mario throw
-84	148	100	149	100
+84	148	50	149	50
 
 # fire ball
 85
 
 # fire mario run
-86	144	100	145	100	146	100	145	100
+86	144	50	145	50	146	50	145	50
 
 # fire mario high speed
-87	152	100	153	100	154	100
+87	152	50	153	50	154	50
 
 # fire mario jump
-88	150	100
+88	150	50
 
 # fire mario fall
-89	151	100
+89	151	50
 
 # fire mario high jump
-90	158	100
+90	158	50
 
 # fire mario crouch
-91	159	100
+91	159	50
 
 # fire mario slide
-92	160	100
+92	160	50
 
 # fire mario hold
-93	155	100	156	100	157	100
+93	155	50	156	50	157	50
 
 # fire mario hold idle
-94	155	100
+94	155	50
 
 # fire mario hold fall
-95	157	100
+95	157	50
 
 # fire mario kick
-96	161	100
+96	161	50
 
 # fire mario dive
-97	162	100	163	100
+97	162	50	163	50
 
 # fire mario swim
-98	164	100	165	100	166	100
+98	164	50	165	50	166	50
 
 # fire mario climb
-99	167	100	168	100
+99	167	50	168	50
 
 # hammer small mario map idle front
-100	169	100
+100	169	50
 
 # hammer mario map idle front
-101	170	100	171	100
+101	170	50	171	50
 
 # hammer mario idle front
-102	172	100
+102	172	50
 
 # hammer mario idle side
-103	173	100
+103	173	50
 
 # hammer mario walk
-104	174	100	175	100	176	100
+104	174	50	175	50	176	50
 
 # hammer mario skid
-105	177	100
+105	177	50
 
 # hammer mario throw
-106	178	100	179	100
+106	178	50	179	50
 
 # hammer mario run
-107	182	100	183	100	184	100
+107	182	50	183	50	184	50
 
 # hammer mario jump
-108	180	100
+108	180	50
 
 # hammer mario fall
-109	181	100
+109	181	50
 
 # hammer mario high jump
-110	188	100
+110	188	50
 
 # hammer mario crouch
-111	189	100
+111	189	50
 
 # hammer mario hold
-112	185	100	186	100	187	100
+112	185	50	186	50	187	50
 
 # hammer mario kick
-113	190	100
+113	190	50
 
 # hammer mario dive
-114	191	100	192	100
+114	191	50	192	50
 
 # hammer mario swim
-115	193	100	194	100	195	100
+115	193	50	194	50	195	50
 
 # hammer mario climb
-116	196	100	197	100
+116	196	50	197	50
 
 # hammer mario roll
-117	198	100	199	100	200	100	201	100
+117	198	50	199	50	200	50	201	50
 
 # frog small mario map idle front
-118	202	100
+118	202	50
 
 # frog mario map idle front
-119	203	100	204	100
+119	203	50	204	50
 
 # frog mario idle front
-120	205	100
+120	205	50
 
 # frog mario idle
 121
 
 # frog mario walk
-122	207	100	208	100	209	100
+122	207	50	208	50	209	50
 
 # frog mario jump
-123	210	100	211	100	212	100
+123	210	50	211	50	212	50
 
 # frog mario kick
-124	213	100
+124	213	50
 
 # frog mario swim idle
-125	216	100	217	100
+125	216	50	217	50
 
 # frog mario swim down
-126	218	100	219	100	220	100
+126	218	50	219	50	220	50
 
 # frog mario swim up
-127	221	100	222	100	223	100
+127	221	50	222	50	223	50
 
 # frog mario swim side
-128	224	100	225	100	226	100
+128	224	50	225	50	226	50
 
 # frog mario climb
-129	227	100	228	100
+129	227	50	228	50
 
 # tanooki small mario map ???
-130	229	100
+130	229	50
 
 # tanooki mario map ???
-131	230	100	231	100
+131	230	50	231	50
 
 # tanooki mario idle front
-132	232	100
+132	232	50
 
 # tanooki mario idle
-133	233	100
+133	233	50
 
 # tanooki mario spin
-134	234	100	235	100	236	100	237	100
+134	234	50	235	50	236	50	237	50
 
 # tanooki mario walk
-135	238	100	239	100	240	100
+135	238	50	239	50	240	50
 
 # tanooki mario skid
-136	241	100
+136	241	50
 
 # tanooki mario run
-137	244	100	245	100	246	100
+137	244	50	245	50	246	50
 
 # tanooki mario jump
-138	242	100
+138	242	50
 
 # tanooki mario fall
-139	243	100
+139	243	50
 
 # tanooki mario speed up
-140	247	100	248	100	249	100
+140	247	50	248	50	249	50
 
 # tanooki mario fly
-141	250	100	251	100	252	100
+141	250	50	251	50	252	50
 
 # tanooki mario crouch
-142	253	100
+142	253	50
 
 # tanooki mario statue
-143	254	100
+143	254	50
 
 # tanooki mario slide
-144	255	100
+144	255	50
 
 # tanooki mario hold
-145	256	100	257	100	258	100
+145	256	50	257	50	258	50
 
 # tanooki mario kick
-146	259	100
+146	259	50
 
 # tanooki mario dive
-147	260	100	261	100
+147	260	50	261	50
 
 # tanooki mario swim
-148	262	100	263	100	264	100
+148	262	50	263	50	264	50
 
 # tanooki mario climb
-149	265	100	266	100
+149	265	50	266	50
 
 # tanooki mario roll
-150	267	100	268	100	269	100	270	100	271	100	272	100	273	100	274	100
+150	267	50	268	50	269	50	270	50	271	50	272	50	273	50	274	50
 

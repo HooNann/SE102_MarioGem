@@ -132,7 +132,7 @@ void CPlayScene::_ParseSection_ASSETS(string line)
 	if (tokens.size() < 1) return;
 
 	wstring path = ToWSTR(tokens[0]);
-	currentAssetFilePath = path;
+	assetFilePaths.push_back(path);
 	
 	LoadAssets(path.c_str());
 }
@@ -638,6 +638,8 @@ void CPlayScene::Unload()
 		hud = NULL;
 	}
 
+	assetFilePaths.clear();
+
 	DebugOut(L"[INFO] Scene %d unloaded! \n", id);
 }
 
@@ -667,9 +669,12 @@ void CPlayScene::ReloadAssets()
 {
 	CAnimations::GetInstance()->Clear();
 	CSprites::GetInstance()->Clear();
-	if (!currentAssetFilePath.empty())
+	if (assetFilePaths.size() > 0)
 	{
-		LoadAssets(currentAssetFilePath.c_str());
+		for (auto path : assetFilePaths)
+		{
+			LoadAssets(path.c_str());
+		}
 		DebugOut(L"[INFO] Assets reloaded successfully!\n");
 	}
 	else
