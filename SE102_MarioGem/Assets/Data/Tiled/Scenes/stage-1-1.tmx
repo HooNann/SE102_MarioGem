@@ -63,7 +63,7 @@
   <object id="17" type="CollisionBox" x="1696" y="400" width="16" height="16"/>
   <object id="18" type="CollisionBox" x="1664" y="416" width="576" height="16"/>
   <object id="49" type="CollisionBox" x="2256" y="416" width="560" height="16"/>
-  <object id="61" template="../Templates/CollisionBox.tx" type="CollisionBox" x="2256" y="368"/>
+  <object id="61" type="CollisionBox" x="2256" y="368" width="16" height="16"/>
   <object id="65" type="CollisionBox" x="2256" y="112" width="32" height="208"/>
   <object id="66" type="CollisionBox" x="352" y="368" width="32" height="48"/>
   <object id="67" type="CollisionBox" x="1792" y="384" width="32" height="32"/>

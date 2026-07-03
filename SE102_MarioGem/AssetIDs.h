@@ -24,7 +24,8 @@ enum class ObjectType : int {
 
 enum class SceneType : int {
 	PlayScene = 1,
-	WorldMapScene = 2
+	WorldMapScene = 2,
+	SoundTestScene = 3
 };
 
 enum class MarioStateID

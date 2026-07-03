@@ -4,15 +4,16 @@ width	320
 height	240
 
 # id	type	file
-# type: 1 = CPlayScene, 2 = CWorldMapScene
+# type: 1 = CPlayScene, 2 = CWorldMapScene, 3 = CSoundTestScene
 [SCENES]
 0	1	intro.txt
 1	1	Assets\Data\Scenes\stage-1-1.txt
 2	2	Assets\Data\Scenes\world-map-scene.txt
 5	1	Assets\Data\Scenes\scene0005.txt
 6	1	Assets\Data\Scenes\stage-1-fortress.txt
+99	3	Assets\Data\Scenes\sound-test.txt
 
-# id	file 
+# id	file
 [TEXTURES]
 -100	Assets\Textures\Items\bbox.png
 0	Assets\Textures\Characters\Mario\mario_transparent.png
@@ -25,3 +26,30 @@ height	240
 60	Assets\Textures\All\overworld.png
 70	Assets\Textures\All\mario.png
 80	Assets\Textures\All\misc.png
+
+# id	file
+[AUDIO]
+1	Assets\Audio\01. World 1 Map - Grass Land.mp3
+9	Assets\Audio\09. Overworld.mp3
+10	Assets\Audio\10. Athletic.mp3
+23	Assets\Audio\23. Fortress.mp3
+24	Assets\Audio\24. Bowser.mp3
+27	Assets\Audio\27. Course Clear.mp3
+30	Assets\Audio\30. Victory Fanfare.mp3
+31	Assets\Audio\31. Game Over.mp3
+32	Assets\Audio\32. Player Down.mp3
+36	Assets\Audio\36. Level Start.mp3
+39	Assets\Audio\39. Pause.mp3
+40	Assets\Audio\40. Jump.mp3
+41	Assets\Audio\41. Fireball.mp3
+42	Assets\Audio\42. Pipe - Powerdown.mp3
+43	Assets\Audio\43. Koopa Shell.mp3
+44	Assets\Audio\44. Jump Attack.mp3
+45	Assets\Audio\45. Block.mp3
+47	Assets\Audio\47. Tanooki.mp3
+48	Assets\Audio\48. 1UP - 1-UP.mp3
+49	Assets\Audio\49. Power Up.mp3
+51	Assets\Audio\51. Cannon Ball.mp3
+54	Assets\Audio\54. Coin.mp3
+55	Assets\Audio\55. Twirl.mp3
+60	Assets\Audio\60. Breaking a Block.mp3
