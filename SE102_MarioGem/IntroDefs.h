@@ -1,0 +1,174 @@
+#pragma once
+
+#define ID_TEX_INTRO 90
+#define ID_TEX_WHITE 91
+#define ID_TEX_ITEMS 92
+
+#define INTRO_SCENE_WORLDMAP 2
+
+#define SPR_INTRO_CURTAIN        90001
+#define SPR_INTRO_VALANCE        90002
+#define SPR_INTRO_TITLE          90003
+#define SPR_INTRO_GROUND         90004
+#define SPR_INTRO_TREE_RIGHT     90006
+#define SPR_INTRO_TREE_LEFT      90007
+#define SPR_INTRO_CLOUD_BIG      90008
+#define SPR_INTRO_CLOUD_SMALL    90009
+#define SPR_INTRO_OPTIONS        90010
+#define SPR_INTRO_ARROW          90011
+#define SPR_INTRO_BADGE          90012
+
+#define ANI_BIG_WALK          95002
+#define ANI_RAC_WALK          95003
+#define ANI_SMALL_WALK        95004
+#define ANI_LUIGI_WALK        95005
+#define ANI_GOOMBA_WALK       95006
+#define ANI_GREEN_SHELL_SPIN  95007
+#define ANI_RED_SHELL_SPIN    95008
+#define ANI_RAC_FLY           95009
+#define ANI_BIG_IDLE          95010
+#define ANI_BIG_JUMP          95011
+#define ANI_BIG_CROUCH        95012
+#define ANI_BIG_KICK          95013
+#define ANI_BIG_HOLD          95014
+#define ANI_RAC_IDLE          95015
+#define ANI_RAC_JUMP          95016
+#define ANI_RAC_FALL          95017
+#define ANI_RAC_KICK          95018
+#define ANI_RAC_HOLD          95019
+#define ANI_SMALL_IDLE        95020
+#define ANI_SMALL_JUMP        95021
+#define ANI_LUIGI_IDLE        95022
+#define ANI_LUIGI_JUMP        95023
+#define ANI_LUIGI_HOLD        95024
+#define ANI_LUIGI_KICK        95025
+#define ANI_GREEN_SHELL_IDLE  95026
+#define ANI_RED_SHELL_IDLE    95027
+#define ANI_MUSH_RED          95028
+#define ANI_MUSH_GREEN        95029
+#define ANI_LEAF              95030
+
+#define INTRO_DT_CLAMP 34
+#define INTRO_TIME_SCALE_NUM 4
+#define INTRO_TIME_SCALE_DEN 5
+
+#define INTRO_SCREEN_W 256.0f
+#define INTRO_SCREEN_H 240.0f
+
+#define CURTAIN_H 240.0f
+#define CURTAIN_SPEED 0.1f
+#define CURTAIN_SPAWN_Y -120.0f
+#define CURTAIN_DONE_Y -240.0f
+
+#define T_LOGO 4300
+#define LOGO_SPEED 0.2333f
+#define TITLE_CX 131.0f
+#define TITLE_CY_START -61.0f
+#define TITLE_CY_FINAL 56.0f
+#define BADGE_CX 138.0f
+#define BADGE_CY_START -4.0f
+#define BADGE_CY_FINAL 113.0f
+#define BADGE_BLINK_PERIOD 800
+#define BADGE_BLINK_ON 600
+#define LOGO_SHAKE_MS 1000
+#define LOGO_SHAKE_AMP 3
+
+#define T_COLOR_1 1200
+#define T_COLOR_2 1300
+#define T_COLOR_3 1400
+#define T_COLOR_4 1500
+
+#define TREE_RIGHT_CX 225.0f
+#define TREE_RIGHT_CY 138.0f
+#define TREE_LEFT_CX 32.0f
+#define TREE_LEFT_CY 154.0f
+
+#define BOTTOM_CURTAIN_CX 144.0f
+#define BOTTOM_CURTAIN_CY 7.0f
+
+#define GROUND_TOP 176.0f
+#define GROUND_CY 208.0f
+#define GROUND_Y 186.67f
+
+#define MENU_PANEL_CX 128.0f
+#define MENU_PANEL_CY 163.0f
+#define MENU_ARROW_X 70.0f
+#define MENU_ARROW_Y1 147.0f
+#define MENU_ARROW_Y2 163.0f
+
+#define INTRO_WALK_SPEED 0.09f
+#define INTRO_RUN_SPEED 0.16f
+#define INTRO_FLEE_SPEED 0.167f
+#define INTRO_SHELL_SPEED 0.16f
+#define INTRO_GRAVITY 0.000667f
+#define INTRO_GRAVITY_MUSHROOM 0.0008f
+#define INTRO_JUMP_V 0.21f
+#define INTRO_FALL_V 0.1667f
+#define INTRO_MUSH_SLIDE 0.05f
+#define INTRO_KOOPA_WALK 0.03f
+#define INTRO_GOOMBA_DRIFT 0.0133f
+#define INTRO_LEAF_FALL 0.055f
+#define INTRO_LEAF_SWAY_AMP 10.0f
+#define INTRO_LEAF_SWAY_FREQ 0.004f
+
+#define MARIO_SPAWN_X 248.33f
+#define LUIGI_SPAWN_X 8.0f
+#define MARIO_CROUCH_X 135.33f
+#define T_MARIO_STAND 4300
+#define T_MARIO_CHARGE 8200
+#define MARIO_CATCH_TRIGGER_Y 130.0f
+#define CATCH_GAP_X 30.0f
+#define CATCH_GAP_Y 16.0f
+#define INTRO_FLOAT_V 0.035f
+#define INTRO_FLOAT_DRIFT 0.02f
+#define MARIO_STOP_X 184.0f
+#define MARIO_WAIT_X 110.0f
+#define LUIGI_NEAR_X 258.0f
+#define MARIO_SHELL_GAP 23.33f
+#define GOOMBA_MIN_X 40.0f
+#define MARIO_KICK_X 200.0f
+#define MARIO_TURN_R_X 200.0f
+#define MARIO_TURN_L_X 131.33f
+#define MARIO_EXIT_X 201.33f
+#define T_MARIO_KICK_POSE 300
+#define T_MARIO_BIG_DELAY 500
+#define T_MARIO_SMALL_DELAY 400
+
+#define LUIGI_CHARGE_X 56.0f
+#define T_LUIGI_RELEASE 3200
+#define LUIGI_OFF_X 264.0f
+#define T_LUIGI_RETURN 10500
+#define LUIGI_HOLD_X 224.0f
+#define T_LUIGI_KICK 11884
+#define LUIGI_FLEE_GAP 48.0f
+#define LUIGI_EXIT_X 272.0f
+#define T_LUIGI_KICK_POSE 300
+
+#define T_ITEMS 5500
+#define GOOMBA_SPAWN_X 72.0f
+#define GOOMBA_FOOT_SINK 2.0f
+#define MUSH_RED_SPAWN_X 40.0f
+#define MUSH_GREEN_SPAWN_X 216.0f
+#define LEAF_SPAWN_X 120.0f
+#define LEAF_SPAWN_Y 11.7f
+#define RED_SHELL_SPAWN_X 184.0f
+#define ITEM_SPAWN_FEET 16.0f
+#define KOOPA_TUCK_GAP 20.0f
+#define SHELL_HIT_GAP 8.0f
+#define CARRY_OFFSET_X 12.0f
+#define CARRY_OFFSET_Y 2.0f
+#define OFFSCREEN_L -10.0f
+#define OFFSCREEN_R 266.0f
+
+#define LATE_SHELL_V1 0.0467f
+#define LATE_SHELL_V2 0.0467f
+#define LATE_SHELL_V3 0.0833f
+#define T_LATE_SHELL_2 1000
+#define T_LATE_SHELL_3 2800
+
+#define INTRO_MUSIC_ID 1
+#define INTRO_SFX_CURSOR 37
+#define INTRO_SFX_SELECT 38
+#define INTRO_SFX_KICK 43
+#define INTRO_SFX_JUMP 40
+#define INTRO_SFX_POWERUP 49

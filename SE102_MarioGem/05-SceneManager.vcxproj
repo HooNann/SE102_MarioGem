@@ -192,6 +192,8 @@
     <ClCompile Include="SoundSubject.cpp" />
     <ClCompile Include="SoundTestScene.cpp" />
     <ClCompile Include="SoundTestKeyHandler.cpp" />
+    <ClCompile Include="IntroScene.cpp" />
+    <ClCompile Include="IntroKeyHandler.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Sprites.cpp" />
     <ClCompile Include="Textures.cpp" />
@@ -255,6 +257,9 @@
     <ClInclude Include="SoundSubject.h" />
     <ClInclude Include="SoundTestScene.h" />
     <ClInclude Include="SoundTestKeyHandler.h" />
+    <ClInclude Include="IntroScene.h" />
+    <ClInclude Include="IntroKeyHandler.h" />
+    <ClInclude Include="IntroDefs.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="Sprites.h" />
     <ClInclude Include="Texture.h" />

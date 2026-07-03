@@ -70,6 +70,8 @@ public:
 	//        if NOT NULL, only draw that portion of the texture 
 	void Draw(float x, float y, LPTEXTURE tex, RECT* rect = NULL, float alpha = 1.0f, int sprite_width = 0, int sprite_height = 0, int nx = 1, int ny = 1);
 
+	void Draw(float x, float y, LPTEXTURE tex, RECT* rect, D3DXCOLOR color, int sprite_width = 0, int sprite_height = 0, int nx = 1, int ny = 1);
+
 	void Draw(float x, float y, LPTEXTURE tex, int l, int t, int r, int b, float alpha = 1.0f, int sprite_width = 0, int sprite_height = 0, int nx = 1, int ny = 1)
 	{
 		RECT rect;
