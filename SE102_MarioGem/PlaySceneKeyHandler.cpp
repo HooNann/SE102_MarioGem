@@ -43,20 +43,26 @@ void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
                     else
                     {
                         // Đã bay rồi, đập cánh tiếp
-                        mario->SetVelocityY(-0.25f);
+                        mario->StartFlapping();
+                        mario->SetVelocityY(-0.2f);
+                        mario->SetAccelerationY(0);
                     }
                 }
 				else
                 {
-                    if (curID != MarioStateID::Float)
+                    if (mario->GetVelocityY() > 0)
                     {
-					    mario->ChangeState(new CMarioFloatState());
-                    }
-                    else
-                    {
-                        // Đã vẫy đuôi rồi, đập cánh lơ lửng tiếp (làm mới float)
-                        mario->SetVelocityY(MARIO_FLOAT_SPEED_Y);
-                        mario->SetAccelerationY(MARIO_GRAVITY / 4);
+                        if (curID != MarioStateID::Float)
+                        {
+                            mario->ChangeState(new CMarioFloatState());
+                        }
+                        else
+                        {
+                            // Đã vẫy đuôi rồi, đập cánh lơ lửng tiếp (làm mới float)
+                            mario->StartFlapping();
+                            mario->SetVelocityY(MARIO_FLOAT_SPEED_Y);
+                            mario->SetAccelerationY(0);
+                        }
                     }
                 }
 			}
@@ -94,7 +100,15 @@ void CPlaySceneKeyHandler::OnKeyUp(int KeyCode)
 	case DIK_Z:
         if (!mario->IsOnPlatform())
         {
-		    mario->ChangeState(new CMarioFallState());
+            MarioStateID curID = mario->currentState ? mario->currentState->GetID() : MarioStateID::Idle;
+            if (mario->GetLevel() == MarioLevel::Raccoon && (curID == MarioStateID::Fly || curID == MarioStateID::Float))
+            {
+                // Bỏ qua chuyển sang FallState để tránh đứt animation, timer sẽ tự lo
+            }
+            else
+            {
+		        mario->ChangeState(new CMarioFallState());
+            }
         }
 		break;
 	case DIK_DOWN:
@@ -112,13 +126,13 @@ void CPlaySceneKeyHandler::KeyState(BYTE *states)
     if (mario->currentState && mario->currentState->GetID() == MarioStateID::Duck)
         return;
     
-    // Ngăn đổi state nếu đang bay hoặc rơi chậm (để không ngắt animation bay)
-    MarioStateID curID = mario->currentState ? mario->currentState->GetID() : MarioStateID::Idle;
-    if (curID == MarioStateID::Dead)
+    if (mario->currentState && mario->currentState->GetID() == MarioStateID::Dead)
         return;
 
-    if (curID == MarioStateID::Fly || curID == MarioStateID::Float)
-        return;
+    MarioStateID curID = mario->currentState ? mario->currentState->GetID() : MarioStateID::Idle;
+
+    // Không ngăn đổi state ở đây nữa để giữ Air Control (di chuyển trái phải).
+    // Các logic Air Control bên dưới không làm đổi state (chỉ đổi vận tốc/gia tốc).
 
 	if (!mario->IsOnPlatform())
 	{

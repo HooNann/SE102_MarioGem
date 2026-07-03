@@ -5,15 +5,20 @@
 void CMarioFloatState::Enter(CMario* mario)
 {
     // Hãm đà rơi lại (rơi chậm)
+    mario->StartFlapping();
     mario->SetVelocityY(MARIO_FLOAT_SPEED_Y);
-    mario->SetAccelerationY(MARIO_GRAVITY / 4); // Trọng lực rất nhỏ để lướt một nhịp ngắn
+    mario->SetAccelerationY(0); // Chuyển động đều
+}
+
+void CMarioFloatState::Exit(CMario* mario)
+{
+    mario->SetAccelerationY(MARIO_GRAVITY);
 }
 
 void CMarioFloatState::Update(CMario* mario, DWORD dt)
 {
     // Sau 1 khoảng vẫy đuôi, tự động trả về rơi tự do
-    // Ở đây dùng một cơ chế đơn giản là khi tốc độ rơi tăng quá một mức nhất định
-    if (mario->GetVelocityY() > MARIO_FLOAT_SPEED_Y * 2)
+    if (GetTickCount64() - mario->GetFlapStartTime() > 250)
     {
         mario->ChangeState(new CMarioFallState());
     }

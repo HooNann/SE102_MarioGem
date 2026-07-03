@@ -135,18 +135,6 @@
     <ClCompile Include="CMarioWalkState.cpp">
       <Filter>Game\Objects\Player</Filter>
     </ClCompile>
-    <ClCompile Include="CMarioRunState.cpp">
-      <Filter>States</Filter>
-    </ClCompile>
-    <ClCompile Include="CMarioSkidState.cpp">
-      <Filter>States</Filter>
-    </ClCompile>
-    <ClCompile Include="CMarioFlyState.cpp">
-      <Filter>States</Filter>
-    </ClCompile>
-    <ClCompile Include="CMarioFloatState.cpp">
-      <Filter>States</Filter>
-    </ClCompile>
     <ClCompile Include="CMarioJumpState.cpp">
       <Filter>Game\Objects\Player</Filter>
     </ClCompile>
@@ -233,6 +221,21 @@
     </ClCompile>
     <ClCompile Include="BoomBoom.cpp">
       <Filter>Game\Objects\Bosses</Filter>
+    </ClCompile>
+    <ClCompile Include="CMarioFloatState.cpp">
+      <Filter>Game\Objects\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CMarioFlyState.cpp">
+      <Filter>Game\Objects\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CMarioRunState.cpp">
+      <Filter>Game\Objects\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CMarioSkidState.cpp">
+      <Filter>Game\Objects\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CMarioState.cpp">
+      <Filter>Game\Objects\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -397,6 +400,18 @@
     </ClInclude>
     <ClInclude Include="FireBall.h">
       <Filter>Game\Objects\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="CMarioFloatState.h">
+      <Filter>Game\Objects\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="CMarioFlyState.h">
+      <Filter>Game\Objects\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="CMarioSkidState.h">
+      <Filter>Game\Objects\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="GameData.h">
+      <Filter>Game\Systems</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

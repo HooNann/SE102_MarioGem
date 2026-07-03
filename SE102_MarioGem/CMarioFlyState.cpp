@@ -6,9 +6,15 @@ void CMarioFlyState::Enter(CMario* mario)
 {
     // Cất cánh
     mario->StartFlying();
-    mario->SetVelocityY(-MARIO_JUMP_MAX_SPEED_Y);
+    mario->StartFlapping();
+    mario->SetVelocityY(-0.2f);
     mario->SetOnPlatform(false);
-    mario->SetAccelerationY(MARIO_GRAVITY_JUMP); // Trọng lực thấp khi giữ phím Z
+    mario->SetAccelerationY(0);
+}
+
+void CMarioFlyState::Exit(CMario* mario)
+{
+    mario->SetAccelerationY(MARIO_GRAVITY);
 }
 
 void CMarioFlyState::Update(CMario* mario, DWORD dt)
@@ -19,6 +25,11 @@ void CMarioFlyState::Update(CMario* mario, DWORD dt)
         mario->ResetPMeter(); // Cạn pin
         mario->ChangeState(new CMarioFallState());
         return;
+    }
+
+    if (GetTickCount64() - mario->GetFlapStartTime() > 250)
+    {
+        mario->SetAccelerationY(MARIO_GRAVITY_JUMP);
     }
 
     // Nếu rớt thì rơi
