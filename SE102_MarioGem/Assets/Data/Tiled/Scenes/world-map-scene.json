@@ -271,6 +271,11 @@
                  "opacity":1,
                  "properties":[
                         {
+                         "name":"ani_active",
+                         "type":"int",
+                         "value":90003
+                        }, 
+                        {
                          "name":"left_id",
                          "type":"int",
                          "value":63

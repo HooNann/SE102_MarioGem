@@ -8,10 +8,9 @@ height	240
 [SCENES]
 0	1	intro.txt
 1	1	Assets\Data\Scenes\stage-1-1.txt
-2	2	Assets\Data\Scenes\world-map-scene.txt
-5	1	Assets\Data\Scenes\scene0005.txt
 6	1	Assets\Data\Scenes\stage-1-fortress.txt
 99	3	Assets\Data\Scenes\sound-test.txt
+100	2	Assets\Data\Scenes\world-map-scene.txt
 
 # id	file
 [TEXTURES]
@@ -28,6 +27,7 @@ height	240
 80	Assets\Textures\All\misc.png
 90	Assets\Textures\All\reward.png
 100	Assets\Textures\All\fire-ball-white.png
+110	Assets\Textures\All\pipe.png
 
 # id	file
 [AUDIO]
