@@ -31,6 +31,10 @@ namespace
 	constexpr int WORLD_MAP_SCENE_ID = 100;
 	constexpr ULONGLONG COURSE_CLEAR_DURATION_MS = 4000;
 	constexpr ULONGLONG DEATH_RETURN_DELAY_MS = 2000;
+	constexpr float CAMERA_UPDATE_MARGIN = 320.0f;
+	constexpr float MARIO_COLLISION_SIDE_MARGIN = 64.0f;
+	constexpr float MARIO_COLLISION_TOP_MARGIN = 64.0f;
+	constexpr float MARIO_COLLISION_FALL_MARGIN = 480.0f;
 
 	void ConfigurePlaySceneCamera()
 	{
@@ -45,6 +49,16 @@ namespace
 	bool IsPointInRect(float x, float y, float l, float t, float r, float b)
 	{
 		return x >= l && x <= r && y >= t && y <= b;
+	}
+
+	bool ContainsGameObject(const vector<LPGAMEOBJECT>& objects, LPGAMEOBJECT obj)
+	{
+		for (auto existingObj : objects)
+		{
+			if (existingObj == obj) return true;
+		}
+
+		return false;
 	}
 }
 
@@ -383,6 +397,13 @@ void CPlayScene::Load()
 	if (hud != NULL) delete hud;
 	hud = new CHud();
 
+	if (player != NULL)
+	{
+		CCamera* camera = CCamera::GetInstance();
+		camera->SetTarget(player);
+		camera->Update();
+	}
+
 	if (id == 6)
 		CSoundSubject::GetInstance()->Notify(EVENT_MUSIC_FORTRESS);
 	else
@@ -579,7 +600,7 @@ void CPlayScene::Update(DWORD dt)
 	float screenHeight = camera->GetHeight();
 
 	vector<LPGAMEOBJECT> activeObjects;
-	float update_margin = 160.0f;
+	float update_margin = CAMERA_UPDATE_MARGIN;
 	float active_left = cx - update_margin;
 	float active_top = cy - update_margin;
 	float active_right = cx + screenWidth + update_margin;
@@ -602,7 +623,34 @@ void CPlayScene::Update(DWORD dt)
 
 	for (size_t i = 0; i < activeObjects.size(); i++)
 	{
-		activeObjects[i]->Update(dt, &coObjects);
+		if (activeObjects[i] == player)
+		{
+			vector<LPGAMEOBJECT> marioCoObjects = coObjects;
+
+			float ml, mt, mr, mb;
+			player->GetBoundingBox(ml, mt, mr, mb);
+
+			float mario_collision_left = ml - MARIO_COLLISION_SIDE_MARGIN;
+			float mario_collision_top = mt - MARIO_COLLISION_TOP_MARGIN;
+			float mario_collision_right = mr + MARIO_COLLISION_SIDE_MARGIN;
+			float mario_collision_bottom = mb + MARIO_COLLISION_FALL_MARGIN;
+
+			for (size_t j = 0; j < objects.size(); j++)
+			{
+				LPGAMEOBJECT obj = objects[j];
+				if (obj == player || obj->IsDeleted() || !obj->IsBlocking()) continue;
+				if (!IsGameObjectInRegion(obj, mario_collision_left, mario_collision_top, mario_collision_right, mario_collision_bottom)) continue;
+				if (ContainsGameObject(marioCoObjects, obj)) continue;
+
+				marioCoObjects.push_back(obj);
+			}
+
+			activeObjects[i]->Update(dt, &marioCoObjects);
+		}
+		else
+		{
+			activeObjects[i]->Update(dt, &coObjects);
+		}
 	}
 
 	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
