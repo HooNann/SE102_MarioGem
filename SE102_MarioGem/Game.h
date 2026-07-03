@@ -122,6 +122,7 @@ public:
 		transition.StartIrisClose(blockInput, onFinished);
 	}
 	void UpdateTransition(DWORD dt) { transition.Update(dt); }
+	void CompleteTransitionIfReady() { transition.CompleteIfReady(); }
 	void RenderTransition() { transition.Render(); }
 	bool IsTransitionActive() { return transition.IsActive(); }
 	bool IsTransitionBlockingInput() { return transition.IsBlockingInput(); }

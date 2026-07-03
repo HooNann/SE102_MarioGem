@@ -51,9 +51,10 @@ void CWorldMapKeyHandler::OnKeyDown(int KeyCode)
 		{
 			int sceneId = mario->currentNode->sceneId;
 			DebugOut(L"[INFO] Switch to scene %d\n", sceneId);
+			CSoundSubject::GetInstance()->Notify(EVENT_MUSIC_STOP);
+			CSoundSubject::GetInstance()->Notify(EVENT_LEVEL_START);
 			CGame::GetInstance()->StartIrisClose(true, [sceneId]() {
 				CGame::GetInstance()->InitiateSwitchScene(sceneId);
-				CGame::GetInstance()->SwitchScene();
 			});
 		}
 		break;

@@ -404,12 +404,12 @@ void CPlayScene::Load()
 		camera->Update();
 	}
 
-	if (id == 6)
-		CSoundSubject::GetInstance()->Notify(EVENT_MUSIC_FORTRESS);
-	else
-		CSoundSubject::GetInstance()->Notify(EVENT_MUSIC_OVERWORLD);
-
-	CGame::GetInstance()->StartFadeIn(TRANSITION_FADE_IN_DURATION_MS, true);
+	CGame::GetInstance()->StartFadeIn(TRANSITION_FADE_IN_DURATION_MS, true, [this]() {
+		if (id == 6)
+			CSoundSubject::GetInstance()->Notify(EVENT_MUSIC_FORTRESS);
+		else
+			CSoundSubject::GetInstance()->Notify(EVENT_MUSIC_OVERWORLD);
+	});
 
 	DebugOut(L"[INFO] Done loading scene  %s\n", sceneFilePath);
 }

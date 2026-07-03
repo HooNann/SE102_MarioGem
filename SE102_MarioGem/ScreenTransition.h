@@ -30,6 +30,7 @@ class CScreenTransition
 	DWORD elapsed;
 	bool active;
 	bool blockInput;
+	bool readyToFinish;
 	std::function<void()> onFinished;
 
 	float GetSteppedProgress(DWORD elapsedMs, DWORD durationMs, int steps) const;
@@ -46,6 +47,7 @@ public:
 	void StartIrisClose(bool blockInput = true, std::function<void()> onFinished = nullptr);
 
 	void Update(DWORD dt);
+	void CompleteIfReady();
 	void Render() const;
 
 	bool IsActive() const { return active; }

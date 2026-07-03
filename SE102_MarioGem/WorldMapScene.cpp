@@ -282,8 +282,9 @@ void CWorldMapScene::Load()
 	if (hud != NULL) delete hud;
 	hud = new CHud();
 
-	CSoundSubject::GetInstance()->Notify(EVENT_MUSIC_WORLDMAP);
-	CGame::GetInstance()->StartFadeIn(TRANSITION_FADE_IN_DURATION_MS, true);
+	CGame::GetInstance()->StartFadeIn(TRANSITION_FADE_IN_DURATION_MS, true, []() {
+		CSoundSubject::GetInstance()->Notify(EVENT_MUSIC_WORLDMAP);
+	});
 
 	DebugOut(L"[INFO] Done loading WorldMapScene %s\n", sceneFilePath);
 }

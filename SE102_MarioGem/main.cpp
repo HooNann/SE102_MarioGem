@@ -194,6 +194,7 @@ int Run()
 			Update(dt);
 			Render();
 
+			CGame::GetInstance()->CompleteTransitionIfReady();
 			CGame::GetInstance()->SwitchScene();
 		}
 		else

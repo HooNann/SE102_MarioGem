@@ -13,6 +13,7 @@ CScreenTransition::CScreenTransition()
 	elapsed = 0;
 	active = false;
 	blockInput = false;
+	readyToFinish = false;
 	onFinished = nullptr;
 }
 
@@ -37,6 +38,7 @@ void CScreenTransition::Start(ScreenTransitionType transitionType, DWORD duratio
 	elapsed = 0;
 	active = true;
 	blockInput = shouldBlockInput;
+	readyToFinish = false;
 	onFinished = finishedCallback;
 }
 
@@ -62,9 +64,18 @@ void CScreenTransition::StartIrisClose(bool shouldBlockInput, std::function<void
 void CScreenTransition::Update(DWORD dt)
 {
 	if (!active) return;
+	if (readyToFinish) return;
 
 	elapsed += dt;
 	if (elapsed < duration) return;
+
+	elapsed = duration;
+	readyToFinish = true;
+}
+
+void CScreenTransition::CompleteIfReady()
+{
+	if (!active || !readyToFinish) return;
 
 	std::function<void()> finishedCallback = onFinished;
 
@@ -73,6 +84,7 @@ void CScreenTransition::Update(DWORD dt)
 	elapsed = 0;
 	active = false;
 	blockInput = false;
+	readyToFinish = false;
 	onFinished = nullptr;
 
 	if (finishedCallback != nullptr)
