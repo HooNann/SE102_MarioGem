@@ -67,6 +67,7 @@ public:
 	virtual void Unload();
 
 	bool IsMenuActive() { return menuActive; }
+	void SkipToMenu();
 	void MenuMove();
 	void MenuConfirm();
 };

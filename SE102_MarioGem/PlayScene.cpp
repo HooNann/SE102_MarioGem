@@ -590,6 +590,40 @@ CPipe* CPlayScene::GetOverlappingPipe(CMario* mario, PipeDirection entryDirectio
 	return nullptr;
 }
 
+void CPlayScene::SyncCameraToPlayer()
+{
+	ConfigurePlaySceneCamera();
+
+	CCamera* camera = CCamera::GetInstance();
+	if (player == NULL)
+	{
+		camera->SetCameraBounds(0, 0, map_width, map_height);
+		return;
+	}
+
+	float px, py;
+	player->GetPosition(px, py);
+
+	for (int i = 0; i < (int)cameraZones.size(); i++) {
+		CameraZone& z = cameraZones[i];
+		if (px >= z.l && px <= z.r && py >= z.t && py <= z.b) {
+			activeCameraZoneIndex = i;
+			break;
+		}
+	}
+
+	if (activeCameraZoneIndex >= 0 && activeCameraZoneIndex < (int)cameraZones.size()) {
+		CameraZone& z = cameraZones[activeCameraZoneIndex];
+		camera->SetCameraBounds(z.l, z.t, z.r, z.b);
+	}
+	else {
+		camera->SetCameraBounds(0, 0, map_width, map_height);
+	}
+
+	camera->SetTarget(player);
+	camera->Update();
+}
+
 void CPlayScene::Update(DWORD dt)
 {
 	CEventManager::GetInstance()->Update(dt);
@@ -698,31 +732,10 @@ void CPlayScene::Update(DWORD dt)
 		}
 	}
 
-	// Update active camera zone, but keep the last zone when Mario leaves it.
-	float px, py;
-	player->GetPosition(px, py);
-	
-	for (int i = 0; i < (int)cameraZones.size(); i++) {
-		CameraZone& z = cameraZones[i];
-		if (px >= z.l && px <= z.r && py >= z.t && py <= z.b) {
-			activeCameraZoneIndex = i;
-			break;
-		}
-	}
-	
-	if (activeCameraZoneIndex >= 0 && activeCameraZoneIndex < (int)cameraZones.size()) {
-		CameraZone& z = cameraZones[activeCameraZoneIndex];
-		camera->SetCameraBounds(z.l, z.t, z.r, z.b);
-	}
-	else {
-		camera->SetCameraBounds(0, 0, map_width, map_height);
-	}
-
 	// Update camera to follow mario
 	if (!isCourseClear)
 	{
-		camera->SetTarget(player);
-		camera->Update();
+		SyncCameraToPlayer();
 	}
 
 	for (auto obj : spawnQueue)

@@ -78,6 +78,7 @@ public:
 	LPGAMEOBJECT GetPlayer() { return player; }
 	void AddObject(LPGAMEOBJECT obj) { objects.push_back(obj); }
 	CPipe* GetOverlappingPipe(CMario* mario, PipeDirection entryDirection);
+	void SyncCameraToPlayer();
 
 	void TriggerCourseClear(int reward);
 	bool IsCourseClear() const { return isCourseClear; }

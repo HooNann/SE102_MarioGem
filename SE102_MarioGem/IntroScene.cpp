@@ -828,6 +828,54 @@ void CIntroScene::Unload()
 	DebugOut(L"[INFO] Intro scene unloaded\n");
 }
 
+void CIntroScene::SkipToMenu()
+{
+	if (menuActive) return;
+
+	timer = T_LUIGI_KICK;
+	menuActive = true;
+	menuRow = 0;
+
+	curtainY = CURTAIN_DONE_Y;
+	logoStep = 4;
+	logoTimer = 0;
+	badgeBlinkTimer = 0;
+	titleY = TITLE_CY_FINAL;
+	badgeY = BADGE_CY_FINAL;
+	bgColorIndex = 4;
+	treesVisible = true;
+	bottomCurtainVisible = true;
+
+	mario.visible = false;
+	luigi.visible = false;
+	goomba.visible = false;
+	koopaWalker.visible = false;
+	redShell.visible = false;
+	luigiShell.visible = false;
+	mushRed.visible = false;
+	mushGreen.visible = false;
+	leaf.visible = false;
+
+	marioHolding = false;
+	luigiHolding = false;
+	marioBehindTrees = false;
+	leafTaken = true;
+	luigiShellKicked = true;
+	goombaDead = false;
+	koopaTucked = false;
+
+	marioStep = 19;
+	luigiStep = 10;
+	itemStep = 1;
+	marioPoseTimer = 0;
+	luigiPoseTimer = 0;
+
+	lateShellTimer = 0;
+	lateShellStep = 0;
+	for (int i = 0; i < 3; i++)
+		lateShells[i] = { OFFSCREEN_L, GROUND_Y, 0, 0, INTRO_GRAVITY, 1, 1, false, true, ANI_GREEN_SHELL_SPIN };
+}
+
 void CIntroScene::MenuMove()
 {
 	if (!menuActive) return;

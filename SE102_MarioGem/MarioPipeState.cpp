@@ -3,6 +3,7 @@
 #include "Game.h"
 #include "MarioIdleState.h"
 #include "Mario.h"
+#include "PlayScene.h"
 #include "SoundEvents.h"
 #include "SoundSubject.h"
 
@@ -41,6 +42,49 @@ void CMarioPipeState::GetDirectionVector(PipeDirection direction, float& dx, flo
 	case PipeDirection::Down:
 	default:
 		dy = 1.0f;
+		break;
+	}
+}
+
+float CMarioPipeState::GetMarioBBoxHeight(CMario* mario)
+{
+	float l, t, r, b;
+	mario->GetBoundingBox(l, t, r, b);
+	return b - t;
+}
+
+float CMarioPipeState::GetMarioBBoxWidth(CMario* mario)
+{
+	float l, t, r, b;
+	mario->GetBoundingBox(l, t, r, b);
+	return r - l;
+}
+
+float CMarioPipeState::GetTravelDistance(CMario* mario, PipeDirection direction)
+{
+	if (direction == PipeDirection::Up || direction == PipeDirection::Down)
+		return GetMarioBBoxHeight(mario) * 1.5f;
+
+	return MARIO_PIPE_TRAVEL_DISTANCE;
+}
+
+void CMarioPipeState::ResolveTargetCenter(CMario* mario, float& x, float& y)
+{
+	x = targetX;
+	y = targetY;
+
+	float height = GetMarioBBoxHeight(mario);
+	switch (exitDirection)
+	{
+	case PipeDirection::Up:
+		y = targetY - height / 2.0f;
+		break;
+	case PipeDirection::Down:
+		y = targetY + height / 2.0f;
+		break;
+	case PipeDirection::Left:
+	case PipeDirection::Right:
+	default:
 		break;
 	}
 }
@@ -87,21 +131,23 @@ void CMarioPipeState::Enter(CMario* mario)
 
 	float dx, dy;
 	GetDirectionVector(entryDirection, dx, dy);
-	SetPhase(mario, mx, my, mx + dx * MARIO_PIPE_TRAVEL_DISTANCE, my + dy * MARIO_PIPE_TRAVEL_DISTANCE);
+	float travelDistance = GetTravelDistance(mario, entryDirection);
+	SetPhase(mario, mx, my, mx + dx * travelDistance, my + dy * travelDistance);
 
 	CSoundSubject::GetInstance()->Notify(EVENT_POWERDOWN);
 }
 
 void CMarioPipeState::StartExitPhase(CMario* mario)
 {
-	float finalX = targetX;
-	float finalY = targetY;
+	float finalX, finalY;
+	ResolveTargetCenter(mario, finalX, finalY);
 
 	float dx, dy;
 	GetDirectionVector(exitDirection, dx, dy);
+	float travelDistance = GetTravelDistance(mario, exitDirection);
 
-	float startX = finalX - dx * MARIO_PIPE_TRAVEL_DISTANCE;
-	float startY = finalY - dy * MARIO_PIPE_TRAVEL_DISTANCE;
+	float startX = finalX - dx * travelDistance;
+	float startY = finalY - dy * travelDistance;
 
 	exiting = true;
 	SetPhase(mario, startX, startY, finalX, finalY);
@@ -133,6 +179,9 @@ void CMarioPipeState::Update(CMario* mario, DWORD dt)
 		waitingForTransition = true;
 		CGame::GetInstance()->StartFadeOut(TRANSITION_FADE_OUT_DURATION_MS, true, [this, mario]() {
 			StartExitPhase(mario);
+			CPlayScene* scene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+			if (scene != nullptr)
+				scene->SyncCameraToPlayer();
 			waitingForTransition = false;
 			CGame::GetInstance()->StartFadeIn(TRANSITION_FADE_IN_DURATION_MS, true);
 		});
