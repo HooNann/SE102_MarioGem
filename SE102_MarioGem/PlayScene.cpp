@@ -500,9 +500,10 @@ bool CPlayScene::IsGameObjectInRegion(LPGAMEOBJECT obj, float r_left, float r_to
 	return !(r < r_left || l > r_right || b < r_top || t > r_bottom);
 }
 
-CPipe* CPlayScene::GetOverlappingPipe(CMario* mario)
+CPipe* CPlayScene::GetOverlappingPipe(CMario* mario, PipeDirection entryDirection)
 {
-	if (mario == nullptr || !mario->IsOnPlatform()) return nullptr;
+	if (mario == nullptr) return nullptr;
+	if (entryDirection == PipeDirection::Down && !mario->IsOnPlatform()) return nullptr;
 
 	float ml, mt, mr, mb;
 	mario->GetBoundingBox(ml, mt, mr, mb);
@@ -511,7 +512,7 @@ CPipe* CPlayScene::GetOverlappingPipe(CMario* mario)
 	{
 		CPipe* pipe = dynamic_cast<CPipe*>(obj);
 		if (pipe == nullptr || pipe->IsDeleted()) continue;
-		if (pipe->GetEntryDirection() != PipeDirection::Down) continue;
+		if (pipe->GetEntryDirection() != entryDirection) continue;
 
 		float pl, pt, pr, pb;
 		pipe->GetBoundingBox(pl, pt, pr, pb);
@@ -623,7 +624,7 @@ void CPlayScene::Render()
 	game->BeginViewportClip((int)HUD_RESERVED_HEIGHT);
 
 	if (map != NULL)
-		map->Render();
+		map->RenderBackground();
 
 	CCamera* camera = CCamera::GetInstance();
 	float cx, cy;
@@ -644,6 +645,9 @@ void CPlayScene::Render()
 			objects[i]->Render();
 		}
 	}
+
+	if (map != NULL)
+		map->RenderForeground();
 
 	game->EndViewportClip();
 

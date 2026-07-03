@@ -157,14 +157,17 @@ void CTileMap::LoadJSON(LPCWSTR jsonPath, LPCWSTR basePath)
 			DebugOut(L"[INFO] Loading tile layer: %s\n",
 				wstring(layerName.begin(), layerName.end()).c_str());
 
-			vector<unsigned int> layerData;
+			TileLayerInfo layerInfo;
+			layerInfo.name = layerName;
+			layerInfo.isForeground = (layerName == "Foreground");
+
 			for (auto& id : layer["data"])
 			{
-				layerData.push_back(id.get<unsigned int>());
+				layerInfo.data.push_back(id.get<unsigned int>());
 			}
 
-			mapLayers.push_back(layerData);
-			DebugOut(L"[INFO] Tile layer loaded: %d tiles\n", (int)layerData.size());
+			mapLayers.push_back(layerInfo);
+			DebugOut(L"[INFO] Tile layer loaded: %d tiles\n", (int)layerInfo.data.size());
 		}
 	}
 }
@@ -181,7 +184,7 @@ TilesetInfo* CTileMap::GetTilesetByGid(int gid)
 	return nullptr;
 }
 
-void CTileMap::Render()
+void CTileMap::RenderLayers(bool foreground)
 {
 	if (mapLayers.empty() || tilesets.empty()) return;
 
@@ -203,16 +206,17 @@ void CTileMap::Render()
 	int rowStart = max(0, (int)(cy / tileHeight));
 	int rowEnd = min(height - 1, (int)((cy + screenHeight) / tileHeight));
 
-	// Lặp qua từng Layer để vẽ chồng lên nhau
 	for (size_t i = 0; i < mapLayers.size(); i++)
 	{
+		if (mapLayers[i].isForeground != foreground) continue;
+
 		for (int row = rowStart; row <= rowEnd; row++)
 		{
 			for (int col = colStart; col <= colEnd; col++)
 			{
 				// Lấy tile ID từ mảng 1 chiều (quy đổi từ hàng, cột)
 				int index = row * width + col;
-				unsigned int tileData = mapLayers[i][index];
+				unsigned int tileData = mapLayers[i].data[index];
 
 				// ID = 0 nghĩa là ô trống, bỏ qua
 				if (tileData == 0) continue;
@@ -255,5 +259,21 @@ void CTileMap::Render()
 			}
 		}
 	}
+}
+
+void CTileMap::Render()
+{
+	RenderBackground();
+	RenderForeground();
+}
+
+void CTileMap::RenderBackground()
+{
+	RenderLayers(false);
+}
+
+void CTileMap::RenderForeground()
+{
+	RenderLayers(true);
 }
 

@@ -3,8 +3,8 @@
 #include "CMarioState.h"
 #include "Pipe.h"
 
-constexpr DWORD MARIO_PIPE_ENTER_TIME = 700;
-constexpr DWORD MARIO_PIPE_EXIT_TIME = 700;
+constexpr DWORD MARIO_PIPE_ENTER_TIME = 1000;
+constexpr DWORD MARIO_PIPE_EXIT_TIME = 1000;
 constexpr float MARIO_PIPE_TRAVEL_DISTANCE = 32.0f;
 
 class CMarioPipeState : public CMarioState

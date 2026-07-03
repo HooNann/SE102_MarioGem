@@ -33,7 +33,7 @@ void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
 	{
 	case DIK_DOWN:
 	{
-		CPipe* pipe = scene->GetOverlappingPipe(mario);
+		CPipe* pipe = scene->GetOverlappingPipe(mario, PipeDirection::Down);
 		if (pipe != nullptr)
 			mario->ChangeState(new CMarioPipeState(pipe));
 		else
@@ -163,6 +163,16 @@ void CPlaySceneKeyHandler::KeyState(BYTE *states)
 
     // Không ngăn đổi state ở đây nữa để giữ Air Control (di chuyển trái phải).
     // Các logic Air Control bên dưới không làm đổi state (chỉ đổi vận tốc/gia tốc).
+
+	if (game->IsKeyDown(DIK_UP))
+	{
+		CPipe* pipe = scene->GetOverlappingPipe(mario, PipeDirection::Up);
+		if (pipe != nullptr)
+		{
+			mario->ChangeState(new CMarioPipeState(pipe));
+			return;
+		}
+	}
 
 	if (!mario->IsOnPlatform())
 	{

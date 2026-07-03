@@ -92,12 +92,8 @@ void CMarioPipeState::Enter(CMario* mario)
 
 void CMarioPipeState::StartExitPhase(CMario* mario)
 {
-	float ml, mt, mr, mb;
-	mario->GetBoundingBox(ml, mt, mr, mb);
-	float marioHeight = mb - mt;
-
 	float finalX = targetX;
-	float finalY = targetY - marioHeight / 2.0f;
+	float finalY = targetY;
 
 	float dx, dy;
 	GetDirectionVector(exitDirection, dx, dy);
@@ -107,6 +103,8 @@ void CMarioPipeState::StartExitPhase(CMario* mario)
 
 	exiting = true;
 	SetPhase(mario, startX, startY, finalX, finalY);
+
+	CSoundSubject::GetInstance()->Notify(EVENT_POWERDOWN);
 }
 
 void CMarioPipeState::Update(CMario* mario, DWORD dt)
