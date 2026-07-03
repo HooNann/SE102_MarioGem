@@ -9,7 +9,7 @@ CGoalRewardItem::CGoalRewardItem(float x, float y, ItemType t) : CGameObject(x, 
 {
 	type = t;
 	vy = -0.1f;
-	vx = 0.05f;
+	vx = 0.0f;
 	startTime = GetTickCount64();
 	
 	// Add to inventory

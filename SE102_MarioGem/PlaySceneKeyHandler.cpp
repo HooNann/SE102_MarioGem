@@ -37,7 +37,7 @@ void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
 			if (mario->GetLevel() == MarioLevel::Raccoon)
 			{
                 MarioStateID curID = mario->currentState ? mario->currentState->GetID() : MarioStateID::Idle;
-				if (mario->GetPMeter() == MARIO_PMETER_MAX)
+				if (mario->IsFlyingPowerActive())
                 {
                     if (curID != MarioStateID::Fly)
                     {
@@ -47,7 +47,7 @@ void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
                     {
                         // Đã bay rồi, đập cánh tiếp
                         mario->StartFlapping();
-                        mario->SetVelocityY(-0.2f);
+                        mario->SetVelocityY(-MARIO_FLY_SPEED_Y);
                         mario->SetAccelerationY(0);
                     }
                 }

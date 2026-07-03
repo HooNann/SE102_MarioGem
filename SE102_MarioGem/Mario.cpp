@@ -178,17 +178,46 @@ void CMario::HandlePMeter(DWORD dt)
 		{
 			pMeter += dt;
 			if (pMeter > MARIO_PMETER_MAX) pMeter = MARIO_PMETER_MAX;
+            
+            // Nếu đang có cờ bay mà lại đạt max tốc độ trên mặt đất thì reset timer
+            if (pMeter == MARIO_PMETER_MAX && isFlyingPowerActive)
+            {
+                flyStartTime = GetTickCount64();
+            }
 		}
+        else if (pMeter > 0 && !isFlyingPowerActive)
+        {
+            // Đang Run nhưng chưa đủ tốc độ, tụt pin nếu chưa bay
+            pMeter -= dt * 2;
+            if (pMeter < 0) pMeter = 0;
+        }
 	}
 	else 
 	{
-		// Xả pin nếu không chạy
-		if (pMeter > 0)
+		// Xả pin nếu không chạy và không trong trạng thái fly timer
+		if (pMeter > 0 && !isFlyingPowerActive)
 		{
 			pMeter -= dt * 2;
 			if (pMeter < 0) pMeter = 0;
 		}
 	}
+
+    if (isFlyingPowerActive) 
+    {
+        if (GetTickCount64() - flyStartTime > MARIO_FLYING_TIME_MAX) 
+        {
+            isFlyingPowerActive = false;
+            pMeter = 0; // Hết giờ bay thì tụt sạch P-Meter để ép phải chạy lại
+        }
+    } 
+    else 
+    {
+        if (pMeter == MARIO_PMETER_MAX) 
+        {
+            isFlyingPowerActive = true;
+            flyStartTime = GetTickCount64();
+        }
+    }
 }
 
 
