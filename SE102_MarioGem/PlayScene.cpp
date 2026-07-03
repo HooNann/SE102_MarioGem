@@ -409,6 +409,8 @@ void CPlayScene::Load()
 	else
 		CSoundSubject::GetInstance()->Notify(EVENT_MUSIC_OVERWORLD);
 
+	CGame::GetInstance()->StartFadeIn(TRANSITION_FADE_IN_DURATION_MS, true);
+
 	DebugOut(L"[INFO] Done loading scene  %s\n", sceneFilePath);
 }
 
@@ -687,8 +689,11 @@ void CPlayScene::Update(DWORD dt)
 			CEventManager::GetInstance()->AddEvent(new CEventWaitForSound(soundId));
 			CEventManager::GetInstance()->AddEvent(new CEventDelay(500)); 
 			CEventManager::GetInstance()->AddEvent(new CEventAction([]() {
-				CGameData::GetInstance()->AddLife(-1);
-				CGame::GetInstance()->InitiateSwitchScene(WORLD_MAP_SCENE_ID);
+				CGame::GetInstance()->StartFadeOut(TRANSITION_FADE_OUT_DURATION_MS, true, []() {
+					CGameData::GetInstance()->AddLife(-1);
+					CGame::GetInstance()->InitiateSwitchScene(WORLD_MAP_SCENE_ID);
+					CGame::GetInstance()->SwitchScene();
+				});
 			}));
 		}
 	}

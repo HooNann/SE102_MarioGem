@@ -76,6 +76,7 @@ LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 void Update(DWORD dt)
 {
 	CGame::GetInstance()->GetCurrentScene()->Update(dt);
+	CGame::GetInstance()->UpdateTransition(dt);
 	CSoundManager::GetInstance()->Update();
 }
 
@@ -101,6 +102,7 @@ void Render()
 	pD3DDevice->OMSetBlendState(g->GetAlphaBlending(), NewBlendFactor, 0xffffffff);
 
 	CGame::GetInstance()->GetCurrentScene()->Render();
+	g->RenderTransition();
 
 	spriteHandler->End();
 	pSwapChain->Present(1, 0);

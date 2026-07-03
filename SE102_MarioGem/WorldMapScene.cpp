@@ -283,6 +283,7 @@ void CWorldMapScene::Load()
 	hud = new CHud();
 
 	CSoundSubject::GetInstance()->Notify(EVENT_MUSIC_WORLDMAP);
+	CGame::GetInstance()->StartFadeIn(TRANSITION_FADE_IN_DURATION_MS, true);
 
 	DebugOut(L"[INFO] Done loading WorldMapScene %s\n", sceneFilePath);
 }

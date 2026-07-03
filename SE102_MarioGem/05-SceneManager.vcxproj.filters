@@ -183,6 +183,9 @@
     <ClCompile Include="ScoreSystem.cpp">
       <Filter>Game\Systems</Filter>
     </ClCompile>
+    <ClCompile Include="ScreenTransition.cpp">
+      <Filter>Game\Systems</Filter>
+    </ClCompile>
     <ClCompile Include="HUD.cpp">
       <Filter>Game\Systems</Filter>
     </ClCompile>
@@ -400,6 +403,9 @@
     </ClInclude>
     <ClInclude Include="QuestionBlock.h">
       <Filter>Game\Objects\Tiles</Filter>
+    </ClInclude>
+    <ClInclude Include="ScreenTransition.h">
+      <Filter>Game\Systems</Filter>
     </ClInclude>
     <ClInclude Include="FireBall.h">
       <Filter>Game\Objects\Projectiles</Filter>

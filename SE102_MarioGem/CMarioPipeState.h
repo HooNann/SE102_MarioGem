@@ -12,6 +12,7 @@ class CMarioPipeState : public CMarioState
 	CPipe* pipe;
 	ULONGLONG phaseStartTime;
 	bool exiting;
+	bool waitingForTransition;
 	float phaseStartX;
 	float phaseStartY;
 	float phaseEndX;

@@ -49,8 +49,12 @@ void CWorldMapKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_Z:
 		if (mario->currentNode->sceneId != -1)
 		{
-			DebugOut(L"[INFO] Switch to scene %d\n", mario->currentNode->sceneId);
-			CGame::GetInstance()->InitiateSwitchScene(mario->currentNode->sceneId);
+			int sceneId = mario->currentNode->sceneId;
+			DebugOut(L"[INFO] Switch to scene %d\n", sceneId);
+			CGame::GetInstance()->StartIrisClose(true, [sceneId]() {
+				CGame::GetInstance()->InitiateSwitchScene(sceneId);
+				CGame::GetInstance()->SwitchScene();
+			});
 		}
 		break;
 	}

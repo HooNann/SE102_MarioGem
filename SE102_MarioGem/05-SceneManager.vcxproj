@@ -194,6 +194,7 @@
     <ClCompile Include="PlaySceneKeyHandler.cpp" />
     <ClCompile Include="QuestionBlock.cpp" />
     <ClCompile Include="ScoreSystem.cpp" />
+    <ClCompile Include="ScreenTransition.cpp" />
     <ClCompile Include="miniaudio_impl.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="SoundSubject.cpp" />
@@ -261,6 +262,7 @@
     <ClInclude Include="Portal.h" />
     <ClInclude Include="PlaySceneKeyHandler.h" />
     <ClInclude Include="QuestionBlock.h" />
+    <ClInclude Include="ScreenTransition.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="ISoundObserver.h" />
     <ClInclude Include="lib\miniaudio\miniaudio.h" />
