@@ -201,18 +201,6 @@
                  "width":560,
                  "x":2256,
                  "y":416
-                }, 
-                {
-                 "height":416,
-                 "id":59,
-                 "name":"CollisionBox",
-                 "opacity":1,
-                 "rotation":0,
-                 "type":"CollisionBox",
-                 "visible":true,
-                 "width":16,
-                 "x":0,
-                 "y":0
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -606,6 +594,19 @@
          "name":"bg-1-1",
          "spacing":0,
          "tilecount":6864,
+         "tileheight":16,
+         "tilewidth":16
+        }, 
+        {
+         "columns":160,
+         "firstgid":7735,
+         "image":"..\/..\/..\/Textures\/Environment\/Background\/bg-1-fortress.png",
+         "imageheight":864,
+         "imagewidth":2560,
+         "margin":0,
+         "name":"bg-1-fortress",
+         "spacing":0,
+         "tilecount":8640,
          "tileheight":16,
          "tilewidth":16
         }],

@@ -63,7 +63,6 @@
   <object id="17" type="CollisionBox" x="1696" y="400" width="16" height="16"/>
   <object id="18" type="CollisionBox" x="1664" y="416" width="576" height="16"/>
   <object id="49" type="CollisionBox" x="2256" y="416" width="560" height="16"/>
-  <object id="59" name="CollisionBox" type="CollisionBox" x="0" y="0" width="16" height="416"/>
  </objectgroup>
  <objectgroup id="8" name="CameraZone">
   <object id="50" type="CameraZone" x="0" y="0" width="2816" height="432"/>

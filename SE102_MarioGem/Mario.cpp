@@ -11,13 +11,8 @@
 #include "CMarioFallState.h"
 #include "CMarioDuckState.h"
 #include "CMarioDeadState.h"
-#include "CMarioIdleState.h"
-#include "CMarioWalkState.h"
-#include "CMarioRunState.h"
-#include "CMarioJumpState.h"
-#include "CMarioFallState.h"
-#include "CMarioDuckState.h"
-#include "CMarioDeadState.h"
+#include "PlayScene.h"
+#include "Camera.h"
 
 #include "Goomba.h"
 #include "Coin.h"
@@ -73,6 +68,37 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	}
 
 	CCollision::GetInstance()->Process(this, dt, coObjects);
+
+	if (CGame::GetInstance()->GetCurrentScene() != NULL && dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene()))
+	{
+		CPlayScene* scene = (CPlayScene*)CGame::GetInstance()->GetCurrentScene();
+		if (!scene->IsCourseClear()) 
+		{
+			CCamera* camera = CCamera::GetInstance();
+			float cx, cy;
+			camera->GetCamPos(cx, cy);
+			float screenWidth = camera->GetWidth();
+
+			float ml, mt, mr, mb;
+			GetBoundingBox(ml, mt, mr, mb);
+			float mario_width = mr - ml;
+
+			float left_edge = cx + mario_width / 2.0f;
+			if (scene->IsCameraBlockingLeftEdge() && x < left_edge) 
+			{
+				x = left_edge;
+				// Ép vận tốc về mức đi bộ để xả P-Meter và giữ animation
+				if (vx < -MARIO_WALKING_SPEED) vx = -MARIO_WALKING_SPEED;
+			}
+
+			float right_edge = cx + screenWidth - mario_width / 2.0f;
+			if (scene->IsCameraBlockingRightEdge() && x > right_edge)
+			{
+				x = right_edge;
+				if (vx > MARIO_WALKING_SPEED) vx = MARIO_WALKING_SPEED;
+			}
+		}
+	}
 }
 
 #include "CMarioFallState.h"

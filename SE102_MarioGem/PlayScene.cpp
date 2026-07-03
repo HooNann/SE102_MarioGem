@@ -50,6 +50,9 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 	isCourseClear = false;
 	courseClearStartTime = 0;
 	courseClearReward = 0;
+
+	isCameraBlockingLeftEdge = true;
+	isCameraBlockingRightEdge = false;
 }
 
 

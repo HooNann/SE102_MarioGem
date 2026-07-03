@@ -37,6 +37,9 @@ protected:
 	ULONGLONG courseClearStartTime;
 	int courseClearReward; // ItemType cast to int
 
+	bool isCameraBlockingLeftEdge;
+	bool isCameraBlockingRightEdge;
+
 	void _ParseSection_SPRITES(string line);
 	void _ParseSection_ANIMATIONS(string line);
 
@@ -64,7 +67,12 @@ public:
 	void AddObject(LPGAMEOBJECT obj) { objects.push_back(obj); }
 
 	void TriggerCourseClear(int reward);
-	bool IsCourseClear() { return isCourseClear; }
+	bool IsCourseClear() const { return isCourseClear; }
+
+	bool IsCameraBlockingLeftEdge() const { return isCameraBlockingLeftEdge; }
+	bool IsCameraBlockingRightEdge() const { return isCameraBlockingRightEdge; }
+	void SetCameraBlockingLeftEdge(bool value) { isCameraBlockingLeftEdge = value; }
+	void SetCameraBlockingRightEdge(bool value) { isCameraBlockingRightEdge = value; }
 
 	void QueueSpawn(LPGAMEOBJECT obj) { spawnQueue.push_back(obj); }
 
