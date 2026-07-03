@@ -11,6 +11,8 @@
 #include "TileMap.h"
 #include "Hud.h"
 
+class CPipe;
+enum class PipeDirection;
 
 class CPlayScene: public CScene
 {
@@ -65,6 +67,7 @@ public:
 
 	LPGAMEOBJECT GetPlayer() { return player; }
 	void AddObject(LPGAMEOBJECT obj) { objects.push_back(obj); }
+	CPipe* GetOverlappingPipe(CMario* mario, PipeDirection entryDirection);
 
 	void TriggerCourseClear(int reward);
 	bool IsCourseClear() const { return isCourseClear; }

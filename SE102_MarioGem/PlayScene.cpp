@@ -8,6 +8,7 @@
 #include "Textures.h"
 #include "Sprites.h"
 #include "Portal.h"
+#include "Pipe.h"
 #include "Coin.h"
 #include "Platform.h"
 
@@ -499,6 +500,30 @@ bool CPlayScene::IsGameObjectInRegion(LPGAMEOBJECT obj, float r_left, float r_to
 	return !(r < r_left || l > r_right || b < r_top || t > r_bottom);
 }
 
+CPipe* CPlayScene::GetOverlappingPipe(CMario* mario, PipeDirection entryDirection)
+{
+	if (mario == nullptr) return nullptr;
+	if (entryDirection == PipeDirection::Down && !mario->IsOnPlatform()) return nullptr;
+
+	float ml, mt, mr, mb;
+	mario->GetBoundingBox(ml, mt, mr, mb);
+
+	for (auto obj : objects)
+	{
+		CPipe* pipe = dynamic_cast<CPipe*>(obj);
+		if (pipe == nullptr || pipe->IsDeleted()) continue;
+		if (pipe->GetEntryDirection() != entryDirection) continue;
+
+		float pl, pt, pr, pb;
+		pipe->GetBoundingBox(pl, pt, pr, pb);
+
+		bool overlap = !(mr < pl || ml > pr || mb < pt || mt > pb);
+		if (overlap) return pipe;
+	}
+
+	return nullptr;
+}
+
 void CPlayScene::Update(DWORD dt)
 {
 	ConfigurePlaySceneCamera();
@@ -599,7 +624,7 @@ void CPlayScene::Render()
 	game->BeginViewportClip((int)HUD_RESERVED_HEIGHT);
 
 	if (map != NULL)
-		map->Render();
+		map->RenderBackground();
 
 	CCamera* camera = CCamera::GetInstance();
 	float cx, cy;
@@ -620,6 +645,9 @@ void CPlayScene::Render()
 			objects[i]->Render();
 		}
 	}
+
+	if (map != NULL)
+		map->RenderForeground();
 
 	game->EndViewportClip();
 

@@ -120,6 +120,9 @@
     <ClCompile Include="Portal.cpp">
       <Filter>Game\Objects\Triggers</Filter>
     </ClCompile>
+    <ClCompile Include="Pipe.cpp">
+      <Filter>Game\Objects\Triggers</Filter>
+    </ClCompile>
     <ClCompile Include="Platform.cpp">
       <Filter>Game\Objects\Tiles</Filter>
     </ClCompile>
@@ -142,6 +145,9 @@
       <Filter>Game\Objects\Player</Filter>
     </ClCompile>
     <ClCompile Include="CMarioDuckState.cpp">
+      <Filter>Game\Objects\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CMarioPipeState.cpp">
       <Filter>Game\Objects\Player</Filter>
     </ClCompile>
     <ClCompile Include="CMarioDeadState.cpp">
@@ -320,6 +326,9 @@
     <ClInclude Include="Portal.h">
       <Filter>Game\Objects\Triggers</Filter>
     </ClInclude>
+    <ClInclude Include="Pipe.h">
+      <Filter>Game\Objects\Triggers</Filter>
+    </ClInclude>
     <ClInclude Include="Platform.h">
       <Filter>Game\Objects\Tiles</Filter>
     </ClInclude>
@@ -348,6 +357,9 @@
       <Filter>Game\Objects\Player</Filter>
     </ClInclude>
     <ClInclude Include="CMarioDuckState.h">
+      <Filter>Game\Objects\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="CMarioPipeState.h">
       <Filter>Game\Objects\Player</Filter>
     </ClInclude>
     <ClInclude Include="CMarioDeadState.h">
