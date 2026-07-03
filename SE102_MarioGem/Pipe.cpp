@@ -40,7 +40,7 @@ void CPipe::RenderBoundingBox()
 
 void CPipe::Render()
 {
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void CPipe::GetBoundingBox(float& l, float& t, float& r, float& b)

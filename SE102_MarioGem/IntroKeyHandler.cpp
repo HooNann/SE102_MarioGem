@@ -14,7 +14,10 @@ void CIntroKeyHandler::OnKeyDown(int KeyCode)
 		intro->MenuMove();
 		break;
 	case DIK_RETURN:
-		intro->MenuConfirm();
+		if (intro->IsMenuActive())
+			intro->MenuConfirm();
+		else
+			intro->SkipToMenu();
 		break;
 	}
 }

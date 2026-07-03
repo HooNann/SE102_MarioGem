@@ -24,6 +24,10 @@ class CMarioPipeState : public CMarioState
 
 	void StartExitPhase(CMario* mario);
 	void GetDirectionVector(PipeDirection direction, float& dx, float& dy);
+	float GetMarioBBoxHeight(CMario* mario);
+	float GetMarioBBoxWidth(CMario* mario);
+	float GetTravelDistance(CMario* mario, PipeDirection direction);
+	void ResolveTargetCenter(CMario* mario, float& x, float& y);
 	void SetPhase(CMario* mario, float startX, float startY, float endX, float endY);
 
 public:

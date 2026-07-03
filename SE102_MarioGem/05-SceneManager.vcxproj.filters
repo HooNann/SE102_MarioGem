@@ -186,9 +186,6 @@
     <ClCompile Include="QuestionBlock.cpp">
       <Filter>Game\Objects\Tiles</Filter>
     </ClCompile>
-    <ClCompile Include="TileMap.cpp">
-      <Filter>Framework\Base</Filter>
-    </ClCompile>
     <ClCompile Include="CollisionBox.cpp">
       <Filter>Game\Objects\CollisionBox</Filter>
     </ClCompile>
@@ -277,6 +274,9 @@
       <Filter>Game\Systems</Filter>
     </ClCompile>
     <ClCompile Include="GameEvent.cpp">
+      <Filter>Game\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="TileMap.cpp">
       <Filter>Game\Systems</Filter>
     </ClCompile>
   </ItemGroup>
@@ -407,9 +407,6 @@
     <ClInclude Include="json.hpp">
       <Filter>Game\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="TileMap.h">
-      <Filter>Framework\Base</Filter>
-    </ClInclude>
     <ClInclude Include="CollisionBox.h">
       <Filter>Game\Objects\CollisionBox</Filter>
     </ClInclude>
@@ -507,6 +504,9 @@
       <Filter>Game\Systems</Filter>
     </ClInclude>
     <ClInclude Include="GameEvent.h">
+      <Filter>Game\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="TileMap.h">
       <Filter>Game\Systems</Filter>
     </ClInclude>
   </ItemGroup>
