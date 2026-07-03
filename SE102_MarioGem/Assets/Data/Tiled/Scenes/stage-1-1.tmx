@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="176" height="40" tilewidth="16" tileheight="16" infinite="0" nextlayerid="9" nextobjectid="61">
+<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="176" height="40" tilewidth="16" tileheight="16" infinite="0" nextlayerid="9" nextobjectid="76">
  <editorsettings>
   <export target="stage-1-1.json" format="json"/>
  </editorsettings>
@@ -63,11 +63,23 @@
   <object id="17" type="CollisionBox" x="1696" y="400" width="16" height="16"/>
   <object id="18" type="CollisionBox" x="1664" y="416" width="576" height="16"/>
   <object id="49" type="CollisionBox" x="2256" y="416" width="560" height="16"/>
+  <object id="61" template="../Templates/CollisionBox.tx" type="CollisionBox" x="2256" y="368"/>
+  <object id="65" type="CollisionBox" x="2256" y="112" width="32" height="208"/>
+  <object id="66" type="CollisionBox" x="352" y="368" width="32" height="48"/>
+  <object id="67" type="CollisionBox" x="1792" y="384" width="32" height="32"/>
+  <object id="68" type="CollisionBox" x="1856" y="368" width="32" height="48"/>
+  <object id="69" type="CollisionBox" x="1984" y="368" width="64" height="48"/>
+  <object id="70" type="CollisionBox" x="1952" y="400" width="32" height="16"/>
+  <object id="71" type="CollisionBox" x="1968" y="384" width="16" height="16"/>
+  <object id="72" type="CollisionBox" x="2048" y="400" width="16" height="16"/>
+  <object id="73" type="CollisionBox" x="2096" y="384" width="16" height="16"/>
+  <object id="74" type="CollisionBox" x="2096" y="400" width="32" height="16"/>
+  <object id="75" type="CollisionBox" x="2320" y="384" width="32" height="32"/>
  </objectgroup>
- <objectgroup id="8" name="CameraZone">
+ <objectgroup id="8" name="CameraZone" visible="0">
   <object id="50" type="CameraZone" x="0" y="0" width="2816" height="432"/>
  </objectgroup>
- <objectgroup id="7" name="Platform">
+ <objectgroup id="7" name="Platform" visible="0">
   <object id="37" type="Platform" x="240" y="368" width="48" height="16"/>
   <object id="38" type="Platform" x="272" y="336" width="48" height="16"/>
   <object id="39" type="Platform" x="400" y="368" width="80" height="16"/>
@@ -81,7 +93,7 @@
   <object id="47" type="Platform" x="2144" y="368" width="48" height="16"/>
   <object id="48" type="Platform" x="2176" y="272" width="48" height="16"/>
  </objectgroup>
- <objectgroup id="6" name="Objects">
+ <objectgroup id="6" name="Objects" visible="0">
   <object id="20" name="Mario" type="Mario" x="80" y="352">
    <point/>
   </object>
