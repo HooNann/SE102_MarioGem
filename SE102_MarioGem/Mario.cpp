@@ -50,6 +50,7 @@ CMario::CMario(float x, float y) : CGameObject(x, y)
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	HandlePMeter(dt);
+	UpdateThrowingFireTime(dt);
 	vy += ay * dt;
 	vx += ax * dt;
 	
@@ -129,7 +130,10 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 	else 
 	if (e->nx != 0 && e->obj->IsBlocking())
 	{
-		vx = 0;
+		if (e->nx < 0 && vx > MARIO_WALKING_SPEED) 
+			vx = MARIO_WALKING_SPEED;
+		else if (e->nx > 0 && vx < -MARIO_WALKING_SPEED) 
+			vx = -MARIO_WALKING_SPEED;
 	}
 
 	if (currentState) {

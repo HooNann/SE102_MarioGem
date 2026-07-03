@@ -81,6 +81,15 @@ void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_2:
 		mario->SetLevel(MarioLevel::Big);
 		break;
+	case DIK_3:
+		mario->SetLevel(MarioLevel::Raccoon);
+		break;
+	case DIK_4:
+		mario->SetLevel(MarioLevel::Fire);
+		break;
+	case DIK_X:
+		mario->ShootFireBall();
+		break;
 	case DIK_0:
 		mario->ChangeState(new CMarioDeadState());
 		break;

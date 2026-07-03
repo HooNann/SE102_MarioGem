@@ -26,6 +26,8 @@ height	240
 60	Assets\Textures\All\overworld.png
 70	Assets\Textures\All\mario.png
 80	Assets\Textures\All\misc.png
+90	Assets\Textures\All\reward.png
+100	Assets\Textures\All\fire-ball-white.png
 
 # id	file
 [AUDIO]

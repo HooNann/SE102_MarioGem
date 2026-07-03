@@ -69,10 +69,10 @@
 
 # --- tex-fire-ball (TEX_ID: 80) ---
 # Dan lua (Fireball)
-71048	0	1	7	8	80  # Dan lua Mario ban goc quay 0 do
-71049	11	-1	18	8	80  # Dan lua Mario ban goc quay 90 do
-71050	22	1	29	8	80  # Dan lua Mario ban goc quay 180 do
-71051	33	-1	40	8	80  # Dan lua Mario ban goc quay 270 do
+71048	0	0	7	9	100	# Dan lua Mario ban goc quay 0 do
+71049	11	0	18	9	100	# Dan lua Mario ban goc quay 90 do
+71050	22	0	29	9	100	# Dan lua Mario ban goc quay 180 do
+71051	33	0	40	9	100	# Dan lua Mario ban goc quay 270 do
 
 
 # --- tex-reward (TEX_ID: 80) ---
