@@ -39,8 +39,7 @@ protected:
 	void _ParseSection_SPRITES_JSON(string line);
 	void _ParseSection_ANIMATIONS_JSON(string line);
 
-	wstring currentAssetFilePath;
-
+	vector<wstring> assetFilePaths;
 	void _ParseSection_ASSETS(string line);
 	void _ParseSection_OBJECTS(string line);
 

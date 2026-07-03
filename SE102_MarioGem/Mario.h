@@ -109,6 +109,7 @@ public:
 
 	int pMeter;					
 	ULONGLONG flyStartTime;
+	ULONGLONG flapStartTime = 0;
 
 
 
@@ -140,6 +141,9 @@ public:
     
     ULONGLONG GetFlyStartTime() const { return flyStartTime; }
     void StartFlying() { flyStartTime = GetTickCount64(); }
+
+    ULONGLONG GetFlapStartTime() const { return flapStartTime; }
+    void StartFlapping() { flapStartTime = GetTickCount64(); }
     
     float GetMaxVelocityX() const { return maxVx; }
     void SetMaxVelocityX(float m) { maxVx = m; }
