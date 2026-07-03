@@ -9,8 +9,7 @@
 #define FIREBALL_BBOX_WIDTH			8
 #define FIREBALL_BBOX_HEIGHT		8
 
-#define ID_ANI_FIREBALL_RIGHT		6001	// ID Animation quả cầu bay phải (trong file text)
-#define ID_ANI_FIREBALL_LEFT		6002	// ID Animation quả cầu bay trái (trong file text)
+#define ID_ANI_FIREBALL				91004	// ID Animation quả cầu bay phải (trong file text)
 
 class CFireBall : public CGameObject
 {

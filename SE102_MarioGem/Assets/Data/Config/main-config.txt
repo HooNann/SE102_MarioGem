@@ -10,7 +10,7 @@ height	240
 1	1	Assets\Data\Scenes\stage-1-1.txt
 2	2	Assets\Data\Scenes\world-map-scene.txt
 5	1	Assets\Data\Scenes\scene0005.txt
-6	1	Assets\Data\Scenes\sceneBoss.txt
+6	1	Assets\Data\Scenes\stage-1-fortress.txt
 99	3	Assets\Data\Scenes\sound-test.txt
 
 # id	file
@@ -26,6 +26,8 @@ height	240
 60	Assets\Textures\All\overworld.png
 70	Assets\Textures\All\mario.png
 80	Assets\Textures\All\misc.png
+90	Assets\Textures\All\reward.png
+100	Assets\Textures\All\fire-ball-white.png
 
 # id	file
 [AUDIO]

@@ -15,6 +15,7 @@
 #include "Platform.h"
 #include "Portal.h"
 #include "QuestionBlock.h"
+#include "GoalRoulette.h"
 
 
 using json = nlohmann::json;
@@ -37,6 +38,18 @@ LPGAMEOBJECT ObjectFactory::Create(ObjectType type,
 	case ObjectType::Coin:
 		return CCoin::CreateFromTokens(tokens);
 
+	case ObjectType::Platform:
+	{
+		float x = (float)atof(tokens[1].c_str());
+		float y = (float)atof(tokens[2].c_str());
+		int length = atoi(tokens[5].c_str());
+		float width = length * 16.0f; // Each block is 16px
+		float height = 16.0f;
+		float cx = x + width / 2.0f;
+		float cy = y + height / 2.0f;
+		return new CPlatform(cx, cy, width, height);
+	}
+
 	case ObjectType::Portal:
 		return CPortal::CreateFromTokens(tokens);
 
@@ -48,6 +61,10 @@ LPGAMEOBJECT ObjectFactory::Create(ObjectType type,
 
 	case ObjectType::Canon:
 		return CCanon::CreateFromTokens(tokens);
+
+	case ObjectType::GoalRoulette:
+		// Not supported via old text file method yet
+		return nullptr;
 
 	default:
 		DebugOut(L"[ERROR] Invalid object type: %d\n", static_cast<int>(type));
@@ -146,6 +163,8 @@ LPGAMEOBJECT ObjectFactory::CreateFromJSON(const json& obj) {
 			objectType = ObjectType::MapDecoration;
 		else if (typeStr == "QuestionBlock")
 			objectType = ObjectType::QuestionBlock;
+		else if (typeStr == "GoalRoulette")
+			objectType = ObjectType::GoalRoulette;
 		else {
 			DebugOut(L"[WARNING] Unknown object type in JSON: %s\n",
 				wstring(typeStr.begin(), typeStr.end()).c_str());
@@ -195,6 +214,13 @@ LPGAMEOBJECT ObjectFactory::CreateFromJSON(const json& obj) {
 	case ObjectType::QuestionBlock: {
 		int item_type = GetIntProperty(obj, "item_type", -1);
 		return new CQuestionBlock(x, y, item_type);
+	}
+
+	case ObjectType::GoalRoulette: {
+		// Rectangle in Tiled map gives x, y (top left) and width, height.
+		float cx = x + w / 2.0f;
+		float cy = y + h / 2.0f;
+		return new CGoalRoulette(cx, cy);
 	}
 
 	case ObjectType::Blaster:

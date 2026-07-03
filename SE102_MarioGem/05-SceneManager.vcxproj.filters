@@ -171,6 +171,12 @@
     <ClCompile Include="HUD.cpp">
       <Filter>Game\Systems</Filter>
     </ClCompile>
+    <ClCompile Include="GoalRoulette.cpp">
+      <Filter>Game\Objects\Tiles</Filter>
+    </ClCompile>
+    <ClCompile Include="GoalRewardItem.cpp">
+      <Filter>Game\Objects\Items</Filter>
+    </ClCompile>
     <ClCompile Include="ObjectFactory.cpp">
       <Filter>Game\Systems</Filter>
     </ClCompile>
@@ -247,6 +253,12 @@
     </ClInclude>
     <ClInclude Include="Hud.h">
       <Filter>Game\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="GoalRoulette.h">
+      <Filter>Game\Objects\Tiles</Filter>
+    </ClInclude>
+    <ClInclude Include="GoalRewardItem.h">
+      <Filter>Game\Objects\Items</Filter>
     </ClInclude>
     <ClInclude Include="debug.h">
       <Filter>Framework\Core</Filter>

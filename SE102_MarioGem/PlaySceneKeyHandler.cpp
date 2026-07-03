@@ -19,7 +19,10 @@
 void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
 {
 	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
-	CMario* mario = (CMario *)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer(); 
+	CPlayScene* scene = (CPlayScene*)CGame::GetInstance()->GetCurrentScene();
+	if (scene->IsCourseClear()) return;
+
+	CMario* mario = (CMario*)scene->GetPlayer(); 
 
     if (mario->currentState && mario->currentState->GetID() == MarioStateID::Dead) return;
 
@@ -78,6 +81,15 @@ void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_2:
 		mario->SetLevel(MarioLevel::Big);
 		break;
+	case DIK_3:
+		mario->SetLevel(MarioLevel::Raccoon);
+		break;
+	case DIK_4:
+		mario->SetLevel(MarioLevel::Fire);
+		break;
+	case DIK_X:
+		mario->ShootFireBall();
+		break;
 	case DIK_0:
 		mario->ChangeState(new CMarioDeadState());
 		break;
@@ -90,8 +102,10 @@ void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
 void CPlaySceneKeyHandler::OnKeyUp(int KeyCode)
 {
 	//DebugOut(L"[INFO] KeyUp: %d\n", KeyCode);
+	CPlayScene* scene = (CPlayScene*)CGame::GetInstance()->GetCurrentScene();
+	if (scene->IsCourseClear()) return;
 
-	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+	CMario* mario = (CMario*)scene->GetPlayer();
 
     if (mario->currentState && mario->currentState->GetID() == MarioStateID::Dead) return;
 
@@ -120,8 +134,11 @@ void CPlaySceneKeyHandler::OnKeyUp(int KeyCode)
 
 void CPlaySceneKeyHandler::KeyState(BYTE *states)
 {
+	CPlayScene* scene = (CPlayScene*)CGame::GetInstance()->GetCurrentScene();
+	if (scene->IsCourseClear()) return;
+
 	LPGAME game = CGame::GetInstance();
-	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+	CMario* mario = (CMario*)scene->GetPlayer();
 
     if (mario->currentState && mario->currentState->GetID() == MarioStateID::Duck)
         return;

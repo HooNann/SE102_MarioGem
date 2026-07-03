@@ -15,6 +15,7 @@ enum class ObjectType : int {
 	CannonBall = 10,
 	CollisionBox = 100,
 	QuestionBlock = 101,
+	GoalRoulette = 102,
 	BoomBoom = 36,
 	MapMario = 200,
 	MapNode = 201,

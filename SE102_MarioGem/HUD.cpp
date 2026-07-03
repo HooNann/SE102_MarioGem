@@ -3,6 +3,7 @@
 #include "Textures.h"
 #include "Mario.h"
 #include "GameData.h"
+#include "Camera.h"
 
 #include <string>
 
@@ -165,4 +166,21 @@ void CHud::RenderWorldMap(const char* world)
 
 	DrawNumber(CGameData::GetInstance()->GetLives(), fx + LIVES_RIGHT, botY, 1);
 	DrawNumber(CGameData::GetInstance()->GetScore(), fx + SCORE_RIGHT, botY, 6);
+}
+void CHud::RenderCourseClear(int rewardCard)
+{
+	CCamera* camera = CCamera::GetInstance();
+	float cx, cy;
+	camera->GetCamPos(cx, cy);
+	float screenW = (float)camera->GetWidth();
+	float screenH = (float)camera->GetHeight();
+
+	DrawString("COURSE CLEAR", cx + screenW / 2 - 48, cy + screenH / 2 - 30);
+	DrawString("YOU GOT A CARD", cx + screenW / 2 - 56, cy + screenH / 2);
+
+	int spriteId = 71052; // Mushroom
+	if (rewardCard == 2) spriteId = 71055; // Flower
+	else if (rewardCard == 3) spriteId = 71057; // Star
+
+	CSprites::GetInstance()->Get(spriteId)->Draw(cx + screenW / 2 + 64, cy + screenH / 2);
 }
