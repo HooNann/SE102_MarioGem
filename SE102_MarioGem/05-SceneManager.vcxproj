@@ -184,6 +184,11 @@
     <ClCompile Include="PlaySceneKeyHandler.cpp" />
     <ClCompile Include="QuestionBlock.cpp" />
     <ClCompile Include="ScoreSystem.cpp" />
+    <ClCompile Include="miniaudio_impl.cpp" />
+    <ClCompile Include="SoundManager.cpp" />
+    <ClCompile Include="SoundSubject.cpp" />
+    <ClCompile Include="SoundTestScene.cpp" />
+    <ClCompile Include="SoundTestKeyHandler.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Sprites.cpp" />
     <ClCompile Include="Textures.cpp" />
@@ -237,6 +242,13 @@
     <ClInclude Include="PlaySceneKeyHandler.h" />
     <ClInclude Include="QuestionBlock.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="ISoundObserver.h" />
+    <ClInclude Include="lib\miniaudio\miniaudio.h" />
+    <ClInclude Include="SoundEvents.h" />
+    <ClInclude Include="SoundManager.h" />
+    <ClInclude Include="SoundSubject.h" />
+    <ClInclude Include="SoundTestScene.h" />
+    <ClInclude Include="SoundTestKeyHandler.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="Sprites.h" />
     <ClInclude Include="Texture.h" />

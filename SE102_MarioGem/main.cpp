@@ -41,6 +41,8 @@ HOW TO INSTALL Microsoft.DXSDK.D3DX
 
 #include "PlaySceneKeyHandler.h"
 
+#include "SoundManager.h"
+
 #include "AssetIDs.h"
 
 #define WINDOW_CLASS_NAME L"Window"
@@ -212,6 +214,8 @@ int WINAPI WinMain(
 	SetWindowPos(hWnd, 0, 0, 0, SCREEN_WIDTH * RENDER_SCALE, SCREEN_HEIGHT * RENDER_SCALE, SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOZORDER);
 
 	Run();
+
+	CSoundManager::GetInstance()->Shutdown();
 
 	return 0;
 }

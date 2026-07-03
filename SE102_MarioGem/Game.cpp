@@ -8,6 +8,8 @@
 #include "Animations.h"
 #include "PlayScene.h"
 #include "WorldMapScene.h"
+#include "SoundTestScene.h"
+#include "SoundManager.h"
 #include "AssetIDs.h"
 
 CGame * CGame::__instance = NULL;
@@ -482,6 +484,7 @@ void CGame::ProcessKeyboard()
 #define GAME_FILE_SECTION_SETTINGS 1
 #define GAME_FILE_SECTION_SCENES 2
 #define GAME_FILE_SECTION_TEXTURES 3
+#define GAME_FILE_SECTION_AUDIO 4
 
 
 void CGame::_ParseSection_SETTINGS(string line)
@@ -514,6 +517,9 @@ void CGame::_ParseSection_SCENES(string line)
 	case (int)SceneType::WorldMapScene:
 		scene = new CWorldMapScene(id, path);
 		break;
+	case (int)SceneType::SoundTestScene:
+		scene = new CSoundTestScene(id, path);
+		break;
 	default:
 		DebugOut(L"[ERROR] Unknown scene type: %d\n", type);
 		return;
@@ -544,6 +550,7 @@ void CGame::Load(LPCWSTR gameFile)
 
 		if (line == "[SETTINGS]") { section = GAME_FILE_SECTION_SETTINGS; continue; }
 		if (line == "[TEXTURES]") { section = GAME_FILE_SECTION_TEXTURES; continue; }
+		if (line == "[AUDIO]") { section = GAME_FILE_SECTION_AUDIO; continue; }
 		if (line == "[SCENES]") { section = GAME_FILE_SECTION_SCENES; continue; }
 		if (line[0] == '[') 
 		{ 
@@ -560,6 +567,7 @@ void CGame::Load(LPCWSTR gameFile)
 		case GAME_FILE_SECTION_SETTINGS: _ParseSection_SETTINGS(line); break;
 		case GAME_FILE_SECTION_SCENES: _ParseSection_SCENES(line); break;
 		case GAME_FILE_SECTION_TEXTURES: _ParseSection_TEXTURES(line); break;
+		case GAME_FILE_SECTION_AUDIO: _ParseSection_AUDIO(line); break;
 		}
 	}
 	f.close();
@@ -603,6 +611,18 @@ void CGame::_ParseSection_TEXTURES(string line)
 	wstring path = ToWSTR(tokens[1]);
 
 	CTextures::GetInstance()->Add(texID, path.c_str());
+}
+
+void CGame::_ParseSection_AUDIO(string line)
+{
+	vector<string> tokens = split(line);
+
+	if (tokens.size() < 2) return;
+
+	int id = atoi(tokens[0].c_str());
+	string path = tokens[1];
+
+	CSoundManager::GetInstance()->Add(id, path);
 }
 
 
