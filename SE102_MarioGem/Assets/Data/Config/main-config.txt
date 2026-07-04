@@ -33,6 +33,7 @@ height	240
 122	Assets\Textures\All\items.png
 123	Assets\Textures\All\intro-ground.png
 124	Assets\Textures\All\intro-stage.png
+130	Assets\Textures\All\enemy_white.png
 
 # id	file
 [AUDIO]

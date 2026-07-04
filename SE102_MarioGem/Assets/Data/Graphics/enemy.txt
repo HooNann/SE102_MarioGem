@@ -1,0 +1,347 @@
+[SPRITES]
+# ID	Left	Top	Right	Bottom	TEX_ID
+
+# spr-goomba-idle-0
+100000	9	11	24	26	130
+
+# spr-goomba-walk-0
+100001	9	11	24	26	130
+
+# spr-goomba-walk-1
+100002	32	11	47	26	130
+
+# spr-goomba-die-0
+100003	54	17	69	25	130
+
+# spr-red-goomba-idle-0
+100004	104	70	119	85	130
+
+# spr-red-goomba-idle-1
+100005	125	70	140	85	130
+
+# spr-red-goomba-walk-0
+100006	104	70	119	85	130
+
+# spr-red-goomba-walk-1
+100007	125	70	140	85	130
+
+# spr-red-goomba-die-0
+100008	145	76	160	84	130
+
+# spr-tan-para-goomba-idle-0
+100009	125	10	144	28	130
+
+# spr-tan-para-goomba-idle-1
+100010	149	10	168	28	130
+
+# spr-tan-para-goomba-flap-0
+100011	75	6	94	29	130
+
+# spr-tan-para-goomba-flap-1
+100012	99	6	118	29	130
+
+# spr-tiny-goomba-fall-0
+100013	174	20	181	28	130
+
+# spr-red-para-goomba-idle-0
+100014	116	39	135	57	130
+
+# spr-red-para-goomba-idle-1
+100015	140	39	159	57	130
+
+# spr-red-para-goomba-flap-0
+100016	66	35	85	58	130
+
+# spr-red-para-goomba-flap-1
+100017	90	35	109	58	130
+
+# spr-red-venus-fire-trap-headdown-0
+100018	7	33	22	64	130
+
+# spr-red-venus-fire-trap-headup-0
+100019	7	71	22	102	130
+
+# spr-green-venus-fire-trap-headdown-0
+100020	6	166	21	189	130
+
+# spr-green-venus-fire-trap-headup-1
+100021	6	195	21	218	130
+
+# spr-red-piranha-plant-attack-0
+100022	171	35	186	66	130
+
+# spr-red-piranha-plant-attack-1
+100023	171	71	186	101	130
+
+# spr-green-piranha-plant-attack-0
+100024	7	107	22	129	130
+
+# spr-green-piranha-plant-attack-1
+100025	7	137	22	160	130
+
+# spr-red-koopa-troopa-move-0
+100026	28	67	43	92	130
+
+# spr-red-koopa-troopa-move-1
+100027	47	65	62	91	130
+
+# spr-red-koopa-troopa-crouch-0
+100028	71	75	88	90	130
+
+# spr-red-koopa-troopa-shell-run-0
+100029	29	97	44	112	130
+
+# spr-red-koopa-troopa-shell-run-1
+100030	50	96	65	111	130
+
+# spr-red-koopa-troopa-shell-run-2
+100031	71	96	86	111	130
+
+# spr-green-koopa-troopa-move-0
+100032	31	117	46	144	130
+
+# spr-green-koopa-troopa-move-1
+100033	50	117	65	144	130
+
+# spr-green-koopa-troopa-crouch-0
+100034	74	127	91	142	130
+
+# spr-green-koopa-troopa-shell-run-0
+100035	32	149	47	164	130
+
+# spr-green-koopa-troopa-shell-run-1
+100036	53	148	68	163	130
+
+# spr-green-koopa-troopa-shell-run-2
+100037	74	148	89	163	130
+
+# spr-green-koopa-paratroopa-fly-0
+100038	105	128	120	154	130
+
+# spr-green-koopa-paratroopa-fly-1
+100039	126	130	141	155	130
+
+# spr-green-koopa-paratroopa-fly-2
+100040	147	128	162	154	130
+
+# spr-red-koopa-paratroopa-fly-0
+100041	105	92	120	118	130
+
+# spr-red-koopa-paratroopa-fly-1
+100042	126	94	141	119	130
+
+# spr-red-koopa-paratroopa-fly-2
+100043	147	92	162	118	130
+
+# spr-boomerang-brother-move-0
+100044	33	171	48	194	130
+
+# spr-boomerang-brother-move-1
+100045	57	171	72	194	130
+
+# spr-boomerang-brother-attack-0
+100046	74	167	99	194	130
+
+# spr-boomerang-brother-attack-1
+100047	100	167	125	194	130
+
+# spr-hammer-brother-move-0
+100048	175	112	190	135	130
+
+# spr-hammer-brother-move-1
+100049	178	143	193	166	130
+
+# spr-hammer-brother-attack-0
+100050	179	173	194	196	130
+
+# spr-hammer-brother-attack-1
+100051	179	202	194	225	130
+
+# spr-boomerang-spin-0
+100052	128	167	142	182	130
+
+# spr-boomerang-spin-1
+100053	149	166	164	180	130
+
+# spr-boomerang-spin-2
+100054	150	186	165	200	130
+
+# spr-boomerang-spin-3
+100055	128	189	142	204	130
+
+# spr-hammer-0
+100056	203	121	216	136	130
+
+# spr-hammer-1
+100057	229	121	244	134	130
+
+# spr-hammer-2
+100058	229	149	242	164	130
+
+# spr-hammer-3
+100059	228	177	243	190	130
+
+# spr-hammer-4
+100060	226	199	239	214	130
+
+# spr-hammer-5
+100061	203	199	218	212	130
+
+# spr-hammer-6
+100062	205	171	218	186	130
+
+# spr-hammer-7
+100063	206	146	221	159	130
+
+# spr-red-venus-head-down-0
+100064	220	66	235	97	130
+
+# spr-red-venus-head-down-1
+100065	236	66	251	97	130
+
+# spr-red-venus-head-up-0
+100066	252	66	267	97	130
+
+# spr-red-venus-head-up-1
+100067	268	66	283	97	130
+
+# spr-green-venus-head-down-0
+100068	220	34	235	65	130
+
+# spr-green-venus-head-down-1
+100069	236	34	251	65	130
+
+# spr-green-venus-head-up-0
+100070	252	34	267	65	130
+
+# spr-green-venus-head-up-1
+100071	268	34	283	65	130
+
+[ANIMATIONS]
+# ID_Anim	ID_Sprite_1	Time_1	ID_Sprite_2	Time_2 ...
+
+# ani-goomba-idle
+100000	100000	100
+
+# ani-goomba-walk
+100001	100001	200	100002	200
+
+# ani-goomba-die
+100002	100003	100
+
+# ani-red-goomba-idle
+100003	100004	100	100005	100
+
+# ani-red-goomba-walk
+100004	100006	150	100007	150
+
+# ani-red-goomba-die
+100005	100008	100
+
+# ani-tan-para-goomba-idle
+100006	100009	100	100010	100
+
+# ani-tan-para-goomba-flap
+100007	100011	100	100012	100
+
+# ani-tiny-goomba-fall
+100008	100013	100
+
+# ani-red-para-goomba-idle
+100009	100014	150
+
+# ani-red-para-goomba-walk
+100010	100014	150	100015	150
+
+# ani-red-para-goomba-fly
+100011	100016	150	100015	150	100017	150	100014	150
+
+# ani-red-venus-fire-trap-headdown-idle
+100012	100064	100
+
+# ani-red-venus-fire-trap-headdown
+100013	100064	300	100065	300
+
+# ani-red-venus-fire-trap-headup-idle
+100014	100066	100
+
+# ani-red-venus-fire-trap-headup
+100015	100066	300	100067	300
+
+# ani-green-venus-fire-trap-headdown-idle
+100016	100068	100
+
+# ani-green-venus-fire-trap-headdown
+100017	100068	300	100069	300
+
+# ani-green-venus-fire-trap-headup-idle
+100018	100070	100
+
+# ani-green-venus-fire-trap-headup
+100019	100070	300	100071	300
+
+# ani-red-piranha-plant-attack
+100020	100022	100	100023	100
+
+# ani-green-piranha-plant-attack
+100021	100024	300	100025	300
+
+# ani-red-koopa-troopa-move
+100022	100026	150	100027	150
+
+# ani-red-koopa-troopa-crouch
+100023	100029	100
+
+# ani-red-koopa-troopa-respawning
+100024	100028	75	100029	75
+
+# ani-red-koopa-troopa-shell-run
+100025	100029	50	100030	50	100031	50
+
+# ani-red-koopa-troopa-shell-idle
+100026	100029	100
+
+# ani-green-koopa-troopa-move
+100027	100032	150	100033	150
+
+# ani-green-koopa-troopa-crouch
+100028	100035	100
+
+# ani-green-koopa-troopa-respawning
+100029	100034	75	100035	75
+
+# ani-green-koopa-troopa-shell-run
+100030	100035	50	100036	50	100037	50
+
+# ani-green-koopa-troopa-shell-idle
+100031	100035	100
+
+# ani-green-koopa-paratroopa-fly
+100032	100038	150	100039	150	100040	150
+
+# ani-green-koopa-paratroopa-idle
+100033	100038	100
+
+# ani-red-koopa-paratroopa-fly
+100034	100041	100	100042	100	100043	100
+
+# ani-boomerang-brother-move
+100035	100044	100	100045	100
+
+# ani-boomerang-brother-death
+100036	100044	100
+
+# ani-boomerang-brother-attack
+100037	100046	100	100047	100
+
+# ani-hammer-brother-move
+100038	100048	100	100049	100
+
+# ani-hammer-brother-attack
+100039	100050	100	100051	100
+
+# ani-boomerang-spin
+100040	100052	40	100053	40	100055	40	100054	40
+
+# ani-hammer-attack
+100041	100056	100	100057	100	100058	100	100059	100	100060	100	100061	100	100062	100	100063	100

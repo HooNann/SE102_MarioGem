@@ -1,6 +1,6 @@
 #include "FireBall.h"
 #include "Goomba.h" // Include các class quái vật vào để xử lý va chạm
-//#include "Koopa.h"
+#include "Koopas.h"
 
 CFireBall::CFireBall(float x, float y, int direction) : CGameObject(x, y)
 {
@@ -50,7 +50,12 @@ void CFireBall::OnCollisionWith(LPCOLLISIONEVENT e)
 		this->Delete(); // Đập trúng quái là quả cầu lửa biến mất ngay
 	}
 
-	// Bạn có thể viết thêm logic dynamic_cast cho rùa CKoopa Troopa tương tự ở đây...
+	if (dynamic_cast<CKoopas*>(e->obj))
+	{
+		CKoopas* koopas = dynamic_cast<CKoopas*>(e->obj);
+		koopas->SetState(KoopasState::Die_KnockOut);
+		this->Delete();
+	}
 }
 
 void CFireBall::Render()

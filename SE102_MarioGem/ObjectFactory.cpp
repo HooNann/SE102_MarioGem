@@ -8,6 +8,7 @@
 #include "Coin.h"
 #include "CollisionBox.h"
 #include "Goomba.h"
+#include "Koopas.h"
 #include "MapMario.h"
 #include "MapNode.h"
 #include "MapObject.h"
@@ -35,6 +36,9 @@ LPGAMEOBJECT ObjectFactory::Create(ObjectType type,
 
 	case ObjectType::Goomba:
 		return CGoomba::CreateFromTokens(tokens);
+
+	case ObjectType::Koopas:
+		return CKoopas::CreateFromTokens(tokens);
 
 	case ObjectType::Coin:
 		return CCoin::CreateFromTokens(tokens);
@@ -191,6 +195,9 @@ LPGAMEOBJECT ObjectFactory::CreateFromJSON(const json& obj) {
 
 	case ObjectType::Goomba:
 		return new CGoomba(x, y);
+
+	case ObjectType::Koopas:
+		return new CKoopas(x, y);
 
 	case ObjectType::Coin:
 		return new CCoin(x, y);

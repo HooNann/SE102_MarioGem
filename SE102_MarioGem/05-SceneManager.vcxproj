@@ -169,6 +169,7 @@
     <ClCompile Include="Canon.cpp" />
     <ClCompile Include="CannonBall.cpp" />
     <ClCompile Include="Goomba.cpp" />
+    <ClCompile Include="Koopas.cpp" />
     <ClCompile Include="Hud.cpp" />
     <ClCompile Include="GoalRoulette.cpp" />
     <ClCompile Include="GoalRewardItem.cpp" />
@@ -241,6 +242,7 @@
     <ClInclude Include="Canon.h" />
     <ClInclude Include="CannonBall.h" />
     <ClInclude Include="Goomba.h" />
+    <ClInclude Include="Koopas.h" />
     <ClInclude Include="json.hpp" />
     <ClInclude Include="KeyEventHandler.h" />
     <ClInclude Include="Mario.h" />

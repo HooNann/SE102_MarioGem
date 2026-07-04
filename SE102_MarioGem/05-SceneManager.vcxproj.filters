@@ -156,6 +156,9 @@
     <ClCompile Include="Goomba.cpp">
       <Filter>Game\Objects\Enemies</Filter>
     </ClCompile>
+    <ClCompile Include="Koopas.cpp">
+      <Filter>Game\Objects\Enemies</Filter>
+    </ClCompile>
     <ClCompile Include="Coin.cpp">
       <Filter>Game\Objects\Items</Filter>
     </ClCompile>
@@ -378,6 +381,9 @@
       <Filter>Game\Objects\Player</Filter>
     </ClInclude>
     <ClInclude Include="Goomba.h">
+      <Filter>Game\Objects\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Koopas.h">
       <Filter>Game\Objects\Enemies</Filter>
     </ClInclude>
     <ClInclude Include="Coin.h">
