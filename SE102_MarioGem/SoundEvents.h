@@ -25,6 +25,7 @@
 #define EVENT_CANNON          23
 #define EVENT_PLAYER_DOWN     24
 #define EVENT_MAP_MOVE        25
+#define EVENT_MUSIC_BOSS      26
 
 #define SND_JUMP           40
 #define SND_COIN           54
@@ -50,5 +51,6 @@
 #define MUS_WORLDMAP       1
 #define MUS_OVERWORLD      9
 #define MUS_ATHLETIC       10
+#define MUS_KOOPA_KIDS     22
 #define MUS_FORTRESS       23
 #define MUS_BOWSER         24

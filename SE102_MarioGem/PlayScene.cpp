@@ -80,6 +80,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 	isCourseClear = false;
 	courseClearStartTime = 0;
 	courseClearReward = 0;
+	isBossVictory = false;
 	isDeathTransitioning = false;
 	isDeathResolved = false;
 	deathStartTime = 0;
@@ -348,6 +349,7 @@ void CPlayScene::Load()
 	isCourseClear = false;
 	courseClearStartTime = 0;
 	courseClearReward = 0;
+	isBossVictory = false;
 	isDeathTransitioning = false;
 	isDeathResolved = false;
 	deathStartTime = 0;
@@ -831,6 +833,23 @@ void CPlayScene::TriggerCourseClear(int reward)
 			}
 		}
 	}
+}
+
+void CPlayScene::TriggerBossVictory(size_t victoryTrackId)
+{
+	if (isBossVictory) return;
+	isBossVictory = true;
+
+	int sceneId = id;
+	CEventManager::GetInstance()->AddEvent(new CEventWaitForSound(victoryTrackId));
+	CEventManager::GetInstance()->AddEvent(new CEventDelay(500));
+	CEventManager::GetInstance()->AddEvent(new CEventAction([sceneId]() {
+		CGame::GetInstance()->StartFadeOut(TRANSITION_FADE_OUT_DURATION_MS, true, [sceneId]() {
+			CGameData::GetInstance()->MarkSceneCleared(sceneId);
+			CGame::GetInstance()->InitiateSwitchScene(WORLD_MAP_SCENE_ID);
+			CGame::GetInstance()->SwitchScene();
+		});
+	}));
 }
 
 /*
