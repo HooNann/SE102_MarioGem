@@ -39,6 +39,7 @@ height	240
 1	Assets\Audio\01. World 1 Map - Grass Land.mp3
 9	Assets\Audio\09. Overworld.mp3
 10	Assets\Audio\10. Athletic.mp3
+22	Assets\Audio\22. Koopa Kids.mp3
 23	Assets\Audio\23. Fortress.mp3
 24	Assets\Audio\24. Bowser.mp3
 27	Assets\Audio\27. Course Clear.mp3
