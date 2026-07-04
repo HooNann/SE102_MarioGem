@@ -946,6 +946,19 @@
                  "width":112,
                  "x":336,
                  "y":304
+                }, 
+                {
+                 "height":0,
+                 "id":121,
+                 "name":"",
+                 "opacity":1,
+                 "point":true,
+                 "rotation":0,
+                 "type":"RedVenus",
+                 "visible":true,
+                 "width":0,
+                 "x":640,
+                 "y":384
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -1028,7 +1041,7 @@
          "y":0
         }],
  "nextlayerid":11,
- "nextobjectid":121,
+ "nextobjectid":122,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.12.1",

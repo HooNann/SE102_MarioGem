@@ -26,7 +26,8 @@ CCamera *CCamera::GetInstance() {
 
 void CCamera::Update() {
   CMario* mario = dynamic_cast<CMario*>(target);
-  if (mario != NULL && mario->currentState && mario->currentState->GetID() != MarioStateID::Dead) {
+  if (mario != NULL && mario->currentState && mario->currentState->GetID() != MarioStateID::Dead
+      && !mario->IsTransforming()) {
     float tx, ty;
     target->GetPosition(tx, ty);
 

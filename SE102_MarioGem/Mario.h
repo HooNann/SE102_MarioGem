@@ -93,6 +93,9 @@ constexpr int ID_ANI_MARIO_RACCOON_CROUCH = 68;
 #define MARIO_UNTOUCHABLE_TIME 2500
 #define MARIO_THROWING_FIRE_TIME   180
 
+#define MARIO_TRANSFORM_DURATION      1200	// ms biến hình freeze scene
+#define MARIO_TRANSFORM_BLINK_INTERVAL 80	// ms mỗi lần chớp khi biến hình
+
 class CMarioState; // Forward declaration
 
 class CMario : public CGameObject
@@ -107,6 +110,9 @@ public:
 
 	int untouchable; 
 	ULONGLONG untouchable_start;
+
+	bool isTransforming;
+	ULONGLONG transformStartTime;
 	BOOLEAN isOnPlatform;
 
 	BOOLEAN isThrowingFire;
@@ -187,6 +193,9 @@ public:
 
 	// void SetLevel(int l); // Removed, merged with SetLevel(MarioLevel l)
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount64(); }
+
+	void StartTransforming() { isTransforming = true; transformStartTime = GetTickCount64(); }
+	bool IsTransforming() const { return isTransforming; }
 
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 

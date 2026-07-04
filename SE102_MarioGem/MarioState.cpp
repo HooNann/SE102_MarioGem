@@ -9,6 +9,8 @@
 #include "Blaster.h"
 #include "Burner.h"
 #include "CannonBall.h"
+#include "RedVenus.h"
+#include "VenusFireBall.h"
 #include "MarioDeadState.h"
 #include "QuestionBlock.h"
 #include "SoundEvents.h"
@@ -68,7 +70,9 @@ void CMarioState::OnCollisionWith(CMario* mario, LPCOLLISIONEVENT e)
              dynamic_cast<CKoopas*>(e->obj) ||
              dynamic_cast<CBlaster*>(e->obj) || 
              dynamic_cast<CBurner*>(e->obj) || 
-             dynamic_cast<CCannonBall*>(e->obj))
+             dynamic_cast<CCannonBall*>(e->obj) ||
+             dynamic_cast<CRedVenus*>(e->obj) ||
+             dynamic_cast<CVenusFireBall*>(e->obj))
     {
         if (dynamic_cast<CKoopas*>(e->obj)) {
             CKoopas* koopas = dynamic_cast<CKoopas*>(e->obj);
@@ -92,6 +96,9 @@ void CMarioState::OnCollisionWith(CMario* mario, LPCOLLISIONEVENT e)
             CBlaster* blaster = dynamic_cast<CBlaster*>(e->obj);
             if (!blaster || blaster->GetState() != static_cast<int>(BlasterState::Firing)) return;
         }
+
+        if (dynamic_cast<CVenusFireBall*>(e->obj))
+            e->obj->Delete();
 
         if (mario->untouchable == 0)
         {
