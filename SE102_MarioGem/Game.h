@@ -13,8 +13,9 @@ using namespace std;
 #include "Texture.h"
 #include "KeyEventHandler.h"
 #include "Scene.h"
+#include "ScreenTransition.h"
 
-#define MAX_FRAME_RATE 100
+#define MAX_FRAME_RATE 60
 #define KEYBOARD_BUFFER_SIZE 1024
 #define KEYBOARD_STATE_SIZE 256
 
@@ -56,6 +57,7 @@ class CGame
 	unordered_map<int, LPSCENE> scenes;
 	int current_scene = -1;
 	int next_scene = -1;
+	CScreenTransition transition;
 
 	void _ParseSection_SETTINGS(string line);
 	void _ParseSection_SCENES(string line);
@@ -69,6 +71,8 @@ public:
 	// rect : if NULL, the whole texture will be drawn
 	//        if NOT NULL, only draw that portion of the texture 
 	void Draw(float x, float y, LPTEXTURE tex, RECT* rect = NULL, float alpha = 1.0f, int sprite_width = 0, int sprite_height = 0, int nx = 1, int ny = 1);
+
+	void Draw(float x, float y, LPTEXTURE tex, RECT* rect, D3DXCOLOR color, int sprite_width = 0, int sprite_height = 0, int nx = 1, int ny = 1);
 
 	void Draw(float x, float y, LPTEXTURE tex, int l, int t, int r, int b, float alpha = 1.0f, int sprite_width = 0, int sprite_height = 0, int nx = 1, int ny = 1)
 	{
@@ -107,12 +111,31 @@ public:
 	void BeginViewportClip(int reservedBottom);
 	void EndViewportClip();
 
+	void StartFadeIn(DWORD durationMs = TRANSITION_FADE_IN_DURATION_MS, bool blockInput = true, std::function<void()> onFinished = nullptr)
+	{
+		transition.StartFadeIn(durationMs, blockInput, onFinished);
+	}
+	void StartFadeOut(DWORD durationMs = TRANSITION_FADE_OUT_DURATION_MS, bool blockInput = true, std::function<void()> onFinished = nullptr)
+	{
+		transition.StartFadeOut(durationMs, blockInput, onFinished);
+	}
+	void StartIrisClose(bool blockInput = true, std::function<void()> onFinished = nullptr)
+	{
+		transition.StartIrisClose(blockInput, onFinished);
+	}
+	void UpdateTransition(DWORD dt) { transition.Update(dt); }
+	void CompleteTransitionIfReady() { transition.CompleteIfReady(); }
+	void RenderTransition() { transition.Render(); }
+	bool IsTransitionActive() { return transition.IsActive(); }
+	bool IsTransitionBlockingInput() { return transition.IsBlockingInput(); }
+
 	LPSCENE GetCurrentScene() { return scenes[current_scene]; }
 	void Load(LPCWSTR gameFile);
 	void SwitchScene();
 	void InitiateSwitchScene(int scene_id);
 
 	void _ParseSection_TEXTURES(string line);
+	void _ParseSection_AUDIO(string line);
 
 
 	~CGame();

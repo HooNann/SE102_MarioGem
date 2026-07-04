@@ -1,0 +1,13 @@
+# id	left	top	right	bottom	texture_id
+[SPRITES]
+# Green Koopa walking and shell frames from enemies_2.png
+33001	8	2090	28	2121	50
+33002	57	2090	77	2121	50
+33003	9	2139	27	2155	50
+33004	59	2139	77	2155	50
+
+[ANIMATIONS]
+5100	33001	100	33002	100
+5101	33003	100
+5102	33003	80	33004	80
+5103	33003	100

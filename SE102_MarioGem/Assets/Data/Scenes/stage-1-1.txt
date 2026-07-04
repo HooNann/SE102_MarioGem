@@ -4,6 +4,7 @@ Assets\Data\Graphics\mario.txt
 Assets\Data\Graphics\brick.txt
 Assets\Data\Graphics\coin.txt
 Assets\Data\Graphics\goomba.txt
+Assets\Data\Graphics\koopas.txt
 Assets\Data\Graphics\cloud.txt
 Assets\Data\Graphics\burner.txt
 Assets\Data\Graphics\blaster.txt
@@ -14,6 +15,8 @@ Assets\Data\Graphics\Leaf.txt
 Assets\Data\Graphics\QuestionBlock.txt
 Assets\Data\Graphics\misc.txt
 Assets\Data\Graphics\new_mario.txt
+Assets\Data\Graphics\ui.txt
+Assets\Data\Graphics\enemy.txt
 
 [MAP]
 Assets\Data\Tiled\Scenes\stage-1-1.json

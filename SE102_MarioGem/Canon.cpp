@@ -3,6 +3,8 @@
 #include "Animations.h"
 #include "Game.h"
 #include "PlayScene.h"
+#include "SoundEvents.h"
+#include "SoundSubject.h"
 
 namespace
 {
@@ -36,6 +38,7 @@ void CCanon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			float muzzleX = x + direction * CANON_MUZZLE_OFFSET_X;
 			float muzzleY = y + CANON_MUZZLE_OFFSET_Y;
 			scene->QueueSpawn(new CCannonBall(muzzleX, muzzleY, direction * CANNONBALL_SPEED));
+			CSoundSubject::GetInstance()->Notify(EVENT_CANNON);
 		}
 		SetState(CanonState::Fired);
 	}

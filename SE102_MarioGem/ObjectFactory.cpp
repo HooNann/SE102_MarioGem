@@ -8,13 +8,16 @@
 #include "Coin.h"
 #include "CollisionBox.h"
 #include "Goomba.h"
+#include "Koopas.h"
 #include "MapMario.h"
 #include "MapNode.h"
 #include "MapObject.h"
 #include "Mario.h"
+#include "Pipe.h"
 #include "Platform.h"
 #include "Portal.h"
 #include "QuestionBlock.h"
+#include "GoalRoulette.h"
 
 
 using json = nlohmann::json;
@@ -34,11 +37,29 @@ LPGAMEOBJECT ObjectFactory::Create(ObjectType type,
 	case ObjectType::Goomba:
 		return CGoomba::CreateFromTokens(tokens);
 
+	case ObjectType::Koopas:
+		return CKoopas::CreateFromTokens(tokens);
+
 	case ObjectType::Coin:
 		return CCoin::CreateFromTokens(tokens);
 
+	case ObjectType::Platform:
+	{
+		float x = (float)atof(tokens[1].c_str());
+		float y = (float)atof(tokens[2].c_str());
+		int length = atoi(tokens[5].c_str());
+		float width = length * 16.0f; // Each block is 16px
+		float height = 16.0f;
+		float cx = x + width / 2.0f;
+		float cy = y + height / 2.0f;
+		return new CPlatform(cx, cy, width, height);
+	}
+
 	case ObjectType::Portal:
 		return CPortal::CreateFromTokens(tokens);
+
+	case ObjectType::Pipe:
+		return CPipe::CreateFromTokens(tokens);
 
 	case ObjectType::Burner:
 		return CBurner::CreateFromTokens(tokens);
@@ -48,6 +69,10 @@ LPGAMEOBJECT ObjectFactory::Create(ObjectType type,
 
 	case ObjectType::Canon:
 		return CCanon::CreateFromTokens(tokens);
+
+	case ObjectType::GoalRoulette:
+		// Not supported via old text file method yet
+		return nullptr;
 
 	default:
 		DebugOut(L"[ERROR] Invalid object type: %d\n", static_cast<int>(type));
@@ -130,6 +155,8 @@ LPGAMEOBJECT ObjectFactory::CreateFromJSON(const json& obj) {
 			objectType = ObjectType::Platform;
 		else if (typeStr == "Portal")
 			objectType = ObjectType::Portal;
+		else if (typeStr == "Pipe")
+			objectType = ObjectType::Pipe;
 		else if (typeStr == "CollisionBox")
 			objectType = ObjectType::CollisionBox;
 		else if (typeStr == "Burner")
@@ -146,6 +173,8 @@ LPGAMEOBJECT ObjectFactory::CreateFromJSON(const json& obj) {
 			objectType = ObjectType::MapDecoration;
 		else if (typeStr == "QuestionBlock")
 			objectType = ObjectType::QuestionBlock;
+		else if (typeStr == "GoalRoulette")
+			objectType = ObjectType::GoalRoulette;
 		else {
 			DebugOut(L"[WARNING] Unknown object type in JSON: %s\n",
 				wstring(typeStr.begin(), typeStr.end()).c_str());
@@ -167,6 +196,9 @@ LPGAMEOBJECT ObjectFactory::CreateFromJSON(const json& obj) {
 	case ObjectType::Goomba:
 		return new CGoomba(x, y);
 
+	case ObjectType::Koopas:
+		return new CKoopas(x, y);
+
 	case ObjectType::Coin:
 		return new CCoin(x, y);
 
@@ -174,6 +206,16 @@ LPGAMEOBJECT ObjectFactory::CreateFromJSON(const json& obj) {
 		// Portal cần thêm scene_id từ Custom Properties trong Tiled
 		int sceneId = GetIntProperty(obj, "target_scene_id", 1);
 		return new CPortal(x, y, x + w, y + h, sceneId);
+	}
+
+	case ObjectType::Pipe: {
+		float targetX = GetFloatProperty(obj, "target_x", x + w / 2.0f);
+		float targetY = GetFloatProperty(obj, "target_y", y);
+		string entryDirection = GetStringProperty(obj, "entry_direction", "down");
+		string exitDirection = GetStringProperty(obj, "exit_direction", "up");
+		return new CPipe(x, y, x + w, y + h, targetX, targetY,
+			CPipe::ParseDirection(entryDirection),
+			CPipe::ParseDirection(exitDirection));
 	}
 
 	case ObjectType::CollisionBox: {
@@ -195,6 +237,13 @@ LPGAMEOBJECT ObjectFactory::CreateFromJSON(const json& obj) {
 	case ObjectType::QuestionBlock: {
 		int item_type = GetIntProperty(obj, "item_type", -1);
 		return new CQuestionBlock(x, y, item_type);
+	}
+
+	case ObjectType::GoalRoulette: {
+		// Rectangle in Tiled map gives x, y (top left) and width, height.
+		float cx = x + w / 2.0f;
+		float cy = y + h / 2.0f;
+		return new CGoalRoulette(cx, cy);
 	}
 
 	case ObjectType::Blaster:

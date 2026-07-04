@@ -22,6 +22,8 @@ HOW TO INSTALL Microsoft.DXSDK.D3DX
 ================================================================ */
 
 #include <windows.h>
+#include <mmsystem.h>
+#pragma comment(lib, "winmm.lib")
 #include <d3d10.h>
 #include <d3dx10.h>
 #include <list>
@@ -41,6 +43,8 @@ HOW TO INSTALL Microsoft.DXSDK.D3DX
 
 #include "PlaySceneKeyHandler.h"
 
+#include "SoundManager.h"
+
 #include "AssetIDs.h"
 
 #define WINDOW_CLASS_NAME L"Window"
@@ -50,7 +54,7 @@ HOW TO INSTALL Microsoft.DXSDK.D3DX
 #define BACKGROUND_COLOR D3DXCOLOR(0.0f, 0.0f, 0.0f, 0.0f)
 
 #define SCREEN_WIDTH 256
-#define SCREEN_HEIGHT 240
+#define SCREEN_HEIGHT 224
 
 LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -72,6 +76,8 @@ LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 void Update(DWORD dt)
 {
 	CGame::GetInstance()->GetCurrentScene()->Update(dt);
+	CGame::GetInstance()->UpdateTransition(dt);
+	CSoundManager::GetInstance()->Update();
 }
 
 /*
@@ -96,9 +102,10 @@ void Render()
 	pD3DDevice->OMSetBlendState(g->GetAlphaBlending(), NewBlendFactor, 0xffffffff);
 
 	CGame::GetInstance()->GetCurrentScene()->Render();
+	g->RenderTransition();
 
 	spriteHandler->End();
-	pSwapChain->Present(0, 0);
+	pSwapChain->Present(1, 0);
 }
 
 HWND CreateGameWindow(HINSTANCE hInstance, int nCmdShow, int ScreenWidth, int ScreenHeight)
@@ -155,12 +162,19 @@ int Run()
 {
 	MSG msg;
 	int done = 0;
-	ULONGLONG frameStart = GetTickCount64();
+	
+	LARGE_INTEGER timeFreq;
+	LARGE_INTEGER timeStart;
+	LARGE_INTEGER timeCurrent;
+	
+	QueryPerformanceFrequency(&timeFreq);
+	QueryPerformanceCounter(&timeStart);
+
 	DWORD tickPerFrame = 1000 / MAX_FRAME_RATE;
 
 	while (!done)
 	{
-		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+		while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 		{
 			if (msg.message == WM_QUIT) done = 1;
 
@@ -168,24 +182,25 @@ int Run()
 			DispatchMessage(&msg);
 		}
 
-		ULONGLONG now = GetTickCount64();
-
-		// dt: the time between (beginning of last frame) and now
-		// this frame: the frame we are about to render
-		DWORD dt = (DWORD)(now - frameStart);
+		QueryPerformanceCounter(&timeCurrent);
+		
+		DWORD dt = (DWORD)((timeCurrent.QuadPart - timeStart.QuadPart) * 1000 / timeFreq.QuadPart);
 
 		if (dt >= tickPerFrame)
 		{
-			frameStart = now;
+			timeStart = timeCurrent;
 
 			CGame::GetInstance()->ProcessKeyboard();			
 			Update(dt);
 			Render();
 
+			CGame::GetInstance()->CompleteTransitionIfReady();
 			CGame::GetInstance()->SwitchScene();
 		}
 		else
-			Sleep(tickPerFrame - dt);	
+		{
+			Sleep(1);	
+		}
 	}
 
 	return 1;
@@ -211,7 +226,11 @@ int WINAPI WinMain(
 
 	SetWindowPos(hWnd, 0, 0, 0, SCREEN_WIDTH * RENDER_SCALE, SCREEN_HEIGHT * RENDER_SCALE, SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOZORDER);
 
+	timeBeginPeriod(1);
 	Run();
+	timeEndPeriod(1);
+
+	CSoundManager::GetInstance()->Shutdown();
 
 	return 0;
 }

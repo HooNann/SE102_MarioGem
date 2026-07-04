@@ -1,6 +1,8 @@
 [ASSETS]
 Assets\Data\Graphics\MapMario.txt
 Assets\Data\Graphics\MapNode.txt
+Assets\Data\Graphics\misc.txt
+Assets\Data\Graphics\ui.txt
 
 [MAP]
 Assets\Data\Tiled\Scenes\world-map-scene.json

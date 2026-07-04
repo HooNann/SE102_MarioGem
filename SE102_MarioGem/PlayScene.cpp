@@ -8,19 +8,33 @@
 #include "Textures.h"
 #include "Sprites.h"
 #include "Portal.h"
+#include "Pipe.h"
 #include "Coin.h"
 #include "Platform.h"
+#include "MarioState.h"
+#include "MarioPitDeadState.h"
 
 #include "PlaySceneKeyHandler.h"
 
 #include "ObjectFactory.h"
 #include "Camera.h"
+#include "SoundEvents.h"
+#include "SoundSubject.h"
+#include "EventManager.h"
+#include "SoundManager.h"
 
 using namespace std;
 
 namespace
 {
 	constexpr float HUD_RESERVED_HEIGHT = 32.0f;
+	constexpr int WORLD_MAP_SCENE_ID = 100;
+	constexpr ULONGLONG COURSE_CLEAR_DURATION_MS = 4000;
+	constexpr ULONGLONG DEATH_RETURN_DELAY_MS = 2000;
+	constexpr float CAMERA_UPDATE_MARGIN = 320.0f;
+	constexpr float MARIO_COLLISION_SIDE_MARGIN = 64.0f;
+	constexpr float MARIO_COLLISION_TOP_MARGIN = 64.0f;
+	constexpr float MARIO_COLLISION_FALL_MARGIN = 480.0f;
 
 	void ConfigurePlaySceneCamera()
 	{
@@ -30,6 +44,21 @@ namespace
 			cameraHeight = (float)game->GetBackBufferHeight();
 
 		CCamera::GetInstance()->SetSize((float)game->GetBackBufferWidth(), cameraHeight);
+	}
+
+	bool IsPointInRect(float x, float y, float l, float t, float r, float b)
+	{
+		return x >= l && x <= r && y >= t && y <= b;
+	}
+
+	bool ContainsGameObject(const vector<LPGAMEOBJECT>& objects, LPGAMEOBJECT obj)
+	{
+		for (auto existingObj : objects)
+		{
+			if (existingObj == obj) return true;
+		}
+
+		return false;
 	}
 }
 
@@ -43,6 +72,21 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 	hud = NULL;
 	timeRemaining = 300.0f;	
 	hudWorld = "1";
+
+	map_width = 0.0f;
+	map_height = 0.0f;
+	activeCameraZoneIndex = -1;
+
+	isCourseClear = false;
+	courseClearStartTime = 0;
+	courseClearReward = 0;
+	isBossVictory = false;
+	isDeathTransitioning = false;
+	isDeathResolved = false;
+	deathStartTime = 0;
+
+	isCameraBlockingLeftEdge = true;
+	isCameraBlockingRightEdge = false;
 }
 
 
@@ -132,7 +176,7 @@ void CPlayScene::_ParseSection_ASSETS(string line)
 	if (tokens.size() < 1) return;
 
 	wstring path = ToWSTR(tokens[0]);
-	currentAssetFilePath = path;
+	assetFilePaths.push_back(path);
 	
 	LoadAssets(path.c_str());
 }
@@ -302,6 +346,15 @@ void CPlayScene::Load()
 {
 	DebugOut(L"[INFO] Start loading scene from : %s \n", sceneFilePath);
 
+	isCourseClear = false;
+	courseClearStartTime = 0;
+	courseClearReward = 0;
+	isBossVictory = false;
+	isDeathTransitioning = false;
+	isDeathResolved = false;
+	deathStartTime = 0;
+	activeCameraZoneIndex = -1;
+
 	// Reset camera bounds to 0,0 in case this scene doesn't have a map
 	ConfigurePlaySceneCamera();
 	CCamera::GetInstance()->SetCameraBounds(0.0f, 0.0f, 0.0f, 0.0f);
@@ -346,6 +399,20 @@ void CPlayScene::Load()
 	if (hud != NULL) delete hud;
 	hud = new CHud();
 
+	if (player != NULL)
+	{
+		CCamera* camera = CCamera::GetInstance();
+		camera->SetTarget(player);
+		camera->Update();
+	}
+
+	CGame::GetInstance()->StartFadeIn(TRANSITION_FADE_IN_DURATION_MS, true, [this]() {
+		if (id == 6)
+			CSoundSubject::GetInstance()->Notify(EVENT_MUSIC_FORTRESS);
+		else
+			CSoundSubject::GetInstance()->Notify(EVENT_MUSIC_OVERWORLD);
+	});
+
 	DebugOut(L"[INFO] Done loading scene  %s\n", sceneFilePath);
 }
 
@@ -369,6 +436,8 @@ void CPlayScene::LoadMapJSON(LPCWSTR jsonPath)
 	map_height = (float)map->GetHeight() * map->GetTileHeight();
 	
 	cameraZones.clear();
+	activeCameraZoneIndex = -1;
+	deadZones.clear();
 	CCamera::GetInstance()->SetCameraBounds(0, 0, map_width, map_height);
 
 	ifstream f(jsonPath);
@@ -411,13 +480,23 @@ void CPlayScene::LoadMapJSON(LPCWSTR jsonPath)
 				continue; // Không tạo thành GameObject
 			}
 
+			if (typeStr == "DeadZone" || typeStr == "DeathZone") {
+				DeadZone z;
+				z.l = obj.value("x", 0.0f);
+				z.t = obj.value("y", 0.0f);
+				z.r = z.l + w;
+				z.b = z.t + h;
+				deadZones.push_back(z);
+				continue; // Không tạo thành GameObject
+			}
+
 			if ((typeStr == "QuestionBlock" || typeStr == "Brick" || typeStr == "Coin") && w > 0 && h > 0) 
 			{
 				float startX = obj.value("x", 0.0f);
 				float startY = obj.value("y", 0.0f);
 
-				int cols = round(w / 16.0f);
-				int rows = round(h / 16.0f);
+				int cols = static_cast<int>(round(w / 16.0f));
+				int rows = static_cast<int>(round(h / 16.0f));
 				if (cols < 1) cols = 1;
 				if (rows < 1) rows = 1;
 
@@ -489,8 +568,67 @@ bool CPlayScene::IsGameObjectInRegion(LPGAMEOBJECT obj, float r_left, float r_to
 	return !(r < r_left || l > r_right || b < r_top || t > r_bottom);
 }
 
+CPipe* CPlayScene::GetOverlappingPipe(CMario* mario, PipeDirection entryDirection)
+{
+	if (mario == nullptr) return nullptr;
+	if (entryDirection == PipeDirection::Down && !mario->IsOnPlatform()) return nullptr;
+
+	float ml, mt, mr, mb;
+	mario->GetBoundingBox(ml, mt, mr, mb);
+
+	for (auto obj : objects)
+	{
+		CPipe* pipe = dynamic_cast<CPipe*>(obj);
+		if (pipe == nullptr || pipe->IsDeleted()) continue;
+		if (pipe->GetEntryDirection() != entryDirection) continue;
+
+		float pl, pt, pr, pb;
+		pipe->GetBoundingBox(pl, pt, pr, pb);
+
+		bool overlap = !(mr < pl || ml > pr || mb < pt || mt > pb);
+		if (overlap) return pipe;
+	}
+
+	return nullptr;
+}
+
+void CPlayScene::SyncCameraToPlayer()
+{
+	ConfigurePlaySceneCamera();
+
+	CCamera* camera = CCamera::GetInstance();
+	if (player == NULL)
+	{
+		camera->SetCameraBounds(0, 0, map_width, map_height);
+		return;
+	}
+
+	float px, py;
+	player->GetPosition(px, py);
+
+	for (int i = 0; i < (int)cameraZones.size(); i++) {
+		CameraZone& z = cameraZones[i];
+		if (px >= z.l && px <= z.r && py >= z.t && py <= z.b) {
+			activeCameraZoneIndex = i;
+			break;
+		}
+	}
+
+	if (activeCameraZoneIndex >= 0 && activeCameraZoneIndex < (int)cameraZones.size()) {
+		CameraZone& z = cameraZones[activeCameraZoneIndex];
+		camera->SetCameraBounds(z.l, z.t, z.r, z.b);
+	}
+	else {
+		camera->SetCameraBounds(0, 0, map_width, map_height);
+	}
+
+	camera->SetTarget(player);
+	camera->Update();
+}
+
 void CPlayScene::Update(DWORD dt)
 {
+	CEventManager::GetInstance()->Update(dt);
 	ConfigurePlaySceneCamera();
 
 	CCamera* camera = CCamera::GetInstance();
@@ -500,7 +638,7 @@ void CPlayScene::Update(DWORD dt)
 	float screenHeight = camera->GetHeight();
 
 	vector<LPGAMEOBJECT> activeObjects;
-	float update_margin = 160.0f;
+	float update_margin = CAMERA_UPDATE_MARGIN;
 	float active_left = cx - update_margin;
 	float active_top = cy - update_margin;
 	float active_right = cx + screenWidth + update_margin;
@@ -523,32 +661,84 @@ void CPlayScene::Update(DWORD dt)
 
 	for (size_t i = 0; i < activeObjects.size(); i++)
 	{
-		activeObjects[i]->Update(dt, &coObjects);
+		if (activeObjects[i] == player)
+		{
+			vector<LPGAMEOBJECT> marioCoObjects = coObjects;
+
+			float ml, mt, mr, mb;
+			player->GetBoundingBox(ml, mt, mr, mb);
+
+			float mario_collision_left = ml - MARIO_COLLISION_SIDE_MARGIN;
+			float mario_collision_top = mt - MARIO_COLLISION_TOP_MARGIN;
+			float mario_collision_right = mr + MARIO_COLLISION_SIDE_MARGIN;
+			float mario_collision_bottom = mb + MARIO_COLLISION_FALL_MARGIN;
+
+			for (size_t j = 0; j < objects.size(); j++)
+			{
+				LPGAMEOBJECT obj = objects[j];
+				if (obj == player || obj->IsDeleted() || !obj->IsBlocking()) continue;
+				if (!IsGameObjectInRegion(obj, mario_collision_left, mario_collision_top, mario_collision_right, mario_collision_bottom)) continue;
+				if (ContainsGameObject(marioCoObjects, obj)) continue;
+
+				marioCoObjects.push_back(obj);
+			}
+
+			activeObjects[i]->Update(dt, &marioCoObjects);
+		}
+		else
+		{
+			activeObjects[i]->Update(dt, &coObjects);
+		}
 	}
 
 	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
 	if (player == NULL) return; 
 
-	// Update camera bounds if player is inside a CameraZone
-	bool inZone = false;
-	float px, py;
-	player->GetPosition(px, py);
-	
-	for (auto& z : cameraZones) {
-		if (px >= z.l && px <= z.r && py >= z.t && py <= z.b) {
-			camera->SetCameraBounds(z.l, z.t, z.r, z.b);
-			inZone = true;
-			break;
+	CMario* mario = dynamic_cast<CMario*>(player);
+	if (!isCourseClear && mario != NULL && mario->currentState != NULL && mario->currentState->GetID() != MarioStateID::Dead)
+	{
+		float ml, mt, mr, mb;
+		mario->GetBoundingBox(ml, mt, mr, mb);
+		float footX = (ml + mr) / 2.0f;
+		float footY = mb;
+
+		for (auto& z : deadZones)
+		{
+			if (IsPointInRect(footX, footY, z.l, z.t, z.r, z.b))
+			{
+				mario->ChangeState(new CMarioPitDeadState());
+				break;
+			}
 		}
 	}
-	
-	if (!inZone) {
-		camera->SetCameraBounds(0, 0, map_width, map_height);
+
+	if (!isCourseClear && mario != NULL && mario->currentState != NULL && mario->currentState->GetID() == MarioStateID::Dead)
+	{
+		if (!isDeathTransitioning)
+		{
+			isDeathTransitioning = true;
+			
+			CSoundSubject::GetInstance()->Notify(EVENT_MUSIC_STOP);
+			
+			size_t soundId = CSoundManager::GetInstance()->PlayTrackedSfx(SND_PLAYER_DOWN);
+			
+			CEventManager::GetInstance()->AddEvent(new CEventWaitForSound(soundId));
+			CEventManager::GetInstance()->AddEvent(new CEventDelay(500)); 
+			CEventManager::GetInstance()->AddEvent(new CEventAction([]() {
+				CGame::GetInstance()->StartFadeOut(TRANSITION_FADE_OUT_DURATION_MS, true, []() {
+					CGameData::GetInstance()->AddLife(-1);
+					CGame::GetInstance()->InitiateSwitchScene(WORLD_MAP_SCENE_ID);
+					CGame::GetInstance()->SwitchScene();
+				});
+			}));
+		}
 	}
 
 	// Update camera to follow mario
-	camera->SetTarget(player);
-	camera->Update();
+	if (!isCourseClear)
+	{
+		SyncCameraToPlayer();
+	}
 
 	for (auto obj : spawnQueue)
 		objects.push_back(obj);
@@ -556,6 +746,26 @@ void CPlayScene::Update(DWORD dt)
 
 	timeRemaining -= dt / 1000.0f;
 	if (timeRemaining < 0) timeRemaining = 0;
+
+	if (isCourseClear)
+	{
+		// Force Mario to keep walking right
+		if (player != NULL)
+		{
+			CMario* m = dynamic_cast<CMario*>(player);
+			if (m != NULL)
+			{
+				m->SetDirection(1);
+				m->SetAccelerationX(0.0005f); 
+			}
+		}
+
+		if (GetTickCount64() - courseClearStartTime > COURSE_CLEAR_DURATION_MS)
+		{
+			CGameData::GetInstance()->MarkSceneCleared(id);
+			CGame::GetInstance()->InitiateSwitchScene(WORLD_MAP_SCENE_ID);
+		}
+	}
 
 	PurgeDeletedObjects();
 }
@@ -566,7 +776,7 @@ void CPlayScene::Render()
 	game->BeginViewportClip((int)HUD_RESERVED_HEIGHT);
 
 	if (map != NULL)
-		map->Render();
+		map->RenderBackground();
 
 	CCamera* camera = CCamera::GetInstance();
 	float cx, cy;
@@ -588,10 +798,58 @@ void CPlayScene::Render()
 		}
 	}
 
+	if (map != NULL)
+		map->RenderForeground();
+
 	game->EndViewportClip();
 
-	if (hud != NULL && player != NULL)
+	if (hud != NULL)
 		hud->Render((CMario*)player, (int)timeRemaining, hudWorld.c_str());
+
+	if (isCourseClear && hud != NULL)
+	{
+		hud->RenderCourseClear(courseClearReward);
+	}
+}
+
+void CPlayScene::TriggerCourseClear(int reward)
+{
+	if (!isCourseClear)
+	{
+		isCourseClear = true;
+		courseClearStartTime = GetTickCount64();
+		courseClearReward = reward;
+		CSoundSubject::GetInstance()->Notify(EVENT_MUSIC_STOP);
+		CSoundSubject::GetInstance()->Notify(EVENT_COURSE_CLEAR);
+		
+		// Change Mario state to Walk right
+		if (player != NULL)
+		{
+			CMario* m = dynamic_cast<CMario*>(player);
+			if (m != NULL)
+			{
+				m->SetDirection(1);
+				m->SetAccelerationX(0.0005f); // MARIO_ACCEL_WALK_X
+			}
+		}
+	}
+}
+
+void CPlayScene::TriggerBossVictory(size_t victoryTrackId)
+{
+	if (isBossVictory) return;
+	isBossVictory = true;
+
+	int sceneId = id;
+	CEventManager::GetInstance()->AddEvent(new CEventWaitForSound(victoryTrackId));
+	CEventManager::GetInstance()->AddEvent(new CEventDelay(500));
+	CEventManager::GetInstance()->AddEvent(new CEventAction([sceneId]() {
+		CGame::GetInstance()->StartFadeOut(TRANSITION_FADE_OUT_DURATION_MS, true, [sceneId]() {
+			CGameData::GetInstance()->MarkSceneCleared(sceneId);
+			CGame::GetInstance()->InitiateSwitchScene(WORLD_MAP_SCENE_ID);
+			CGame::GetInstance()->SwitchScene();
+		});
+	}));
 }
 
 /*
@@ -615,6 +873,8 @@ void CPlayScene::Clear()
 */
 void CPlayScene::Unload()
 {
+	CEventManager::GetInstance()->Clear();
+
 	for (int i = 0; i < objects.size(); i++)
 		delete objects[i];
 
@@ -637,6 +897,8 @@ void CPlayScene::Unload()
 		delete hud;
 		hud = NULL;
 	}
+
+	assetFilePaths.clear();
 
 	DebugOut(L"[INFO] Scene %d unloaded! \n", id);
 }
@@ -667,9 +929,12 @@ void CPlayScene::ReloadAssets()
 {
 	CAnimations::GetInstance()->Clear();
 	CSprites::GetInstance()->Clear();
-	if (!currentAssetFilePath.empty())
+	if (assetFilePaths.size() > 0)
 	{
-		LoadAssets(currentAssetFilePath.c_str());
+		for (auto path : assetFilePaths)
+		{
+			LoadAssets(path.c_str());
+		}
 		DebugOut(L"[INFO] Assets reloaded successfully!\n");
 	}
 	else

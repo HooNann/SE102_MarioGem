@@ -17,9 +17,11 @@ class CHud
 	void DrawNumber(int value, float rightX, float y, int minDigits);
 	void DrawPMeter(float x, float y);
 	void DrawPanel(float& fx, float& fy);
+	void DrawInventory(float fx, float fy);
 
 public:
 	CHud();
 	void Render(CMario* mario, int timeLeft, const char* world);
 	void RenderWorldMap(const char* world);
+	void RenderCourseClear(int rewardCard);
 };

@@ -1,0 +1,56 @@
+#pragma once
+
+#define EVENT_JUMP            1
+#define EVENT_COIN            2
+#define EVENT_POWERUP         3
+#define EVENT_STOMP           4
+#define EVENT_KICK            5
+#define EVENT_BLOCK           6
+#define EVENT_FIREBALL        7
+#define EVENT_1UP             8
+#define EVENT_POWERDOWN       9
+#define EVENT_PAUSE           10
+#define EVENT_COURSE_CLEAR    11
+#define EVENT_GAME_OVER       12
+#define EVENT_LEVEL_START     13
+#define EVENT_MUSIC_OVERWORLD 14
+#define EVENT_MUSIC_WORLDMAP  15
+#define EVENT_MUSIC_STOP      16
+#define EVENT_VOLUME_UP       17
+#define EVENT_VOLUME_DOWN     18
+#define EVENT_MUSIC_FORTRESS  19
+#define EVENT_BREAK           20
+#define EVENT_TANOOKI         21
+#define EVENT_TWIRL           22
+#define EVENT_CANNON          23
+#define EVENT_PLAYER_DOWN     24
+#define EVENT_MAP_MOVE        25
+#define EVENT_MUSIC_BOSS      26
+
+#define SND_JUMP           40
+#define SND_COIN           54
+#define SND_POWERUP        49
+#define SND_STOMP          44
+#define SND_KICK           43
+#define SND_BLOCK          45
+#define SND_BREAK          60
+#define SND_FIREBALL       41
+#define SND_1UP            48
+#define SND_POWERDOWN      42
+#define SND_PAUSE          39
+#define SND_COURSE_CLEAR   27
+#define SND_GAME_OVER      31
+#define SND_LEVEL_START    36
+#define SND_PLAYER_DOWN    32
+#define SND_TANOOKI        47
+#define SND_TWIRL          55
+#define SND_CANNON         51
+#define SND_VICTORY        30
+#define SND_MAP_MOVE       37
+
+#define MUS_WORLDMAP       1
+#define MUS_OVERWORLD      9
+#define MUS_ATHLETIC       10
+#define MUS_KOOPA_KIDS     22
+#define MUS_FORTRESS       23
+#define MUS_BOWSER         24

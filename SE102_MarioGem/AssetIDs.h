@@ -9,12 +9,14 @@ enum class ObjectType : int {
 	Coin = 4,
 	Platform = 5,
 	Portal = 50,
+	Pipe = 51,
 	Burner = 7,
 	Blaster = 8,
 	Canon = 9,
 	CannonBall = 10,
 	CollisionBox = 100,
 	QuestionBlock = 101,
+	GoalRoulette = 102,
 	BoomBoom = 36,
 	MapMario = 200,
 	MapNode = 201,
@@ -23,7 +25,9 @@ enum class ObjectType : int {
 
 enum class SceneType : int {
 	PlayScene = 1,
-	WorldMapScene = 2
+	WorldMapScene = 2,
+	SoundTestScene = 3,
+	IntroScene = 4
 };
 
 enum class MarioStateID

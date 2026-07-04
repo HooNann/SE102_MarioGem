@@ -11,6 +11,8 @@
 #include "TileMap.h"
 #include "Hud.h"
 
+class CPipe;
+enum class PipeDirection;
 
 class CPlayScene: public CScene
 {
@@ -27,11 +29,29 @@ protected:
 		float l, t, r, b;
 	};
 	vector<CameraZone> cameraZones;
+	int activeCameraZoneIndex;
+
+	struct DeadZone {
+		float l, t, r, b;
+	};
+	vector<DeadZone> deadZones;
+
 	float map_width, map_height;
 
 	CHud* hud;
 	float timeRemaining;
 	std::string hudWorld;
+
+	bool isCourseClear;
+	ULONGLONG courseClearStartTime;
+	int courseClearReward; // ItemType cast to int
+	bool isBossVictory;
+	bool isDeathTransitioning;
+	bool isDeathResolved;
+	ULONGLONG deathStartTime;
+
+	bool isCameraBlockingLeftEdge;
+	bool isCameraBlockingRightEdge;
 
 	void _ParseSection_SPRITES(string line);
 	void _ParseSection_ANIMATIONS(string line);
@@ -39,8 +59,7 @@ protected:
 	void _ParseSection_SPRITES_JSON(string line);
 	void _ParseSection_ANIMATIONS_JSON(string line);
 
-	wstring currentAssetFilePath;
-
+	vector<wstring> assetFilePaths;
 	void _ParseSection_ASSETS(string line);
 	void _ParseSection_OBJECTS(string line);
 
@@ -59,6 +78,18 @@ public:
 
 	LPGAMEOBJECT GetPlayer() { return player; }
 	void AddObject(LPGAMEOBJECT obj) { objects.push_back(obj); }
+	CPipe* GetOverlappingPipe(CMario* mario, PipeDirection entryDirection);
+	void SyncCameraToPlayer();
+
+	void TriggerCourseClear(int reward);
+	bool IsCourseClear() const { return isCourseClear; }
+
+	void TriggerBossVictory(size_t victoryTrackId);
+
+	bool IsCameraBlockingLeftEdge() const { return isCameraBlockingLeftEdge; }
+	bool IsCameraBlockingRightEdge() const { return isCameraBlockingRightEdge; }
+	void SetCameraBlockingLeftEdge(bool value) { isCameraBlockingLeftEdge = value; }
+	void SetCameraBlockingRightEdge(bool value) { isCameraBlockingRightEdge = value; }
 
 	void QueueSpawn(LPGAMEOBJECT obj) { spawnQueue.push_back(obj); }
 
