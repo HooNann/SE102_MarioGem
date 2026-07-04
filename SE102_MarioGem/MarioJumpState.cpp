@@ -49,6 +49,7 @@ int CMarioJumpState::GetAnimationId(CMario* mario)
 }
 
 #include "Goomba.h"
+#include "Koopas.h"
 
 void CMarioJumpState::OnCollisionWith(CMario* mario, LPCOLLISIONEVENT e)
 {
@@ -61,6 +62,26 @@ void CMarioJumpState::OnCollisionWith(CMario* mario, LPCOLLISIONEVENT e)
             if (goomba->GetState() != static_cast<int>(GoombaState::Die))
             {
                 goomba->SetState(GoombaState::Die);
+                mario->SetVelocityY(-MARIO_JUMP_DEFLECT_SPEED);
+                CSoundSubject::GetInstance()->Notify(EVENT_STOMP);
+                return;
+            }
+        }
+
+        if (dynamic_cast<CKoopas*>(e->obj))
+        {
+            CKoopas* koopas = dynamic_cast<CKoopas*>(e->obj);
+            if (koopas->IsWalking())
+            {
+                koopas->SetState(KoopasState::ShellIdle);
+                mario->SetVelocityY(-MARIO_JUMP_DEFLECT_SPEED);
+                CSoundSubject::GetInstance()->Notify(EVENT_STOMP);
+                return;
+            }
+
+            if (koopas->IsShellMoving())
+            {
+                koopas->SetState(KoopasState::ShellIdle);
                 mario->SetVelocityY(-MARIO_JUMP_DEFLECT_SPEED);
                 CSoundSubject::GetInstance()->Notify(EVENT_STOMP);
                 return;

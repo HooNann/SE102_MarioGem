@@ -111,7 +111,10 @@
     <property name="item_type" type="int" value="1"/>
    </properties>
   </object>
-  <object id="56" name="Goomba" type="Goomba" x="496" y="384">
+  <object id="56" name="Goomba" type="Goomba" x="192" y="400">
+   <point/>
+  </object>
+  <object id="119" name="Koopas" type="Koopas" x="544" y="400">
    <point/>
   </object>
   <object id="57" name="QuestionBlock" type="QuestionBlock" x="240" y="304" width="16" height="16">

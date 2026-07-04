@@ -89,6 +89,7 @@
   <object id="62" name="Node_62" type="MapNode" x="96" y="80" width="16" height="16">
    <properties>
     <property name="ani_active" type="int" value="90003"/>
+    <property name="ani_cleared" type="int" value="90018"/>
     <property name="left_id" type="int" value="63"/>
     <property name="right_id" type="int" value="61"/>
     <property name="scene_id" type="int" value="6"/>

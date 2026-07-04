@@ -5,6 +5,7 @@
 #include "Portal.h"
 #include "Item.h"
 #include "Goomba.h"
+#include "Koopas.h"
 #include "Blaster.h"
 #include "Burner.h"
 #include "CannonBall.h"
@@ -64,10 +65,25 @@ void CMarioState::OnCollisionWith(CMario* mario, LPCOLLISIONEVENT e)
     }
     // Xử lý mặc định khi chạm trúng quái vật / bẫy (Nếu các state không chặn lại)
     else if (dynamic_cast<CGoomba*>(e->obj) || 
+             dynamic_cast<CKoopas*>(e->obj) ||
              dynamic_cast<CBlaster*>(e->obj) || 
              dynamic_cast<CBurner*>(e->obj) || 
              dynamic_cast<CCannonBall*>(e->obj))
     {
+        if (dynamic_cast<CKoopas*>(e->obj)) {
+            CKoopas* koopas = dynamic_cast<CKoopas*>(e->obj);
+            if (koopas && koopas->IsShellIdle()) {
+                float mx, my, kx, ky;
+                mario->GetPosition(mx, my);
+                koopas->GetPosition(kx, ky);
+                koopas->Kick(mx < kx ? 1 : -1);
+                CSoundSubject::GetInstance()->Notify(EVENT_KICK);
+                return;
+            }
+
+            if (!koopas || !koopas->IsDangerousToMario()) return;
+        }
+
         if (dynamic_cast<CBurner*>(e->obj)) {
             CBurner* burner = dynamic_cast<CBurner*>(e->obj);
             if (!burner || burner->GetState() != static_cast<int>(BurnerState::Firing)) return;

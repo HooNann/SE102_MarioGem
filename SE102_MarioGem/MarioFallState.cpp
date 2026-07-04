@@ -1,6 +1,9 @@
 #include "MarioFallState.h"
 #include "Mario.h"
 #include "Goomba.h"
+#include "Koopas.h"
+#include "SoundEvents.h"
+#include "SoundSubject.h"
 
 void CMarioFallState::Enter(CMario* mario)
 {
@@ -35,6 +38,26 @@ void CMarioFallState::OnCollisionWith(CMario* mario, LPCOLLISIONEVENT e)
             {
                 goomba->SetState(GoombaState::Die);
                 mario->SetVelocityY(-MARIO_JUMP_DEFLECT_SPEED);
+                return;
+            }
+        }
+
+        if (dynamic_cast<CKoopas*>(e->obj))
+        {
+            CKoopas* koopas = dynamic_cast<CKoopas*>(e->obj);
+            if (koopas->IsWalking())
+            {
+                koopas->SetState(KoopasState::ShellIdle);
+                mario->SetVelocityY(-MARIO_JUMP_DEFLECT_SPEED);
+                CSoundSubject::GetInstance()->Notify(EVENT_STOMP);
+                return;
+            }
+
+            if (koopas->IsShellMoving())
+            {
+                koopas->SetState(KoopasState::ShellIdle);
+                mario->SetVelocityY(-MARIO_JUMP_DEFLECT_SPEED);
+                CSoundSubject::GetInstance()->Notify(EVENT_STOMP);
                 return;
             }
         }

@@ -296,6 +296,11 @@
                          "value":90003
                         }, 
                         {
+                         "name":"ani_cleared",
+                         "type":"int",
+                         "value":90018
+                        }, 
+                        {
                          "name":"left_id",
                          "type":"int",
                          "value":63
