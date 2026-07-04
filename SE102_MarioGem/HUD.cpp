@@ -4,8 +4,10 @@
 #include "Mario.h"
 #include "GameData.h"
 #include "Camera.h"
+#include "Sprites.h"
 
 #include <string>
+#include <vector>
 
 static const int COL_X[12] = { 32, 53, 71, 90, 108, 127, 145, 162, 179, 197, 215, 234 };
 static const int ROW_Y[3] = { 24, 39, 55 };
@@ -44,6 +46,13 @@ constexpr int PM_ARROW_UNLIT_L = 64;
 constexpr int PM_P_W           = 18;
 constexpr int PM_P_UNLIT_L     = 72;
 
+constexpr int CARD_SLOT_X[3] = { 173, 197, 221 };
+constexpr int CARD_SLOT_Y = 15;
+
+constexpr int SPRITE_ID_REWARD_MUSHROOM = 200051;
+constexpr int SPRITE_ID_REWARD_FLOWER = 200052;
+constexpr int SPRITE_ID_REWARD_STAR = 200053;
+
 static bool GlyphCell(char c, int& left, int& top)
 {
 	int row, col;
@@ -55,6 +64,14 @@ static bool GlyphCell(char c, int& left, int& top)
 	left = COL_X[col];
 	top = ROW_Y[row];
 	return true;
+}
+
+static int GetRewardSpriteId(ItemType item)
+{
+	if (item == ItemType::Flower) return SPRITE_ID_REWARD_FLOWER;
+	if (item == ItemType::Star) return SPRITE_ID_REWARD_STAR;
+	if (item == ItemType::Mushroom) return SPRITE_ID_REWARD_MUSHROOM;
+	return -1;
 }
 
 CHud::CHud()
@@ -131,6 +148,25 @@ void CHud::DrawPanel(float& fx, float& fy)
 	DrawRegion(fx + FRAME_W / 2.0f, fy + FRAME_H / 2.0f, FRAME_SRC_L, FRAME_SRC_T, FRAME_W, FRAME_H);
 }
 
+void CHud::DrawInventory(float fx, float fy)
+{
+	std::vector<ItemType> inventory = CGameData::GetInstance()->GetInventory();
+	int count = (inventory.size() < 3) ? (int)inventory.size() : 3;
+
+	float cx, cy;
+	CCamera::GetInstance()->GetCamPos(cx, cy);
+
+	for (int i = 0; i < count; i++)
+	{
+		int spriteId = GetRewardSpriteId(inventory[i]);
+		if (spriteId < 0) continue;
+
+		LPSPRITE sprite = CSprites::GetInstance()->Get(spriteId);
+		if (sprite != NULL)
+			sprite->Draw(cx + fx + CARD_SLOT_X[i], cy + fy + CARD_SLOT_Y);
+	}
+}
+
 void CHud::Render(CMario* mario, int timeLeft, const char* world)
 {
 	if (tex == NULL || mario == NULL) return;
@@ -148,6 +184,8 @@ void CHud::Render(CMario* mario, int timeLeft, const char* world)
 	DrawNumber(CGameData::GetInstance()->GetLives(), fx + LIVES_RIGHT, botY, 1);
 	DrawNumber(CGameData::GetInstance()->GetScore(), fx + SCORE_RIGHT, botY, 6);
 	DrawNumber(timeLeft, fx + TIME_RIGHT, botY, 3);
+
+	DrawInventory(fx, fy);
 }
 
 void CHud::RenderWorldMap(const char* world)
@@ -166,6 +204,8 @@ void CHud::RenderWorldMap(const char* world)
 
 	DrawNumber(CGameData::GetInstance()->GetLives(), fx + LIVES_RIGHT, botY, 1);
 	DrawNumber(CGameData::GetInstance()->GetScore(), fx + SCORE_RIGHT, botY, 6);
+
+	DrawInventory(fx, fy);
 }
 void CHud::RenderCourseClear(int rewardCard)
 {
@@ -177,10 +217,4 @@ void CHud::RenderCourseClear(int rewardCard)
 
 	DrawString("COURSE CLEAR", cx + screenW / 2 - 48, cy + screenH / 2 - 30);
 	DrawString("YOU GOT A CARD", cx + screenW / 2 - 56, cy + screenH / 2);
-
-	int spriteId = 71052; // Mushroom
-	if (rewardCard == 2) spriteId = 71055; // Flower
-	else if (rewardCard == 3) spriteId = 71057; // Star
-
-	CSprites::GetInstance()->Get(spriteId)->Draw(cx + screenW / 2 + 64, cy + screenH / 2);
 }
