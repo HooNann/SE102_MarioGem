@@ -14,6 +14,30 @@ void CFireBall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	vy += ay * dt;
 
+	// SweptAABB không phát hiện vật thể đã chồng lấn sẵn (VD: spawn sát ống nước),
+	// nên phải tự kiểm tra chồng lấn với vật chặn và cho quả cầu nổ tại chỗ
+	if (coObjects != NULL)
+	{
+		float l, t, r, b;
+		GetBoundingBox(l, t, r, b);
+
+		for (size_t i = 0; i < coObjects->size(); i++)
+		{
+			LPGAMEOBJECT obj = coObjects->at(i);
+			if (obj->IsDeleted() || !obj->IsBlocking()) continue;
+			if (obj->IsDirectionColliable((float)-nx, 0) != 1) continue;
+
+			float sl, st, sr, sb;
+			obj->GetBoundingBox(sl, st, sr, sb);
+
+			if (l < sr && r > sl && t < sb && b > st)
+			{
+				this->Delete();
+				return;
+			}
+		}
+	}
+
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
 
