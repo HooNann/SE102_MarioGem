@@ -45,6 +45,7 @@ protected:
 	bool isCourseClear;
 	ULONGLONG courseClearStartTime;
 	int courseClearReward; // ItemType cast to int
+	bool isBossVictory;
 	bool isDeathTransitioning;
 	bool isDeathResolved;
 	ULONGLONG deathStartTime;
@@ -82,6 +83,8 @@ public:
 
 	void TriggerCourseClear(int reward);
 	bool IsCourseClear() const { return isCourseClear; }
+
+	void TriggerBossVictory(size_t victoryTrackId);
 
 	bool IsCameraBlockingLeftEdge() const { return isCameraBlockingLeftEdge; }
 	bool IsCameraBlockingRightEdge() const { return isCameraBlockingRightEdge; }

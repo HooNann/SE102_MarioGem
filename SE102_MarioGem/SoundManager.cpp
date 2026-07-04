@@ -187,6 +187,7 @@ void CSoundManager::OnSoundEvent(int eventId)
 	case EVENT_MUSIC_OVERWORLD: PlayMusic(MUS_OVERWORLD); break;
 	case EVENT_MUSIC_WORLDMAP:  PlayMusic(MUS_WORLDMAP); break;
 	case EVENT_MUSIC_FORTRESS:  PlayMusic(MUS_FORTRESS); break;
+	case EVENT_MUSIC_BOSS:      PlayMusic(MUS_KOOPA_KIDS); break;
 	case EVENT_MUSIC_STOP:      StopMusic(); break;
 	case EVENT_VOLUME_UP:       SetVolume(masterVolume + 0.1f); break;
 	case EVENT_VOLUME_DOWN:     SetVolume(masterVolume - 0.1f); break;

@@ -5,6 +5,9 @@
 #include "PlayScene.h"
 #include "BossExplosion.h"
 #include "MarioDeadState.h"
+#include "SoundEvents.h"
+#include "SoundSubject.h"
+#include "SoundManager.h"
 
 #define ID_ANI_BOOMBOOM_WALKING 36000
 #define ID_ANI_BOOMBOOM_HIDING 36004
@@ -18,6 +21,7 @@ CBoomBoom::CBoomBoom(float x, float y) : CGameObject(x, y)
 	this->untouchable_start = -1;
 	this->isOnPlatform = false;
 	this->last_jump_time = 0;
+	this->victoryTrackId = 0;
 	SetState(BOOMBOOM_STATE_HIDING);
 }
 
@@ -114,6 +118,7 @@ void CBoomBoom::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					untouchable = 0;
 					untouchable_start = 0;
 					SetState(BOOMBOOM_STATE_WALKING);
+					CSoundSubject::GetInstance()->Notify(EVENT_MUSIC_BOSS);
 				}
 			}
 		} else if (state == BOOMBOOM_STATE_HURT && elapsed > BOOMBOOM_HURT_TIME) {
@@ -131,8 +136,9 @@ void CBoomBoom::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				float star_vx = speed * cos(angle);
 				float star_vy = speed * sin(angle);
 				CBossExplosion* star = new CBossExplosion(x, y, star_vx, star_vy);
-				scene->QueueSpawn(star); 
+				scene->QueueSpawn(star);
 			}
+			scene->TriggerBossVictory(victoryTrackId);
 			Delete();
 			return;
 		}
@@ -218,6 +224,8 @@ void CBoomBoom::SetState(int state)
 		vy = 0;
 		ay = 0;
 		untouchable_start = GetTickCount64();
+		CSoundSubject::GetInstance()->Notify(EVENT_MUSIC_STOP);
+		victoryTrackId = CSoundManager::GetInstance()->PlayTrackedSfx(SND_VICTORY);
 		break;
 	}
 	case BOOMBOOM_STATE_HIDING:
