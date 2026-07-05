@@ -31,7 +31,7 @@ namespace
 	constexpr int WORLD_MAP_SCENE_ID = 100;
 	constexpr ULONGLONG COURSE_CLEAR_DURATION_MS = 4000;
 	constexpr ULONGLONG DEATH_RETURN_DELAY_MS = 2000;
-	constexpr float CAMERA_UPDATE_MARGIN = 320.0f;
+	constexpr float CAMERA_UPDATE_MARGIN = 16.0f;
 	constexpr float MARIO_COLLISION_SIDE_MARGIN = 64.0f;
 	constexpr float MARIO_COLLISION_TOP_MARGIN = 64.0f;
 	constexpr float MARIO_COLLISION_FALL_MARGIN = 480.0f;

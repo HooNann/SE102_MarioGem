@@ -957,7 +957,33 @@
                  "type":"RedVenus",
                  "visible":true,
                  "width":0,
-                 "x":640,
+                 "x":2336,
+                 "y":400
+                }, 
+                {
+                 "height":0,
+                 "id":122,
+                 "name":"Koopas",
+                 "opacity":1,
+                 "point":true,
+                 "rotation":0,
+                 "type":"Koopas",
+                 "visible":true,
+                 "width":0,
+                 "x":800,
+                 "y":384
+                }, 
+                {
+                 "height":0,
+                 "id":123,
+                 "name":"Koopas",
+                 "opacity":1,
+                 "point":true,
+                 "rotation":0,
+                 "type":"Koopas",
+                 "visible":true,
+                 "width":0,
+                 "x":1536,
                  "y":384
                 }],
          "opacity":1,
@@ -1041,7 +1067,7 @@
          "y":0
         }],
  "nextlayerid":11,
- "nextobjectid":122,
+ "nextobjectid":124,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.12.1",
