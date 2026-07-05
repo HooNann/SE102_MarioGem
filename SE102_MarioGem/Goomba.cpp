@@ -94,7 +94,12 @@ void CGoomba::Render()
 		aniId = ID_ANI_GOOMBA_DIE_KNOCKOUT;
 	}
 
-	CAnimations::GetInstance()->Get(aniId)->Render(x,y);
+	CAnimations::GetInstance()->Get(aniId)->Render(
+		x,
+		y,
+		1,
+		state == ToInt(GoombaState::Die_KnockOut) ? -1 : 1
+	);
 	//RenderBoundingBox();
 }
 

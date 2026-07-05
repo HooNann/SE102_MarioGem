@@ -69,9 +69,8 @@ void CFireBall::OnCollisionWith(LPCOLLISIONEVENT e)
 	{
 		CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
 
-		// Bắt quái chuyển sang trạng thái chết do lửa (lộn ngược rơi khỏi map)
-		// Bạn cần định nghĩa trạng thái này bên class Goomba nếu muốn giống game gốc
-		goomba->SetState(GoombaState::Die);
+		// Fireball knocks Goomba out instead of flattening it like a stomp.
+		goomba->SetState(GoombaState::Die_KnockOut);
 
 		this->Delete(); // Đập trúng quái là quả cầu lửa biến mất ngay
 	}
