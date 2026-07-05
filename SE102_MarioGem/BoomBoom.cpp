@@ -4,7 +4,7 @@
 #include <math.h>
 #include "PlayScene.h"
 #include "BossExplosion.h"
-#include "MarioDeadState.h"
+#include "MarioState.h"
 #include "SoundEvents.h"
 #include "SoundSubject.h"
 #include "SoundManager.h"
@@ -165,7 +165,7 @@ void CBoomBoom::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 				// If Boom Boom is in Spiked Shell, Mario dies from ANY angle
 				if (state == BOOMBOOM_STATE_HIDING) {
-					mario->ChangeState(new CMarioDeadState());
+					mario->TakeDamage();
 				} else {
 					// Mario is falling onto Boom Boom (normal state)
 					if (mvy > 0 && mb < bb) {
@@ -181,7 +181,7 @@ void CBoomBoom::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					} else {
 						// Mario touches from side or bottom
 						if (!untouchable) {
-							mario->ChangeState(new CMarioDeadState());
+							mario->TakeDamage();
 						}
 					}
 				}

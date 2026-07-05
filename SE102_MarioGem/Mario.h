@@ -134,6 +134,7 @@ public:
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
 	void ChangeState(CMarioState* newState);
+	void TakeDamage();
 
     float GetVelocityX() const { return vx; }
     void SetVelocityX(float v) { vx = v; }

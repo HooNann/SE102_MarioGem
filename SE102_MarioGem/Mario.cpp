@@ -307,6 +307,29 @@ void CMario::ChangeState(CMarioState* newState)
     currentState->Enter(this);
 }
 
+void CMario::TakeDamage()
+{
+	if (untouchable != 0) return;
+	if (currentState && currentState->GetID() == MarioStateID::Dead) return;
+
+	if (GetLevel() == MarioLevel::Fire || GetLevel() == MarioLevel::Raccoon)
+	{
+		SetLevel(MarioLevel::Big);
+		StartUntouchable();
+		CSoundSubject::GetInstance()->Notify(EVENT_POWERDOWN);
+	}
+	else if (GetLevel() == MarioLevel::Big)
+	{
+		SetLevel(MarioLevel::Small);
+		StartUntouchable();
+		CSoundSubject::GetInstance()->Notify(EVENT_POWERDOWN);
+	}
+	else
+	{
+		ChangeState(new CMarioDeadState());
+	}
+}
+
 int CMario::IsCollidable()
 {
     return (currentState && currentState->GetID() != MarioStateID::Dead);
