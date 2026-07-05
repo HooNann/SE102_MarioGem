@@ -6,6 +6,8 @@ void CMarioDeadState::Enter(CMario* mario)
     mario->SetVelocityY(-MARIO_JUMP_DEFLECT_SPEED);
     mario->SetVelocityX(0.0f);
     mario->SetAccelerationX(0.0f);
+    mario->SetAccelerationY(MARIO_GRAVITY);
+    mario->SetMaxVelocityX(0.0f);
 }
 
 void CMarioDeadState::Update(CMario* mario, DWORD dt)

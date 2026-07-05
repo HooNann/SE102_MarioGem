@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="176" height="40" tilewidth="16" tileheight="16" infinite="0" nextlayerid="11" nextobjectid="121">
+<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="176" height="40" tilewidth="16" tileheight="16" infinite="0" nextlayerid="11" nextobjectid="124">
  <editorsettings>
   <export target="stage-1-1.json" format="json"/>
  </editorsettings>
@@ -158,6 +158,15 @@
    </properties>
   </object>
   <object id="113" name="Coin" type="Coin" x="336" y="304" width="112" height="16"/>
+  <object id="121" type="RedVenus" x="2336" y="400">
+   <point/>
+  </object>
+  <object id="122" name="Koopas" type="Koopas" x="800" y="384">
+   <point/>
+  </object>
+  <object id="123" name="Koopas" type="Koopas" x="1536" y="384">
+   <point/>
+  </object>
  </objectgroup>
  <objectgroup id="10" name="DeadZone">
   <object id="114" type="DeadZone" x="1088" y="432" width="64" height="16"/>
