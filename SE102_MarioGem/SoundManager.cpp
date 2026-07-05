@@ -158,6 +158,68 @@ void CSoundManager::StopAll()
 	ma_engine_start(engine);
 }
 
+void CSoundManager::PauseMusic()
+{
+	if (currentMusic != NULL)
+	{
+		ma_sound_stop(currentMusic);
+	}
+}
+
+void CSoundManager::ResumeMusic()
+{
+	if (currentMusic != NULL)
+	{
+		ma_sound_start(currentMusic);
+	}
+}
+
+void CSoundManager::PauseTrackedSounds()
+{
+	for (auto& pair : trackedSounds)
+	{
+		ma_sound_stop(pair.second.sound);
+	}
+}
+
+void CSoundManager::ResumeTrackedSounds()
+{
+	for (auto& pair : trackedSounds)
+	{
+		ma_sound_start(pair.second.sound);
+	}
+}
+
+void CSoundManager::PauseTrackedSfx(size_t trackId)
+{
+	auto it = trackedSounds.find(trackId);
+	if (it != trackedSounds.end())
+	{
+		ma_sound_stop(it->second.sound);
+	}
+}
+
+void CSoundManager::ResumeTrackedSfx(size_t trackId)
+{
+	auto it = trackedSounds.find(trackId);
+	if (it != trackedSounds.end())
+	{
+		ma_sound_start(it->second.sound);
+	}
+}
+
+void CSoundManager::PauseAll()
+{
+	PauseMusic();
+	PauseTrackedSounds();
+}
+
+void CSoundManager::ResumeAll()
+{
+	ResumeMusic();
+	ResumeTrackedSounds();
+}
+
 void CSoundManager::SetVolume(float volume)
 {
 	if (volume < 0.0f) volume = 0.0f;
@@ -197,6 +259,8 @@ void CSoundManager::OnSoundEvent(int eventId)
 	case EVENT_CANNON:          PlaySfx(SND_CANNON); break;
 	case EVENT_PLAYER_DOWN:     PlaySfx(SND_PLAYER_DOWN); break;
 	case EVENT_MAP_MOVE:        PlaySfx(SND_MAP_MOVE); break;
+	case EVENT_PAUSE_AUDIO:     PauseAll(); break;
+	case EVENT_RESUME_AUDIO:    ResumeAll(); break;
 	}
 }
 
