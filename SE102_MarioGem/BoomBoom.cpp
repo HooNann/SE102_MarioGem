@@ -4,13 +4,28 @@
 #include <math.h>
 #include "PlayScene.h"
 #include "BossExplosion.h"
-#include "MarioDeadState.h"
+#include "MarioState.h"
 #include "SoundEvents.h"
 #include "SoundSubject.h"
 #include "SoundManager.h"
 
 #define ID_ANI_BOOMBOOM_WALKING 36000
 #define ID_ANI_BOOMBOOM_HIDING 36004
+
+static int GetBoomBoomBoundingBoxHeight(int state)
+{
+	switch (state)
+	{
+	case BOOMBOOM_STATE_DIE:
+		return BOOMBOOM_BBOX_HEIGHT_DIE;
+	case BOOMBOOM_STATE_HIDING:
+		return BOOMBOOM_BBOX_HEIGHT_HIDING;
+	case BOOMBOOM_STATE_HURT:
+		return BOOMBOOM_BBOX_HEIGHT_HURT;
+	default:
+		return BOOMBOOM_BBOX_HEIGHT;
+	}
+}
 
 CBoomBoom::CBoomBoom(float x, float y) : CGameObject(x, y)
 {
@@ -41,7 +56,14 @@ void CBoomBoom::GetBoundingBox(float &left, float &top, float &right, float &bot
 		right = left + BOOMBOOM_BBOX_WIDTH;
 		bottom = top + BOOMBOOM_BBOX_HEIGHT_HIDING;
 	}
-	else // HURT and WALKING use the same normal BBOX
+	else if (state == BOOMBOOM_STATE_HURT)
+	{
+		left = x - BOOMBOOM_BBOX_WIDTH / 2;
+		top = y - BOOMBOOM_BBOX_HEIGHT_HURT / 2;
+		right = left + BOOMBOOM_BBOX_WIDTH;
+		bottom = top + BOOMBOOM_BBOX_HEIGHT_HURT;
+	}
+	else
 	{
 		left = x - BOOMBOOM_BBOX_WIDTH / 2;
 		top = y - BOOMBOOM_BBOX_HEIGHT / 2;
@@ -165,7 +187,7 @@ void CBoomBoom::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 				// If Boom Boom is in Spiked Shell, Mario dies from ANY angle
 				if (state == BOOMBOOM_STATE_HIDING) {
-					mario->ChangeState(new CMarioDeadState());
+					mario->TakeDamage();
 				} else {
 					// Mario is falling onto Boom Boom (normal state)
 					if (mvy > 0 && mb < bb) {
@@ -181,7 +203,7 @@ void CBoomBoom::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					} else {
 						// Mario touches from side or bottom
 						if (!untouchable) {
-							mario->ChangeState(new CMarioDeadState());
+							mario->TakeDamage();
 						}
 					}
 				}
@@ -208,28 +230,45 @@ void CBoomBoom::Render()
 	}
 
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
-	// RenderBoundingBox();
+	//RenderBoundingBox();
+}
+
+void CBoomBoom::TakeDamage()
+{
+	if (state != BOOMBOOM_STATE_WALKING || untouchable)
+		return;
+
+	hp--;
+	if (hp <= 0) {
+		SetState(BOOMBOOM_STATE_DIE);
+	}
+	else {
+		SetState(BOOMBOOM_STATE_HURT);
+	}
 }
 
 void CBoomBoom::SetState(int state)
 {
 	int oldState = this->state;
+	int oldHeight = GetBoomBoomBoundingBoxHeight(oldState);
+	int newHeight = GetBoomBoomBoundingBoxHeight(state);
+
 	CGameObject::SetState(state);
+	y += (oldHeight - newHeight) / 2.0f;
+
 	switch (state)
 	{
 	case BOOMBOOM_STATE_DIE:
 	{
-		y += (BOOMBOOM_BBOX_HEIGHT - BOOMBOOM_BBOX_HEIGHT_DIE) / 2;
 		vx = 0;
 		vy = 0;
-		ay = 0;
+		ay = BOOMBOOM_GRAVITY;
 		untouchable_start = GetTickCount64();
 		CSoundSubject::GetInstance()->Notify(EVENT_MUSIC_STOP);
 		victoryTrackId = CSoundManager::GetInstance()->PlayTrackedSfx(SND_VICTORY);
 		break;
 	}
 	case BOOMBOOM_STATE_HIDING:
-		y += (BOOMBOOM_BBOX_HEIGHT - BOOMBOOM_BBOX_HEIGHT_HIDING) / 2;
 		vx = 0;
 		untouchable = 1;
 		untouchable_start = GetTickCount64();
@@ -240,9 +279,6 @@ void CBoomBoom::SetState(int state)
 		untouchable_start = GetTickCount64();
 		break;
 	case BOOMBOOM_STATE_WALKING:
-		if (oldState == BOOMBOOM_STATE_HIDING) {
-			y -= (BOOMBOOM_BBOX_HEIGHT - BOOMBOOM_BBOX_HEIGHT_HIDING) / 2;
-		}
 		break;
 	}
 }

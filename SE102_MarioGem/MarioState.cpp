@@ -11,7 +11,6 @@
 #include "CannonBall.h"
 #include "RedVenus.h"
 #include "VenusFireBall.h"
-#include "MarioDeadState.h"
 #include "QuestionBlock.h"
 #include "SoundEvents.h"
 #include "SoundSubject.h"
@@ -100,25 +99,7 @@ void CMarioState::OnCollisionWith(CMario* mario, LPCOLLISIONEVENT e)
         if (dynamic_cast<CVenusFireBall*>(e->obj))
             e->obj->Delete();
 
-        if (mario->untouchable == 0)
-        {
-            if (mario->GetLevel() == MarioLevel::Fire || mario->GetLevel() == MarioLevel::Raccoon)
-            {
-                mario->SetLevel(MarioLevel::Big);
-                mario->StartUntouchable();
-                CSoundSubject::GetInstance()->Notify(EVENT_POWERDOWN);
-            }
-            else if (mario->GetLevel() == MarioLevel::Big)
-            {
-                mario->SetLevel(MarioLevel::Small);
-                mario->StartUntouchable();
-                CSoundSubject::GetInstance()->Notify(EVENT_POWERDOWN);
-            }
-            else
-            {
-                mario->ChangeState(new CMarioDeadState());
-            }
-        }
+        mario->TakeDamage();
     }
 }
 

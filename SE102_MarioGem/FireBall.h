@@ -20,7 +20,7 @@ protected:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();
 
-	virtual int IsCollidable() { return 1; }
+	virtual int IsCollidable() { return !IsDeleted(); }
 	virtual int IsBlocking() { return 0; } // Cho phép đi xuyên qua Mario và Quái
 
 	virtual void OnNoCollision(DWORD dt);

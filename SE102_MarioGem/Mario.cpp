@@ -46,6 +46,8 @@ CMario::CMario(float x, float y) : CGameObject(x, y)
 	untouchable = 0;
 	untouchable_start = -1;
 	isOnPlatform = false;
+	isThrowingFire = false;
+	throwingFireStartTime = 0;
 	currentState = new CMarioIdleState();
 
 	isTransforming = false;
@@ -166,6 +168,7 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 void CMario::ShootFireBall()
 {
 	if (this->GetLevel() != MarioLevel::Fire) return;
+	if (isThrowingFire) return;
 
 	this->isThrowingFire = true;
 	this->throwingFireStartTime = GetTickCount64();
@@ -305,6 +308,29 @@ void CMario::ChangeState(CMarioState* newState)
     }
     currentState = newState;
     currentState->Enter(this);
+}
+
+void CMario::TakeDamage()
+{
+	if (untouchable != 0) return;
+	if (currentState && currentState->GetID() == MarioStateID::Dead) return;
+
+	if (GetLevel() == MarioLevel::Fire || GetLevel() == MarioLevel::Raccoon)
+	{
+		SetLevel(MarioLevel::Big);
+		StartUntouchable();
+		CSoundSubject::GetInstance()->Notify(EVENT_POWERDOWN);
+	}
+	else if (GetLevel() == MarioLevel::Big)
+	{
+		SetLevel(MarioLevel::Small);
+		StartUntouchable();
+		CSoundSubject::GetInstance()->Notify(EVENT_POWERDOWN);
+	}
+	else
+	{
+		ChangeState(new CMarioDeadState());
+	}
 }
 
 int CMario::IsCollidable()
