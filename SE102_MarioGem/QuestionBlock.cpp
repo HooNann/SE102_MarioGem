@@ -105,7 +105,7 @@ void CQuestionBlock::ReleaseItem()
 
 	if (newItem != NULL)
 	{
-		currentScene->QueueSpawn(newItem);
+		currentScene->QueueSpawnBehind(newItem, this);
 	}
 	else if (newCoin != NULL)
 	{

@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <algorithm>
 #include "AssetIDs.h"
 #include "json.hpp"
 
@@ -752,6 +753,16 @@ void CPlayScene::Update(DWORD dt)
 		objects.push_back(obj);
 	spawnQueue.clear();
 
+	for (auto pending : spawnBehindQueue)
+	{
+		auto it = std::find(objects.begin(), objects.end(), pending.behindObj);
+		if (it != objects.end())
+			objects.insert(it, pending.obj);
+		else
+			objects.push_back(pending.obj);
+	}
+	spawnBehindQueue.clear();
+
 	timeRemaining -= dt / 1000.0f;
 	if (timeRemaining < 0) timeRemaining = 0;
 
@@ -913,6 +924,9 @@ void CPlayScene::Unload()
 	for (auto obj : spawnQueue) delete obj;
 	spawnQueue.clear();
 
+	for (auto pending : spawnBehindQueue) delete pending.obj;
+	spawnBehindQueue.clear();
+
 	player = NULL;
 
 	if (map != NULL)
@@ -933,6 +947,11 @@ void CPlayScene::Unload()
 }
 
 bool CPlayScene::IsGameObjectDeleted(const LPGAMEOBJECT& o) { return o == NULL; }
+
+void CPlayScene::QueueSpawnBehind(LPGAMEOBJECT obj, LPGAMEOBJECT behindObj)
+{
+	spawnBehindQueue.push_back({ obj, behindObj });
+}
 
 void CPlayScene::PurgeDeletedObjects()
 {

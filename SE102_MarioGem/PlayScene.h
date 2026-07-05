@@ -23,6 +23,13 @@ protected:
 	vector<LPGAMEOBJECT> objects;
 	vector<LPGAMEOBJECT> spawnQueue;
 
+	struct PendingSpawnBehind
+	{
+		LPGAMEOBJECT obj;
+		LPGAMEOBJECT behindObj;
+	};
+	vector<PendingSpawnBehind> spawnBehindQueue;
+
 	CTileMap* map;	// Tiled Map (background tiles)
 
 	struct CameraZone {
@@ -92,6 +99,7 @@ public:
 	void SetCameraBlockingRightEdge(bool value) { isCameraBlockingRightEdge = value; }
 
 	void QueueSpawn(LPGAMEOBJECT obj) { spawnQueue.push_back(obj); }
+	void QueueSpawnBehind(LPGAMEOBJECT obj, LPGAMEOBJECT behindObj);
 
 	void Clear();
 	void PurgeDeletedObjects();
