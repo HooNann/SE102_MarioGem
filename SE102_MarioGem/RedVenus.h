@@ -34,6 +34,7 @@ protected:
 	bool hasShotInReadyState;
 
 	bool IsMarioFarEnough();
+	void UpdateFacingMario();
 	int GetHeadAnimationId();
 	void ShootAtMario();
 

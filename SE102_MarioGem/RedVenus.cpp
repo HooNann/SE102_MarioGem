@@ -18,6 +18,7 @@ CRedVenus::CRedVenus(float x, float y) : CGameObject(x, y)
 {
 	baseY = y;
 	topY = y - RED_VENUS_TRAVEL_DISTANCE;
+	nx = 1;
 	stateTimer = GetTickCount64();
 	lastShotTime = 0;
 	hasShotInReadyState = false;
@@ -32,6 +33,16 @@ bool CRedVenus::IsMarioFarEnough()
 	float marioX, marioY;
 	scene->GetPlayer()->GetPosition(marioX, marioY);
 	return fabsf(marioX - x) > RED_VENUS_SAFE_DISTANCE;
+}
+
+void CRedVenus::UpdateFacingMario()
+{
+	auto scene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+	if (!scene || !scene->GetPlayer()) return;
+
+	float marioX, marioY;
+	scene->GetPlayer()->GetPosition(marioX, marioY);
+	nx = marioX > x ? -1 : 1;
 }
 
 int CRedVenus::GetHeadAnimationId()
@@ -77,6 +88,8 @@ void CRedVenus::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	ULONGLONG now = GetTickCount64();
 	ULONGLONG elapsed = now - stateTimer;
+	if (state != ToInt(RedVenusState::Hidden))
+		UpdateFacingMario();
 
 	if (state == ToInt(RedVenusState::Hidden))
 	{
@@ -117,7 +130,7 @@ void CRedVenus::Render()
 	if (state == ToInt(RedVenusState::Hidden)) return;
 
 	auto ani = CAnimations::GetInstance()->Get(GetHeadAnimationId());
-	if (ani) ani->Render(x, y);
+	if (ani) ani->Render(x, y, nx);
 	//RenderBoundingBox();
 }
 
