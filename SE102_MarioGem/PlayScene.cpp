@@ -12,7 +12,9 @@
 #include "Coin.h"
 #include "Platform.h"
 #include "MarioState.h"
+#include "MarioFallState.h"
 #include "MarioPitDeadState.h"
+#include "MarioWalkState.h"
 
 #include "PlaySceneKeyHandler.h"
 
@@ -755,14 +757,29 @@ void CPlayScene::Update(DWORD dt)
 
 	if (isCourseClear)
 	{
-		// Force Mario to keep walking right
 		if (player != NULL)
 		{
 			CMario* m = dynamic_cast<CMario*>(player);
 			if (m != NULL)
 			{
 				m->SetDirection(1);
-				m->SetAccelerationX(0.0005f); 
+				if (m->IsOnPlatform())
+				{
+					if (m->currentState == NULL || m->currentState->GetID() != MarioStateID::Walk)
+						m->ChangeState(new CMarioWalkState());
+
+					m->SetMaxVelocityX(MARIO_WALKING_SPEED);
+					m->SetVelocityX(MARIO_WALKING_SPEED);
+					m->SetAccelerationX(0.0f);
+				}
+				else
+				{
+					if (m->currentState == NULL || m->currentState->GetID() != MarioStateID::Fall)
+						m->ChangeState(new CMarioFallState());
+
+					m->SetVelocityX(0.0f);
+					m->SetAccelerationX(0.0f);
+				}
 			}
 		}
 
@@ -828,14 +845,20 @@ void CPlayScene::TriggerCourseClear(int reward)
 		CSoundSubject::GetInstance()->Notify(EVENT_MUSIC_STOP);
 		CSoundSubject::GetInstance()->Notify(EVENT_COURSE_CLEAR);
 		
-		// Change Mario state to Walk right
 		if (player != NULL)
 		{
 			CMario* m = dynamic_cast<CMario*>(player);
 			if (m != NULL)
 			{
 				m->SetDirection(1);
-				m->SetAccelerationX(0.0005f); // MARIO_ACCEL_WALK_X
+				m->SetVelocityX(0.0f);
+				m->SetVelocityY(0.0f);
+				m->SetAccelerationX(0.0f);
+				m->SetAccelerationY(MARIO_GRAVITY);
+				m->SetMaxVelocityX(MARIO_WALKING_SPEED);
+
+				if (!m->IsOnPlatform())
+					m->ChangeState(new CMarioFallState());
 			}
 		}
 	}
