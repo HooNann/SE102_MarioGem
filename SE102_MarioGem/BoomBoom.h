@@ -47,6 +47,7 @@ protected:
 public:
 	CBoomBoom(float x, float y);
 	virtual void SetState(int state);
+	void TakeDamage();
 
 	static LPGAMEOBJECT CreateFromTokens(const vector<string>& tokens);
 };

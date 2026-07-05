@@ -211,6 +211,20 @@ void CBoomBoom::Render()
 	// RenderBoundingBox();
 }
 
+void CBoomBoom::TakeDamage()
+{
+	if (state != BOOMBOOM_STATE_WALKING || untouchable)
+		return;
+
+	hp--;
+	if (hp <= 0) {
+		SetState(BOOMBOOM_STATE_DIE);
+	}
+	else {
+		SetState(BOOMBOOM_STATE_HURT);
+	}
+}
+
 void CBoomBoom::SetState(int state)
 {
 	int oldState = this->state;

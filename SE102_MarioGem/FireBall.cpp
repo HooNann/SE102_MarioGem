@@ -1,6 +1,8 @@
 #include "FireBall.h"
 #include "Goomba.h" // Include các class quái vật vào để xử lý va chạm
 #include "Koopas.h"
+#include "BoomBoom.h"
+#include "RedVenus.h"
 
 CFireBall::CFireBall(float x, float y, int direction) : CGameObject(x, y)
 {
@@ -80,12 +82,28 @@ void CFireBall::OnCollisionWith(LPCOLLISIONEVENT e)
 		koopas->SetState(KoopasState::Die_KnockOut);
 		this->Delete();
 	}
+
+	if (dynamic_cast<CBoomBoom*>(e->obj))
+	{
+		CBoomBoom* boomBoom = dynamic_cast<CBoomBoom*>(e->obj);
+		boomBoom->TakeDamage();
+		this->Delete();
+	}
+
+	if (dynamic_cast<CRedVenus*>(e->obj))
+	{
+		CRedVenus* redVenus = dynamic_cast<CRedVenus*>(e->obj);
+		redVenus->Delete();
+		this->Delete();
+	}
 }
 
 void CFireBall::Render()
 {
 	CAnimations* animations = CAnimations::GetInstance();
-	animations->Get(ID_ANI_FIREBALL)->Render(x, y, nx);
+	LPANIMATION ani = animations->Get(ID_ANI_FIREBALL);
+	if (ani != NULL)
+		ani->Render(x, y, nx);
 }
 
 void CFireBall::GetBoundingBox(float& left, float& top, float& right, float& bottom)

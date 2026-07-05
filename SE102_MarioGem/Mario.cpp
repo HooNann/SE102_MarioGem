@@ -46,6 +46,8 @@ CMario::CMario(float x, float y) : CGameObject(x, y)
 	untouchable = 0;
 	untouchable_start = -1;
 	isOnPlatform = false;
+	isThrowingFire = false;
+	throwingFireStartTime = 0;
 	currentState = new CMarioIdleState();
 
 	isTransforming = false;
@@ -166,6 +168,7 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 void CMario::ShootFireBall()
 {
 	if (this->GetLevel() != MarioLevel::Fire) return;
+	if (isThrowingFire) return;
 
 	this->isThrowingFire = true;
 	this->throwingFireStartTime = GetTickCount64();
