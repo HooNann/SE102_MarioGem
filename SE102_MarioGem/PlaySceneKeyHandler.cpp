@@ -60,6 +60,7 @@ void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
 
     if (mario->currentState && mario->currentState->GetID() == MarioStateID::Dead) return;
     if (mario->currentState && mario->currentState->GetID() == MarioStateID::Pipe) return;
+    if (mario->IsTransforming()) return; // Khóa input khi đang biến hình
 
 	switch (KeyCode)
 	{
@@ -154,6 +155,7 @@ void CPlaySceneKeyHandler::OnKeyUp(int KeyCode)
 
     if (mario->currentState && mario->currentState->GetID() == MarioStateID::Dead) return;
     if (mario->currentState && mario->currentState->GetID() == MarioStateID::Pipe) return;
+    if (mario->IsTransforming()) return; // Khóa input khi đang biến hình
 
 	switch (KeyCode)
 	{
@@ -196,6 +198,8 @@ void CPlaySceneKeyHandler::KeyState(BYTE *states)
 
     if (mario->currentState && mario->currentState->GetID() == MarioStateID::Pipe)
         return;
+
+    if (mario->IsTransforming()) return; // Khóa input khi đang biến hình
 
     MarioStateID curID = mario->currentState ? mario->currentState->GetID() : MarioStateID::Idle;
 

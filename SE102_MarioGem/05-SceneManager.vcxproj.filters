@@ -201,6 +201,12 @@
     <ClCompile Include="CannonBall.cpp">
       <Filter>Game\Objects\Traps</Filter>
     </ClCompile>
+    <ClCompile Include="VenusFireBall.cpp">
+      <Filter>Game\Objects\Projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="RedVenus.cpp">
+      <Filter>Game\Objects\Enemies</Filter>
+    </ClCompile>
     <ClCompile Include="Canon.cpp">
       <Filter>Game\Objects\Traps</Filter>
     </ClCompile>
@@ -424,6 +430,12 @@
     </ClInclude>
     <ClInclude Include="CannonBall.h">
       <Filter>Game\Objects\Traps</Filter>
+    </ClInclude>
+    <ClInclude Include="VenusFireBall.h">
+      <Filter>Game\Objects\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="RedVenus.h">
+      <Filter>Game\Objects\Enemies</Filter>
     </ClInclude>
     <ClInclude Include="Canon.h">
       <Filter>Game\Objects\Traps</Filter>

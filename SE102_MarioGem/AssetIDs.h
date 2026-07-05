@@ -14,6 +14,7 @@ enum class ObjectType : int {
 	Blaster = 8,
 	Canon = 9,
 	CannonBall = 10,
+	RedVenus = 11,
 	CollisionBox = 100,
 	QuestionBlock = 101,
 	GoalRoulette = 102,

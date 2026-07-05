@@ -17,6 +17,7 @@
 #include "Platform.h"
 #include "Portal.h"
 #include "QuestionBlock.h"
+#include "RedVenus.h"
 #include "GoalRoulette.h"
 
 
@@ -69,6 +70,9 @@ LPGAMEOBJECT ObjectFactory::Create(ObjectType type,
 
 	case ObjectType::Canon:
 		return CCanon::CreateFromTokens(tokens);
+
+	case ObjectType::RedVenus:
+		return CRedVenus::CreateFromTokens(tokens);
 
 	case ObjectType::GoalRoulette:
 		// Not supported via old text file method yet
@@ -165,6 +169,8 @@ LPGAMEOBJECT ObjectFactory::CreateFromJSON(const json& obj) {
 			objectType = ObjectType::Blaster;
 		else if (typeStr == "Canon")
 			objectType = ObjectType::Canon;
+		else if (typeStr == "RedVenus" || typeStr == "PiranhaPlant")
+			objectType = ObjectType::RedVenus;
 		else if (typeStr == "MapMario")
 			objectType = ObjectType::MapMario;
 		else if (typeStr == "MapNode")
@@ -253,6 +259,9 @@ LPGAMEOBJECT ObjectFactory::CreateFromJSON(const json& obj) {
 		int dir = GetIntProperty(obj, "direction", 1);
 		return new CCanon(x, y, dir);
 	}
+
+	case ObjectType::RedVenus:
+		return new CRedVenus(x, y);
 
 	case ObjectType::MapMario: {
 		int aniId = GetIntProperty(obj, "aniId", -1);

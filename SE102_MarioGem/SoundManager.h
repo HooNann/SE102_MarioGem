@@ -38,7 +38,15 @@ public:
 
 	void PlayMusic(int soundId);
 	void StopMusic();
+	void PauseMusic();
+	void ResumeMusic();
+	void PauseTrackedSounds();
+	void ResumeTrackedSounds();
+	void PauseTrackedSfx(size_t trackId);
+	void ResumeTrackedSfx(size_t trackId);
 	void StopAll();
+	void PauseAll();
+	void ResumeAll();
 	void SetVolume(float volume);
 	float GetVolume() { return masterVolume; }
 

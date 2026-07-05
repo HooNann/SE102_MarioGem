@@ -47,10 +47,29 @@ CMario::CMario(float x, float y) : CGameObject(x, y)
 	untouchable_start = -1;
 	isOnPlatform = false;
 	currentState = new CMarioIdleState();
+
+	isTransforming = false;
+	transformStartTime = 0;
 }
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
+	// Khi đang biến hình: freeze vật lý, chỉ chạy timer
+	if (isTransforming)
+	{
+		// Dừng chuyển động hoàn toàn
+		vx = 0.0f;
+		vy = 0.0f;
+		ax = 0.0f;
+
+		// Kiểm tra kết thúc biến hình (timer dùng wall-clock, không cần dt)
+		if (GetTickCount64() - transformStartTime >= MARIO_TRANSFORM_DURATION)
+		{
+			isTransforming = false;
+		}
+		return;
+	}
+
 	HandlePMeter(dt);
 	UpdateThrowingFireTime(dt);
 	vy += ay * dt;
@@ -240,6 +259,14 @@ void CMario::Render()
 		aniId = currentState->GetAnimationId(this);
 	}
 
+	// Hiệu ứng chớp chớp khi đang biến hình: ẩn mỗi BLINK_INTERVAL ms
+	if (isTransforming)
+	{
+		ULONGLONG elapsed = GetTickCount64() - transformStartTime;
+		ULONGLONG blinkPhase = (elapsed / MARIO_TRANSFORM_BLINK_INTERVAL) % 2;
+		if (blinkPhase == 1) return; // Frame ẩn
+	}
+
 	float timeScale = 1.0f;
 	if (isOnPlatform && abs(vx) > 0)
 	{
@@ -326,6 +353,9 @@ void CMario::SetLevel(MarioLevel l)
 		y -= (MARIO_BIG_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT) / 2;
 	}
 	CGameData::GetInstance()->SetLevel(l);
+
+	// Bắt đầu hiệu ứng biến hình: freeze scene + chớp chớp
+	StartTransforming();
 }
 
 LPGAMEOBJECT CMario::CreateFromTokens(const vector<string>& tokens)

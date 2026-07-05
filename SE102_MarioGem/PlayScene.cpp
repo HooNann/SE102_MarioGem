@@ -12,7 +12,9 @@
 #include "Coin.h"
 #include "Platform.h"
 #include "MarioState.h"
+#include "MarioFallState.h"
 #include "MarioPitDeadState.h"
+#include "MarioWalkState.h"
 
 #include "PlaySceneKeyHandler.h"
 
@@ -31,7 +33,7 @@ namespace
 	constexpr int WORLD_MAP_SCENE_ID = 100;
 	constexpr ULONGLONG COURSE_CLEAR_DURATION_MS = 4000;
 	constexpr ULONGLONG DEATH_RETURN_DELAY_MS = 2000;
-	constexpr float CAMERA_UPDATE_MARGIN = 320.0f;
+	constexpr float CAMERA_UPDATE_MARGIN = 16.0f;
 	constexpr float MARIO_COLLISION_SIDE_MARGIN = 64.0f;
 	constexpr float MARIO_COLLISION_TOP_MARGIN = 64.0f;
 	constexpr float MARIO_COLLISION_FALL_MARGIN = 480.0f;
@@ -659,10 +661,15 @@ void CPlayScene::Update(DWORD dt)
 			coObjects.push_back(activeObjects[i]);
 	}
 
+	// Kiểm tra Mario có đang biến hình không để freeze scene
+	CMario* mario = dynamic_cast<CMario*>(player);
+	bool freezeScene = (mario != NULL && mario->IsTransforming());
+
 	for (size_t i = 0; i < activeObjects.size(); i++)
 	{
 		if (activeObjects[i] == player)
 		{
+			// Mario luôn được update để timer biến hình chạy đúng
 			vector<LPGAMEOBJECT> marioCoObjects = coObjects;
 
 			float ml, mt, mr, mb;
@@ -687,14 +694,15 @@ void CPlayScene::Update(DWORD dt)
 		}
 		else
 		{
-			activeObjects[i]->Update(dt, &coObjects);
+			// Freeze tất cả object khác khi Mario đang biến hình (dt = 0)
+			DWORD effectiveDt = freezeScene ? 0 : dt;
+			activeObjects[i]->Update(effectiveDt, &coObjects);
 		}
 	}
 
 	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
 	if (player == NULL) return; 
 
-	CMario* mario = dynamic_cast<CMario*>(player);
 	if (!isCourseClear && mario != NULL && mario->currentState != NULL && mario->currentState->GetID() != MarioStateID::Dead)
 	{
 		float ml, mt, mr, mb;
@@ -734,8 +742,8 @@ void CPlayScene::Update(DWORD dt)
 		}
 	}
 
-	// Update camera to follow mario
-	if (!isCourseClear)
+	// Update camera to follow mario (dừng khi Mario đang biến hình)
+	if (!isCourseClear && !freezeScene)
 	{
 		SyncCameraToPlayer();
 	}
@@ -749,14 +757,29 @@ void CPlayScene::Update(DWORD dt)
 
 	if (isCourseClear)
 	{
-		// Force Mario to keep walking right
 		if (player != NULL)
 		{
 			CMario* m = dynamic_cast<CMario*>(player);
 			if (m != NULL)
 			{
 				m->SetDirection(1);
-				m->SetAccelerationX(0.0005f); 
+				if (m->IsOnPlatform())
+				{
+					if (m->currentState == NULL || m->currentState->GetID() != MarioStateID::Walk)
+						m->ChangeState(new CMarioWalkState());
+
+					m->SetMaxVelocityX(MARIO_WALKING_SPEED);
+					m->SetVelocityX(MARIO_WALKING_SPEED);
+					m->SetAccelerationX(0.0f);
+				}
+				else
+				{
+					if (m->currentState == NULL || m->currentState->GetID() != MarioStateID::Fall)
+						m->ChangeState(new CMarioFallState());
+
+					m->SetVelocityX(0.0f);
+					m->SetAccelerationX(0.0f);
+				}
 			}
 		}
 
@@ -822,14 +845,20 @@ void CPlayScene::TriggerCourseClear(int reward)
 		CSoundSubject::GetInstance()->Notify(EVENT_MUSIC_STOP);
 		CSoundSubject::GetInstance()->Notify(EVENT_COURSE_CLEAR);
 		
-		// Change Mario state to Walk right
 		if (player != NULL)
 		{
 			CMario* m = dynamic_cast<CMario*>(player);
 			if (m != NULL)
 			{
 				m->SetDirection(1);
-				m->SetAccelerationX(0.0005f); // MARIO_ACCEL_WALK_X
+				m->SetVelocityX(0.0f);
+				m->SetVelocityY(0.0f);
+				m->SetAccelerationX(0.0f);
+				m->SetAccelerationY(MARIO_GRAVITY);
+				m->SetMaxVelocityX(MARIO_WALKING_SPEED);
+
+				if (!m->IsOnPlatform())
+					m->ChangeState(new CMarioFallState());
 			}
 		}
 	}

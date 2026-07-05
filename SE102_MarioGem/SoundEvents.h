@@ -26,6 +26,8 @@
 #define EVENT_PLAYER_DOWN     24
 #define EVENT_MAP_MOVE        25
 #define EVENT_MUSIC_BOSS      26
+#define EVENT_PAUSE_AUDIO     27
+#define EVENT_RESUME_AUDIO    28
 
 #define SND_JUMP           40
 #define SND_COIN           54

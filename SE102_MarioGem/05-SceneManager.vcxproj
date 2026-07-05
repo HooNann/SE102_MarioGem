@@ -168,6 +168,8 @@
     <ClCompile Include="Burner.cpp" />
     <ClCompile Include="Canon.cpp" />
     <ClCompile Include="CannonBall.cpp" />
+    <ClCompile Include="RedVenus.cpp" />
+    <ClCompile Include="VenusFireBall.cpp" />
     <ClCompile Include="Goomba.cpp" />
     <ClCompile Include="Koopas.cpp" />
     <ClCompile Include="Hud.cpp" />
@@ -241,6 +243,8 @@
     <ClInclude Include="Burner.h" />
     <ClInclude Include="Canon.h" />
     <ClInclude Include="CannonBall.h" />
+    <ClInclude Include="RedVenus.h" />
+    <ClInclude Include="VenusFireBall.h" />
     <ClInclude Include="Goomba.h" />
     <ClInclude Include="Koopas.h" />
     <ClInclude Include="json.hpp" />
