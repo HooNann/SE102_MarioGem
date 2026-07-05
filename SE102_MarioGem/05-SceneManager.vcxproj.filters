@@ -210,9 +210,6 @@
     <ClCompile Include="Canon.cpp">
       <Filter>Game\Objects\Traps</Filter>
     </ClCompile>
-    <ClCompile Include="Item.cpp">
-      <Filter>Game\Objects\Items</Filter>
-    </ClCompile>
     <ClCompile Include="QuestionBlock.cpp">
       <Filter>Game\Objects\Tiles</Filter>
     </ClCompile>
@@ -287,6 +284,15 @@
     </ClCompile>
     <ClCompile Include="TileMap.cpp">
       <Filter>Game\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Flower.cpp">
+      <Filter>Game\Objects\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="Leaf.cpp">
+      <Filter>Game\Objects\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="Mushroom.cpp">
+      <Filter>Game\Objects\Items</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -461,9 +467,6 @@
     <ClInclude Include="BoomBoom.h">
       <Filter>Game\Objects\Bosses</Filter>
     </ClInclude>
-    <ClInclude Include="Item.h">
-      <Filter>Game\Objects\Items</Filter>
-    </ClInclude>
     <ClInclude Include="QuestionBlock.h">
       <Filter>Game\Objects\Tiles</Filter>
     </ClInclude>
@@ -526,6 +529,15 @@
     </ClInclude>
     <ClInclude Include="TileMap.h">
       <Filter>Game\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Flower.h">
+      <Filter>Game\Objects\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="Leaf.h">
+      <Filter>Game\Objects\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="Mushroom.h">
+      <Filter>Game\Objects\Items</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

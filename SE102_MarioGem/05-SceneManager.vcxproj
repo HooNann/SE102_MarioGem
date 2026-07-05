@@ -152,8 +152,8 @@
     <ClCompile Include="Animations.cpp" />
     <ClCompile Include="Brick.cpp" />
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="Item.cpp" />
     <ClCompile Include="Coin.cpp" />
+    <ClCompile Include="Flower.cpp" />
     <ClCompile Include="BossExplosion.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="CollisionBox.cpp" />
@@ -172,6 +172,7 @@
     <ClCompile Include="VenusFireBall.cpp" />
     <ClCompile Include="Goomba.cpp" />
     <ClCompile Include="Koopas.cpp" />
+    <ClCompile Include="Leaf.cpp" />
     <ClCompile Include="Hud.cpp" />
     <ClCompile Include="GoalRoulette.cpp" />
     <ClCompile Include="GoalRewardItem.cpp" />
@@ -189,6 +190,7 @@
     <ClCompile Include="MarioPipeState.cpp" />
     <ClCompile Include="MarioDeadState.cpp" />
     <ClCompile Include="MarioPitDeadState.cpp" />
+    <ClCompile Include="Mushroom.cpp" />
     <ClCompile Include="ObjectFactory.cpp" />
     <ClCompile Include="Platform.cpp" />
     <ClCompile Include="Pipe.cpp" />
@@ -223,8 +225,8 @@
     <ClInclude Include="Animations.h" />
     <ClInclude Include="AssetIDs.h" />
     <ClInclude Include="Brick.h" />
-    <ClInclude Include="Item.h" />
     <ClInclude Include="Coin.h" />
+    <ClInclude Include="Flower.h" />
     <ClInclude Include="BossExplosion.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="CollisionBox.h" />
@@ -247,6 +249,7 @@
     <ClInclude Include="VenusFireBall.h" />
     <ClInclude Include="Goomba.h" />
     <ClInclude Include="Koopas.h" />
+    <ClInclude Include="Leaf.h" />
     <ClInclude Include="json.hpp" />
     <ClInclude Include="KeyEventHandler.h" />
     <ClInclude Include="Mario.h" />
@@ -263,6 +266,7 @@
     <ClInclude Include="MarioPipeState.h" />
     <ClInclude Include="MarioDeadState.h" />
     <ClInclude Include="MarioPitDeadState.h" />
+    <ClInclude Include="Mushroom.h" />
     <ClInclude Include="ObjectFactory.h" />
     <ClInclude Include="Platform.h" />
     <ClInclude Include="Pipe.h" />

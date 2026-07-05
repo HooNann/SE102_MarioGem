@@ -7,12 +7,15 @@
 #include "Canon.h"
 #include "Coin.h"
 #include "CollisionBox.h"
+#include "Flower.h"
 #include "Goomba.h"
 #include "Koopas.h"
+#include "Leaf.h"
 #include "MapMario.h"
 #include "MapNode.h"
 #include "MapObject.h"
 #include "Mario.h"
+#include "Mushroom.h"
 #include "Pipe.h"
 #include "Platform.h"
 #include "Portal.h"
@@ -43,6 +46,15 @@ LPGAMEOBJECT ObjectFactory::Create(ObjectType type,
 
 	case ObjectType::Coin:
 		return CCoin::CreateFromTokens(tokens);
+
+	case ObjectType::Flower:
+		return new CFlower((float)atof(tokens[1].c_str()), (float)atof(tokens[2].c_str()));
+
+	case ObjectType::Leaf:
+		return new CLeaf((float)atof(tokens[1].c_str()), (float)atof(tokens[2].c_str()));
+
+	case ObjectType::Mushroom:
+		return new CMushroom((float)atof(tokens[1].c_str()), (float)atof(tokens[2].c_str()));
 
 	case ObjectType::Platform:
 	{
@@ -181,6 +193,12 @@ LPGAMEOBJECT ObjectFactory::CreateFromJSON(const json& obj) {
 			objectType = ObjectType::QuestionBlock;
 		else if (typeStr == "GoalRoulette")
 			objectType = ObjectType::GoalRoulette;
+		else if (typeStr == "Flower")
+			objectType = ObjectType::Flower;
+		else if (typeStr == "Leaf")
+			objectType = ObjectType::Leaf;
+		else if (typeStr == "Mushroom")
+			objectType = ObjectType::Mushroom;
 		else {
 			DebugOut(L"[WARNING] Unknown object type in JSON: %s\n",
 				wstring(typeStr.begin(), typeStr.end()).c_str());
@@ -207,6 +225,15 @@ LPGAMEOBJECT ObjectFactory::CreateFromJSON(const json& obj) {
 
 	case ObjectType::Coin:
 		return new CCoin(x, y);
+
+	case ObjectType::Flower:
+		return new CFlower(x, y);
+
+	case ObjectType::Leaf:
+		return new CLeaf(x, y);
+
+	case ObjectType::Mushroom:
+		return new CMushroom(x, y);
 
 	case ObjectType::Portal: {
 		// Portal cần thêm scene_id từ Custom Properties trong Tiled
@@ -241,7 +268,7 @@ LPGAMEOBJECT ObjectFactory::CreateFromJSON(const json& obj) {
 		return new CBurner(x, y);
 
 	case ObjectType::QuestionBlock: {
-		int item_type = GetIntProperty(obj, "item_type", -1);
+		string item_type = GetStringProperty(obj, "item_type", "");
 		return new CQuestionBlock(x, y, item_type);
 	}
 

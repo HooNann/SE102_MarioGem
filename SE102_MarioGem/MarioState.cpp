@@ -3,7 +3,9 @@
 #include "Game.h"
 #include "Coin.h"
 #include "Portal.h"
-#include "Item.h"
+#include "Flower.h"
+#include "Leaf.h"
+#include "Mushroom.h"
 #include "Goomba.h"
 #include "Koopas.h"
 #include "Blaster.h"
@@ -45,24 +47,23 @@ void CMarioState::OnCollisionWith(CMario* mario, LPCOLLISIONEVENT e)
         CPortal* p = (CPortal*)e->obj;
         CGame::GetInstance()->InitiateSwitchScene(p->GetSceneId());
     }
-    else if (dynamic_cast<CItem*>(e->obj))
+    else if (dynamic_cast<CFlower*>(e->obj))
     {
-        CItem* item = dynamic_cast<CItem*>(e->obj);
-        if (item)
-        {
-            item->Delete();
-            switch (item->GetItemType())
-            {
-            case ITEM_TYPE_FLOWER:
-                mario->SetLevel(MarioLevel::Fire);
-                CSoundSubject::GetInstance()->Notify(EVENT_POWERUP);
-                break;
-            case ITEM_TYPE_LEAF:
-                mario->SetLevel(MarioLevel::Raccoon);
-                CSoundSubject::GetInstance()->Notify(EVENT_TANOOKI);
-                break;
-            }
-        }
+        e->obj->Delete();
+        mario->SetLevel(MarioLevel::Fire);
+        CSoundSubject::GetInstance()->Notify(EVENT_POWERUP);
+    }
+    else if (dynamic_cast<CLeaf*>(e->obj))
+    {
+        e->obj->Delete();
+        mario->SetLevel(MarioLevel::Raccoon);
+        CSoundSubject::GetInstance()->Notify(EVENT_TANOOKI);
+    }
+    else if (dynamic_cast<CMushroom*>(e->obj))
+    {
+        e->obj->Delete();
+        mario->SetLevel(MarioLevel::Big);
+        CSoundSubject::GetInstance()->Notify(EVENT_POWERUP);
     }
     // Xử lý mặc định khi chạm trúng quái vật / bẫy (Nếu các state không chặn lại)
     else if (dynamic_cast<CGoomba*>(e->obj) || 

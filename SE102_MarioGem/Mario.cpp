@@ -20,7 +20,6 @@
 #include "Burner.h"
 #include "Blaster.h"
 #include "CannonBall.h"
-#include "Item.h"
 
 #include "Collision.h"
 #include "FireBall.h"

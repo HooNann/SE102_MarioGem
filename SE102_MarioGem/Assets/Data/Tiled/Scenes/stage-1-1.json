@@ -604,8 +604,8 @@
                  "properties":[
                         {
                          "name":"item_type",
-                         "type":"int",
-                         "value":2
+                         "type":"string",
+                         "value":"Leaf"
                         }],
                  "rotation":0,
                  "type":"QuestionBlock",
@@ -622,8 +622,8 @@
                  "properties":[
                         {
                          "name":"item_type",
-                         "type":"int",
-                         "value":1
+                         "type":"string",
+                         "value":"Flower"
                         }],
                  "rotation":0,
                  "type":"QuestionBlock",
@@ -666,8 +666,8 @@
                  "properties":[
                         {
                          "name":"item_type",
-                         "type":"int",
-                         "value":3
+                         "type":"string",
+                         "value":"Mushroom"
                         }],
                  "rotation":0,
                  "type":"QuestionBlock",
@@ -684,8 +684,8 @@
                  "properties":[
                         {
                          "name":"item_type",
-                         "type":"int",
-                         "value":3
+                         "type":"string",
+                         "value":"Coin"
                         }],
                  "rotation":0,
                  "type":"QuestionBlock",

@@ -1,10 +1,12 @@
 #include "QuestionBlock.h"
 #include "Animations.h"
-#include "Item.h"
 #include "PlayScene.h"
 #include "Coin.h"
+#include "Flower.h"
+#include "Leaf.h"
+#include "Mushroom.h"
 
-CQuestionBlock::CQuestionBlock(float x, float y, int itemType) : CGameObject(x, y)
+CQuestionBlock::CQuestionBlock(float x, float y, const std::string& itemType) : CGameObject(x, y)
 {
 	this->itemType = itemType;
 	this->isAlive = 1;			// Thuở sơ khai khối gạch luôn còn nguyên
@@ -87,18 +89,22 @@ void CQuestionBlock::ReleaseItem()
 	float itemX = this->x;
 	float itemY = this->y - 16.0f;
 
-	CItem* newItem = NULL;
+	LPGAMEOBJECT newItem = NULL;
 	CCoin* newCoin = NULL;
 
-	if (this->itemType == QUESTION_BLOCK_ITEM_FLOWER)
+	if (this->itemType == "Flower")
 	{
-		newItem = new CItem(itemX, itemY, ITEM_TYPE_FLOWER); // Sinh hoa lửa
+		newItem = new CFlower(itemX, itemY); // Sinh hoa lửa
 	}
-	else if (this->itemType == QUESTION_BLOCK_ITEM_LEAF)
+	else if (this->itemType == "Leaf")
 	{
-		newItem = new CItem(itemX, itemY, ITEM_TYPE_LEAF);   // Sinh lá chồn
+		newItem = new CLeaf(itemX, itemY);   // Sinh lá chồn
 	}
-	else if (this->itemType == QUESTION_BLOCK_ITEM_COIN)
+	else if (this->itemType == "Mushroom")
+	{
+		newItem = new CMushroom(itemX, itemY); // Sinh nấm
+	}
+	else if (this->itemType == "Coin")
 	{
 		newCoin = new CCoin(itemX, itemY); // Sinh đồng xu
 	}

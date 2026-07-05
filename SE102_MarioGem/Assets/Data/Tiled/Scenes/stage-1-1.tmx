@@ -103,12 +103,12 @@
   </object>
   <object id="51" name="QuestionBlock" type="QuestionBlock" x="176" y="352" width="16" height="16">
    <properties>
-    <property name="item_type" type="int" value="2"/>
+    <property name="item_type" value="Leaf"/>
    </properties>
   </object>
   <object id="54" name="QuestionBlock" type="QuestionBlock" x="160" y="352" width="16" height="16">
    <properties>
-    <property name="item_type" type="int" value="1"/>
+    <property name="item_type" value="Flower"/>
    </properties>
   </object>
   <object id="56" name="Goomba" type="Goomba" x="192" y="400">
@@ -119,12 +119,12 @@
   </object>
   <object id="57" name="QuestionBlock" type="QuestionBlock" x="240" y="304" width="16" height="16">
    <properties>
-    <property name="item_type" type="int" value="3"/>
+    <property name="item_type" value="Mushroom"/>
    </properties>
   </object>
   <object id="58" name="QuestionBlock" type="QuestionBlock" x="224" y="304" width="16" height="16">
    <properties>
-    <property name="item_type" type="int" value="3"/>
+    <property name="item_type" value="Coin"/>
    </properties>
   </object>
   <object id="60" name="GoalRoulette" type="GoalRoulette" x="2684" y="332" width="24" height="24"/>

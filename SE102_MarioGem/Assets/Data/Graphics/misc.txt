@@ -14,7 +14,7 @@
 # Nam va La (Mushrooms & Leaves)
 71007	156	121	171	136	80  # Nam do sieu cap Super Mushroom
 71008	286	121	301	136	80  # Nam xanh tang mang 1-Up Mushroom
-71009	180	122	195	136	80  # La phong do Super Leaf trang thai 1
+71009	180	121	195	136	80  # La phong do Super Leaf trang thai 1
 71010	265	121	280	136	80  # La phong xanh Super Leaf trang thai 2
 
 # Sao bat tu (Star-man)
@@ -115,10 +115,13 @@
 91005	71011	100	71012	100	71013	100  # Hoat anh ngoi sao bat tu nhap nhay mau sac
 
 # ani-fire-flower-pulsing
-91006	71014	150	71015	150  # Hoat anh bong hoa lua thoi doi mau canh hoa
+91006	71014	150  # Hoat anh bong hoa lua thoi doi mau canh hoa
 
 # ani-super-leaf-fluttering
-91007	71009	200	71010	200  # Hoat anh chiec la phong lac lu khi dang roi
+91007	71009	200  # Hoat anh chiec la phong lac lu khi dang roi
+
+# ani-super-mushroom-idle
+60003	71007	100  # Hoat anh nam do Super Mushroom
 
 # ani-brick-shining
 91008	71035	120	71036	120	71037	120	71038	120  # Hoat anh gach bong ma vang nhap nhay nhe
