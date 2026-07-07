@@ -1,9 +1,9 @@
 #include "GoalRewardItem.h"
-#include "Sprites.h"
+#include "Animations.h"
 
-#define SPRITE_ID_REWARD_MUSHROOM 71052
-#define SPRITE_ID_REWARD_FLOWER   71055
-#define SPRITE_ID_REWARD_STAR     71057
+#define ANI_ID_GOAL_MUSHROOM 91016
+#define ANI_ID_GOAL_FLOWER   91017
+#define ANI_ID_GOAL_STAR     91018
 
 CGoalRewardItem::CGoalRewardItem(float x, float y, ItemType t) : CGameObject(x, y)
 {
@@ -30,11 +30,11 @@ void CGoalRewardItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CGoalRewardItem::Render()
 {
-	int spriteId = SPRITE_ID_REWARD_MUSHROOM;
-	if (type == ItemType::Flower) spriteId = SPRITE_ID_REWARD_FLOWER;
-	else if (type == ItemType::Star) spriteId = SPRITE_ID_REWARD_STAR;
+	int aniId = ANI_ID_GOAL_MUSHROOM;
+	if (type == ItemType::Flower) aniId = ANI_ID_GOAL_FLOWER;
+	else if (type == ItemType::Star) aniId = ANI_ID_GOAL_STAR;
 
-	CSprites::GetInstance()->Get(spriteId)->Draw(x, y);
+	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
 }
 
 void CGoalRewardItem::GetBoundingBox(float& l, float& t, float& r, float& b)

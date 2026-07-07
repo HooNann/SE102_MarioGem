@@ -14,7 +14,7 @@
 # Nam va La (Mushrooms & Leaves)
 71007	156	121	171	136	80  # Nam do sieu cap Super Mushroom
 71008	286	121	301	136	80  # Nam xanh tang mang 1-Up Mushroom
-71009	180	121	195	136	80  # La phong do Super Leaf trang thai 1
+71009	180	123	195	136	80  # La phong do Super Leaf trang thai 1
 71010	265	121	280	136	80  # La phong xanh Super Leaf trang thai 2
 
 # Sao bat tu (Star-man)
@@ -77,13 +77,13 @@
 
 # --- tex-reward (TEX_ID: 80) ---
 # O thuong cuoi man (Goal Items)
-71052	5	28	20	43	90  # Phan thuong Nam Goal Mushroom mac dinh
-71053	66	28	76	43	90  # Phan thuong Nam Goal Mushroom bien dang 1
-71054	110	28	111	43	90  # Phan thuong Nam Goal Mushroom bien dang 2
+71052	5	27	20	42	90  # Phan thuong Nam Goal Mushroom mac dinh
+71053	67	28	76	43	90  # Phan thuong Nam Goal Mushroom bien dang 1
+71054	110	28	111	43	90  # Phan thuong cac item bien dang
 71055	25	28	40	43	90  # Phan thuong Hoa Goal Flower mac dinh
-71056	66	28	76	44	90  # Phan thuong Hoa Goal Flower bien dang
+71056	80	29	89	44	90  # Phan thuong Hoa Goal Flower bien dang
 71057	45	27	60	42	90  # Phan thuong Sao Goal Star mac dinh
-71058	94	28	104	43	90  # Phan thuong Sao Goal Star bien dang
+71058	95	28	104	43	90  # Phan thuong Sao Goal Star bien dang
 
 
 # --- tex-pipe (TEX_ID: 80) ---
@@ -146,3 +146,12 @@
 
 # ani-goal-roulette-speed
 91015	71052	150	71055	150	71057	150  # Hoat anh vong quay may man phan thuong cuoi man choi chay lien tuc
+
+# ani-goal-mushroom
+91016	71052	85	71053	85	71054	85
+
+# ani-goal-flower
+91017	71055	85	71056	85	71054	85
+
+# ani-goal-star
+91018	71057	85	71058	85	71054	85

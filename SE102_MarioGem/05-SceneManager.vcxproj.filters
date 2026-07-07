@@ -294,6 +294,9 @@
     <ClCompile Include="Mushroom.cpp">
       <Filter>Game\Objects\Items</Filter>
     </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>Game\Objects\Items</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -537,6 +540,9 @@
       <Filter>Game\Objects\Items</Filter>
     </ClInclude>
     <ClInclude Include="Mushroom.h">
+      <Filter>Game\Objects\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
       <Filter>Game\Objects\Items</Filter>
     </ClInclude>
   </ItemGroup>

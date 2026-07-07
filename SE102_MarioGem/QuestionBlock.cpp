@@ -87,7 +87,7 @@ void CQuestionBlock::ReleaseItem()
 	CPlayScene* currentScene = (CPlayScene*)CGame::GetInstance()->GetCurrentScene();
 
 	float itemX = this->x;
-	float itemY = this->y - 16.0f;
+	float itemY = this->y;
 
 	LPGAMEOBJECT newItem = NULL;
 	CCoin* newCoin = NULL;

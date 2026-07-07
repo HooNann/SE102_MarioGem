@@ -210,11 +210,9 @@ void CHud::RenderWorldMap(const char* world)
 void CHud::RenderCourseClear(int rewardCard)
 {
 	CCamera* camera = CCamera::GetInstance();
-	float cx, cy;
-	camera->GetCamPos(cx, cy);
 	float screenW = (float)camera->GetWidth();
 	float screenH = (float)camera->GetHeight();
 
-	DrawString("COURSE CLEAR", cx + screenW / 2 - 48, cy + screenH / 2 - 30);
-	DrawString("YOU GOT A CARD", cx + screenW / 2 - 56, cy + screenH / 2);
+	DrawString("COURSE CLEAR", screenW / 2 - 48, screenH / 2 - 30);
+	DrawString("YOU GOT A CARD", screenW / 2 - 56, screenH / 2);
 }
