@@ -3,6 +3,7 @@
 #include "Koopas.h"
 #include "BoomBoom.h"
 #include "RedVenus.h"
+#include "Mario.h"
 
 CFireBall::CFireBall(float x, float y, int direction) : CGameObject(x, y)
 {
@@ -26,6 +27,7 @@ void CFireBall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		for (size_t i = 0; i < coObjects->size(); i++)
 		{
 			LPGAMEOBJECT obj = coObjects->at(i);
+			if (dynamic_cast<CMario*>(obj)) continue;
 			if (obj->IsDeleted() || !obj->IsBlocking()) continue;
 			if (obj->IsDirectionColliable((float)-nx, 0) != 1) continue;
 
@@ -51,6 +53,8 @@ void CFireBall::OnNoCollision(DWORD dt)
 
 void CFireBall::OnCollisionWith(LPCOLLISIONEVENT e)
 {
+	if (dynamic_cast<CMario*>(e->obj)) return;
+
 	// 1. VA CHẠM VỚI ĐỊA HÌNH CỨNG (Nền đất, Ống nước, Gạch...)
 	if (e->obj->IsBlocking())
 	{
