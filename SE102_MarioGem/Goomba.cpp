@@ -71,12 +71,6 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		return;
 	}
 
-	if (y > 1000) 
-	{
-		isDeleted = true;
-		return;
-	}
-
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
@@ -94,7 +88,12 @@ void CGoomba::Render()
 		aniId = ID_ANI_GOOMBA_DIE_KNOCKOUT;
 	}
 
-	CAnimations::GetInstance()->Get(aniId)->Render(x,y);
+	CAnimations::GetInstance()->Get(aniId)->Render(
+		x,
+		y,
+		1,
+		state == ToInt(GoombaState::Die_KnockOut) ? -1 : 1
+	);
 	//RenderBoundingBox();
 }
 

@@ -21,9 +21,9 @@ constexpr int GOOMBA_BBOX_HEIGHT_DIE = 7;
 constexpr int GOOMBA_DIE_TIMEOUT = 500;
 
 
-constexpr int ID_ANI_GOOMBA_WALKING = 5000;
-constexpr int ID_ANI_GOOMBA_DIE = 5001;
-constexpr int ID_ANI_GOOMBA_DIE_KNOCKOUT = 5002;
+constexpr int ID_ANI_GOOMBA_WALKING = 100001;
+constexpr int ID_ANI_GOOMBA_DIE = 100002;
+constexpr int ID_ANI_GOOMBA_DIE_KNOCKOUT = 100000;
 
 class CGoomba : public CGameObject
 {

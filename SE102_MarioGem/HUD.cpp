@@ -38,13 +38,14 @@ constexpr int SCORE_RIGHT = 104;
 constexpr int TIME_RIGHT  = 150;
 
 constexpr int PMETER_SEGMENTS  = 6;
-constexpr int PM_SRC_T         = 162;
 constexpr int PM_H             = 8;
 constexpr int PM_ARROW_W       = 8;
 constexpr int PM_ARROW_PITCH   = 6;
-constexpr int PM_ARROW_UNLIT_L = 64;
 constexpr int PM_P_W           = 18;
-constexpr int PM_P_UNLIT_L     = 72;
+constexpr int SPRITE_ID_PM_ARROW_UNLIT = 200057;
+constexpr int SPRITE_ID_PM_ARROW_LIT = 200056;
+constexpr int SPRITE_ID_PM_P_UNLIT = 200049;
+constexpr int SPRITE_ID_PM_P_LIT = 200048;
 
 constexpr int CARD_SLOT_X[3] = { 173, 197, 221 };
 constexpr int CARD_SLOT_Y = 15;
@@ -121,16 +122,31 @@ void CHud::DrawNumber(int value, float rightX, float y, int minDigits)
 	DrawString(s.c_str(), left, y);
 }
 
-void CHud::DrawPMeter(float x, float y)
+void CHud::DrawPMeter(float x, float y, int pMeter)
 {
+	float cx, cy;
+	CCamera::GetInstance()->GetCamPos(cx, cy);
+
+	int litSegments = 0;
+	if (pMeter > 0)
+	{
+		litSegments = (pMeter * PMETER_SEGMENTS + MARIO_PMETER_MAX - 1) / MARIO_PMETER_MAX;
+		if (litSegments > PMETER_SEGMENTS) litSegments = PMETER_SEGMENTS;
+	}
+
 	for (int i = 0; i < PMETER_SEGMENTS; i++)
 	{
-		DrawRegion(x + i * PM_ARROW_PITCH + PM_ARROW_W / 2.0f, y + PM_H / 2.0f,
-			PM_ARROW_UNLIT_L, PM_SRC_T, PM_ARROW_W, PM_H);
+		int spriteId = (i < litSegments) ? SPRITE_ID_PM_ARROW_LIT : SPRITE_ID_PM_ARROW_UNLIT;
+		LPSPRITE sprite = CSprites::GetInstance()->Get(spriteId);
+		if (sprite != NULL)
+			sprite->Draw(cx + x + i * PM_ARROW_PITCH + PM_ARROW_W / 2.0f, cy + y + PM_H / 2.0f);
 	}
 
 	float px = x + PMETER_SEGMENTS * PM_ARROW_PITCH + 1;
-	DrawRegion(px + PM_P_W / 2.0f, y + PM_H / 2.0f, PM_P_UNLIT_L, PM_SRC_T, PM_P_W, PM_H);
+	int pSpriteId = (pMeter >= MARIO_PMETER_MAX) ? SPRITE_ID_PM_P_LIT : SPRITE_ID_PM_P_UNLIT;
+	LPSPRITE pSprite = CSprites::GetInstance()->Get(pSpriteId);
+	if (pSprite != NULL)
+		pSprite->Draw(cx + px + PM_P_W / 2.0f, cy + y + PM_H / 2.0f);
 }
 
 void CHud::DrawPanel(float& fx, float& fy)
@@ -178,7 +194,7 @@ void CHud::Render(CMario* mario, int timeLeft, const char* world)
 	float botY = fy + ROW_BOT;
 
 	DrawString(world ? world : "1", fx + WORLD_X, topY);
-	DrawPMeter(fx + PMETER_X, topY);
+	DrawPMeter(fx + PMETER_X, topY, mario->GetPMeter());
 	DrawNumber(CGameData::GetInstance()->GetCoin(), fx + COINS_RIGHT, topY, 2);
 
 	DrawNumber(CGameData::GetInstance()->GetLives(), fx + LIVES_RIGHT, botY, 1);
@@ -199,7 +215,7 @@ void CHud::RenderWorldMap(const char* world)
 	float botY = fy + ROW_BOT;
 
 	DrawString(world ? world : "1", fx + WORLD_X, topY);
-	DrawPMeter(fx + PMETER_X, topY);
+	DrawPMeter(fx + PMETER_X, topY, 0);
 	DrawNumber(CGameData::GetInstance()->GetCoin(), fx + COINS_RIGHT, topY, 2);
 
 	DrawNumber(CGameData::GetInstance()->GetLives(), fx + LIVES_RIGHT, botY, 1);
@@ -210,11 +226,9 @@ void CHud::RenderWorldMap(const char* world)
 void CHud::RenderCourseClear(int rewardCard)
 {
 	CCamera* camera = CCamera::GetInstance();
-	float cx, cy;
-	camera->GetCamPos(cx, cy);
 	float screenW = (float)camera->GetWidth();
 	float screenH = (float)camera->GetHeight();
 
-	DrawString("COURSE CLEAR", cx + screenW / 2 - 48, cy + screenH / 2 - 30);
-	DrawString("YOU GOT A CARD", cx + screenW / 2 - 56, cy + screenH / 2);
+	DrawString("COURSE CLEAR", screenW / 2 - 48, screenH / 2 - 30);
+	DrawString("YOU GOT A CARD", screenW / 2 - 56, screenH / 2);
 }

@@ -25,9 +25,9 @@
 10002	23003	100	23004	100	# Animation Big Mario Map
 10003	23005	100	23006	100	# Animation Raccoon Mario Map
 10004	23007	100	23008	100	# Animation Fire Mario Map
-10005	23009	100			# Animation Hammer Small Mario Map (Chỉ có 1 frame)
+10005	23009	100			# Animation Hammer Small Mario Map
 10006	23010	100	23011	100	# Animation Hammer Mario Map
-10007	23012	100			# Animation Frog Small Mario Map (Chỉ có 1 frame)
+10007	23012	100			# Animation Frog Small Mario Map
 10008	23013	100	23014	100	# Animation Frog Mario Map
-10009	23015	100			# Animation Tanooki Small Mario Map (Chỉ có 1 frame)
+10009	23015	100			# Animation Tanooki Small Mario Map
 10010	23016	100	23017	100	# Animation Tanooki Mario Map

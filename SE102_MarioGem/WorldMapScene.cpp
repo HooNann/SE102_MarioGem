@@ -16,17 +16,6 @@
 #include "SoundEvents.h"
 #include "SoundSubject.h"
 
-using namespace std;
-using json = nlohmann::json;
-
-CWorldMapScene::CWorldMapScene(int id, LPCWSTR filePath) : CScene(id, filePath)
-{
-	player = NULL;
-	map = NULL;
-	hud = NULL;
-	key_handler = new CWorldMapKeyHandler(this);
-}
-
 #define SCENE_SECTION_UNKNOWN -1
 #define SCENE_SECTION_ASSETS	1
 #define SCENE_SECTION_OBJECTS	2
@@ -39,6 +28,17 @@ CWorldMapScene::CWorldMapScene(int id, LPCWSTR filePath) : CScene(id, filePath)
 #define ASSETS_SECTION_ANIMATIONS_JSON 4
 
 #define MAX_SCENE_LINE 1024
+
+using namespace std;
+using json = nlohmann::json;
+
+CWorldMapScene::CWorldMapScene(int id, LPCWSTR filePath) : CScene(id, filePath)
+{
+	player = NULL;
+	map = NULL;
+	hud = NULL;
+	key_handler = new CWorldMapKeyHandler(this);
+}
 
 void CWorldMapScene::_ParseSection_SPRITES(string line)
 {
@@ -310,7 +310,6 @@ void CWorldMapScene::LoadMapJSON(LPCWSTR jsonPath)
 	f >> j;
 	f.close();
 
-	// Bước 1: Sinh ra tất cả Node và Object
 	for (auto& layer : j["layers"])
 	{
 		string layerType = layer["type"];
@@ -378,7 +377,6 @@ void CWorldMapScene::LoadMapJSON(LPCWSTR jsonPath)
 				{
 					nodes[node->nodeId] = node;
 					
-					// Đọc custom properties
 					if (singleObj.contains("properties"))
 					{
 						for (auto& prop : singleObj["properties"])
@@ -406,7 +404,6 @@ void CWorldMapScene::LoadMapJSON(LPCWSTR jsonPath)
 		}
 	}
 
-	// Bước 2: Nối con trỏ cho các Node
 	for (auto& pair : nodes)
 	{
 		CMapNode* node = pair.second;
@@ -416,7 +413,6 @@ void CWorldMapScene::LoadMapJSON(LPCWSTR jsonPath)
 		if (node->right_id != -1 && nodes.count(node->right_id)) node->rightNode = nodes[node->right_id];
 	}
 
-	// Gắn Mario vào Node bắt đầu (giả sử node gần nhất hoặc node có id chỉ định)
 	if (player != nullptr && !nodes.empty())
 	{
 		int gameDataNodeId = CGameData::GetInstance()->GetCurrentNodeId();
@@ -431,7 +427,6 @@ void CWorldMapScene::LoadMapJSON(LPCWSTR jsonPath)
 		}
 		else
 		{
-			// Tạm thời gán node đầu tiên tìm thấy nếu không tìm thấy node chỉ định
 			player->currentNode = nodes.begin()->second; 
 		}
 		
@@ -481,7 +476,6 @@ void CWorldMapScene::Render()
 {
 	if (map != NULL) map->Render();
 	
-	// Không render các Node trừ khi debug
 	for (auto obj : mapObjects)
 	{
 		if (obj) obj->Render();
@@ -497,7 +491,7 @@ void CWorldMapScene::Unload()
 	if (player) { delete player; player = NULL; }
 	for (auto obj : mapObjects) { if (obj) delete obj; }
 	mapObjects.clear();
-	nodes.clear(); // Các CMapNode đã được đẩy vào mapObjects rồi nên sẽ bị delete trong vòng lặp trên
+	nodes.clear();
 	
 	if (map != NULL) { delete map; map = NULL; }
 

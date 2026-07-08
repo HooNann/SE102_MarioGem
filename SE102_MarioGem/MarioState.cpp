@@ -3,7 +3,9 @@
 #include "Game.h"
 #include "Coin.h"
 #include "Portal.h"
-#include "Item.h"
+#include "Flower.h"
+#include "Leaf.h"
+#include "Mushroom.h"
 #include "Goomba.h"
 #include "Koopas.h"
 #include "Blaster.h"
@@ -11,14 +13,12 @@
 #include "CannonBall.h"
 #include "RedVenus.h"
 #include "VenusFireBall.h"
-#include "MarioDeadState.h"
 #include "QuestionBlock.h"
 #include "SoundEvents.h"
 #include "SoundSubject.h"
 
 void CMarioState::OnCollisionWith(CMario* mario, LPCOLLISIONEVENT e)
 {
-    // Húc gạch từ dưới lên (luôn đúng ở mọi trạng thái nếu va chạm từ dưới)
     if (e->ny > 0)
     {
         if (dynamic_cast<CQuestionBlock*>(e->obj))
@@ -46,26 +46,24 @@ void CMarioState::OnCollisionWith(CMario* mario, LPCOLLISIONEVENT e)
         CPortal* p = (CPortal*)e->obj;
         CGame::GetInstance()->InitiateSwitchScene(p->GetSceneId());
     }
-    else if (dynamic_cast<CItem*>(e->obj))
+    else if (dynamic_cast<CFlower*>(e->obj))
     {
-        CItem* item = dynamic_cast<CItem*>(e->obj);
-        if (item)
-        {
-            item->Delete();
-            switch (item->GetItemType())
-            {
-            case ITEM_TYPE_FLOWER:
-                mario->SetLevel(MarioLevel::Fire);
-                CSoundSubject::GetInstance()->Notify(EVENT_POWERUP);
-                break;
-            case ITEM_TYPE_LEAF:
-                mario->SetLevel(MarioLevel::Raccoon);
-                CSoundSubject::GetInstance()->Notify(EVENT_TANOOKI);
-                break;
-            }
-        }
+        e->obj->Delete();
+        mario->SetLevel(MarioLevel::Fire);
+        CSoundSubject::GetInstance()->Notify(EVENT_POWERUP);
     }
-    // Xử lý mặc định khi chạm trúng quái vật / bẫy (Nếu các state không chặn lại)
+    else if (dynamic_cast<CLeaf*>(e->obj))
+    {
+        e->obj->Delete();
+        mario->SetLevel(MarioLevel::Raccoon);
+        CSoundSubject::GetInstance()->Notify(EVENT_TANOOKI);
+    }
+    else if (dynamic_cast<CMushroom*>(e->obj))
+    {
+        e->obj->Delete();
+        mario->SetLevel(MarioLevel::Big);
+        CSoundSubject::GetInstance()->Notify(EVENT_POWERUP);
+    }
     else if (dynamic_cast<CGoomba*>(e->obj) || 
              dynamic_cast<CKoopas*>(e->obj) ||
              dynamic_cast<CBlaster*>(e->obj) || 
@@ -100,25 +98,7 @@ void CMarioState::OnCollisionWith(CMario* mario, LPCOLLISIONEVENT e)
         if (dynamic_cast<CVenusFireBall*>(e->obj))
             e->obj->Delete();
 
-        if (mario->untouchable == 0)
-        {
-            if (mario->GetLevel() == MarioLevel::Fire || mario->GetLevel() == MarioLevel::Raccoon)
-            {
-                mario->SetLevel(MarioLevel::Big);
-                mario->StartUntouchable();
-                CSoundSubject::GetInstance()->Notify(EVENT_POWERDOWN);
-            }
-            else if (mario->GetLevel() == MarioLevel::Big)
-            {
-                mario->SetLevel(MarioLevel::Small);
-                mario->StartUntouchable();
-                CSoundSubject::GetInstance()->Notify(EVENT_POWERDOWN);
-            }
-            else
-            {
-                mario->ChangeState(new CMarioDeadState());
-            }
-        }
+        mario->TakeDamage();
     }
 }
 

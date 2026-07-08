@@ -7,12 +7,15 @@
 #include "Canon.h"
 #include "Coin.h"
 #include "CollisionBox.h"
+#include "Flower.h"
 #include "Goomba.h"
 #include "Koopas.h"
+#include "Leaf.h"
 #include "MapMario.h"
 #include "MapNode.h"
 #include "MapObject.h"
 #include "Mario.h"
+#include "Mushroom.h"
 #include "Pipe.h"
 #include "Platform.h"
 #include "Portal.h"
@@ -43,6 +46,15 @@ LPGAMEOBJECT ObjectFactory::Create(ObjectType type,
 
 	case ObjectType::Coin:
 		return CCoin::CreateFromTokens(tokens);
+
+	case ObjectType::Flower:
+		return new CFlower((float)atof(tokens[1].c_str()), (float)atof(tokens[2].c_str()));
+
+	case ObjectType::Leaf:
+		return new CLeaf((float)atof(tokens[1].c_str()), (float)atof(tokens[2].c_str()));
+
+	case ObjectType::Mushroom:
+		return new CMushroom((float)atof(tokens[1].c_str()), (float)atof(tokens[2].c_str()));
 
 	case ObjectType::Platform:
 	{
@@ -118,31 +130,25 @@ static string GetStringProperty(const json& obj, const string& name,
 }
 
 LPGAMEOBJECT ObjectFactory::CreateFromJSON(const json& obj) {
-	// Đọc thuộc tính "type" hoặc "class"
 	string typeStr = "";
 	if (obj.contains("type") && obj["type"].is_string())
 		typeStr = obj["type"].get<string>();
 	else if (obj.contains("class") && obj["class"].is_string())
 		typeStr = obj["class"].get<string>();
 
-	// Đọc tọa độ
 	float x = obj.value("x", 0.0f);
 	float y = obj.value("y", 0.0f);
 	float w = obj.value("width", 0.0f);
 	float h = obj.value("height", 0.0f);
 
-	// Xác định ObjectType từ chuỗi type
-	// Hỗ trợ cả dạng số ("0", "2") và dạng tên ("Mario", "Goomba")
 	ObjectType objectType;
 
-	// Thử parse dạng số trước
 	bool isNumber =
 		!typeStr.empty() && (isdigit(typeStr[0]) || typeStr[0] == '-');
 	if (isNumber) {
 		objectType = static_cast<ObjectType>(atoi(typeStr.c_str()));
 	}
 	else {
-		// Parse dạng tên chuỗi
 		if (typeStr == "Mario")
 			objectType = ObjectType::Mario;
 		else if (typeStr == "Brick")
@@ -181,6 +187,12 @@ LPGAMEOBJECT ObjectFactory::CreateFromJSON(const json& obj) {
 			objectType = ObjectType::QuestionBlock;
 		else if (typeStr == "GoalRoulette")
 			objectType = ObjectType::GoalRoulette;
+		else if (typeStr == "Flower")
+			objectType = ObjectType::Flower;
+		else if (typeStr == "Leaf")
+			objectType = ObjectType::Leaf;
+		else if (typeStr == "Mushroom")
+			objectType = ObjectType::Mushroom;
 		else {
 			DebugOut(L"[WARNING] Unknown object type in JSON: %s\n",
 				wstring(typeStr.begin(), typeStr.end()).c_str());
@@ -188,7 +200,6 @@ LPGAMEOBJECT ObjectFactory::CreateFromJSON(const json& obj) {
 		}
 	}
 
-	// Tạo object dựa trên type
 	switch (objectType) {
 	case ObjectType::Mario:
 		return new CMario(x, y);
@@ -208,8 +219,16 @@ LPGAMEOBJECT ObjectFactory::CreateFromJSON(const json& obj) {
 	case ObjectType::Coin:
 		return new CCoin(x, y);
 
+	case ObjectType::Flower:
+		return new CFlower(x, y);
+
+	case ObjectType::Leaf:
+		return new CLeaf(x, y);
+
+	case ObjectType::Mushroom:
+		return new CMushroom(x, y);
+
 	case ObjectType::Portal: {
-		// Portal cần thêm scene_id từ Custom Properties trong Tiled
 		int sceneId = GetIntProperty(obj, "target_scene_id", 1);
 		return new CPortal(x, y, x + w, y + h, sceneId);
 	}
@@ -231,7 +250,6 @@ LPGAMEOBJECT ObjectFactory::CreateFromJSON(const json& obj) {
 	}
 
 	case ObjectType::Platform: {
-		// Platform giờ đây chỉ lấy chiều dài và chiều rộng giống hệt CollisionBox
 		float cx = x + w / 2.0f;
 		float cy = y + h / 2.0f;
 		return new CPlatform(cx, cy, w, h);
@@ -241,7 +259,7 @@ LPGAMEOBJECT ObjectFactory::CreateFromJSON(const json& obj) {
 		return new CBurner(x, y);
 
 	case ObjectType::QuestionBlock: {
-		int item_type = GetIntProperty(obj, "item_type", -1);
+		string item_type = GetStringProperty(obj, "item_type", "");
 		return new CQuestionBlock(x, y, item_type);
 	}
 

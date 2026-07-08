@@ -18,10 +18,13 @@ enum class ObjectType : int {
 	CollisionBox = 100,
 	QuestionBlock = 101,
 	GoalRoulette = 102,
+	Flower = 103,
+	Leaf = 104,
+	Mushroom = 105,
 	BoomBoom = 36,
 	MapMario = 200,
 	MapNode = 201,
-	MapDecoration = 202, // Cây, lâu đài...
+	MapDecoration = 202,
 };
 
 enum class SceneType : int {

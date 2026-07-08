@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <algorithm>
 #include "AssetIDs.h"
 #include "json.hpp"
 
@@ -27,6 +28,19 @@
 
 using namespace std;
 
+#define SCENE_SECTION_UNKNOWN -1
+#define SCENE_SECTION_ASSETS	1
+#define SCENE_SECTION_OBJECTS	2
+#define SCENE_SECTION_MAP		3
+
+#define ASSETS_SECTION_UNKNOWN -1
+#define ASSETS_SECTION_SPRITES 1
+#define ASSETS_SECTION_ANIMATIONS 2
+#define ASSETS_SECTION_SPRITES_JSON 3
+#define ASSETS_SECTION_ANIMATIONS_JSON 4
+
+#define MAX_SCENE_LINE 1024
+
 namespace
 {
 	constexpr float HUD_RESERVED_HEIGHT = 32.0f;
@@ -34,6 +48,10 @@ namespace
 	constexpr ULONGLONG COURSE_CLEAR_DURATION_MS = 4000;
 	constexpr ULONGLONG DEATH_RETURN_DELAY_MS = 2000;
 	constexpr float CAMERA_UPDATE_MARGIN = 16.0f;
+	constexpr float OBJECT_DESPAWN_MARGIN = 256.0f;
+	constexpr float OBJECT_COLLISION_SIDE_MARGIN = 64.0f;
+	constexpr float OBJECT_COLLISION_TOP_MARGIN = 32.0f;
+	constexpr float OBJECT_COLLISION_BOTTOM_MARGIN = 96.0f;
 	constexpr float MARIO_COLLISION_SIDE_MARGIN = 64.0f;
 	constexpr float MARIO_COLLISION_TOP_MARGIN = 64.0f;
 	constexpr float MARIO_COLLISION_FALL_MARGIN = 480.0f;
@@ -86,24 +104,16 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 	isDeathTransitioning = false;
 	isDeathResolved = false;
 	deathStartTime = 0;
+	isDeathCameraLocked = false;
+	deathCameraX = 0.0f;
+	deathCameraY = 0.0f;
 
 	isCameraBlockingLeftEdge = true;
-	isCameraBlockingRightEdge = false;
+	isCameraBlockingRightEdge = true;
 }
 
 
-#define SCENE_SECTION_UNKNOWN -1
-#define SCENE_SECTION_ASSETS	1
-#define SCENE_SECTION_OBJECTS	2
-#define SCENE_SECTION_MAP		3
 
-#define ASSETS_SECTION_UNKNOWN -1
-#define ASSETS_SECTION_SPRITES 1
-#define ASSETS_SECTION_ANIMATIONS 2
-#define ASSETS_SECTION_SPRITES_JSON 3
-#define ASSETS_SECTION_ANIMATIONS_JSON 4
-
-#define MAX_SCENE_LINE 1024
 
 void CPlayScene::_ParseSection_SPRITES(string line)
 {
@@ -228,7 +238,6 @@ void CPlayScene::_ParseSection_ANIMATIONS_JSON(string line)
 
 		if (item.value().is_array())
 		{
-			// Format 1: Mảng các object [{"sprite": 12001, "time": 100}, {"sprite": 12002, "time": 50}]
 			for (auto& frame : item.value())
 			{
 				int spriteId = frame["sprite"];
@@ -241,7 +250,6 @@ void CPlayScene::_ParseSection_ANIMATIONS_JSON(string line)
 			auto frames = item.value()["frames"];
 			if (frames.size() > 0 && frames[0].is_object())
 			{
-				// Format 2: Object chứa frames là mảng object {"frames": [{"sprite": 12001, "time": 100}]}
 				for (auto& frame : frames)
 				{
 					int spriteId = frame["sprite"];
@@ -251,7 +259,6 @@ void CPlayScene::_ParseSection_ANIMATIONS_JSON(string line)
 			}
 			else
 			{
-				// Format 3: Cấu hình chung cho toàn bộ frame {"frames": [12001, 12002], "time": 100}
 				int frameTime = item.value().value("time", 100);
 				for (int spriteId : frames)
 				{
@@ -355,7 +362,12 @@ void CPlayScene::Load()
 	isDeathTransitioning = false;
 	isDeathResolved = false;
 	deathStartTime = 0;
+	isDeathCameraLocked = false;
+	deathCameraX = 0.0f;
+	deathCameraY = 0.0f;
 	activeCameraZoneIndex = -1;
+	isCameraBlockingLeftEdge = true;
+	isCameraBlockingRightEdge = true;
 
 	// Reset camera bounds to 0,0 in case this scene doesn't have a map
 	ConfigurePlaySceneCamera();
@@ -388,7 +400,6 @@ void CPlayScene::Load()
 			case SCENE_SECTION_OBJECTS: _ParseSection_OBJECTS(line); break;
 			case SCENE_SECTION_MAP:
 			{
-				// Dòng trong section [MAP] chứa đường dẫn tới file JSON của Tiled
 				wstring mapPath = ToWSTR(line);
 				LoadMapJSON(mapPath.c_str());
 				break;
@@ -429,7 +440,6 @@ void CPlayScene::LoadMapJSON(LPCWSTR jsonPath)
 	if (lastSlash != wstring::npos)
 		basePath = fullPath.substr(0, lastSlash);
 
-	// Tạo và load CTileMap (tile layer)
 	if (map != NULL) delete map;
 	map = new CTileMap();
 	map->LoadJSON(jsonPath, basePath.c_str());
@@ -464,7 +474,6 @@ void CPlayScene::LoadMapJSON(LPCWSTR jsonPath)
 
 		for (auto& obj : layer["objects"])
 		{
-			// Tự động chia hình chữ nhật lớn thành nhiều block nhỏ (QuestionBlock, Brick, Coin)
 			string typeStr = "";
 			if (obj.contains("type") && obj["type"].is_string()) typeStr = obj["type"].get<string>();
 			else if (obj.contains("class") && obj["class"].is_string()) typeStr = obj["class"].get<string>();
@@ -479,7 +488,7 @@ void CPlayScene::LoadMapJSON(LPCWSTR jsonPath)
 				z.r = z.l + w;
 				z.b = z.t + h;
 				cameraZones.push_back(z);
-				continue; // Không tạo thành GameObject
+				continue;
 			}
 
 			if (typeStr == "DeadZone" || typeStr == "DeathZone") {
@@ -489,7 +498,7 @@ void CPlayScene::LoadMapJSON(LPCWSTR jsonPath)
 				z.r = z.l + w;
 				z.b = z.t + h;
 				deadZones.push_back(z);
-				continue; // Không tạo thành GameObject
+				continue;
 			}
 
 			if ((typeStr == "QuestionBlock" || typeStr == "Brick" || typeStr == "Coin") && w > 0 && h > 0) 
@@ -505,8 +514,6 @@ void CPlayScene::LoadMapJSON(LPCWSTR jsonPath)
 				for (int r = 0; r < rows; ++r) {
 					for (int c = 0; c < cols; ++c) {
 						nlohmann::json singleObj = obj;
-						// Tiled xuất tọa độ x,y là góc trái trên của hình chữ nhật
-						// Ta cộng 8 pixel để dịch tọa độ vào chính giữa tâm khối 16x16
 						singleObj["x"] = startX + c * 16.0f + 8.0f;
 						singleObj["y"] = startY + r * 16.0f + 8.0f;
 						singleObj["width"] = 16.0f;
@@ -527,7 +534,7 @@ void CPlayScene::LoadMapJSON(LPCWSTR jsonPath)
 						}
 					}
 				}
-				continue; // Đã xử lý xong nguyên mảng khối, bỏ qua việc khởi tạo object đơn
+				continue;
 			}
 
 			LPGAMEOBJECT gameObj = ObjectFactory::CreateFromJSON(obj);
@@ -654,14 +661,6 @@ void CPlayScene::Update(DWORD dt)
 		}
 	}
 
-	vector<LPGAMEOBJECT> coObjects;
-	for (size_t i = 0; i < activeObjects.size(); i++)
-	{
-		if (activeObjects[i] != player && !activeObjects[i]->IsDeleted())
-			coObjects.push_back(activeObjects[i]);
-	}
-
-	// Kiểm tra Mario có đang biến hình không để freeze scene
 	CMario* mario = dynamic_cast<CMario*>(player);
 	bool freezeScene = (mario != NULL && mario->IsTransforming());
 
@@ -669,8 +668,8 @@ void CPlayScene::Update(DWORD dt)
 	{
 		if (activeObjects[i] == player)
 		{
-			// Mario luôn được update để timer biến hình chạy đúng
-			vector<LPGAMEOBJECT> marioCoObjects = coObjects;
+			vector<LPGAMEOBJECT> marioCoObjects;
+			BuildCollisionObjectsFor(player, marioCoObjects);
 
 			float ml, mt, mr, mb;
 			player->GetBoundingBox(ml, mt, mr, mb);
@@ -694,9 +693,10 @@ void CPlayScene::Update(DWORD dt)
 		}
 		else
 		{
-			// Freeze tất cả object khác khi Mario đang biến hình (dt = 0)
 			DWORD effectiveDt = freezeScene ? 0 : dt;
-			activeObjects[i]->Update(effectiveDt, &coObjects);
+			vector<LPGAMEOBJECT> objectCoObjects;
+			BuildCollisionObjectsFor(activeObjects[i], objectCoObjects);
+			activeObjects[i]->Update(effectiveDt, &objectCoObjects);
 		}
 	}
 
@@ -722,6 +722,12 @@ void CPlayScene::Update(DWORD dt)
 
 	if (!isCourseClear && mario != NULL && mario->currentState != NULL && mario->currentState->GetID() == MarioStateID::Dead)
 	{
+		if (!isDeathCameraLocked)
+		{
+			camera->GetCamPos(deathCameraX, deathCameraY);
+			isDeathCameraLocked = true;
+		}
+
 		if (!isDeathTransitioning)
 		{
 			isDeathTransitioning = true;
@@ -742,15 +748,27 @@ void CPlayScene::Update(DWORD dt)
 		}
 	}
 
-	// Update camera to follow mario (dừng khi Mario đang biến hình)
 	if (!isCourseClear && !freezeScene)
 	{
-		SyncCameraToPlayer();
+		if (isDeathCameraLocked)
+			camera->SetCamPos(deathCameraX, deathCameraY);
+		else
+			SyncCameraToPlayer();
 	}
 
 	for (auto obj : spawnQueue)
 		objects.push_back(obj);
 	spawnQueue.clear();
+
+	for (auto pending : spawnBehindQueue)
+	{
+		auto it = std::find(objects.begin(), objects.end(), pending.behindObj);
+		if (it != objects.end())
+			objects.insert(it, pending.obj);
+		else
+			objects.push_back(pending.obj);
+	}
+	spawnBehindQueue.clear();
 
 	timeRemaining -= dt / 1000.0f;
 	if (timeRemaining < 0) timeRemaining = 0;
@@ -790,6 +808,7 @@ void CPlayScene::Update(DWORD dt)
 		}
 	}
 
+	PurgeObjectsBelowMap();
 	PurgeDeletedObjects();
 }
 
@@ -913,6 +932,9 @@ void CPlayScene::Unload()
 	for (auto obj : spawnQueue) delete obj;
 	spawnQueue.clear();
 
+	for (auto pending : spawnBehindQueue) delete pending.obj;
+	spawnBehindQueue.clear();
+
 	player = NULL;
 
 	if (map != NULL)
@@ -933,6 +955,50 @@ void CPlayScene::Unload()
 }
 
 bool CPlayScene::IsGameObjectDeleted(const LPGAMEOBJECT& o) { return o == NULL; }
+
+void CPlayScene::QueueSpawnBehind(LPGAMEOBJECT obj, LPGAMEOBJECT behindObj)
+{
+	spawnBehindQueue.push_back({ obj, behindObj });
+}
+
+void CPlayScene::PurgeObjectsBelowMap()
+{
+	if (map_height <= 0.0f) return;
+
+	float despawnY = map_height + OBJECT_DESPAWN_MARGIN;
+	for (auto obj : objects)
+	{
+		if (obj == NULL || obj == player || obj->IsDeleted()) continue;
+
+		float l, t, r, b;
+		obj->GetBoundingBox(l, t, r, b);
+		if (t > despawnY)
+			obj->Delete();
+	}
+}
+
+void CPlayScene::BuildCollisionObjectsFor(LPGAMEOBJECT subject, vector<LPGAMEOBJECT>& outObjects)
+{
+	if (subject == NULL) return;
+
+	float l, t, r, b;
+	subject->GetBoundingBox(l, t, r, b);
+
+	float collision_left = l - OBJECT_COLLISION_SIDE_MARGIN;
+	float collision_top = t - OBJECT_COLLISION_TOP_MARGIN;
+	float collision_right = r + OBJECT_COLLISION_SIDE_MARGIN;
+	float collision_bottom = b + OBJECT_COLLISION_BOTTOM_MARGIN;
+
+	for (size_t i = 0; i < objects.size(); i++)
+	{
+		LPGAMEOBJECT obj = objects[i];
+		if (obj == NULL || obj == subject || obj->IsDeleted()) continue;
+		if (!IsGameObjectInRegion(obj, collision_left, collision_top, collision_right, collision_bottom)) continue;
+		if (ContainsGameObject(outObjects, obj)) continue;
+
+		outObjects.push_back(obj);
+	}
+}
 
 void CPlayScene::PurgeDeletedObjects()
 {

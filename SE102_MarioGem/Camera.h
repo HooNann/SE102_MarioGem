@@ -8,11 +8,11 @@ private:
 	static CCamera* __instance;
 
 	float cam_x, cam_y;
-	float width, height;      // Kích thước màn hình
-	float max_x, max_y;       // Kích thước bản đồ (để giới hạn camera)
-	float min_x, min_y;       // Tọa độ góc trên cùng bên trái của biên camera
+	float width, height;
+	float max_x, max_y;
+	float min_x, min_y;
 
-	LPGAMEOBJECT target;      // Nhân vật camera đang theo dõi
+	LPGAMEOBJECT target;
 
 	CCamera();
 
