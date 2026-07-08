@@ -238,7 +238,6 @@ void CPlayScene::_ParseSection_ANIMATIONS_JSON(string line)
 
 		if (item.value().is_array())
 		{
-			// Format 1: Mảng các object [{"sprite": 12001, "time": 100}, {"sprite": 12002, "time": 50}]
 			for (auto& frame : item.value())
 			{
 				int spriteId = frame["sprite"];
@@ -251,7 +250,6 @@ void CPlayScene::_ParseSection_ANIMATIONS_JSON(string line)
 			auto frames = item.value()["frames"];
 			if (frames.size() > 0 && frames[0].is_object())
 			{
-				// Format 2: Object chứa frames là mảng object {"frames": [{"sprite": 12001, "time": 100}]}
 				for (auto& frame : frames)
 				{
 					int spriteId = frame["sprite"];
@@ -261,7 +259,6 @@ void CPlayScene::_ParseSection_ANIMATIONS_JSON(string line)
 			}
 			else
 			{
-				// Format 3: Cấu hình chung cho toàn bộ frame {"frames": [12001, 12002], "time": 100}
 				int frameTime = item.value().value("time", 100);
 				for (int spriteId : frames)
 				{
@@ -403,7 +400,6 @@ void CPlayScene::Load()
 			case SCENE_SECTION_OBJECTS: _ParseSection_OBJECTS(line); break;
 			case SCENE_SECTION_MAP:
 			{
-				// Dòng trong section [MAP] chứa đường dẫn tới file JSON của Tiled
 				wstring mapPath = ToWSTR(line);
 				LoadMapJSON(mapPath.c_str());
 				break;
@@ -444,7 +440,6 @@ void CPlayScene::LoadMapJSON(LPCWSTR jsonPath)
 	if (lastSlash != wstring::npos)
 		basePath = fullPath.substr(0, lastSlash);
 
-	// Tạo và load CTileMap (tile layer)
 	if (map != NULL) delete map;
 	map = new CTileMap();
 	map->LoadJSON(jsonPath, basePath.c_str());
@@ -479,7 +474,6 @@ void CPlayScene::LoadMapJSON(LPCWSTR jsonPath)
 
 		for (auto& obj : layer["objects"])
 		{
-			// Tự động chia hình chữ nhật lớn thành nhiều block nhỏ (QuestionBlock, Brick, Coin)
 			string typeStr = "";
 			if (obj.contains("type") && obj["type"].is_string()) typeStr = obj["type"].get<string>();
 			else if (obj.contains("class") && obj["class"].is_string()) typeStr = obj["class"].get<string>();
@@ -494,7 +488,7 @@ void CPlayScene::LoadMapJSON(LPCWSTR jsonPath)
 				z.r = z.l + w;
 				z.b = z.t + h;
 				cameraZones.push_back(z);
-				continue; // Không tạo thành GameObject
+				continue;
 			}
 
 			if (typeStr == "DeadZone" || typeStr == "DeathZone") {
@@ -504,7 +498,7 @@ void CPlayScene::LoadMapJSON(LPCWSTR jsonPath)
 				z.r = z.l + w;
 				z.b = z.t + h;
 				deadZones.push_back(z);
-				continue; // Không tạo thành GameObject
+				continue;
 			}
 
 			if ((typeStr == "QuestionBlock" || typeStr == "Brick" || typeStr == "Coin") && w > 0 && h > 0) 
@@ -520,8 +514,6 @@ void CPlayScene::LoadMapJSON(LPCWSTR jsonPath)
 				for (int r = 0; r < rows; ++r) {
 					for (int c = 0; c < cols; ++c) {
 						nlohmann::json singleObj = obj;
-						// Tiled xuất tọa độ x,y là góc trái trên của hình chữ nhật
-						// Ta cộng 8 pixel để dịch tọa độ vào chính giữa tâm khối 16x16
 						singleObj["x"] = startX + c * 16.0f + 8.0f;
 						singleObj["y"] = startY + r * 16.0f + 8.0f;
 						singleObj["width"] = 16.0f;
@@ -542,7 +534,7 @@ void CPlayScene::LoadMapJSON(LPCWSTR jsonPath)
 						}
 					}
 				}
-				continue; // Đã xử lý xong nguyên mảng khối, bỏ qua việc khởi tạo object đơn
+				continue;
 			}
 
 			LPGAMEOBJECT gameObj = ObjectFactory::CreateFromJSON(obj);
@@ -669,7 +661,6 @@ void CPlayScene::Update(DWORD dt)
 		}
 	}
 
-	// Kiểm tra Mario có đang biến hình không để freeze scene
 	CMario* mario = dynamic_cast<CMario*>(player);
 	bool freezeScene = (mario != NULL && mario->IsTransforming());
 
@@ -677,7 +668,6 @@ void CPlayScene::Update(DWORD dt)
 	{
 		if (activeObjects[i] == player)
 		{
-			// Mario luôn được update để timer biến hình chạy đúng
 			vector<LPGAMEOBJECT> marioCoObjects;
 			BuildCollisionObjectsFor(player, marioCoObjects);
 
@@ -703,7 +693,6 @@ void CPlayScene::Update(DWORD dt)
 		}
 		else
 		{
-			// Freeze tất cả object khác khi Mario đang biến hình (dt = 0)
 			DWORD effectiveDt = freezeScene ? 0 : dt;
 			vector<LPGAMEOBJECT> objectCoObjects;
 			BuildCollisionObjectsFor(activeObjects[i], objectCoObjects);
@@ -759,7 +748,6 @@ void CPlayScene::Update(DWORD dt)
 		}
 	}
 
-	// Update camera to follow mario (dừng khi Mario đang biến hình)
 	if (!isCourseClear && !freezeScene)
 	{
 		if (isDeathCameraLocked)

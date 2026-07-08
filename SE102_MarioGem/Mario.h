@@ -93,8 +93,8 @@ constexpr int ID_ANI_MARIO_RACCOON_CROUCH = 68;
 #define MARIO_UNTOUCHABLE_TIME 2500
 #define MARIO_THROWING_FIRE_TIME   180
 
-#define MARIO_TRANSFORM_DURATION      1200	// ms biến hình freeze scene
-#define MARIO_TRANSFORM_BLINK_INTERVAL 80	// ms mỗi lần chớp khi biến hình
+#define MARIO_TRANSFORM_DURATION      1200
+#define MARIO_TRANSFORM_BLINK_INTERVAL 80
 
 class CMarioState; // Forward declaration
 

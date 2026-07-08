@@ -75,7 +75,6 @@ protected:
 
 	void LoadAssets(LPCWSTR assetFile);
 
-	// Load map và objects từ file JSON của Tiled Map Editor
 	void LoadMapJSON(LPCWSTR jsonPath);
 	
 public: 

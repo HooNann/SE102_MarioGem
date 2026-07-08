@@ -24,7 +24,7 @@ enum class ObjectType : int {
 	BoomBoom = 36,
 	MapMario = 200,
 	MapNode = 201,
-	MapDecoration = 202, // Cây, lâu đài...
+	MapDecoration = 202,
 };
 
 enum class SceneType : int {

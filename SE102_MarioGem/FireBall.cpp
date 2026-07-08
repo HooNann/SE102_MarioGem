@@ -1,5 +1,5 @@
 #include "FireBall.h"
-#include "Goomba.h" // Include các class quái vật vào để xử lý va chạm
+#include "Goomba.h"
 #include "Koopas.h"
 #include "BoomBoom.h"
 #include "RedVenus.h"
@@ -8,17 +8,15 @@
 CFireBall::CFireBall(float x, float y, int direction) : CGameObject(x, y)
 {
 	this->nx = direction;
-	this->vx = direction * FIREBALL_SPEED_X; // Bay theo hướng mặt của Mario
+	this->vx = direction * FIREBALL_SPEED_X;
 	this->vy = 0;
-	this->ay = FIREBALL_GRAVITY;             // Bị trọng lực kéo xuống
+	this->ay = FIREBALL_GRAVITY;
 }
 
 void CFireBall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	vy += ay * dt;
 
-	// SweptAABB không phát hiện vật thể đã chồng lấn sẵn (VD: spawn sát ống nước),
-	// nên phải tự kiểm tra chồng lấn với vật chặn và cho quả cầu nổ tại chỗ
 	if (coObjects != NULL)
 	{
 		float l, t, r, b;
@@ -55,20 +53,18 @@ void CFireBall::OnCollisionWith(LPCOLLISIONEVENT e)
 {
 	if (dynamic_cast<CMario*>(e->obj)) return;
 
-	// 1. VA CHẠM VỚI ĐỊA HÌNH CỨNG (Nền đất, Ống nước, Gạch...)
 	if (e->obj->IsBlocking())
 	{
-		if (e->ny < 0) // Chạm mặt trên của sàn đất
+		if (e->ny < 0)
 		{
-			vy = -FIREBALL_BOUNCE_SPEED_Y; // Đảo ngược vận tốc Y để quả cầu nảy tưng lên
+			vy = -FIREBALL_BOUNCE_SPEED_Y;
 		}
-		else if (e->nx != 0) // Húc vào tường đứng/cạnh bên bệ đá
+		else if (e->nx != 0)
 		{
-			this->Delete(); // Quả cầu lửa nổ tung và tự hủy
+			this->Delete();
 		}
 	}
 
-	// 2. VA CHẠM VỚI KẺ ĐỊCH NẤM GOOMBA
 	if (dynamic_cast<CGoomba*>(e->obj))
 	{
 		CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
@@ -76,7 +72,7 @@ void CFireBall::OnCollisionWith(LPCOLLISIONEVENT e)
 		// Fireball knocks Goomba out instead of flattening it like a stomp.
 		goomba->SetState(GoombaState::Die_KnockOut);
 
-		this->Delete(); // Đập trúng quái là quả cầu lửa biến mất ngay
+		this->Delete();
 	}
 
 	if (dynamic_cast<CKoopas*>(e->obj))

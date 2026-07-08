@@ -2,7 +2,6 @@
 
 #include "GameObject.h"
 
-// Platform giờ đây là một khối tàng hình chỉ lo xử lý vật lý (nhảy xuyên từ dưới lên)
 class CPlatform : public CGameObject
 {
 	float width;
@@ -15,11 +14,10 @@ public:
 		this->height = height;
 	}
 
-	void Render() {} // Tàng hình
+	void Render() {}
 	void Update(DWORD dt) {}
 	void GetBoundingBox(float& l, float& t, float& r, float& b);
 	
-	// Cốt lõi của Platform: Chỉ cản Mario khi rơi từ trên xuống
 	int IsDirectionColliable(float nx, float ny);
 	int IsBlocking() { return 1; }
 };

@@ -130,31 +130,25 @@ static string GetStringProperty(const json& obj, const string& name,
 }
 
 LPGAMEOBJECT ObjectFactory::CreateFromJSON(const json& obj) {
-	// Đọc thuộc tính "type" hoặc "class"
 	string typeStr = "";
 	if (obj.contains("type") && obj["type"].is_string())
 		typeStr = obj["type"].get<string>();
 	else if (obj.contains("class") && obj["class"].is_string())
 		typeStr = obj["class"].get<string>();
 
-	// Đọc tọa độ
 	float x = obj.value("x", 0.0f);
 	float y = obj.value("y", 0.0f);
 	float w = obj.value("width", 0.0f);
 	float h = obj.value("height", 0.0f);
 
-	// Xác định ObjectType từ chuỗi type
-	// Hỗ trợ cả dạng số ("0", "2") và dạng tên ("Mario", "Goomba")
 	ObjectType objectType;
 
-	// Thử parse dạng số trước
 	bool isNumber =
 		!typeStr.empty() && (isdigit(typeStr[0]) || typeStr[0] == '-');
 	if (isNumber) {
 		objectType = static_cast<ObjectType>(atoi(typeStr.c_str()));
 	}
 	else {
-		// Parse dạng tên chuỗi
 		if (typeStr == "Mario")
 			objectType = ObjectType::Mario;
 		else if (typeStr == "Brick")
@@ -206,7 +200,6 @@ LPGAMEOBJECT ObjectFactory::CreateFromJSON(const json& obj) {
 		}
 	}
 
-	// Tạo object dựa trên type
 	switch (objectType) {
 	case ObjectType::Mario:
 		return new CMario(x, y);
@@ -236,7 +229,6 @@ LPGAMEOBJECT ObjectFactory::CreateFromJSON(const json& obj) {
 		return new CMushroom(x, y);
 
 	case ObjectType::Portal: {
-		// Portal cần thêm scene_id từ Custom Properties trong Tiled
 		int sceneId = GetIntProperty(obj, "target_scene_id", 1);
 		return new CPortal(x, y, x + w, y + h, sceneId);
 	}
@@ -258,7 +250,6 @@ LPGAMEOBJECT ObjectFactory::CreateFromJSON(const json& obj) {
 	}
 
 	case ObjectType::Platform: {
-		// Platform giờ đây chỉ lấy chiều dài và chiều rộng giống hệt CollisionBox
 		float cx = x + w / 2.0f;
 		float cy = y + h / 2.0f;
 		return new CPlatform(cx, cy, w, h);

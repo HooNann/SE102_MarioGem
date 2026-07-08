@@ -56,15 +56,12 @@ CMario::CMario(float x, float y) : CGameObject(x, y)
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
-	// Khi đang biến hình: freeze vật lý, chỉ chạy timer
 	if (isTransforming)
 	{
-		// Dừng chuyển động hoàn toàn
 		vx = 0.0f;
 		vy = 0.0f;
 		ax = 0.0f;
 
-		// Kiểm tra kết thúc biến hình (timer dùng wall-clock, không cần dt)
 		if (GetTickCount64() - transformStartTime >= MARIO_TRANSFORM_DURATION)
 		{
 			isTransforming = false;
@@ -109,7 +106,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		if (scene->IsCameraBlockingLeftEdge() && x < left_edge)
 		{
 			x = left_edge;
-			// Ép vận tốc về mức đi bộ để xả P-Meter và giữ animation
 			if (vx < -MARIO_WALKING_SPEED) vx = -MARIO_WALKING_SPEED;
 		}
 
@@ -201,7 +197,6 @@ void CMario::HandlePMeter(DWORD dt)
 			pMeter += dt;
 			if (pMeter > MARIO_PMETER_MAX) pMeter = MARIO_PMETER_MAX;
             
-            // Nếu đang có cờ bay mà lại đạt max tốc độ trên mặt đất thì reset timer
             if (pMeter == MARIO_PMETER_MAX && isFlyingPowerActive)
             {
                 flyStartTime = GetTickCount64();
@@ -209,14 +204,12 @@ void CMario::HandlePMeter(DWORD dt)
 		}
         else if (pMeter > 0 && !isFlyingPowerActive)
         {
-            // Đang Run nhưng chưa đủ tốc độ, tụt pin nếu chưa bay
             pMeter -= dt * 2;
             if (pMeter < 0) pMeter = 0;
         }
 	}
 	else 
 	{
-		// Xả pin nếu không chạy và không trong trạng thái fly timer
 		if (pMeter > 0 && !isFlyingPowerActive)
 		{
 			pMeter -= dt * 2;
@@ -229,7 +222,7 @@ void CMario::HandlePMeter(DWORD dt)
         if (GetTickCount64() - flyStartTime > MARIO_FLYING_TIME_MAX) 
         {
             isFlyingPowerActive = false;
-            pMeter = 0; // Hết giờ bay thì tụt sạch P-Meter để ép phải chạy lại
+            pMeter = 0;
         }
     } 
     else 
@@ -259,19 +252,17 @@ void CMario::Render()
 		aniId = currentState->GetAnimationId(this);
 	}
 
-	// Hiệu ứng chớp chớp khi đang biến hình: ẩn mỗi BLINK_INTERVAL ms
 	if (isTransforming)
 	{
 		ULONGLONG elapsed = GetTickCount64() - transformStartTime;
 		ULONGLONG blinkPhase = (elapsed / MARIO_TRANSFORM_BLINK_INTERVAL) % 2;
-		if (blinkPhase == 1) return; // Frame ẩn
+		if (blinkPhase == 1) return;
 	}
 
 	float timeScale = 1.0f;
 	if (isOnPlatform && abs(vx) > 0)
 	{
 		timeScale = abs(vx) / MARIO_WALKING_SPEED;
-		// Giới hạn để chân không quạt quá chậm hoặc quá nhanh
 		if (timeScale < 0.5f) timeScale = 0.5f;
 		if (timeScale > 3.0f) timeScale = 3.0f;
 	}
@@ -377,7 +368,6 @@ void CMario::SetLevel(MarioLevel l)
 	}
 	CGameData::GetInstance()->SetLevel(l);
 
-	// Bắt đầu hiệu ứng biến hình: freeze scene + chớp chớp
 	StartTransforming();
 }
 

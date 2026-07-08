@@ -8,7 +8,6 @@ void CMarioIdleState::Enter(CMario* mario)
     float vx = mario->GetVelocityX();
     if (vx != 0)
     {
-        // Áp dụng ma sát ngược chiều di chuyển
         float friction = (vx > 0) ? -MARIO_ACCEL_WALK_X : MARIO_ACCEL_WALK_X;
         mario->SetAccelerationX(friction);
     }
@@ -23,7 +22,6 @@ void CMarioIdleState::Update(CMario* mario, DWORD dt)
     float vx = mario->GetVelocityX();
     float ax = mario->GetAccelerationX();
 
-    // Nếu ma sát đã kéo vận tốc vượt quá 0, hoặc vận tốc đã chạm 0 -> dừng hẳn
     if (vx * ax > 0 || vx == 0)
     {
         mario->SetVelocityX(0.0f);

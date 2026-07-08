@@ -19,7 +19,6 @@
 
 void CMarioState::OnCollisionWith(CMario* mario, LPCOLLISIONEVENT e)
 {
-    // Húc gạch từ dưới lên (luôn đúng ở mọi trạng thái nếu va chạm từ dưới)
     if (e->ny > 0)
     {
         if (dynamic_cast<CQuestionBlock*>(e->obj))
@@ -65,7 +64,6 @@ void CMarioState::OnCollisionWith(CMario* mario, LPCOLLISIONEVENT e)
         mario->SetLevel(MarioLevel::Big);
         CSoundSubject::GetInstance()->Notify(EVENT_POWERUP);
     }
-    // Xử lý mặc định khi chạm trúng quái vật / bẫy (Nếu các state không chặn lại)
     else if (dynamic_cast<CGoomba*>(e->obj) || 
              dynamic_cast<CKoopas*>(e->obj) ||
              dynamic_cast<CBlaster*>(e->obj) || 

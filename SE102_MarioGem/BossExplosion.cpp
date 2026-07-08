@@ -12,7 +12,6 @@ void CBossExplosion::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects) {
   x += vx * dt;
   y += vy * dt;
 
-  // Tự biến mất (xóa khỏi scene) sau 1 giây (1000ms)
   if (GetTickCount64() - startTime > 1000) {
     this->Delete();
   }

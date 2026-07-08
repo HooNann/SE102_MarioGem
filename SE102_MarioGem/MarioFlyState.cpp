@@ -6,7 +6,6 @@
 
 void CMarioFlyState::Enter(CMario* mario)
 {
-    // Cất cánh
     mario->StartFlapping();
     mario->SetVelocityY(-MARIO_FLY_SPEED_Y);
     mario->SetOnPlatform(false);
@@ -21,7 +20,6 @@ void CMarioFlyState::Exit(CMario* mario)
 
 void CMarioFlyState::Update(CMario* mario, DWORD dt)
 {
-    // Nếu hết thời gian bay, tự rơi
     if (!mario->IsFlyingPowerActive())
     {
         // pMeter is already reset in HandlePMeter
@@ -34,7 +32,6 @@ void CMarioFlyState::Update(CMario* mario, DWORD dt)
         mario->SetAccelerationY(MARIO_GRAVITY_JUMP);
     }
 
-    // Nếu rớt thì rơi
     if (mario->GetVelocityY() > 0)
     {
         mario->ChangeState(new CMarioFallState());

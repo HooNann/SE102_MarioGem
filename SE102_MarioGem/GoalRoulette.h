@@ -17,10 +17,9 @@ public:
 	virtual void Render();
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
-	virtual int IsBlocking() { return 0; } // Cho phép Mario đi xuyên qua
+	virtual int IsBlocking() { return 0; }
 	
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e) {}
     
-    // Tạo qua JSON
     static LPGAMEOBJECT CreateFromJSON(const float cx, const float cy);
 };

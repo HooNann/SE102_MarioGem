@@ -19,7 +19,7 @@ void CMarioJumpState::Enter(CMario* mario)
             mario->SetVelocityY(-MARIO_JUMP_SPEED_Y);
         
         mario->SetOnPlatform(false);
-        mario->SetAccelerationY(MARIO_GRAVITY_JUMP); // Trọng lực thấp khi giữ phím Z
+        mario->SetAccelerationY(MARIO_GRAVITY_JUMP);
         CSoundSubject::GetInstance()->Notify(EVENT_JUMP);
     }
 }
@@ -52,7 +52,6 @@ int CMarioJumpState::GetAnimationId(CMario* mario)
 
 void CMarioJumpState::OnCollisionWith(CMario* mario, LPCOLLISIONEVENT e)
 {
-    // Đạp lên đầu quái vật
     if (e->ny < 0)
     {
         if (dynamic_cast<CGoomba*>(e->obj))

@@ -32,33 +32,32 @@ namespace
 CQuestionBlock::CQuestionBlock(float x, float y, const std::string& itemType) : CGameObject(x, y)
 {
 	this->itemType = itemType;
-	this->isAlive = 1;			// Thuở sơ khai khối gạch luôn còn nguyên
-	this->startY = y;			// Ghi nhớ tọa độ sàn ban đầu
-	this->bumpDirection = 0;	// Chưa bị ai húc nên đứng yên
+	this->isAlive = 1;
+	this->startY = y;
+	this->bumpDirection = 0;
 
 	this->state = QUESTION_BLOCK_STATE_ALIVE;
 }
 
 void CQuestionBlock::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	// LOGIC XỬ LÝ HIỆU ỨNG NẢY (BUMP EFFECT) KHI BỊ HÚC
-	if (bumpDirection == -1) // Đang nảy đi lên
+	if (bumpDirection == -1)
 	{
 		y -= QUESTION_BLOCK_BUMP_SPEED * dt;
 		if (startY - y >= QUESTION_BLOCK_BUMP_MAX_DIST)
 		{
 			y = startY - QUESTION_BLOCK_BUMP_MAX_DIST;
-			bumpDirection = 1; // Đạt độ cao cực đại, bắt đầu rơi xuống lại
+			bumpDirection = 1;
 		}
 	}
-	else if (bumpDirection == 1) // Đang rơi xuống lại vị trí cũ
+	else if (bumpDirection == 1)
 	{
 		y += QUESTION_BLOCK_BUMP_SPEED * dt;
 		if (y >= startY)
 		{
-			y = startY;			// Trả về chính xác tọa độ sàn ban đầu, chống lún
-			bumpDirection = 0;	// Kết thúc chu kỳ nảy
-			this->SetState(QUESTION_BLOCK_STATE_EMPTY); // Chuyển hẳn sang khối gạch rỗng
+			y = startY;
+			bumpDirection = 0;
+			this->SetState(QUESTION_BLOCK_STATE_EMPTY);
 
 			if (ShouldReleaseAfterBump(itemType))
 				ReleaseItem();
@@ -73,8 +72,8 @@ void CQuestionBlock::SetState(int state)
 	case QUESTION_BLOCK_STATE_HIT:
 		if (isAlive)
 		{
-			isAlive = 0;		// Tước đoạt phần thưởng bên trong
-			bumpDirection = -1;	// Ra lệnh cho khối gạch bắt đầu chu kỳ nảy lên
+			isAlive = 0;
+			bumpDirection = -1;
 			if (!ShouldReleaseAfterBump(itemType))
 				ReleaseItem();
 		}
@@ -99,11 +98,11 @@ void CQuestionBlock::Render()
 
 	if (state == QUESTION_BLOCK_STATE_ALIVE)
 	{
-		aniId = ID_ANI_QUESTION_BLOCK_ALIVE; // ID_ANI của khối gạch nhấp nháy dấu hỏi vàng
+		aniId = ID_ANI_QUESTION_BLOCK_ALIVE;
 	}
 	else
 	{
-		aniId = ID_ANI_QUESTION_BLOCK_EMPTY; // ID_ANI của khối gạch sắt nâu rỗng chết cứng
+		aniId = ID_ANI_QUESTION_BLOCK_EMPTY;
 	}
 
 	animations->Get(aniId)->Render(x, y);
@@ -121,15 +120,15 @@ void CQuestionBlock::ReleaseItem()
 
 	if (resolvedItemType == "Flower")
 	{
-		newItem = new CFlower(itemX, itemY); // Sinh hoa lửa
+		newItem = new CFlower(itemX, itemY);
 	}
 	else if (resolvedItemType == "Leaf")
 	{
-		newItem = new CLeaf(itemX, itemY);   // Sinh lá chồn
+		newItem = new CLeaf(itemX, itemY);
 	}
 	else if (resolvedItemType == "Mushroom")
 	{
-		newItem = new CMushroom(itemX, itemY); // Sinh nấm
+		newItem = new CMushroom(itemX, itemY);
 	}
 	else if (resolvedItemType == "Coin")
 	{
