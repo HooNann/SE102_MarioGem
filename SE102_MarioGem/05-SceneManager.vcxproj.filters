@@ -165,6 +165,9 @@
     <ClCompile Include="BossExplosion.cpp">
       <Filter>Game\Objects\Effects</Filter>
     </ClCompile>
+    <ClCompile Include="CoinBounceEffect.cpp">
+      <Filter>Game\Objects\Effects</Filter>
+    </ClCompile>
     <ClCompile Include="PlayScene.cpp">
       <Filter>Game\Scenes\PlayScene</Filter>
     </ClCompile>
@@ -405,6 +408,9 @@
       <Filter>Game\Objects\Items</Filter>
     </ClInclude>
     <ClInclude Include="BossExplosion.h">
+      <Filter>Game\Objects\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="CoinBounceEffect.h">
       <Filter>Game\Objects\Effects</Filter>
     </ClInclude>
     <ClInclude Include="PlayScene.h">

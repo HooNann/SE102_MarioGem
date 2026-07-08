@@ -1,10 +1,33 @@
 #include "QuestionBlock.h"
 #include "Animations.h"
 #include "PlayScene.h"
-#include "Coin.h"
+#include "CoinBounceEffect.h"
 #include "Flower.h"
+#include "GameData.h"
 #include "Leaf.h"
 #include "Mushroom.h"
+#include "SoundEvents.h"
+#include "SoundSubject.h"
+
+namespace
+{
+	std::string ResolveItemType(const std::string& itemType)
+	{
+		if ((itemType == "Flower" || itemType == "Leaf") &&
+			CGameData::GetInstance()->GetLevel() == MarioLevel::Small)
+		{
+			return "Mushroom";
+		}
+
+		return itemType;
+	}
+
+	bool ShouldReleaseAfterBump(const std::string& itemType)
+	{
+		std::string resolvedItemType = ResolveItemType(itemType);
+		return resolvedItemType == "Flower" || resolvedItemType == "Mushroom";
+	}
+}
 
 CQuestionBlock::CQuestionBlock(float x, float y, const std::string& itemType) : CGameObject(x, y)
 {
@@ -36,6 +59,9 @@ void CQuestionBlock::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			y = startY;			// Trả về chính xác tọa độ sàn ban đầu, chống lún
 			bumpDirection = 0;	// Kết thúc chu kỳ nảy
 			this->SetState(QUESTION_BLOCK_STATE_EMPTY); // Chuyển hẳn sang khối gạch rỗng
+
+			if (ShouldReleaseAfterBump(itemType))
+				ReleaseItem();
 		}
 	}
 }
@@ -49,7 +75,8 @@ void CQuestionBlock::SetState(int state)
 		{
 			isAlive = 0;		// Tước đoạt phần thưởng bên trong
 			bumpDirection = -1;	// Ra lệnh cho khối gạch bắt đầu chu kỳ nảy lên
-			ReleaseItem();
+			if (!ShouldReleaseAfterBump(itemType))
+				ReleaseItem();
 		}
 		break;
 	}
@@ -88,33 +115,33 @@ void CQuestionBlock::ReleaseItem()
 
 	float itemX = this->x;
 	float itemY = this->y;
+	std::string resolvedItemType = ResolveItemType(this->itemType);
 
 	LPGAMEOBJECT newItem = NULL;
-	CCoin* newCoin = NULL;
 
-	if (this->itemType == "Flower")
+	if (resolvedItemType == "Flower")
 	{
 		newItem = new CFlower(itemX, itemY); // Sinh hoa lửa
 	}
-	else if (this->itemType == "Leaf")
+	else if (resolvedItemType == "Leaf")
 	{
 		newItem = new CLeaf(itemX, itemY);   // Sinh lá chồn
 	}
-	else if (this->itemType == "Mushroom")
+	else if (resolvedItemType == "Mushroom")
 	{
 		newItem = new CMushroom(itemX, itemY); // Sinh nấm
 	}
-	else if (this->itemType == "Coin")
+	else if (resolvedItemType == "Coin")
 	{
-		newCoin = new CCoin(itemX, itemY); // Sinh đồng xu
+		CGameData::GetInstance()->AddCoin(1);
+		CGameData::GetInstance()->AddScore(100);
+		CSoundSubject::GetInstance()->Notify(EVENT_COIN);
+		currentScene->QueueSpawn(new CCoinBounceEffect(itemX, itemY - 16.0f));
+		return;
 	}
 
 	if (newItem != NULL)
 	{
 		currentScene->QueueSpawnBehind(newItem, this);
-	}
-	else if (newCoin != NULL)
-	{
-		currentScene->QueueSpawn(newCoin);
 	}
 }

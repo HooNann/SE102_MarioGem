@@ -40,7 +40,7 @@
 200036	233	55	241	62	30	# spr-font-Z
 
 # points-in-level
-200037	60	87	71	95	30	# spr-points-in-level-100
+200037	60	86	71	95	30	# spr-points-in-level-100
 200038	73	87	85	95	30	# spr-points-in-level-200
 200039	88	88	100	97	30	# spr-points-in-level-400
 200040	103	88	118	97	30	# spr-points-in-level-800

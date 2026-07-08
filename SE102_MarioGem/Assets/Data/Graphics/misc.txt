@@ -11,6 +11,7 @@
 71006	372	100	381	115	80  # Dong xu nghieng 2
 71065	391	100	400	115	80
 
+
 # Nam va La (Mushrooms & Leaves)
 71007	156	121	171	136	80  # Nam do sieu cap Super Mushroom
 71008	286	121	301	136	80  # Nam xanh tang mang 1-Up Mushroom
@@ -155,3 +156,6 @@
 
 # ani-goal-star
 91018	71057	85	71058	85	71054	85
+
+#ani-coin-bounce
+91019	71001	125	71003	125	71002	125	71003	125
