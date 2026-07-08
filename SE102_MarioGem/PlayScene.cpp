@@ -36,6 +36,9 @@ namespace
 	constexpr ULONGLONG DEATH_RETURN_DELAY_MS = 2000;
 	constexpr float CAMERA_UPDATE_MARGIN = 16.0f;
 	constexpr float OBJECT_DESPAWN_MARGIN = 256.0f;
+	constexpr float OBJECT_COLLISION_SIDE_MARGIN = 64.0f;
+	constexpr float OBJECT_COLLISION_TOP_MARGIN = 32.0f;
+	constexpr float OBJECT_COLLISION_BOTTOM_MARGIN = 96.0f;
 	constexpr float MARIO_COLLISION_SIDE_MARGIN = 64.0f;
 	constexpr float MARIO_COLLISION_TOP_MARGIN = 64.0f;
 	constexpr float MARIO_COLLISION_FALL_MARGIN = 480.0f;
@@ -656,13 +659,6 @@ void CPlayScene::Update(DWORD dt)
 		}
 	}
 
-	vector<LPGAMEOBJECT> coObjects;
-	for (size_t i = 0; i < activeObjects.size(); i++)
-	{
-		if (activeObjects[i] != player && !activeObjects[i]->IsDeleted())
-			coObjects.push_back(activeObjects[i]);
-	}
-
 	// Kiểm tra Mario có đang biến hình không để freeze scene
 	CMario* mario = dynamic_cast<CMario*>(player);
 	bool freezeScene = (mario != NULL && mario->IsTransforming());
@@ -672,7 +668,8 @@ void CPlayScene::Update(DWORD dt)
 		if (activeObjects[i] == player)
 		{
 			// Mario luôn được update để timer biến hình chạy đúng
-			vector<LPGAMEOBJECT> marioCoObjects = coObjects;
+			vector<LPGAMEOBJECT> marioCoObjects;
+			BuildCollisionObjectsFor(player, marioCoObjects);
 
 			float ml, mt, mr, mb;
 			player->GetBoundingBox(ml, mt, mr, mb);
@@ -698,7 +695,9 @@ void CPlayScene::Update(DWORD dt)
 		{
 			// Freeze tất cả object khác khi Mario đang biến hình (dt = 0)
 			DWORD effectiveDt = freezeScene ? 0 : dt;
-			activeObjects[i]->Update(effectiveDt, &coObjects);
+			vector<LPGAMEOBJECT> objectCoObjects;
+			BuildCollisionObjectsFor(activeObjects[i], objectCoObjects);
+			activeObjects[i]->Update(effectiveDt, &objectCoObjects);
 		}
 	}
 
@@ -968,6 +967,29 @@ void CPlayScene::PurgeObjectsBelowMap()
 		obj->GetBoundingBox(l, t, r, b);
 		if (t > despawnY)
 			obj->Delete();
+	}
+}
+
+void CPlayScene::BuildCollisionObjectsFor(LPGAMEOBJECT subject, vector<LPGAMEOBJECT>& outObjects)
+{
+	if (subject == NULL) return;
+
+	float l, t, r, b;
+	subject->GetBoundingBox(l, t, r, b);
+
+	float collision_left = l - OBJECT_COLLISION_SIDE_MARGIN;
+	float collision_top = t - OBJECT_COLLISION_TOP_MARGIN;
+	float collision_right = r + OBJECT_COLLISION_SIDE_MARGIN;
+	float collision_bottom = b + OBJECT_COLLISION_BOTTOM_MARGIN;
+
+	for (size_t i = 0; i < objects.size(); i++)
+	{
+		LPGAMEOBJECT obj = objects[i];
+		if (obj == NULL || obj == subject || obj->IsDeleted()) continue;
+		if (!IsGameObjectInRegion(obj, collision_left, collision_top, collision_right, collision_bottom)) continue;
+		if (ContainsGameObject(outObjects, obj)) continue;
+
+		outObjects.push_back(obj);
 	}
 }
 

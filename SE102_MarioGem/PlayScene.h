@@ -104,6 +104,7 @@ public:
 	void Clear();
 	void PurgeObjectsBelowMap();
 	void PurgeDeletedObjects();
+	void BuildCollisionObjectsFor(LPGAMEOBJECT subject, vector<LPGAMEOBJECT>& outObjects);
 	void ReloadAssets();
 
 	static bool IsGameObjectDeleted(const LPGAMEOBJECT& o);
