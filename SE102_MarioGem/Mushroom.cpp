@@ -46,12 +46,6 @@ void CMushroom::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	vy += MUSHROOM_GRAVITY * dt;
 
-	if (y > MUSHROOM_DELETE_Y)
-	{
-		Delete();
-		return;
-	}
-
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
 

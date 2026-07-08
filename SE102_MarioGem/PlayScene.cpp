@@ -35,6 +35,7 @@ namespace
 	constexpr ULONGLONG COURSE_CLEAR_DURATION_MS = 4000;
 	constexpr ULONGLONG DEATH_RETURN_DELAY_MS = 2000;
 	constexpr float CAMERA_UPDATE_MARGIN = 16.0f;
+	constexpr float OBJECT_DESPAWN_MARGIN = 256.0f;
 	constexpr float MARIO_COLLISION_SIDE_MARGIN = 64.0f;
 	constexpr float MARIO_COLLISION_TOP_MARGIN = 64.0f;
 	constexpr float MARIO_COLLISION_FALL_MARGIN = 480.0f;
@@ -801,6 +802,7 @@ void CPlayScene::Update(DWORD dt)
 		}
 	}
 
+	PurgeObjectsBelowMap();
 	PurgeDeletedObjects();
 }
 
@@ -951,6 +953,22 @@ bool CPlayScene::IsGameObjectDeleted(const LPGAMEOBJECT& o) { return o == NULL; 
 void CPlayScene::QueueSpawnBehind(LPGAMEOBJECT obj, LPGAMEOBJECT behindObj)
 {
 	spawnBehindQueue.push_back({ obj, behindObj });
+}
+
+void CPlayScene::PurgeObjectsBelowMap()
+{
+	if (map_height <= 0.0f) return;
+
+	float despawnY = map_height + OBJECT_DESPAWN_MARGIN;
+	for (auto obj : objects)
+	{
+		if (obj == NULL || obj == player || obj->IsDeleted()) continue;
+
+		float l, t, r, b;
+		obj->GetBoundingBox(l, t, r, b);
+		if (t > despawnY)
+			obj->Delete();
+	}
 }
 
 void CPlayScene::PurgeDeletedObjects()

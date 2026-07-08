@@ -102,6 +102,7 @@ public:
 	void QueueSpawnBehind(LPGAMEOBJECT obj, LPGAMEOBJECT behindObj);
 
 	void Clear();
+	void PurgeObjectsBelowMap();
 	void PurgeDeletedObjects();
 	void ReloadAssets();
 

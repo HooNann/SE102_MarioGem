@@ -9,7 +9,6 @@ constexpr DWORD MUSHROOM_APPEAR_DURATION = 500;
 constexpr float MUSHROOM_APPEAR_DISTANCE = 16.0f;
 constexpr float MUSHROOM_GRAVITY = 0.002f;
 constexpr float MUSHROOM_WALKING_SPEED = 0.05f;
-constexpr float MUSHROOM_DELETE_Y = 1000.0f;
 
 class CMushroom : public CItem
 {
