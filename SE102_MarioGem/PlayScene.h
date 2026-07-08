@@ -56,6 +56,9 @@ protected:
 	bool isDeathTransitioning;
 	bool isDeathResolved;
 	ULONGLONG deathStartTime;
+	bool isDeathCameraLocked;
+	float deathCameraX;
+	float deathCameraY;
 
 	bool isCameraBlockingLeftEdge;
 	bool isCameraBlockingRightEdge;

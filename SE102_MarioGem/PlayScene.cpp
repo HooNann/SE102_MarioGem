@@ -91,9 +91,12 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 	isDeathTransitioning = false;
 	isDeathResolved = false;
 	deathStartTime = 0;
+	isDeathCameraLocked = false;
+	deathCameraX = 0.0f;
+	deathCameraY = 0.0f;
 
 	isCameraBlockingLeftEdge = true;
-	isCameraBlockingRightEdge = false;
+	isCameraBlockingRightEdge = true;
 }
 
 
@@ -360,7 +363,12 @@ void CPlayScene::Load()
 	isDeathTransitioning = false;
 	isDeathResolved = false;
 	deathStartTime = 0;
+	isDeathCameraLocked = false;
+	deathCameraX = 0.0f;
+	deathCameraY = 0.0f;
 	activeCameraZoneIndex = -1;
+	isCameraBlockingLeftEdge = true;
+	isCameraBlockingRightEdge = true;
 
 	// Reset camera bounds to 0,0 in case this scene doesn't have a map
 	ConfigurePlaySceneCamera();
@@ -723,6 +731,12 @@ void CPlayScene::Update(DWORD dt)
 
 	if (!isCourseClear && mario != NULL && mario->currentState != NULL && mario->currentState->GetID() == MarioStateID::Dead)
 	{
+		if (!isDeathCameraLocked)
+		{
+			camera->GetCamPos(deathCameraX, deathCameraY);
+			isDeathCameraLocked = true;
+		}
+
 		if (!isDeathTransitioning)
 		{
 			isDeathTransitioning = true;
@@ -746,7 +760,10 @@ void CPlayScene::Update(DWORD dt)
 	// Update camera to follow mario (dừng khi Mario đang biến hình)
 	if (!isCourseClear && !freezeScene)
 	{
-		SyncCameraToPlayer();
+		if (isDeathCameraLocked)
+			camera->SetCamPos(deathCameraX, deathCameraY);
+		else
+			SyncCameraToPlayer();
 	}
 
 	for (auto obj : spawnQueue)

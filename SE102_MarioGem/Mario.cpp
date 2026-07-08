@@ -95,31 +95,28 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	if (CGame::GetInstance()->GetCurrentScene() != NULL && dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene()))
 	{
 		CPlayScene* scene = (CPlayScene*)CGame::GetInstance()->GetCurrentScene();
-		if (!scene->IsCourseClear()) 
+		CCamera* camera = CCamera::GetInstance();
+		float cx, cy;
+		camera->GetCamPos(cx, cy);
+		float screenWidth = camera->GetWidth();
+
+		float ml, mt, mr, mb;
+		GetBoundingBox(ml, mt, mr, mb);
+		float mario_width = mr - ml;
+
+		float left_edge = cx + mario_width / 2.0f;
+		if (scene->IsCameraBlockingLeftEdge() && x < left_edge)
 		{
-			CCamera* camera = CCamera::GetInstance();
-			float cx, cy;
-			camera->GetCamPos(cx, cy);
-			float screenWidth = camera->GetWidth();
+			x = left_edge;
+			// Ép vận tốc về mức đi bộ để xả P-Meter và giữ animation
+			if (vx < -MARIO_WALKING_SPEED) vx = -MARIO_WALKING_SPEED;
+		}
 
-			float ml, mt, mr, mb;
-			GetBoundingBox(ml, mt, mr, mb);
-			float mario_width = mr - ml;
-
-			float left_edge = cx + mario_width / 2.0f;
-			if (scene->IsCameraBlockingLeftEdge() && x < left_edge) 
-			{
-				x = left_edge;
-				// Ép vận tốc về mức đi bộ để xả P-Meter và giữ animation
-				if (vx < -MARIO_WALKING_SPEED) vx = -MARIO_WALKING_SPEED;
-			}
-
-			float right_edge = cx + screenWidth - mario_width / 2.0f;
-			if (scene->IsCameraBlockingRightEdge() && x > right_edge)
-			{
-				x = right_edge;
-				if (vx > MARIO_WALKING_SPEED) vx = MARIO_WALKING_SPEED;
-			}
+		float right_edge = cx + screenWidth - mario_width / 2.0f;
+		if (!scene->IsCourseClear() && scene->IsCameraBlockingRightEdge() && x > right_edge)
+		{
+			x = right_edge;
+			if (vx > MARIO_WALKING_SPEED) vx = MARIO_WALKING_SPEED;
 		}
 	}
 }
