@@ -40,7 +40,7 @@
 200036	233	55	241	62	30	# spr-font-Z
 
 # points-in-level
-200037	60	87	71	95	30	# spr-points-in-level-100
+200037	60	86	71	95	30	# spr-points-in-level-100
 200038	73	87	85	95	30	# spr-points-in-level-200
 200039	88	88	100	97	30	# spr-points-in-level-400
 200040	103	88	118	97	30	# spr-points-in-level-800
@@ -57,8 +57,8 @@
 200047	15	159	32	167	30	# spr-m-tag-0
 
 # p-icon
-200048	63	160	88	168	30	# spr-p-icon-0
-200049	90	160	115	168	30	# spr-p-icon-1
+200048	72	161	87	168	30	# spr-p-icon-0
+200049	99	161	114	168	30	# spr-p-icon-1
 
 # card
 200050	140	159	163	186	30	# spr-empty-card-0
@@ -71,8 +71,8 @@
 200055	233	72	239	81	30	# spr-font-exclamation-point
 
 # arrow
-200056	64	160	71	168	30	# spr-arrow-0
-200057	91	160	98	168	30	# spr-arrow-1
+200056	64	161	71	168	30	# spr-arrow-0
+200057	91	161	98	168	30	# spr-arrow-1
 
 # dialog
 200058	0	0	127	63	30	# spr-dialog-gameover-0

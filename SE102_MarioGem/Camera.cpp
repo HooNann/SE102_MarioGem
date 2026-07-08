@@ -31,18 +31,15 @@ void CCamera::Update() {
     float tx, ty;
     target->GetPosition(tx, ty);
 
-    // Căn giữa camera vào target
     cam_x = tx - width / 2;
     cam_y = ty - height / 2;
   }
 
-  // Clamp biên trái/phải
   if (cam_x < min_x)
     cam_x = min_x;
   if (max_x > min_x && cam_x > max_x - width)
     cam_x = (max_x - min_x > width) ? (max_x - width) : min_x;
 
-  // Clamp biên trên/dưới
   if (cam_y < min_y)
     cam_y = min_y;
   if (max_y > min_y && cam_y > max_y - height)

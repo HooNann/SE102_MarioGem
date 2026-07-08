@@ -1,31 +1,73 @@
 #include "Item.h"
 
-CItem::CItem(float x, float y, int type) : CGameObject(x, y)
+CItem::CItem(float x, float y) : CGameObject(x, y)
 {
-	this->itemType = type;
-	this->vy = 0;
-	this->vx = 0;
+	appearStartY = y;
+	appearTargetY = y;
+	appearElapsed = 0;
 }
 
-void CItem::Render()
+void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	CAnimations* animations = CAnimations::GetInstance();
-	int aniId = -1;
+	if (state != static_cast<int>(ItemState::Appearing))
+		return;
 
-	if (itemType == ITEM_TYPE_FLOWER)
-		aniId = ID_ANI_ITEM_FLOWER;
-	else if (itemType == ITEM_TYPE_LEAF)
-		aniId = ID_ANI_ITEM_LEAF;
-
-	if (aniId != -1)
-		animations->Get(aniId)->Render(x, y);
+	UpdateAppearing(dt, coObjects);
 }
 
-void CItem::GetBoundingBox(float& left, float& top, float& right, float& bottom)
+void CItem::UpdateAppearing(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	// Kích thước vật phẩm vuông 16x16 pixel chuẩn Mario 3
-	left = x - 16.0f / 2;
-	top = y - 16.0f / 2;
-	right = left + 16.0f;
-	bottom = top + 16.0f;
+	appearElapsed += dt;
+
+	DWORD appearDuration = GetAppearDuration();
+	float progress = 1.0f;
+	if (appearDuration > 0)
+	{
+		progress = static_cast<float>(appearElapsed) / static_cast<float>(appearDuration);
+		if (progress > 1.0f) progress = 1.0f;
+	}
+
+	y = appearStartY + (appearTargetY - appearStartY) * progress;
+
+	if (progress >= 1.0f)
+	{
+		y = appearTargetY;
+		OnAppearFinished();
+	}
+}
+
+DWORD CItem::GetAppearDuration()
+{
+	return DEFAULT_ITEM_APPEAR_DURATION;
+}
+
+float CItem::GetAppearDistance()
+{
+	return DEFAULT_ITEM_APPEAR_DISTANCE;
+}
+
+void CItem::OnAppearFinished()
+{
+	SetState(ItemState::Active);
+}
+
+void CItem::SetState(ItemState state)
+{
+	CGameObject::SetState(static_cast<int>(state));
+
+	switch (state)
+	{
+	case ItemState::Appearing:
+		appearStartY = y;
+		appearTargetY = y - GetAppearDistance();
+		appearElapsed = 0;
+		vx = 0;
+		vy = 0;
+		break;
+
+	case ItemState::Active:
+		vx = 0;
+		vy = 0;
+		break;
+	}
 }

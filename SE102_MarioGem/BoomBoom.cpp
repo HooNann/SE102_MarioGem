@@ -8,6 +8,8 @@
 #include "SoundEvents.h"
 #include "SoundSubject.h"
 #include "SoundManager.h"
+#include "PlayScene.h"
+#include "Mario.h"
 
 #define ID_ANI_BOOMBOOM_WALKING 36000
 #define ID_ANI_BOOMBOOM_HIDING 36004
@@ -96,8 +98,7 @@ void CBoomBoom::OnCollisionWith(LPCOLLISIONEVENT e)
 	}
 }
 
-#include "PlayScene.h"
-#include "Mario.h"
+
 
 void CBoomBoom::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {

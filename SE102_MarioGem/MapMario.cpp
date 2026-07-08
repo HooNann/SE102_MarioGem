@@ -22,7 +22,6 @@ void CMapMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		x += vx * dt;
 		y += vy * dt;
 
-		// Kiểm tra xem đã tới đích chưa
 		bool reached = false;
 		if (vx > 0 && x >= destX) { x = destX; reached = true; }
 		else if (vx < 0 && x <= destX) { x = destX; reached = true; }
@@ -43,7 +42,7 @@ void CMapMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CMapMario::Render()
 {
-	int currentAniId = aniId; // Mặc định là ID truyền vào nếu không khớp
+	int currentAniId = aniId;
 
 	MarioLevel level = CGameData::GetInstance()->GetLevel();
 	switch (level)

@@ -23,6 +23,13 @@ protected:
 	vector<LPGAMEOBJECT> objects;
 	vector<LPGAMEOBJECT> spawnQueue;
 
+	struct PendingSpawnBehind
+	{
+		LPGAMEOBJECT obj;
+		LPGAMEOBJECT behindObj;
+	};
+	vector<PendingSpawnBehind> spawnBehindQueue;
+
 	CTileMap* map;	// Tiled Map (background tiles)
 
 	struct CameraZone {
@@ -49,6 +56,9 @@ protected:
 	bool isDeathTransitioning;
 	bool isDeathResolved;
 	ULONGLONG deathStartTime;
+	bool isDeathCameraLocked;
+	float deathCameraX;
+	float deathCameraY;
 
 	bool isCameraBlockingLeftEdge;
 	bool isCameraBlockingRightEdge;
@@ -65,7 +75,6 @@ protected:
 
 	void LoadAssets(LPCWSTR assetFile);
 
-	// Load map và objects từ file JSON của Tiled Map Editor
 	void LoadMapJSON(LPCWSTR jsonPath);
 	
 public: 
@@ -92,9 +101,12 @@ public:
 	void SetCameraBlockingRightEdge(bool value) { isCameraBlockingRightEdge = value; }
 
 	void QueueSpawn(LPGAMEOBJECT obj) { spawnQueue.push_back(obj); }
+	void QueueSpawnBehind(LPGAMEOBJECT obj, LPGAMEOBJECT behindObj);
 
 	void Clear();
+	void PurgeObjectsBelowMap();
 	void PurgeDeletedObjects();
+	void BuildCollisionObjectsFor(LPGAMEOBJECT subject, vector<LPGAMEOBJECT>& outObjects);
 	void ReloadAssets();
 
 	static bool IsGameObjectDeleted(const LPGAMEOBJECT& o);

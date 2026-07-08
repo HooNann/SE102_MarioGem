@@ -19,7 +19,7 @@ protected:
 	unordered_map<int, CMapNode*> nodes;
 	vector<CMapObject*> mapObjects;
 	
-	CTileMap* map; // Hình nền (TileMap)
+	CTileMap* map;
 
 	CHud* hud;
 

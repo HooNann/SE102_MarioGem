@@ -7,7 +7,6 @@ CMapObject::CMapObject(float x, float y, int aniId) : CGameObject(x, y)
 
 void CMapObject::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	// Map Object mặc định không làm gì cả (không rơi rớt)
 }
 
 void CMapObject::Render()

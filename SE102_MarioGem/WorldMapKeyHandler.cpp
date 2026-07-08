@@ -12,7 +12,7 @@ void CWorldMapKeyHandler::OnKeyDown(int KeyCode)
 	CMapMario* mario = mapScene->GetPlayer();
 	
 	if (mario == NULL) return;
-	if (mario->isMoving) return; // Không cho phép đổi hướng khi đang di chuyển
+	if (mario->isMoving) return;
 
 	if (mario->currentNode == NULL) return;
 

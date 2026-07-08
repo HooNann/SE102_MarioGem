@@ -34,7 +34,7 @@ static bool CanMarioFitInPipe(CMario* mario, CPipe* pipe)
 	}
 
 	LPANIMATION ani = CAnimations::GetInstance()->Get(frontAniId);
-	if (ani == nullptr) return true; // fallback: cho phép
+	if (ani == nullptr) return true;
 
 	float spriteHalfW = ani->GetSpriteWidth() / 2.0f;
 	float mx, my;
@@ -60,7 +60,7 @@ void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
 
     if (mario->currentState && mario->currentState->GetID() == MarioStateID::Dead) return;
     if (mario->currentState && mario->currentState->GetID() == MarioStateID::Pipe) return;
-    if (mario->IsTransforming()) return; // Khóa input khi đang biến hình
+    if (mario->IsTransforming()) return;
 
 	switch (KeyCode)
 	{
@@ -87,7 +87,6 @@ void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
                     }
                     else
                     {
-                        // Đã bay rồi, đập cánh tiếp
                         mario->StartFlapping();
                         mario->SetVelocityY(-MARIO_FLY_SPEED_Y);
                         mario->SetAccelerationY(0);
@@ -104,7 +103,6 @@ void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
                         }
                         else
                         {
-                            // Đã vẫy đuôi rồi, đập cánh lơ lửng tiếp (làm mới float)
                             mario->StartFlapping();
                             mario->SetVelocityY(MARIO_FLOAT_SPEED_Y);
                             mario->SetAccelerationY(0);
@@ -155,7 +153,7 @@ void CPlaySceneKeyHandler::OnKeyUp(int KeyCode)
 
     if (mario->currentState && mario->currentState->GetID() == MarioStateID::Dead) return;
     if (mario->currentState && mario->currentState->GetID() == MarioStateID::Pipe) return;
-    if (mario->IsTransforming()) return; // Khóa input khi đang biến hình
+    if (mario->IsTransforming()) return;
 
 	switch (KeyCode)
 	{
@@ -165,7 +163,6 @@ void CPlaySceneKeyHandler::OnKeyUp(int KeyCode)
             MarioStateID curID = mario->currentState ? mario->currentState->GetID() : MarioStateID::Idle;
             if (mario->GetLevel() == MarioLevel::Raccoon && (curID == MarioStateID::Fly || curID == MarioStateID::Float))
             {
-                // Bỏ qua chuyển sang FallState để tránh đứt animation, timer sẽ tự lo
             }
             else
             {
@@ -199,12 +196,10 @@ void CPlaySceneKeyHandler::KeyState(BYTE *states)
     if (mario->currentState && mario->currentState->GetID() == MarioStateID::Pipe)
         return;
 
-    if (mario->IsTransforming()) return; // Khóa input khi đang biến hình
+    if (mario->IsTransforming()) return;
 
     MarioStateID curID = mario->currentState ? mario->currentState->GetID() : MarioStateID::Idle;
 
-    // Không ngăn đổi state ở đây nữa để giữ Air Control (di chuyển trái phải).
-    // Các logic Air Control bên dưới không làm đổi state (chỉ đổi vận tốc/gia tốc).
 
 	if (game->IsKeyDown(DIK_UP))
 	{
@@ -218,8 +213,6 @@ void CPlaySceneKeyHandler::KeyState(BYTE *states)
 
 	if (!mario->IsOnPlatform())
 	{
-		// HÀNH VI TRÊN KHÔNG (Air Control)
-		// Không thay đổi State (để giữ Jump/Fall/Fly/Float), chỉ tác động lên gia tốc và vận tốc ngang
 		if (game->IsKeyDown(DIK_RIGHT))
 		{
 			mario->SetDirection(1);
@@ -236,13 +229,11 @@ void CPlaySceneKeyHandler::KeyState(BYTE *states)
 		}
 		else
 		{
-			// Không bấm phím -> trôi theo quán tính
 			mario->SetAccelerationX(0.0f);
 		}
 	}
 	else
 	{
-		// HÀNH VI TRÊN MẶT ĐẤT (Ground Control)
 		if (game->IsKeyDown(DIK_RIGHT))
 		{
 			mario->SetDirection(1);

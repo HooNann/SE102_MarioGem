@@ -9,7 +9,6 @@ void CMarioDuckState::Enter(CMario* mario)
         mario->SetY(mario->GetY() + MARIO_SIT_HEIGHT_ADJUST);
     }
 
-    // Luôn áp dụng ma sát trượt thay vì dừng đột ngột
     float vx = mario->GetVelocityX();
     if (vx != 0)
     {
@@ -27,7 +26,6 @@ void CMarioDuckState::Update(CMario* mario, DWORD dt)
     float vx = mario->GetVelocityX();
     float ax = mario->GetAccelerationX();
 
-    // Giống IdleState: Nếu ma sát kéo vận tốc qua 0 thì dừng hẳn
     if (vx * ax > 0 || vx == 0)
     {
         mario->SetVelocityX(0.0f);
