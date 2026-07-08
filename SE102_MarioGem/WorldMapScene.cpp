@@ -16,17 +16,6 @@
 #include "SoundEvents.h"
 #include "SoundSubject.h"
 
-using namespace std;
-using json = nlohmann::json;
-
-CWorldMapScene::CWorldMapScene(int id, LPCWSTR filePath) : CScene(id, filePath)
-{
-	player = NULL;
-	map = NULL;
-	hud = NULL;
-	key_handler = new CWorldMapKeyHandler(this);
-}
-
 #define SCENE_SECTION_UNKNOWN -1
 #define SCENE_SECTION_ASSETS	1
 #define SCENE_SECTION_OBJECTS	2
@@ -39,6 +28,17 @@ CWorldMapScene::CWorldMapScene(int id, LPCWSTR filePath) : CScene(id, filePath)
 #define ASSETS_SECTION_ANIMATIONS_JSON 4
 
 #define MAX_SCENE_LINE 1024
+
+using namespace std;
+using json = nlohmann::json;
+
+CWorldMapScene::CWorldMapScene(int id, LPCWSTR filePath) : CScene(id, filePath)
+{
+	player = NULL;
+	map = NULL;
+	hud = NULL;
+	key_handler = new CWorldMapKeyHandler(this);
+}
 
 void CWorldMapScene::_ParseSection_SPRITES(string line)
 {

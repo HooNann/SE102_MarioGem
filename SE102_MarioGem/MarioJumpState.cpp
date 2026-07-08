@@ -4,6 +4,8 @@
 #include "MarioFallState.h"
 #include "SoundEvents.h"
 #include "SoundSubject.h"
+#include "Goomba.h"
+#include "Koopas.h"
 
 void CMarioJumpState::Enter(CMario* mario)
 {
@@ -47,9 +49,6 @@ int CMarioJumpState::GetAnimationId(CMario* mario)
     }
     return ID_ANI_MARIO_SMALL_JUMP;
 }
-
-#include "Goomba.h"
-#include "Koopas.h"
 
 void CMarioJumpState::OnCollisionWith(CMario* mario, LPCOLLISIONEVENT e)
 {

@@ -26,6 +26,7 @@
 #include	"PlayScene.h"
 #include "SoundEvents.h"
 #include "SoundSubject.h"
+#include "MarioFallState.h"
 
 namespace
 {
@@ -121,7 +122,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	}
 }
 
-#include "MarioFallState.h"
+
 
 void CMario::OnNoCollision(DWORD dt)
 {

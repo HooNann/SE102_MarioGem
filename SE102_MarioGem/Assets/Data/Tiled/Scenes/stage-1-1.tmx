@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="176" height="40" tilewidth="16" tileheight="16" infinite="0" nextlayerid="11" nextobjectid="124">
+<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="176" height="40" tilewidth="16" tileheight="16" infinite="0" nextlayerid="11" nextobjectid="147">
  <editorsettings>
   <export target="stage-1-1.json" format="json"/>
  </editorsettings>
@@ -167,6 +167,13 @@
   <object id="123" name="Koopas" type="Koopas" x="1536" y="384">
    <point/>
   </object>
+  <object id="139" name="Coin" type="Coin" x="2192" y="560" width="32" height="16"/>
+  <object id="141" name="Coin" type="Coin" x="2224" y="528" width="16" height="32"/>
+  <object id="142" name="Coin" type="Coin" x="2192" y="512" width="32" height="16"/>
+  <object id="143" name="Coin" type="Coin" x="2224" y="480" width="16" height="32"/>
+  <object id="144" name="Coin" type="Coin" x="2192" y="464" width="32" height="16"/>
+  <object id="145" name="Coin" type="Coin" x="2176" y="480" width="16" height="16"/>
+  <object id="146" name="Coin" type="Coin" x="2176" y="544" width="16" height="16"/>
  </objectgroup>
  <objectgroup id="10" name="DeadZone">
   <object id="114" type="DeadZone" x="1088" y="432" width="64" height="16"/>

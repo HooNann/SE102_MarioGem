@@ -13,6 +13,16 @@
 #include "SoundManager.h"
 #include "AssetIDs.h"
 
+
+#define MAX_GAME_LINE 1024
+
+
+#define GAME_FILE_SECTION_UNKNOWN -1
+#define GAME_FILE_SECTION_SETTINGS 1
+#define GAME_FILE_SECTION_SCENES 2
+#define GAME_FILE_SECTION_TEXTURES 3
+#define GAME_FILE_SECTION_AUDIO 4
+
 CGame * CGame::__instance = NULL;
 
 /*
@@ -485,14 +495,7 @@ void CGame::ProcessKeyboard()
 	}
 }
 
-#define MAX_GAME_LINE 1024
 
-
-#define GAME_FILE_SECTION_UNKNOWN -1
-#define GAME_FILE_SECTION_SETTINGS 1
-#define GAME_FILE_SECTION_SCENES 2
-#define GAME_FILE_SECTION_TEXTURES 3
-#define GAME_FILE_SECTION_AUDIO 4
 
 
 void CGame::_ParseSection_SETTINGS(string line)
